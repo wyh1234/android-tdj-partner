@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BottomBarItem">
+        <!--默认状态下的图标-->
+        <attr name="iconNormal" format="reference"/>
+        <!--选中状态下的图标-->
+        <attr name="iconSelected" format="reference"/>
+
+        <!--底部文字-->
+        <attr name="itemText" format="string"/>
+        <!--文字大小-->
+        <attr name="itemTextSize" format="dimension"/>
+        <!--默认状态下的文字颜色-->
+        <attr name="textColorNormal" format="color"/>
+        <!--选中状态下的文字颜色-->
+        <attr name="textColorSelected" format="color"/>
+
+        <!--文字和图标的顶部距离-->
+        <attr name="itemMarginTop" format="dimension"/>
+
+        <!--是否开启触摸背景效果-->
+        <attr name="openTouchBg" format="boolean"/>
+        <!--设置触摸背景-->
+        <attr name="touchDrawable" format="reference"/>
+
+        <!--设置图标的宽度-->
+        <attr name="iconWidth" format="dimension"/>
+        <!--设置图标的高度-->
+        <attr name="iconHeight" format="dimension"/>
+
+        <!--设置BottomBarItem的padding-->
+        <attr name="itemPadding" format="dimension"/>
+
+        <!--设置未读数字体大小-->
+        <attr name="unreadTextSize" format="dimension"/>
+        <!--设置未读数字体颜色-->
+        <attr name="unreadTextColor" format="reference"/>
+        <!--设置未读数背景色-->
+        <attr name="unreadTextBg" format="reference"/>
+
+        <!--设置提示消息字体大小-->
+        <attr name="msgTextSize" format="dimension"/>
+        <!--设置提示消息字体颜色-->
+        <attr name="msgTextColor" format="reference"/>
+        <!--设置提示消息背景-->
+        <attr name="msgTextBg" format="reference"/>
+
+        <!--设置提示点背景-->
+        <attr name="notifyPointBg" format="reference"/>
+
+        <!--设置未读数组阈值 大于阈值的数字将显示为 n+ n为设置的阈值-->
+        <attr name="unreadThreshold" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="BottomBarLayout">
+        <attr name="smoothScroll" format="boolean"/>
+    </declare-styleable>
+
+
+
+    <declare-styleable name="WTabLayout">
+        <!--指示器高度-->
+        <attr name="xTabIndicatorHeight" format="dimension" />
+        <!--指示器宽度-->
+        <attr name="xTabIndicatorWidth" format="dimension" />
+        <!--指示器颜色-->
+        <attr name="xTabIndicatorColor" format="color" />
+        <!--指示器的资源-->
+        <attr name="xTabIndicatorDrawable" format="reference" />
+        <!--指示器宽度和字体一样-->
+        <attr name="xTabIndicatorWidthWidthText" format="boolean" />
+        <!--内边距,每个tab边距-->
+        <attr name="xTabPadding" format="dimension" />
+        <attr name="xTabPaddingStart" format="dimension" />
+        <attr name="xTabPaddingTop" format="dimension" />
+        <attr name="xTabPaddingEnd" format="dimension" />
+        <attr name="xTabPaddingBottom" format="dimension" />
+        <!--文字的属性-->
+        <attr name="xTabTextAppearance" format="reference" />
+        <!--文字默认颜色-->
+        <attr name="xTabTextColor" format="color" />
+        <!--文字选择颜色-->
+        <attr name="xTabSelectedTextColor" format="color" />
+        <!--最小宽度-->
+        <attr name="xTabMinWidth" format="dimension" />
+        <!--最大宽度-->
+        <attr name="xTabMaxWidth" format="dimension" />
+        <!--item背景色-->
+        <attr name="xTabItemBackground" format="reference|color" />
+        <!--item选中的背景色-->
+        <attr name="xTabItemSelectedBackground" format="reference|color" />
+        <!--内容前面边距-->
+        <attr name="xTabContentStart" format="dimension" />
+        <!--排版模式-->
+        <attr name="xTabMode">
+            <enum name="scrollable" value="0x00000000" />
+            <enum name="fixed" value="0x00000001" />
+            <enum name="auto" value="0x00000002" />
+        </attr>
+        <!--对齐方式-->
+        <attr name="xTabGravity" format="integer" />
+        <!--文字大小-->
+        <attr name="xTabTextSize" format="dimension" />
+        <!--文字加粗-->
+        <attr name="xTabTextBold" format="boolean" />
+        <!--选中文字大小-->
+        <attr name="xTabSelectedTextSize" format="dimension" />
+        <!--选中文字加粗-->
+        <attr name="xTabTextSelectedBold" format="boolean" />
+        <!--一页显示几个item（当N个内容没有一屏的时候有效）-->
+        <attr name="xTabDisplayNum" format="integer" />
+        <!--文本字母是否小写转大写-->
+        <attr name="xTabTextAllCaps" format="boolean" />
+        <!--分割线高度-->
+        <attr name="xTabDividerHeight" format="dimension" />
+        <!--分割线宽度-->
+        <attr name="xTabDividerWidth" format="dimension" />
+        <!--分割线颜色-->
+        <attr name="xTabDividerColor" format="color" />
+        <!--分割线对齐方式-->
+        <attr name="xTabDividerGravity">
+            <enum name="top" value="0x00000000" />
+            <enum name="center" value="0x00000001" />
+            <enum name="bottom" value="0x00000002" />
+        </attr>
+        <!--图标与文字的距离-->
+        <attr name="xTabIconAndTextSpace" format="dimension" />
+    </declare-styleable>
+</resources>
