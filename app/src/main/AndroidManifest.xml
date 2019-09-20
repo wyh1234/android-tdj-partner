@@ -59,6 +59,9 @@
         <activity
             android:name=".MainTabActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait" />
 
         <!-- 腾讯X5内核初始化 -->
         <service android:name="com.tencent.smtt.export.external.DexClassLoaderProviderService"
@@ -76,7 +79,7 @@
         </provider>
         <service android:name=".utils.appupdate.DownloadService" />
         <service android:name="com.amap.api.location.APSService"></service>
-        <meta-data android:name="com.amap.api.v2.apikey" android:value="8f0874da3bb5e23ef8aa84a3f6ceebab"/>
+        <meta-data android:name="com.amap.api.v2.apikey" android:value="7c04ca757bd4549a996205f8497c6ea2"/>
     </application>
 
 </manifest>

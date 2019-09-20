@@ -58,7 +58,7 @@ public class RxUtils {
     private static <T> Observable<T> createData(final BaseResponse<T> baseResponse) {
         return Observable.create(emitter -> {
             try {
-                emitter.onNext((T) baseResponse);
+                emitter.onNext(baseResponse.getData());
                 emitter.onComplete();
             } catch (Exception e) {
                 emitter.onError(e);

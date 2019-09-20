@@ -30,9 +30,9 @@ import io.reactivex.disposables.Disposable;
 
 
 /**
- * Created by wanyh on 2017/9/11.
- */
-/*0356
+ *
+ *
+/*
 * */
 public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivity implements
         IView {

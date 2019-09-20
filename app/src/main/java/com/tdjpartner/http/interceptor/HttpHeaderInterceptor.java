@@ -1,14 +1,26 @@
 package com.tdjpartner.http.interceptor;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.text.TextUtils;
 import android.util.Log;
 
+import com.apkfuns.logutils.LogUtils;
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
+import com.tdjpartner.AppAplication;
 import com.tdjpartner.common.PublicCache;
+import com.tdjpartner.http.cookie.CookieManger;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.prefs.Preferences;
 
+import okhttp3.Cookie;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
@@ -33,27 +45,34 @@ public class HttpHeaderInterceptor implements Interceptor {
         Log.d("HttpCommonInterceptor", "add common params");
         Request oldRequest = chain.request();
         HttpUrl oldHttpUrl = oldRequest.url();
-        // 添加新的参数，添加到url 中
-     /* HttpUrl.Builder authorizedUrlBuilder = oldRequest.url()                .newBuilder()
-         .scheme(oldRequest.url().scheme())
-             .host(oldRequest.url().host());*/
-        // 新的请求
-
         mHeaderParamsMap.put("user-agent", "Android");
         mHeaderParamsMap.put("Content-Type", "application/json");
 //        mHeaderParamsMap.put("sign", "dJi89de3cfd3249c8ef");
-
+        //添加请求头
+        List<Cookie> cookieList =new CookieManger(AppAplication.getAppContext()).loadForRequest(HttpUrl.parse(PublicCache.getROOT_URL().get(0)));
         Request.Builder requestBuilder = oldRequest.newBuilder();
         requestBuilder.method(oldRequest.method(),
                 oldRequest.body());
 
+        StringBuilder stringBuilder=new StringBuilder();
+        if (cookieList.size() > 0) {
+            for (Cookie params : cookieList) {
+                if ("_n_i".equals(params.name())){
+                    stringBuilder.append(params.name()+"="+params.value()+";");
+                }
+                if ("_oi_".equals(params.name())){
+                    stringBuilder.append(params.name()+"="+params.value()+";");
+                }
+            }
+            stringBuilder.deleteCharAt(stringBuilder.length()-1);
+            requestBuilder.header("cookie", stringBuilder.toString());
+        }
         //添加公共参数,添加到header中
         if (mHeaderParamsMap.size() > 0) {
             for (Map.Entry<String, String> params : mHeaderParamsMap.entrySet()) {
                 requestBuilder.header(params.getKey(), params.getValue());
             }
         }
-
         List<String> headerValues = oldRequest.headers("url_type");
         if (headerValues != null && headerValues.size() > 0) {
             //如果有这个header，先将配置的header删除，因此header仅用作app和okhttp之间使用
@@ -64,7 +83,7 @@ public class HttpHeaderInterceptor implements Interceptor {
             if ("launcher".equals(headerValue)) {
                 newBaseUrl = HttpUrl.parse(PublicCache.getROOT_URL().get(1));
             }else if ("weather".equals(headerValue)) {
-                newBaseUrl = HttpUrl.parse(PublicCache.getROOT_URL().get(2));
+                newBaseUrl = HttpUrl.parse(PublicCache.getROOT_URL().get(0));
             }else{
                 newBaseUrl = oldHttpUrl;
             }
@@ -115,5 +134,6 @@ public class HttpHeaderInterceptor implements Interceptor {
             return mHttpHeaderInterceptor;
         }
     }
+
 
 }

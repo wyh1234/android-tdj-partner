@@ -4,7 +4,9 @@ package com.tdjpartner.common;
 import com.tdjpartner.http.BaseResponse;
 import com.tdjpartner.model.BannerEntity;
 import com.tdjpartner.model.HomePageFuncationButton;
+import com.tdjpartner.model.IntegralShop;
 import com.tdjpartner.model.RentingInfos;
+import com.tdjpartner.model.UserInfo;
 
 import java.util.List;
 import java.util.Map;
@@ -12,6 +14,7 @@ import java.util.Map;
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -65,8 +68,15 @@ public interface ApiService {
     *
     *
     * */
+
     @POST("tdj-store/store/commodity/queryList")
-    Observable<BaseResponse<RentingInfos>> get_rentinglistS(@Body RequestBody body);
+    Observable<BaseResponse<IntegralShop>> commodity_queryList(@Body RequestBody body);
 
 
+
+    //采购商登录
+    @Headers({"url_type:weather"})
+    @FormUrlEncoded
+    @POST("customer/login")
+    Observable<BaseResponse<UserInfo>> loginData(@FieldMap Map<String, Object> params);
 }

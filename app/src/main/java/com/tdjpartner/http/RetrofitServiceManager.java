@@ -5,14 +5,12 @@ import android.os.Environment;
 import com.ihsanbal.logging.LoggingInterceptor;
 import com.tdjpartner.AppAplication;
 import com.tdjpartner.common.PublicCache;
-import com.tdjpartner.http.interceptor.CommonParamsInterceptor;
 import com.tdjpartner.http.cookie.CookieManger;
+import com.tdjpartner.http.interceptor.CommonParamsInterceptor;
 import com.tdjpartner.http.interceptor.HttpCacheInterceptor;
 import com.tdjpartner.http.interceptor.HttpHeaderInterceptor;
 import com.tdjpartner.http.interceptor.RetrofitDownloadInterceptor;
 import com.tdjpartner.http.listener.RetrofitDownloadListener;
-import com.tdjpartner.utils.jackSon.JacksonConverterFactoryCustomer;
-import com.tdjpartner.utils.jackSon.JacksonUtils;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -90,7 +88,7 @@ public class RetrofitServiceManager {
 
         mRetrofit = new Retrofit.Builder()
                 .client(builder.build())
-                .baseUrl(PublicCache.getROOT_URL().get(0))
+                .baseUrl(PublicCache.getROOT_URL().get(2))
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
 //                .addConverterFactory(JacksonConverterFactoryCustomer.create(JacksonUtils.getObjectMapper()))
@@ -122,13 +120,14 @@ public class RetrofitServiceManager {
             builder.addInterceptor(retrofitDownloadInterceptor);
         }
 
-
-        builder.addInterceptor(httpHeaderInterceptor);
         builder.addInterceptor(new CommonParamsInterceptor());
+        builder.addInterceptor(httpHeaderInterceptor);
+
 //        builder.addInterceptor(new TokenInterceptor());
         builder.addInterceptor(httpCacheInterceptor);
         builder.addNetworkInterceptor(httpCacheInterceptor);
         builder.cookieJar(new CookieManger(AppAplication.getAppContext()));
+//        builder.cookieJar(new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(AppAplication.getAppContext())));
         builder.addInterceptor(httpLoggingInterceptor);
         builder.cache(new Cache(new File(Environment.getExternalStorageDirectory() + "/RxJavaDemo"), 1024 * 1024 * 10));
 

@@ -4,13 +4,14 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.tdjpartner.model.LoginInfo;
+import com.tdjpartner.LoginActivity;
+import com.tdjpartner.model.UserInfo;
 
 
 public class UserUtils {
     private static final String KEY_LOGIN_BEAN = "KEY_LOGIN_BEAN";
 
-    private LoginInfo mLoginBean = null;
+    private UserInfo mLoginBean = null;
 
     private static class Holder {
         private static final UserUtils INSTANCE = new UserUtils();
@@ -24,12 +25,12 @@ public class UserUtils {
         getLoginBean();
     }
 
-    public LoginInfo getLoginBean() {
+    public UserInfo getLoginBean() {
         if (mLoginBean == null) {
             String json = SPUtils.getInstance().get(KEY_LOGIN_BEAN, "");
             if (!TextUtils.isEmpty(json)) {
                 try {
-                    mLoginBean = new Gson().fromJson(json, LoginInfo.class);
+                    mLoginBean = new Gson().fromJson(json, UserInfo.class);
                 } catch (Exception ignore) {
                 }
             }
@@ -37,7 +38,7 @@ public class UserUtils {
         return mLoginBean;
     }
 
-    public void login(LoginInfo loginBean) {
+    public void login(UserInfo loginBean) {
         mLoginBean = loginBean;
         String json = new Gson().toJson(loginBean);
         SPUtils.getInstance().save(KEY_LOGIN_BEAN, json);
@@ -48,17 +49,17 @@ public class UserUtils {
         SPUtils.getInstance().clear();
     }
 
-    public void update(LoginInfo loginBean) {
+    public void update(UserInfo loginBean) {
         mLoginBean = loginBean;
         SPUtils.getInstance().save(KEY_LOGIN_BEAN, mLoginBean);
     }
 
     public boolean isLogin() {
-        LoginInfo loginBean = getLoginBean();
+        UserInfo loginBean = getLoginBean();
         if (loginBean == null) {
             return false;
         }
-        if (loginBean.getId() > 0) {
+        if (loginBean.getEntityId() > 0) {
             return true;
         }
         return false;
@@ -68,7 +69,7 @@ public class UserUtils {
         if (isLogin()) {
             return true;
         } else {
-//            LoginActivity.start(context);
+            LoginActivity.start(context);
             return false;
         }
     }

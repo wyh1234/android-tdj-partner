@@ -1,21 +1,18 @@
 package com.tdjpartner;
 
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 
 import com.tdjpartner.adapter.MainTabAdapter;
 import com.tdjpartner.base.BaseActivity;
 import com.tdjpartner.base.BaseFrgment;
-import com.tdjpartner.fragment.ClientFragment;
-import com.tdjpartner.fragment.HomepageFragment;
-import com.tdjpartner.fragment.MyFragment;
 import com.tdjpartner.mvp.presenter.IPresenter;
+import com.tdjpartner.ui.fragment.ClientFragment;
+import com.tdjpartner.ui.fragment.HomepageFragment;
+import com.tdjpartner.ui.fragment.MyFragment;
 import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.widget.bottombar.BottomBarItem;
 import com.tdjpartner.widget.bottombar.BottomBarLayout;
-import com.tdjpartner.widget.bottombar.NoScrollViewPager;
 
 import java.util.ArrayList;
 import java.util.List;

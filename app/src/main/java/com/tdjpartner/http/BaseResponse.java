@@ -5,30 +5,22 @@ package com.tdjpartner.http;
  */
 
 public class BaseResponse<T> {
-    private int code;
+    private int err;
     private String msg;
     private T data;
-    private PageinfoBean pageinfo;
     public T getData() {
         return data;
-    }
-    public PageinfoBean getPageinfo() {
-        return pageinfo;
-    }
-
-    public void setPageinfo(PageinfoBean pageinfo) {
-        this.pageinfo = pageinfo;
     }
     public void setData(T data) {
         this.data = data;
     }
 
     public void setCode(int err) {
-        this.code = code;
+        this.err = err;
     }
 
     public int getCode() {
-        return code;
+        return err;
     }
 
     public String getMsg() {
@@ -42,41 +34,6 @@ public class BaseResponse<T> {
 
 
     public boolean isSuccess(){
-        return code == 0;
-    }
-    public static class PageinfoBean {
-        /**
-         * curPage : 1
-         * pageSize : 15
-         * totalPages : 1
-         */
-
-        private int curPage;
-        private int pageSize;
-        private int totalPages;
-
-        public int getCurPage() {
-            return curPage;
-        }
-
-        public void setCurPage(int curPage) {
-            this.curPage = curPage;
-        }
-
-        public int getPageSize() {
-            return pageSize;
-        }
-
-        public void setPageSize(int pageSize) {
-            this.pageSize = pageSize;
-        }
-
-        public int getTotalPages() {
-            return totalPages;
-        }
-
-        public void setTotalPages(int totalPages) {
-            this.totalPages = totalPages;
-        }
+        return err == 0;
     }
 }

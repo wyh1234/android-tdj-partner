@@ -21,6 +21,7 @@ import java.io.NotSerializableException;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
 
+import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.ResourceObserver;
 import retrofit2.HttpException;
 
@@ -38,6 +39,8 @@ public abstract class BaseObserver<T> extends ResourceObserver<T> {
     private boolean isShowProgressDialo;
 
     private ProgressDialog mProgressDialog;
+
+
 
     @Override
     protected void onStart() {
@@ -72,14 +75,16 @@ public abstract class BaseObserver<T> extends ResourceObserver<T> {
     @Override
     public void onComplete() {
         dismissLoading();
+
+
     }
 
     @Override
     public void onError(Throwable e) {
-        LogUtils.e(e);
         if(!TextUtils.isEmpty(errorMsg)){
             GeneralUtils.showToastshort( errorMsg);
         }else if(e instanceof ApiException){
+            LogUtils.e(((ApiException) e).getCode());
             GeneralUtils.showToastshort(((ApiException) e).getMsg());
             if (((ApiException) e).getCode()==4||((ApiException) e).getCode()==901){
                 if (ClickCheckedUtil.onClickChecked(1000))
@@ -121,12 +126,14 @@ public abstract class BaseObserver<T> extends ResourceObserver<T> {
     @Override
     public void onNext(T t) {
         dismissLoading();
+        LogUtils.e(t instanceof BaseResponse);
         if (t instanceof BaseResponse){
+            LogUtils.e(((BaseResponse) t).isSuccess());
 //            LogUtils.i(((BaseResponse) t).isSuccess());
             if (((BaseResponse) t).isSuccess()){
 //                if (((BaseResponse) t).getPageinfo()!=null){
-                  onSuccess((BaseResponse<T>) t);
-//                onSuccess(t);
+//                  onSuccess((BaseResponse<T>) t);
+                onSuccess(t);
              /*   }else {
                     onSuccess((BaseResponse<T>) ((BaseResponse) t).getData());
                 }*/
@@ -137,15 +144,15 @@ public abstract class BaseObserver<T> extends ResourceObserver<T> {
 
 
         }else {
-            onSuccess((BaseResponse<T>) t);
-//            onSuccess(t);
+//            onSuccess((BaseResponse<T>) t);
+            onSuccess(t);
         }
 
 
 
     }
-//    protected abstract void onSuccess(T t);
-    protected abstract void onSuccess(BaseResponse<T> t);
+    protected abstract void onSuccess(T t);
+//    protected abstract void onSuccess(BaseResponse<T> t);
     protected abstract void onFailed(Throwable e);
 
     private void showLoading(){

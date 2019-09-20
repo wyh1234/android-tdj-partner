@@ -1,4 +1,4 @@
-package com.tdjpartner.fragment;
+package com.tdjpartner.ui.fragment;;
 
 import android.view.View;
 
@@ -6,7 +6,7 @@ import com.tdjpartner.R;
 import com.tdjpartner.base.BaseFrgment;
 import com.tdjpartner.mvp.presenter.IPresenter;
 
-public class ClientFragment  extends BaseFrgment {
+public class MyFragment extends BaseFrgment {
     @Override
     protected void initView(View view) {
 
@@ -24,6 +24,6 @@ public class ClientFragment  extends BaseFrgment {
 
     @Override
     protected int getContentId() {
-        return R.layout.client_fragment;
+        return R.layout.my_fragment;
     }
 }
