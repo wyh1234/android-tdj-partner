@@ -19,7 +19,7 @@
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/color_F3F5F4"
+        android:background="@color/white"
         >
 
         <com.tdjpartner.widget.bottombar.BottomBarItem
@@ -31,8 +31,9 @@
             app:itemText="合伙人"
             app:itemTextSize="10sp"
             app:textColorNormal="@color/gray_66"
-            app:textColorSelected="@color/tap_bg"
+            app:textColorSelected="@color/view_bg1"
             app:openTouchBg="true"
+            app:itemMarginTop="5dp"
             app:touchDrawable="@drawable/selector_bottom_tab"
             />
 
@@ -44,9 +45,10 @@
             app:iconNormal="@mipmap/tab_micro_normal"
             app:iconSelected="@mipmap/tab_micro_selected"
             app:itemText="客户"
+            app:itemMarginTop="5dp"
             app:itemTextSize="10sp"
             app:textColorNormal="@color/gray_66"
-            app:textColorSelected="@color/tap_bg"
+            app:textColorSelected="@color/view_bg1"
             app:openTouchBg="true"
             app:touchDrawable="@drawable/selector_bottom_tab"
             />
@@ -59,8 +61,9 @@
             app:iconSelected="@mipmap/tab_me_selected"
             app:itemText="我的"
             app:itemTextSize="10sp"
+            app:itemMarginTop="5dp"
             app:textColorNormal="@color/gray_66"
-            app:textColorSelected="@color/tap_bg"
+            app:textColorSelected="@color/view_bg1"
             app:openTouchBg="true"
             app:touchDrawable="@drawable/selector_bottom_tab"
             />

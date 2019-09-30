@@ -4,8 +4,10 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.tdjpartner.LoginActivity;
+import com.tdjpartner.AppAplication;
+import com.tdjpartner.http.cookie.PersistentCookieStore;
 import com.tdjpartner.model.UserInfo;
+import com.tdjpartner.ui.activity.LoginActivity;
 
 
 public class UserUtils {
@@ -42,11 +44,13 @@ public class UserUtils {
         mLoginBean = loginBean;
         String json = new Gson().toJson(loginBean);
         SPUtils.getInstance().save(KEY_LOGIN_BEAN, json);
+
     }
 
     public void logout() {
         mLoginBean = null;
         SPUtils.getInstance().clear();
+        new PersistentCookieStore(AppAplication.getAppContext()).removeAll();//清空cookies
     }
 
     public void update(UserInfo loginBean) {

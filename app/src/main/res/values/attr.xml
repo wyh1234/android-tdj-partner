@@ -126,4 +126,5 @@
         <!--图标与文字的距离-->
         <attr name="xTabIconAndTextSpace" format="dimension" />
     </declare-styleable>
+
 </resources>

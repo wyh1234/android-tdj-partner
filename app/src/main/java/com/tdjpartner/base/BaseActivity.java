@@ -2,27 +2,28 @@ package com.tdjpartner.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.apkfuns.logutils.LogUtils;
-import com.tdjpartner.LoginActivity;
 import com.tdjpartner.MainTabActivity;
+import com.tdjpartner.model.ClientFragmentType;
 import com.tdjpartner.model.LoginLoseEfficacyEvent;
 import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.mvp.view.IView;
+import com.tdjpartner.ui.activity.LoginActivity;
+import com.tdjpartner.ui.fragment.ClientFragment;
 import com.tdjpartner.utils.ActivityManager;
 import com.tdjpartner.utils.Density;
 import com.tdjpartner.utils.GeneralUtils;
-import com.tdjpartner.utils.ViewUrils;
+import com.tdjpartner.utils.cache.UserUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.util.LinkedList;
-import java.util.List;
 
 import butterknife.ButterKnife;
 import io.reactivex.disposables.CompositeDisposable;
@@ -96,7 +97,9 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
         return mCurrentActivity;
     }
 
-
+    public Context getContext() {
+        return this;
+    }
 
     @Override
     protected void onDestroy() {
@@ -107,7 +110,7 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
         if (compositeDisposable != null) {
             compositeDisposable.clear();
         }
-
+        unregisterEventBus(this);
         //销毁的时候从集合中移除
 //        synchronized (mActivities) {
 //            mActivities.remove(this);
@@ -177,7 +180,7 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     protected void onStop() {
         super.onStop();
         LogUtils.i("onStop");
-        unregisterEventBus(this);
+
 
     }
 
@@ -192,10 +195,19 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     //登陆失效事件
     @Subscribe
     public void onEvent(LoginLoseEfficacyEvent event) {
+        UserUtils.getInstance().logout();//先退出
         if (!ActivityManager.isActivityExist(LoginActivity.class) ) {
             BaseActivity baseActivity = ActivityManager.getTopActivity();
             if (baseActivity == null) return;
+            ActivityManager.removeActivity(this);//删除所有activity
+            Intent intent = new Intent();
+            intent.setClass(this, LoginActivity.class);
+            startActivity(intent);//这里的Activity是弹出登录的
+        }else {
+            ActivityManager.setTopActivity(LoginActivity.class);//设置置顶
         }
     }
+
+
 
 }

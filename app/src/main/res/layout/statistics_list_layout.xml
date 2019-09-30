@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/gray_f2"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:background="@mipmap/home_bg"
+        android:layout_width="match_parent"
+        android:layout_height="175dp">
+        <RelativeLayout
+            android:id="@+id/title"
+            android:layout_marginTop="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="39dp">
+            <ImageView
+                android:id="@+id/btn_back"
+                android:layout_width="@dimen/dp_40"
+                android:src="@mipmap/back_home_one"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_seach"
+            android:layout_below="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+            <TextView
+                android:id="@+id/tv_name"
+                android:text="9月"
+                android:textSize="14sp"
+                android:drawableRight="@mipmap/xialabai_bg"
+                android:drawablePadding="5dp"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:paddingLeft="@dimen/dp_10"
+                android:textColor="@color/white"
+                android:paddingRight="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/search_text"
+                android:textColorHint="@color/gray_6c"
+                android:text="请输入门店名称/手机号"
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/tv_list_type"
+                android:layout_toRightOf="@+id/tv_name"
+                android:background="@drawable/search_text"
+                android:drawableStart="@mipmap/sousuo_bg"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:paddingStart="10dp"
+                android:textColor="@color/gray_69"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tv_list_type"
+                android:text="搜索"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:paddingLeft="12dp"
+                android:textColor="@color/white"
+                android:paddingRight="@dimen/dp_10"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
+
+        <com.tdjpartner.widget.tablayout.WTabLayout
+            android:id="@+id/wtab"
+            android:layout_below="@+id/rl_seach"
+            android:layout_width="match_parent"
+            android:layout_marginTop="-10dp"
+            app:xTabIndicatorColor="@color/white"
+            app:xTabIndicatorHeight="2dp"
+            app:xTabMode="scrollable"
+            app:xTabIndicatorWidth="15dp"
+            app:xTabPaddingEnd="5dp"
+            app:xTabSelectedTextColor="@color/white"
+            app:xTabTextColor="#80ffffff"
+            app:xTabTextSize="12sp"
+            android:layout_height="30dp">
+
+        </com.tdjpartner.widget.tablayout.WTabLayout>
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_marginTop="-40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+    <include layout="@layout/toobar_layout" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="54dp"
+        android:layout_marginLeft="29dp"
+        android:layout_marginRight="29dp"
+        android:layout_height="36dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="我的银行卡"
+            android:textColor="@color/gray_69"
+            android:textSize="14sp"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:src="@mipmap/right_bg"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+    <View
+        android:layout_marginLeft="29dp"
+        android:layout_marginRight="29dp"
+        android:background="#E6E6E6"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="13dp"
+        android:layout_marginLeft="29dp"
+        android:layout_marginRight="29dp"
+        android:layout_height="36dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="修改密码"
+            android:textColor="@color/gray_69"
+            android:textSize="14sp"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:src="@mipmap/right_bg"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+    <View
+        android:layout_marginLeft="29dp"
+        android:layout_marginRight="29dp"
+        android:background="#E6E6E6"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="13dp"
+        android:layout_marginLeft="29dp"
+        android:layout_marginRight="29dp"
+        android:layout_height="36dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="检查版本更新"
+            android:textColor="@color/gray_69"
+            android:textSize="14sp"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:src="@mipmap/right_bg"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+    <View
+        android:layout_marginLeft="29dp"
+        android:layout_marginRight="29dp"
+        android:background="#E6E6E6"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="13dp"
+        android:layout_marginLeft="29dp"
+        android:layout_marginRight="29dp"
+        android:layout_height="36dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="关于合伙人"
+            android:textColor="@color/gray_69"
+            android:textSize="14sp"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:src="@mipmap/right_bg"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+    <View
+        android:layout_marginLeft="29dp"
+        android:layout_marginRight="29dp"
+        android:background="#E6E6E6"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <Button
+        android:id="@+id/btn_out_login"
+        android:background="@mipmap/login_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="29dp"
+        android:layout_marginRight="29dp"
+        android:layout_marginTop="120dp"
+        android:text="退出登录"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:layout_height="@dimen/dp_40" />
+</LinearLayout>

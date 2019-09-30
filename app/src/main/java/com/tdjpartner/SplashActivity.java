@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.tdjpartner.ui.activity.LoginActivity;
+import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.statusbar.Eyes;
 
 import java.util.Timer;
@@ -23,14 +25,23 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         Eyes.translucentStatusBar(this,true);
+        Eyes.setLightStatusBar(this,true);
 
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
+                if (UserUtils.getInstance().getLoginBean() !=null){
 
-                    Intent intent=new Intent(SplashActivity.this,LoginActivity.class);
+                    Intent intent=new Intent(SplashActivity.this,MainTabActivity.class);
                     startActivity(intent);
                     finish();
+
+                }else {
+                    Intent intent=new Intent(SplashActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+
+                }
 
             }
         };

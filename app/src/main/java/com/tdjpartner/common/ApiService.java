@@ -16,11 +16,14 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 import retrofit2.http.Streaming;
@@ -79,4 +82,18 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("customer/login")
     Observable<BaseResponse<UserInfo>> loginData(@FieldMap Map<String, Object> params);
+
+
+    //发送短信
+    @Headers({"url_type:weather"})
+    @FormUrlEncoded
+    @POST("common/sendSms")
+    Observable<BaseResponse<Object>> smsCode(@FieldMap Map<String, Object> params);
+
+
+    //忘记密码
+    @Headers({"url_type:weather"})
+    @FormUrlEncoded
+    @PUT("customer/password/forget")
+    Observable<BaseResponse<Object>> forget_pwd( @FieldMap Map<String, Object> params);
 }

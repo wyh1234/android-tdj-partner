@@ -138,4 +138,8 @@
 
     <color name="color_D33D3C">#D33D3C</color>
     <color name="color_BDBDBD">#BDBDBD</color>
+    <color name="view_bg">#E6E6E6</color>
+    <color name="view_bg1">#F85D28</color>
+    <color name="view_bg2">#38aefe</color>
+    <color name="view_bg3">#4038aefe</color>
 </resources>

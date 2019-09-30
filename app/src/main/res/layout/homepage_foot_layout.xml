@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/gray_f2"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:background="@drawable/client_item_sahp"
+        android:layout_marginTop="@dimen/dp_10"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="33dp">
+            <View
+                android:id="@+id/view1"
+                android:layout_width="2dp"
+                android:layout_marginTop="3dp"
+                android:background="@color/view_bg1"
+                android:layout_height="17dp"/>
+            <TextView
+                android:layout_toRightOf="@+id/view1"
+                android:layout_marginLeft="6dp"
+                android:text="今日统计"
+                android:textSize="16sp"
+                android:textColor="@color/black_63"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <RelativeLayout
+                android:id="@+id/rl_right"
+                android:layout_alignParentRight="true"
+                android:layout_width="100dp"
+                android:gravity="right"
+                android:layout_centerVertical="true"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_toLeftOf="@+id/iv_xiala"
+                    android:layout_marginRight="5dp"
+                    android:id="@+id/tv_today"
+                    android:drawableRight="@mipmap/xiala_bg"
+                    android:layout_marginLeft="6dp"
+                    android:text="9月4日"
+                    android:textSize="14sp"
+                    android:textColor="@color/black_63"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/today_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@drawable/client_item_sahp"
+        android:layout_marginTop="@dimen/dp_10"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="27dp">
+            <View
+                android:id="@+id/views"
+                android:layout_width="2dp"
+                android:layout_marginTop="3dp"
+                android:background="@color/view_bg1"
+                android:layout_height="17dp"/>
+            <TextView
+                android:layout_toRightOf="@+id/views"
+                android:layout_marginLeft="6dp"
+                android:text="当月统计"
+                android:textSize="16sp"
+                android:textColor="@color/black_63"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <RelativeLayout
+                android:id="@+id/rl_rights"
+                android:layout_alignParentRight="true"
+                android:layout_width="100dp"
+                android:gravity="right"
+                android:layout_centerVertical="true"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="6dp"
+                    android:text="9月"
+                    android:textSize="14sp"
+                    android:textColor="@color/black_63"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/month_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@drawable/client_item_sahp"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/rl"
+            android:layout_width="wrap_content"
+            android:layout_height="27dp">
+        <View
+            android:id="@+id/view"
+            android:layout_width="2dp"
+            android:layout_marginTop="3dp"
+            android:background="@color/view_bg1"
+            android:layout_height="17dp"/>
+            <TextView
+                android:layout_toRightOf="@+id/view"
+                android:id="@+id/tv_tiltle"
+                android:layout_marginLeft="6dp"
+                android:text="所有统计"
+                android:textSize="16sp"
+                android:textColor="@color/black_63"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/all_recyclerView"
+            android:background="@drawable/home_item_shap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@drawable/client_item_sahp"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="6dp"
+                android:text="重点关注"
+                android:textSize="16sp"
+                android:textColor="@color/black_63"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_toRightOf="@+id/tv"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:src="@mipmap/tishi_bg"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <View
+            android:layout_marginTop="9dp"
+            android:background="@color/gray_f2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/attention_recyclerView"
+            android:background="@drawable/home_item_shap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@drawable/client_item_sahp"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="6dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_left"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:src="@mipmap/newzhuce_bg"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_regiset_ranking"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/iv_left"
+                android:layout_marginLeft="6dp"
+                android:text="新注册排行榜TOP3"
+                android:textSize="16sp"
+                android:textColor="@color/black_63"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/register_recyclerView"
+            android:layout_marginTop="@dimen/sp_12"
+            android:background="@drawable/home_item_shap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@drawable/client_item_sahp"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="6dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_xiadan"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:src="@mipmap/xiadan_bg"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_order_ranking"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/iv_xiadan"
+                android:layout_marginLeft="6dp"
+                android:text="新下单排行TOP3"
+                android:textSize="16sp"
+                android:textColor="@color/black_63"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/order_recyclerView"
+            android:layout_marginTop="@dimen/sp_12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:layout_marginTop="@dimen/dp_10"
+        android:gravity="center"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:background="#FC3434"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+       />
+</LinearLayout>

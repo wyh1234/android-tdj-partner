@@ -68,7 +68,7 @@ public class Density {
         if (orientation.equals("height")) {
             targetDensity = (appDisplayMetrics.heightPixels - barHeight) / 667f;
         } else {
-            targetDensity = appDisplayMetrics.widthPixels / 375f;
+            targetDensity = appDisplayMetrics.widthPixels / 320f;
         }
    /*     try {
             targetDensity = appDisplayMetrics.widthPixels / WIDTH;

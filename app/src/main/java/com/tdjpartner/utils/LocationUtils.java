@@ -50,6 +50,7 @@ public class LocationUtils {
                     LocationBean locationBean = new LocationBean();
                     locationBean.setLongitude(aMapLocation.getLongitude());
                     locationBean.setLatitude(aMapLocation.getLatitude());
+                    locationBean.setaMapLocation(aMapLocation);
                     locationBean.setAddress(aMapLocation.getAddress());
                     EventBus.getDefault().post(locationBean);
                 }else {
@@ -88,7 +89,6 @@ public class LocationUtils {
         mOption.setSensorEnable(false);//可选，设置是否使用传感器。默认是false
         mOption.setWifiScan(true); //可选，设置是否开启wifi扫描。默认为true，如果设置为false会同时停止主动刷新，停止以后完全依赖于系统刷新，定位位置可能存在误差
         mOption.setLocationCacheEnable(true); //可选，设置是否使用缓存定位，默认为true
-        mOption.setGeoLanguage(AMapLocationClientOption.GeoLanguage.DEFAULT);//可选，设置逆地理信息的语言，默认值为默认语言（根据所在地区选择语言）
         return mOption;
 
     }

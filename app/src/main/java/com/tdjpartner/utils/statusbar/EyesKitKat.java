@@ -19,7 +19,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
+import com.apkfuns.logutils.LogUtils;
 import com.tdjpartner.R;
+import com.tdjpartner.utils.GeneralUtils;
 
 import java.lang.reflect.Field;
 
@@ -60,6 +62,11 @@ class EyesKitKat {
                 int actionBarHeight = TypedValue.complexToDimensionPixelSize(typedValue.data, activity.getResources().getDisplayMetrics());
                 Eyes.setContentTopPadding(activity, actionBarHeight);
             }
+        }
+        LogUtils.i(statusColor== GeneralUtils.getColor(activity, R.color.white));
+        if (statusColor== GeneralUtils.getColor(activity, R.color.white)){
+            Eyes.setLightStatusBar(activity,statusColor== GeneralUtils.getColor(activity, R.color.white));
+
         }
     }
 

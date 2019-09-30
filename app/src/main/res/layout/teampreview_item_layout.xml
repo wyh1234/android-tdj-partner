@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_marginTop="26dp"
+    android:layout_marginLeft="11dp"
+    android:layout_marginRight="11dp"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="33dp">
+        <View
+            android:id="@+id/view1"
+            android:layout_width="2dp"
+            android:layout_marginTop="3dp"
+            android:background="@color/view_bg1"
+            android:layout_height="17dp"/>
+        <TextView
+            android:layout_toRightOf="@+id/view1"
+            android:layout_marginLeft="6dp"
+            android:text="今日统计"
+            android:textSize="16sp"
+            android:textColor="@color/black_63"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+        <RelativeLayout
+            android:id="@+id/rl_right"
+            android:layout_alignParentRight="true"
+            android:layout_width="100dp"
+            android:gravity="right"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_toLeftOf="@+id/iv_xiala"
+                android:layout_marginRight="5dp"
+                android:id="@+id/tv_today"
+                android:drawableRight="@mipmap/xiala_bg"
+                android:layout_marginLeft="6dp"
+                android:text="9月4日"
+                android:textSize="14sp"
+                android:textColor="@color/black_63"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        android:background="@drawable/client_item_sahp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/ll"
+            android:layout_width="match_parent"
+            android:layout_height="68dp">
+            <RelativeLayout
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/tv"
+                    android:text="订单收益"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/gray_66"
+                    android:textSize="10sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_below="@+id/tv"
+                    android:text="10000.00"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="13dp"
+                    android:textColor="@color/view_bg1"
+                    android:textSize="17sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <View
+                android:background="@color/gray_f2"
+                android:layout_gravity="center_vertical"
+                android:layout_width="1dp"
+                android:layout_height="37dp"/>
+            <RelativeLayout
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/tv1"
+                    android:text="订单收益"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/gray_66"
+                    android:textSize="10sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_below="@+id/tv1"
+                    android:text="10000.00"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="13dp"
+                    android:textColor="@color/view_bg1"
+                    android:textSize="17sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+        </LinearLayout>
+        <View
+            android:id="@+id/view"
+            android:layout_below="@+id/ll"
+            android:background="@color/gray_f2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <LinearLayout
+            android:id="@+id/ll_one"
+            android:layout_below="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="83dp">
+            <RelativeLayout
+                android:id="@+id/rl_cy"
+                android:layout_weight="1"
+                android:gravity="center"
+
+                android:layout_width="match_parent"
+                android:layout_height="73dp">
+                <TextView
+                    android:id="@+id/tv2"
+                    android:text="成员>"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/gray_66"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_below="@+id/tv2"
+                    android:text="10人"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="13dp"
+                    android:textColor="@color/gray_69"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <View
+                android:layout_gravity="center_vertical"
+                android:layout_width="1dp"
+                android:background="@color/gray_f2"
+                android:layout_height="37dp"/>
+            <RelativeLayout
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="73dp">
+                <TextView
+                    android:id="@+id/tv3"
+                    android:text="日活"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/gray_66"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_below="@+id/tv3"
+                    android:text="2家"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="13dp"
+                    android:textColor="@color/gray_69"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+            <View
+                android:layout_gravity="center_vertical"
+                android:layout_width="1dp"
+                android:background="@color/gray_f2"
+                android:layout_height="37dp"/>
+            <RelativeLayout
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="73dp">
+                <TextView
+                    android:id="@+id/tv4"
+                    android:text="新增日活"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/gray_66"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_below="@+id/tv4"
+                    android:text="2家"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="13dp"
+                    android:textColor="@color/gray_69"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <View
+                android:layout_gravity="center_vertical"
+                android:layout_width="1dp"
+                android:background="@color/gray_f2"
+                android:layout_height="37dp"/>
+            <RelativeLayout
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="73dp">
+                <TextView
+                    android:id="@+id/tv5"
+                    android:text="未下单"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/gray_66"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_below="@+id/tv5"
+                    android:text="2家"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="13dp"
+                    android:textColor="@color/gray_69"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_below="@+id/ll_one"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:paddingRight="@dimen/dp_10"
+            android:layout_height="84dp">
+            <RelativeLayout
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@drawable/teampreview_shap"
+                android:layout_width="match_parent"
+                android:layout_height="73dp">
+                <TextView
+                    android:id="@+id/tv6"
+                    android:text="交易额"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/gray_66"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_below="@+id/tv6"
+                    android:text="10人"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="18dp"
+                    android:textColor="@color/gray_69"
+                    android:textSize="14sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <View
+                android:layout_gravity="center_vertical"
+                android:layout_width="10dp"
+                android:layout_height="match_parent"/>
+            <RelativeLayout
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@drawable/teampreview_shap"
+                android:layout_width="match_parent"
+                android:layout_height="73dp">
+                <TextView
+                    android:id="@+id/tv7"
+                    android:text="新增交易额"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/gray_66"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_below="@+id/tv7"
+                    android:text="2家"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="18dp"
+                    android:textColor="@color/gray_69"
+                    android:textSize="14sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+            <View
+                android:layout_gravity="center_vertical"
+                android:layout_width="10dp"
+                android:layout_height="match_parent"/>
+            <RelativeLayout
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@drawable/teampreview_shap"
+                android:layout_width="match_parent"
+                android:layout_height="73dp">
+                <TextView
+                    android:id="@+id/tv8"
+                    android:text="新增日活"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/gray_66"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_below="@+id/tv8"
+                    android:text="2家"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="18dp"
+                    android:textColor="@color/gray_69"
+                    android:textSize="14sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

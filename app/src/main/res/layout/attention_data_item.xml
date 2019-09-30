@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_view"
+    android:layout_width="match_parent"
+    android:layout_height="73dp"
+  >
+
+            <RelativeLayout
+                android:layout_centerHorizontal="true"
+                android:id="@+id/rl"
+                android:layout_marginTop="@dimen/sp_12"
+                android:layout_width="31dp"
+                android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/image_ani"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:src="@mipmap/jijiangdiaoluo"
+                />
+                <TextView
+                    android:id="@+id/count_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/bg_count_red"
+                    android:gravity="center"
+                    android:text="2"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/view_bg1"
+                    android:textSize="9sp" />
+            </RelativeLayout>
+
+
+    <TextView
+        android:layout_below="@+id/rl"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/image_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="即将掉落"
+        android:textColor="@color/black_63"
+        android:layout_marginTop="13dp"
+        android:textSize="12sp" />
+</RelativeLayout>

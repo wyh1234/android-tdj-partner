@@ -3,7 +3,6 @@ package com.tdjpartner.common;
 import com.apkfuns.logutils.LogUtils;
 import com.google.gson.Gson;
 import com.tdjpartner.http.BaseObserver;
-import com.tdjpartner.http.BaseResponse;
 import com.tdjpartner.http.RetrofitServiceManager;
 import com.tdjpartner.http.RxUtils;
 import com.tdjpartner.model.HomePageFuncationButton;
@@ -15,7 +14,6 @@ import com.tdjpartner.utils.GeneralUtils;
 import java.util.List;
 import java.util.Map;
 
-import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -41,7 +39,14 @@ public class RequestPresenter {
     public static Disposable loginData(Map<String, Object> params,BaseObserver<UserInfo> baseObserver) {
         return getApiService().loginData(params).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(baseObserver);
     }
+    //采购商登录
+    public static Disposable smsCode(Map<String, Object> params,BaseObserver<Object> baseObserver) {
+        return getApiService().smsCode(params).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(baseObserver);
+    }
 
+    public  static Disposable forget_pwd(Map<String, Object> params, BaseObserver<Object> baseObserver) {
+        return getApiService().forget_pwd(params).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(baseObserver);
+    }
 
     public static RequestBody  jsonData(Map<String ,Object> map){
         map.put("versionType", "Android");

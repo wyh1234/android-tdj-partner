@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:background="@mipmap/home_bg"
+        android:layout_width="match_parent"
+        android:layout_height="114dp">
+        <RelativeLayout
+            android:id="@+id/title"
+            android:layout_marginTop="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="39dp">
+            <ImageView
+                android:id="@+id/btn_back"
+                android:layout_width="@dimen/dp_40"
+                android:src="@mipmap/back_home_one"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:gravity="center"
+                android:text="我的团队"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+        </RelativeLayout    >
+        <RelativeLayout
+            android:id="@+id/rl_seach"
+            android:layout_below="@+id/title"
+            android:layout_marginTop="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tv_name"
+                android:text="成员名称"
+                android:textSize="14sp"
+                android:drawablePadding="5dp"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:paddingLeft="@dimen/dp_10"
+                android:textColor="@color/white"
+                android:paddingRight="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/search_text"
+                android:textColorHint="@color/gray_6c"
+                android:text="搜索专员姓名"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="13dp"
+                android:layout_toRightOf="@+id/tv_name"
+                android:background="@drawable/search_text"
+                android:drawableStart="@mipmap/sousuo_bg"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:paddingStart="10dp"
+                android:textColor="@color/gray_69"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/ll"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

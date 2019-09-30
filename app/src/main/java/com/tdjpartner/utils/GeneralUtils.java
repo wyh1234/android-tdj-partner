@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.IBinder;
 import android.provider.Settings;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -34,6 +35,15 @@ public class GeneralUtils {
         Pattern p = Pattern.compile(str);
         Matcher m = p.matcher(tel);
         return m.matches();
+    }
+    /**
+     * 判断字符串是否为null或者0长度，字符串在判断长度时，先去除前后的空格,空或者0长度返回true,否则返回false
+     *
+     * @param str 被判断的字符串
+     * @return boolean
+     */
+    public static boolean isNullOrZeroLenght(String str) {
+        return (null == str || "".equals(str.trim())) ? true : false;
     }
     /**
      * 返回当前程序版本名
@@ -169,11 +179,13 @@ public class GeneralUtils {
         return (int) (spValue * fontScale + 0.5f);
     }
     public static int getColor(Context context, int colorId){
-        return context.getResources().getColor(colorId);
+        return ContextCompat.getColor(context, colorId);
     }
 
     public static Drawable getDrawable(Context context, int resId){
         return  context.getResources().getDrawable(resId);
     }
+
+
 
 }

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_f2"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="#85ffffff"
+        android:paddingTop="30dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="24dp">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingRight="12dp"
+                android:text="客户名称"
+                android:textColor="@color/gray_66"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/search_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@+id/tv_list_type"
+                android:layout_toRightOf="@+id/tv_name"
+                android:background="@drawable/search_text_one"
+                android:drawableStart="@mipmap/sousuo_bg"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:paddingStart="10dp"
+                android:text="输入手机号/门店名称 "
+                android:textColor="@color/gray_6c"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_list_type"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:paddingLeft="12dp"
+                android:paddingRight="@dimen/dp_10"
+                android:text="地图模式"
+                android:textColor="@color/gray_66"
+                android:textSize="12sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.amap.api.maps.MapView
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </com.amap.api.maps.MapView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/client_item_sahp">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </RelativeLayout>
+</LinearLayout>

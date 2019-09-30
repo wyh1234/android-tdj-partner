@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.apkfuns.logutils.LogUtils;
 import com.github.nukc.stateview.StateView;
 import com.tdjpartner.R;
 import com.tdjpartner.mvp.presenter.IPresenter;
@@ -60,6 +61,7 @@ public abstract class BaseFrgment<P extends IPresenter> extends LazyLoadFragment
             }
 
             initView(view);
+            initViews(view,savedInstanceState);
             loadData();
         } else {
             ViewGroup parent = (ViewGroup) view.getParent();
@@ -68,6 +70,10 @@ public abstract class BaseFrgment<P extends IPresenter> extends LazyLoadFragment
             }
         }
         return view;
+    }
+
+    protected  void initViews(View view, Bundle savedInstanceState){
+
     }
 
     @Override
@@ -119,6 +125,7 @@ public abstract class BaseFrgment<P extends IPresenter> extends LazyLoadFragment
     public void registerEventBus(Object subscribe) {
         if (!isEventBusRegisted(subscribe)) {
             EventBus.getDefault().register(subscribe);
+            LogUtils.e(subscribe+"");
         }
     }
     public void unregisterEventBus(Object subscribe) {

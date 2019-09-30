@@ -3,16 +3,21 @@ package com.tdjpartner;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 
+import com.apkfuns.logutils.LogUtils;
 import com.tdjpartner.adapter.MainTabAdapter;
 import com.tdjpartner.base.BaseActivity;
 import com.tdjpartner.base.BaseFrgment;
+import com.tdjpartner.model.ClientFragmentType;
 import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.ui.fragment.ClientFragment;
 import com.tdjpartner.ui.fragment.HomepageFragment;
 import com.tdjpartner.ui.fragment.MyFragment;
+import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.widget.bottombar.BottomBarItem;
 import com.tdjpartner.widget.bottombar.BottomBarLayout;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +30,7 @@ public class MainTabActivity extends BaseActivity {
     @BindView(R.id.bottom_bar)
     BottomBarLayout mBottomBarLayout;
     private List<BaseFrgment> mFragmentList;
+    private MainTabAdapter mainTabAdapter;
 
     @Override
     protected IPresenter loadPresenter() {
@@ -38,7 +44,8 @@ public class MainTabActivity extends BaseActivity {
         mFragmentList.add(new HomepageFragment());
         mFragmentList.add(new ClientFragment());
         mFragmentList.add(new MyFragment());
-        mVpContent.setAdapter(new MainTabAdapter(mFragmentList,getSupportFragmentManager()));
+        mainTabAdapter=new MainTabAdapter(mFragmentList,getSupportFragmentManager());
+        mVpContent.setAdapter(mainTabAdapter);
         mBottomBarLayout.setViewPager(mVpContent);
         mBottomBarLayout.setOnItemSelectedListener(new BottomBarLayout.OnItemSelectedListener() {
             @Override
@@ -46,6 +53,7 @@ public class MainTabActivity extends BaseActivity {
                 Log.i("MainActivity", "position: " + currentPosition);
                 setStatusBarColor(currentPosition);
                 if (currentPosition == 0) {
+
                 }
 
             }
@@ -61,11 +69,18 @@ public class MainTabActivity extends BaseActivity {
     }
     private void setStatusBarColor(int position) {
             //如果是我的页面，状态栏设置为透明状态栏
-
+        Eyes.translucentStatusBar(MainTabActivity.this,true);
+        Eyes.setLightStatusBar(this,true);
     }
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
+    }
+
+    @Subscribe
+    public void checkClientFragment(ClientFragmentType clientFragmentType){
+        LogUtils.e(clientFragmentType);
+            ((ClientFragment) mainTabAdapter.getBaseFrgment()).checkClientFragment(clientFragmentType);
     }
 
 }

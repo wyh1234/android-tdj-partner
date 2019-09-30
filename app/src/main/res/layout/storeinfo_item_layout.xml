@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingLeft="17dp"
+    android:paddingRight="17dp"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="42dp">
+        <ImageView
+            android:id="@+id/iv"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/dingdanshouyi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_toRightOf="@+id/iv"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
+            android:text="当月下单总额"
+            android:textSize="12sp"
+            android:textColor="@color/gray_66"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="5dp"
+            android:text="2000"
+            android:textSize="18sp"
+            android:textColor="@color/black_63"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:background="@color/gray_f2"
+        android:layout_height="1dp"/>
+
+</RelativeLayout>

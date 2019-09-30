@@ -1,9 +1,20 @@
 package com.tdjpartner.model;
 
+import com.amap.api.location.AMapLocation;
+
 public class LocationBean {
     private double Longitude;
     private double Latitude;
     private String address;
+    private AMapLocation aMapLocation;
+
+    public AMapLocation getaMapLocation() {
+        return aMapLocation;
+    }
+
+    public void setaMapLocation(AMapLocation aMapLocation) {
+        this.aMapLocation = aMapLocation;
+    }
 
     public String getAddress() {
         return address;

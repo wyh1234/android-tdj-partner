@@ -3,46 +3,43 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:id="@+id/intergral_toolbar"
-    android:background="@color/red_f0"
+
+    android:background="@mipmap/client_bg"
+    android:id="@+id/toolbar"
     app:contentInsetStart="0dp"
     app:contentInsetEnd="0dp"
-    android:layout_height="wrap_content">
+    android:layout_height="65dp">
         <RelativeLayout
             android:id="@+id/title"
+            android:layout_marginTop="24dp"
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="match_parent">
             <ImageView
                 android:id="@+id/btn_back"
                 android:layout_width="@dimen/dp_40"
                 android:src="@mipmap/back_home_one"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:layout_centerVertical="true"
-                android:visibility="invisible"
                 android:layout_height="match_parent" />
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:text="合伙人"
-                android:layout_centerInParent="true"
-                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:text="设置"
                 android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tv_right"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:visibility="gone"
-                android:text="新增地址"
+                android:gravity="center"
                 android:layout_alignParentRight="true"
                 android:textColor="@color/white"
                 android:textSize="14sp" />

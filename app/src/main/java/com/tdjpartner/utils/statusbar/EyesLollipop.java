@@ -17,6 +17,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.apkfuns.logutils.LogUtils;
+import com.tdjpartner.R;
+import com.tdjpartner.utils.GeneralUtils;
+
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 class EyesLollipop {
 
@@ -36,6 +40,10 @@ class EyesLollipop {
         if (mChildView != null) {
             ViewCompat.setFitsSystemWindows(mChildView, false);
             ViewCompat.requestApplyInsets(mChildView);
+        }
+        if (statusColor== GeneralUtils.getColor(activity, R.color.white)){
+            Eyes.setLightStatusBar(activity,true, R.color.white);
+
         }
     }
 
