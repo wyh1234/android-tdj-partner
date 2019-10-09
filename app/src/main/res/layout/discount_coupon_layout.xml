@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/gray_f2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/toobar_layout" />
+    <com.tdjpartner.widget.tablayout.WTabLayout
+        android:id="@+id/wtab"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        app:xTabDisplayNum="3"
+        app:xTabIndicatorColor="@color/view_bg1"
+        app:xTabIndicatorHeight="2dp"
+        app:xTabIndicatorWidth="23dp"
+        app:xTabSelectedTextColor="@color/view_bg1"
+        app:xTabTextColor="@color/gray_66"
+        app:xTabTextSize="14sp"
+        android:layout_height="@dimen/dp_40">
+
+    </com.tdjpartner.widget.tablayout.WTabLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

@@ -87,7 +87,30 @@
         <activity
             android:name=".ui.activity.CallLocationActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".ui.activity.CommonFollowUpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.PartnerCheckActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.PartnerCheckDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.SettingPersonActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.SelectPersonActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.GoodsAndStoreActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.OrderListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.OrderDetailsActivity"
+            android:screenOrientation="portrait" />
 
         <!-- 腾讯X5内核初始化 -->
         <service android:name="com.tencent.smtt.export.external.DexClassLoaderProviderService"

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="86dp">
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_width="54dp"
+        android:layout_marginLeft="12dp"
+        android:src="@mipmap/goodsimage"
+        android:scaleType="fitXY"
+        android:layout_centerVertical="true"
+        android:layout_height="54dp" />
+    <LinearLayout
+        android:layout_toRightOf="@+id/iv"
+        android:layout_centerVertical="true"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="7dp"
+        android:orientation="vertical"
+        android:layout_height="54dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="wrap_content"
+                android:text="冰红茶"
+                android:textSize="14sp"
+                android:textColor="@color/black_63"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginTop="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_gz"
+            android:layout_width="wrap_content"
+            android:text="54人关注"
+            android:textSize="12sp"
+            android:drawablePadding="6dp"
+            android:drawableLeft="@mipmap/dianpugaunzu"
+            android:textColor="@color/gray_66"
+            android:layout_height="wrap_content" />
+            <TextView
+                android:layout_toRightOf="@+id/tv_gz"
+                android:layout_width="wrap_content"
+                android:text="4.99分"
+                android:textSize="12sp"
+                android:layout_marginLeft="38dp"
+                android:drawablePadding="6dp"
+                android:drawableLeft="@mipmap/jinpai"
+                android:textColor="@color/gray_66"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+    </LinearLayout>
+</RelativeLayout>

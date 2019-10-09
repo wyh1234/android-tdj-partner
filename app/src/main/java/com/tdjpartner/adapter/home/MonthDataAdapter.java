@@ -29,5 +29,6 @@ public class MonthDataAdapter extends BaseQuickAdapter<StatisticalData, BaseView
         }else {
             baseViewHolder.setVisible(R.id.view,false);
         }
+        baseViewHolder.setText(R.id.tv_tiltle,statisticalData.getTitle());
     }
 }

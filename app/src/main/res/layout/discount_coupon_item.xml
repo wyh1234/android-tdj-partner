@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:layout_marginLeft="@dimen/dp_10"
+    android:layout_marginTop="@dimen/dp_10"
+    android:layout_marginRight="@dimen/dp_10">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="-5dp"
+        android:layout_marginBottom="-5dp"
+        android:background="@mipmap/yhq_bg"
+        android:scaleType="fitXY" />
+
+    <RelativeLayout
+        android:id="@+id/rl_one"
+        android:layout_width="78dp"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="28dp">
+
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="bottom"
+                android:text="￥"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_money"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/tv"
+                android:text="5"
+                android:textColor="@color/white"
+                android:textSize="26sp" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl"
+            android:layout_marginTop="14dp"
+            android:gravity="center"
+            android:text="满50可用"
+            android:textColor="@color/white"
+            android:textSize="10sp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_toRightOf="@+id/rl_one"
+        android:layout_marginLeft="23dp"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/rl_two"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_type_tag"
+            android:layout_width="39dp"
+            android:layout_height="14dp"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:background="@mipmap/check_item_hui_bg"
+            android:text="淘券"
+            android:textColor="@color/white"
+            android:textSize="9sp" />
+
+        <TextView
+            android:id="@+id/tv_type"
+            android:layout_marginLeft="4dp"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_type_tag"
+            android:text="米面粮油除外"
+            android:textColor="@color/gray_66"
+            android:textSize="12sp" />
+        </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_two"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="2019.06.27-2019.07.27"
+            android:textColor="@color/gray_69"
+            android:textSize="10sp" />
+        <ImageView
+            android:id="@+id/iv_status"
+            android:src="@mipmap/yiguoqi"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

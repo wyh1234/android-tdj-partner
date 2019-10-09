@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.tdjpartner.R;
 import com.tdjpartner.model.AttentionData;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class AttentionDataAdapter extends BaseQuickAdapter<AttentionData, BaseVi
 
     @Override
     protected void convert(BaseViewHolder baseViewHolder, AttentionData attentionData) {
+        baseViewHolder.setText(R.id.image_name,attentionData.getTitle());
 
     }
 }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?><!--根布局，常用作蒙层（就是变暗的背景）-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#8f000000"
+    >
+    <!--播放动画的内容，可以认为是popup的主要内容布局-->
+    <RelativeLayout
+        android:id="@+id/popup_anima"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_centerInParent="true"
+            android:background="@drawable/client_item_sahp"
+            android:layout_marginRight="42dp"
+            android:layout_marginLeft="42dp"
+            android:layout_height="142dp">
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_marginTop="34dp"
+                android:textColor="@color/black_63"
+                android:textSize="@dimen/sp_16"
+                android:text="合伙人提交审核成功！"
+                android:layout_height="wrap_content" />
+
+                <Button
+                    android:layout_below="@+id/tv_content"
+                    android:background="@mipmap/wzd"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"
+                    android:text="我知道了"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="38dp"
+                    android:gravity="center"
+                    android:layout_width="94dp"
+                    android:layout_height="28dp" />
+
+        </RelativeLayout>
+
+
+
+    </RelativeLayout>
+</RelativeLayout>

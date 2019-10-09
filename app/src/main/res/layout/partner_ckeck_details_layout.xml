@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+    <include layout="@layout/toobar_layout" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:background="@color/gray_f2"/>
+    <LinearLayout
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingTop="7dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="@dimen/dp_10"
+        android:paddingBottom="18dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="39dp">
+            <ImageView
+                android:id="@+id/iv"
+                android:src="@mipmap/kehuxinxi"
+                android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@color/black_63"
+                android:text="客户信息"
+                android:layout_toRightOf="@+id/iv"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="59dp"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:textColor="@color/gray_66"
+                android:text="待审核"
+                android:background="@mipmap/shengkezhuangtai"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_height="20dp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/gray_f2"/>
+        </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:textSize="12sp"
+            android:layout_marginTop="13dp"
+            android:textColor="@color/gray_66"
+            android:text="希尔顿酒店       负责人：1868122231（主账号）"
+            android:gravity="center"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/dp_10"
+            android:textColor="@color/gray_66"
+            android:text="区域：东西湖永旺梦乐城"
+            android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/sp_12"
+                android:text="地址：武昌徐东大街100号"
+                android:layout_marginTop="11dp"
+                android:textColor="@color/gray_66"
+                android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/sp_12"
+            android:layout_marginTop="10dp"
+            android:text="入驻日期：2018.09.16     16:18:11"
+            android:textColor="@color/gray_66"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginLeft="1dp"
+            android:layout_height="91dp">
+            <RelativeLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:src="@mipmap/yingyezhao_bg"
+                    android:scaleType="fitXY"
+                    android:layout_height="71dp" />
+                <TextView
+                    android:layout_alignParentBottom="true"
+                    android:layout_width="match_parent"
+                    android:gravity="center_horizontal|bottom"
+                    android:text="形象照"
+                    android:textSize="12sp"
+                    android:textColor="@color/gray_66"
+                    android:layout_height="20dp"/>
+            </RelativeLayout>
+            <View
+                android:layout_width="20dp"
+                android:layout_height="match_parent"/>
+            <RelativeLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_weight="1"
+                    android:src="@mipmap/yingyezhao_bg"
+                    android:scaleType="fitXY"
+                    android:layout_width="match_parent"
+                    android:layout_height="71dp" />
+
+                <TextView
+                    android:layout_alignParentBottom="true"
+                    android:layout_width="match_parent"
+                    android:gravity="center_horizontal|bottom"
+                    android:text="营业照"
+                    android:textSize="12sp"
+                    android:textColor="@color/gray_66"
+                    android:layout_height="20dp" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:background="@color/gray_f2"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:paddingLeft="12dp"
+        android:paddingRight="@dimen/dp_10"
+        android:layout_height="39dp">
+        <ImageView
+            android:id="@+id/iv1"
+            android:src="@mipmap/shenghexingxi"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@color/black_63"
+            android:text="审核信息"
+            android:layout_toRightOf="@+id/iv1"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_height="wrap_content" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/gray_f2"/>
+    </RelativeLayout>
+    <com.tdjpartner.widget.MyRecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_marginTop="11dp"
+        android:layout_height="wrap_content">
+    </com.tdjpartner.widget.MyRecyclerView>
+        <LinearLayout
+            android:orientation="vertical"
+            android:background="@color/gray_f2"
+            android:paddingTop="13dp"
+            android:paddingBottom="18dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <Button
+                android:id="@+id/btn"
+                android:background="@mipmap/login_btn"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:text="处理"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:layout_height="@dimen/dp_40" />
+        </LinearLayout>
+    </LinearLayout>
+    </ScrollView>
+</LinearLayout>

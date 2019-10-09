@@ -4,17 +4,18 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.apkfuns.logutils.LogUtils;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chaychan.adapter.MultipleItemRvAdapter;
-import com.tdjpartner.adapter.provider.TitleDatarovider;
+import com.tdjpartner.adapter.provider.GoodsListAdapter;
+import com.tdjpartner.adapter.provider.StoreListAdapter;
 import com.tdjpartner.model.AttentionData;
 import com.tdjpartner.model.CarouselData;
+import com.tdjpartner.model.GoodsInfo;
 import com.tdjpartner.model.Message;
 import com.tdjpartner.model.RankingData;
 import com.tdjpartner.model.StatisticalData;
+import com.tdjpartner.model.StoreInfo;
 import com.tdjpartner.model.TitleData;
-import com.tdjpartner.model.TodayData;
 
 import java.util.List;
 
@@ -22,11 +23,8 @@ import io.reactivex.annotations.NonNull;
 
 public class MessageListAdapter  extends MultipleItemRvAdapter<Message, BaseViewHolder> {
 
-    public static final int TYPE_TITLE= 0;
-    public static final int TYPE_DATA_ONE = 1;
-    public static final int TYPE_DATA_TWO = 2;
-    public static final int TYPE_DATA_THREE = 3;
-    public static final int TYPE_DATA_FIVE= 4;
+    public static final int GoodsList= 0;
+    public static final int StoreList = 1;
     public MessageListAdapter(@Nullable List<Message> data) {
         super(data);
 
@@ -46,16 +44,10 @@ public class MessageListAdapter  extends MultipleItemRvAdapter<Message, BaseView
     @Override
     protected int getViewType(Message message) {
         //返回对应的viewType
-        if (message instanceof TitleData) {//月份title
-            return TYPE_TITLE;
-        }else if (message instanceof StatisticalData){//月份title对应数据
-            return TYPE_DATA_ONE;
-        } else if (message instanceof AttentionData){//关注
-            return TYPE_DATA_TWO;
-        } else if (message instanceof RankingData){//排行
-            return TYPE_DATA_THREE;
-        }else if (message instanceof CarouselData){//轮播
-            return TYPE_DATA_FIVE;
+        if (message instanceof GoodsInfo) {//月份title
+            return GoodsList;
+        }else if (message instanceof StoreInfo){//月份title对应数据
+            return StoreList;
         }
         return 0;
     }
@@ -88,6 +80,7 @@ public class MessageListAdapter  extends MultipleItemRvAdapter<Message, BaseView
     @Override
     public void registerItemProvider() {
         //注册相关的条目provider
-        mProviderDelegate.registerProvider(new TitleDatarovider());
+        mProviderDelegate.registerProvider(new GoodsListAdapter());
+        mProviderDelegate.registerProvider(new StoreListAdapter());
     }
 }

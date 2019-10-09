@@ -5,6 +5,19 @@ package com.tdjpartner.model;
 * */
 public class StatisticalData  extends Message{
     private int type;
+    private String title;
+
+    public StatisticalData(String title) {
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public int getType() {
         return type;

@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.tdjpartner.R;
 import com.tdjpartner.model.HistoryInfo;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class HistoryInfoAdapter extends BaseQuickAdapter<HistoryInfo, BaseViewHo
 
     @Override
     protected void convert(BaseViewHolder baseViewHolder, HistoryInfo historyInfo) {
+        baseViewHolder.setText(R.id.tv_tiltle,historyInfo.getTitle());
 
     }
 }

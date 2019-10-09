@@ -9,7 +9,9 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.apkfuns.logutils.LogUtils;
+import com.github.nukc.stateview.StateView;
 import com.tdjpartner.MainTabActivity;
+import com.tdjpartner.R;
 import com.tdjpartner.model.ClientFragmentType;
 import com.tdjpartner.model.LoginLoseEfficacyEvent;
 import com.tdjpartner.mvp.presenter.IPresenter;
@@ -43,6 +45,7 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     private static long mPreTime;
 //    public static List<Activity> mActivities = new LinkedList<Activity>();
     private static Activity mCurrentActivity;// 对所有activity进行管理
+    protected StateView mStateView;//用于显示加载中、网络异常，空布局、内容布局
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,9 +67,18 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
         //初始化监听
         //加载网络（或者本地）数据
         initData();
+        mStateView = StateView.inject(getStateViewRoot());
+        if (mStateView != null){
+//                mStateView.setLoadingResource(R.layout.page_loading);
+            mStateView.setRetryResource(R.layout.page_net_error);
+            mStateView.setEmptyResource(R.layout.page_empty);
+        }
 
     }
-
+    /**StateView的根布局，默认是整个界面，如果需要变换可以重写此方法*/
+    public View getStateViewRoot() {
+        return view;
+    }
     protected abstract P loadPresenter();
 
 

@@ -21,7 +21,10 @@ import com.tdjpartner.model.AttentionData;
 import com.tdjpartner.model.RankingData;
 import com.tdjpartner.model.StatisticalData;
 import com.tdjpartner.mvp.presenter.HomepageFragmentPresenter;
+import com.tdjpartner.ui.activity.CommonFollowUpActivity;
 import com.tdjpartner.ui.activity.DropOutingActivity;
+import com.tdjpartner.ui.activity.PartnerCheckActivity;
+import com.tdjpartner.ui.activity.SettingPersonActivity;
 import com.tdjpartner.ui.activity.TeamPreviewActivity;
 import com.tdjpartner.ui.activity.statistics.StatisticsListActivity;
 import com.tdjpartner.utils.ViewUrils;
@@ -75,23 +78,23 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
         rv_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         MessageListAdapter adapter = new MessageListAdapter(mMessages);
         rv_recyclerView.setAdapter(adapter);*/
-        todayList.add(new StatisticalData());
-        todayList.add(new StatisticalData());
-        todayList.add(new StatisticalData());
-        todayList.add(new StatisticalData());
-        todayList.add(new StatisticalData());
+        todayList.add(new StatisticalData("注册数"));
+        todayList.add(new StatisticalData("新下单数"));
+        todayList.add(new StatisticalData("日活数"));
+        todayList.add(new StatisticalData("下单金额"));
+        todayList.add(new StatisticalData("拜访数"));
 
-        monthList.add(new StatisticalData());
-        monthList.add(new StatisticalData());
-        monthList.add(new StatisticalData());
-        monthList.add(new StatisticalData());
-        monthList.add(new StatisticalData());
-        monthList.add(new StatisticalData());
+        monthList.add(new StatisticalData("注册总数"));
+        monthList.add(new StatisticalData("月平均日活量"));
+        monthList.add(new StatisticalData("下单金额"));
+        monthList.add(new StatisticalData("新增平均日活"));
+        monthList.add(new StatisticalData("新增下单数"));
+        monthList.add(new StatisticalData("下单金额"));
 
-        addList.add(new StatisticalData());
-        addList.add(new StatisticalData());
-        addList.add(new StatisticalData());
-        addList.add(new StatisticalData());
+        addList.add(new StatisticalData("注册总数"));
+        addList.add(new StatisticalData("下单客户数"));
+        addList.add(new StatisticalData("未下单数"));
+        addList.add(new StatisticalData("待审核数"));
         rv_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         homepageAdapter = new HomepageAdapter(R.layout.homepage_item_layout);
         rv_recyclerView.setAdapter(homepageAdapter);
@@ -128,10 +131,10 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
         allDataAdapter.setOnItemClickListener(this);
         all_recyclerView.setAdapter(allDataAdapter);
         //关注；
-        attentionDataList.add(new AttentionData());
-        attentionDataList.add(new AttentionData());
-        attentionDataList.add(new AttentionData());
-        attentionDataList.add(new AttentionData());
+        attentionDataList.add(new AttentionData("即将掉落"));
+        attentionDataList.add(new AttentionData("公海跟进"));
+        attentionDataList.add(new AttentionData("合伙人审核"));
+        attentionDataList.add(new AttentionData("设置专员"));
         ScrollLinearLayoutManager layoutManager3=   new ScrollLinearLayoutManager(getActivity(), 4);
         attention_recyclerView.setLayoutManager(layoutManager3);
         attentionDataAdapter = new AttentionDataAdapter(R.layout.attention_data_item,attentionDataList);
@@ -206,6 +209,17 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
             if (pos==0){
                 Intent intent=new Intent(getContext(), DropOutingActivity.class);
                 startActivity(intent);
+            }else if (pos==1){
+                Intent intent=new Intent(getContext(), CommonFollowUpActivity.class);
+                startActivity(intent);
+            }else if (pos==2){
+                Intent intent=new Intent(getContext(), PartnerCheckActivity.class);
+                startActivity(intent);
+
+            }else {
+                Intent intent=new Intent(getContext(), SettingPersonActivity.class);
+                startActivity(intent);
+
             }
 
         }

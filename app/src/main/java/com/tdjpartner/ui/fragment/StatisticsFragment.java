@@ -2,6 +2,7 @@ package com.tdjpartner.ui.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,8 @@ import java.util.List;
 
 import butterknife.BindView;
 
+
+
 public class StatisticsFragment extends BaseFrgment  implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout refreshLayout;
@@ -28,7 +31,7 @@ public class StatisticsFragment extends BaseFrgment  implements SwipeRefreshLayo
     RecyclerView recyclerView_list;
     private int index=0;
     public int pageNo = 1;//翻页计数器
-    private ClientListAdapter clientListAdapter;
+    private BaseQuickAdapter clientListAdapter;
     private List<ClientInfo> data=new ArrayList<>();
     private String title;
     private Handler handler=new Handler();
@@ -50,7 +53,9 @@ public class StatisticsFragment extends BaseFrgment  implements SwipeRefreshLayo
         clientListAdapter=new ClientListAdapter(R.layout.client_item,data);
         recyclerView_list.setAdapter(clientListAdapter);
         clientListAdapter.setOnLoadMoreListener(this,recyclerView_list);
+
     }
+
 
     @Override
     protected void loadData() {
@@ -63,6 +68,7 @@ public class StatisticsFragment extends BaseFrgment  implements SwipeRefreshLayo
         title=getArguments().getString("title");
         LogUtils.e(index);
         LogUtils.e(title);
+
         refreshLayout.setRefreshing(true);
         onRefresh();
     }
@@ -105,13 +111,13 @@ public class StatisticsFragment extends BaseFrgment  implements SwipeRefreshLayo
             if (!ListUtils.isEmpty(data)) {
                 data.clear();
             }
-        }
 
+        }
         data.add(new ClientInfo());
         data.add(new ClientInfo());
         data.add(new ClientInfo());
-        data.add(new ClientInfo());
-        clientListAdapter.notifyDataSetChanged();
+        clientListAdapter.setNewData(data);
+        clientListAdapter.disableLoadMoreIfNotFullPage(recyclerView_list);//数据项个数未满一屏幕,则不开启load more,add数据后设置
 //        mStateView.showEmpty();
         stop();
   /*      if (ListUtils.isEmpty(data)) {
@@ -145,7 +151,6 @@ public class StatisticsFragment extends BaseFrgment  implements SwipeRefreshLayo
     }
     @Override
     public void onRefresh() {
-        clientListAdapter.setEnableLoadMore(false);
         LogUtils.e(index);
         pageNo=1;
         getData(1);
@@ -154,7 +159,7 @@ public class StatisticsFragment extends BaseFrgment  implements SwipeRefreshLayo
     public void stop() {
         if (refreshLayout != null && refreshLayout.isRefreshing()) {
             refreshLayout.setRefreshing(false);
-            clientListAdapter.setEnableLoadMore(true);
+
         }
         if (clientListAdapter.isLoadMoreEnable()){
             clientListAdapter.loadMoreComplete();
@@ -170,7 +175,10 @@ public class StatisticsFragment extends BaseFrgment  implements SwipeRefreshLayo
 
     @Override
     public void onLoadMoreRequested() {
+        LogUtils.e(pageNo);
         refreshLayout.setRefreshing(false);
-        getData(++pageNo);
+         getData(++pageNo);
+//
     }
+
 }

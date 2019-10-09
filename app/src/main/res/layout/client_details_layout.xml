@@ -6,8 +6,11 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:layout_marginTop="-2dp"
+        android:layout_marginLeft="-2dp"
+        android:layout_marginRight="-2dp"
         android:layout_width="match_parent"
-        android:layout_height="189dp"
+        android:layout_height="191dp"
         android:background="@mipmap/kehuxiangqing_bg">
 
         <RelativeLayout

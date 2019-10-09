@@ -195,6 +195,16 @@
                 android:layout_marginLeft="16dp"
                 android:text="武昌徐东大街100号"
                 android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_gj_status"
+                android:background="@mipmap/zaizhi"
+                android:gravity="center"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:text="我要跟进"
+                android:layout_width="49dp"
+                android:layout_height="16dp" />
         </RelativeLayout>
 
     </LinearLayout>
