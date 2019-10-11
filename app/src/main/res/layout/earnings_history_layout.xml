@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:background="@mipmap/home_bg"
+        android:layout_width="match_parent"
+        android:layout_height="119dp">
+        <RelativeLayout
+            android:id="@+id/title"
+            android:layout_marginTop="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="39dp">
+            <ImageView
+                android:id="@+id/btn_back"
+                android:layout_width="@dimen/dp_40"
+                android:src="@mipmap/back_home_one"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:gravity="center"
+                android:text="收益记录"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+            <TextView
+                android:id="@+id/tv_right"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="15dp"
+
+                android:paddingRight="15dp"
+                android:gravity="center"
+                android:text="规则"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+        </RelativeLayout>
+        <com.tdjpartner.widget.tablayout.WTabLayout
+            android:id="@+id/wtab"
+            android:layout_width="match_parent"
+            app:xTabDisplayNum="5"
+            app:xTabIndicatorColor="@color/white"
+            app:xTabIndicatorHeight="2dp"
+            app:xTabIndicatorWidth="17dp"
+            android:layout_marginTop="@dimen/dp_10"
+            app:xTabMode="scrollable"
+            android:layout_below="@+id/title"
+            app:xTabSelectedTextColor="@color/white"
+            app:xTabTextColor="#80ffffff"
+            app:xTabTextSize="14sp"
+            android:layout_height="35dp">
+
+        </com.tdjpartner.widget.tablayout.WTabLayout>
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

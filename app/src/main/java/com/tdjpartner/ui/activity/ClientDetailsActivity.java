@@ -38,11 +38,16 @@ public class ClientDetailsActivity extends BaseActivity implements BaseQuickAdap
     private List<HistoryInfo> historyInfoList=new ArrayList<>();
     private StoreInfoAdapter storeInfoAdapter;
     private HistoryInfoAdapter historyInfoAdapter;
-    @OnClick({R.id.btn_back})
+    @OnClick({R.id.btn_back,R.id.btn})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.btn_back:
                 finish();
+                break;
+            case R.id.btn:
+                Intent intent=new Intent(this,BaiFangActivity.class);
+                startActivity(intent);
+
                 break;
         }
     }
@@ -94,6 +99,14 @@ public class ClientDetailsActivity extends BaseActivity implements BaseQuickAdap
             startActivity(intent);
         }else if (i==1){
             Intent intent=new Intent(this,OrderListActivity.class);
+            startActivity(intent);
+
+        }else if (i==2){
+            Intent intent=new Intent(this,DiscountCouponActivity.class);
+            startActivity(intent);
+
+        }else {
+            Intent intent=new Intent(this,BaiFangHistoryActivity.class);
             startActivity(intent);
 
         }

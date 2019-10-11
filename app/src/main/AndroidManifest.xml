@@ -111,6 +111,36 @@
         <activity
             android:name=".ui.activity.OrderDetailsActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.DiscountCouponActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.BaiFangHistoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.BaiFangActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.EarningsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.WithdrawDetalisActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.WithdrawDetalisFilterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.WithdrawActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.AddBaifangActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ToMakeMoneyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.EarningsHistoryActivity"
+            android:screenOrientation="portrait" />
 
         <!-- 腾讯X5内核初始化 -->
         <service android:name="com.tencent.smtt.export.external.DexClassLoaderProviderService"

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/gray_f2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/toobar_layout" />
+    <TextView
+        android:id="@+id/tv_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:gravity="center"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:text="请核对账户，1000元以下收取2元手续费，1000元以上免手续费"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:textColor="@color/gray_66"
+        android:textSize="11sp"
+        />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="272dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="17dp"
+            android:layout_marginLeft="21dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv"
+                android:text="提现账户："
+                android:textSize="12sp"
+                android:layout_centerVertical="true"
+                android:textColor="@color/black_63"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/iv"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/tv"
+                android:layout_width="13dp"
+                android:background="@mipmap/zhaohang"
+                android:layout_height="13dp" />
+            <TextView
+                android:id="@+id/tv_no"
+                android:layout_centerVertical="true"
+                android:textColor="@color/gray_69"
+                android:textSize="12sp"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/iv"
+                android:text="招商银行******0192"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+        <TextView
+            android:textColor="@color/black_63"
+            android:textSize="12sp"
+            android:layout_marginLeft="21dp"
+            android:text="提现金额"
+            android:layout_marginTop="28dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:paddingLeft="21dp"
+            android:layout_marginTop="8dp"
+            android:paddingRight="@dimen/dp_10"
+            android:layout_height="54dp">
+            <ImageView
+                android:id="@+id/iv1"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:src="@mipmap/fuhao"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/ed_money"
+                android:layout_toRightOf="@+id/iv1"
+                android:layout_marginLeft="30dp"
+                android:background="@color/white"
+                android:maxLines="1"
+                android:gravity="center_vertical"
+                android:textSize="36dp"
+                android:text="111111111"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <View
+                android:background="@color/gray_f2"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:paddingLeft="19dp"
+            android:layout_height="30dp">
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="当前最高可提现10000.00元,"
+                android:textSize="12sp"
+                android:textColor="@color/gray_69"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_toRightOf="@+id/tv1"
+                android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="全部提现"
+                android:textSize="12sp"
+                android:textColor="@color/view_bg1"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn"
+            android:background="@mipmap/login_btn"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="29dp"
+            android:layout_marginRight="29dp"
+            android:layout_marginTop="44dp"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:text="立即提现"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_height="41dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

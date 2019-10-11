@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?><!--根布局，常用作蒙层（就是变暗的背景）-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#8f000000"
+    >
+    <!--播放动画的内容，可以认为是popup的主要内容布局-->
+    <RelativeLayout
+        android:id="@+id/popup_anima"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_centerInParent="true"
+            android:background="@drawable/client_item_sahp"
+            android:layout_marginRight="42dp"
+            android:layout_marginLeft="42dp"
+            android:layout_height="80dp">
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:textColor="@color/black_63"
+                android:textSize="@dimen/sp_16"
+                android:text="注册"
+                android:layout_height="@dimen/dp_40" />
+            <View
+                android:layout_centerVertical="true"
+                android:layout_width="match_parent"
+                android:background="@color/gray_f2"
+                android:layout_height="1dp"/>
+
+            <TextView
+                android:id="@+id/tv_content_one"
+                android:layout_below="@+id/tv_content"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:textColor="@color/black_63"
+                android:textSize="@dimen/sp_16"
+                android:text="未注册"
+                android:layout_height="@dimen/dp_40" />
+        </RelativeLayout>
+
+
+
+    </RelativeLayout>
+</RelativeLayout>

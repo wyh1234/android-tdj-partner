@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="47dp">
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_width="wrap_content"
+        android:src="@mipmap/tubiao"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="11dp"
+        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:layout_toRightOf="@+id/iv"
+        android:layout_width="wrap_content"
+
+        android:layout_marginLeft="5dp"
+        android:layout_centerVertical="true"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:text="余额提现"
+            android:textColor="@color/gray_66"
+            android:textSize="12sp"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_below="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:text="2019.08.14   08:30:33"
+            android:textColor="@color/gray_69"
+            android:textSize="10sp"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/tv_right"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_marginRight="11dp"
+        android:text="提现成功"
+        android:textColor="@color/view_bg1"
+        android:textSize="10sp"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_toLeftOf="@+id/tv_right"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_marginRight="23dp"
+        android:text="1000.00"
+        android:textColor="@color/gray_66"
+        android:textSize="15sp"
+        android:layout_height="wrap_content" />
+    <View
+        android:background="@color/gray_f2"
+        android:layout_marginLeft="11dp"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+</RelativeLayout>

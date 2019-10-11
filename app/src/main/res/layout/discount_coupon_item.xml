@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="71dp"
     android:layout_marginLeft="@dimen/dp_10"
     android:layout_marginTop="@dimen/dp_10"
     android:layout_marginRight="@dimen/dp_10">
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:layout_marginTop="-5dp"
         android:layout_marginBottom="-5dp"
+        android:layout_height="match_parent"
         android:background="@mipmap/yhq_bg"
         android:scaleType="fitXY" />
 
     <RelativeLayout
         android:id="@+id/rl_one"
-        android:layout_width="78dp"
+        android:layout_width="62dp"
         android:layout_height="match_parent"
         android:gravity="center_vertical">
 

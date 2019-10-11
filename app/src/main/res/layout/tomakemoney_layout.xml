@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/gray_f2"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:background="@mipmap/home_bg"
+        android:layout_width="match_parent"
+        android:layout_height="122dp">
+        <RelativeLayout
+            android:id="@+id/title"
+            android:layout_marginTop="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="39dp">
+            <ImageView
+                android:id="@+id/btn_back"
+                android:layout_width="@dimen/dp_40"
+                android:src="@mipmap/back_home_one"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:gravity="center"
+                android:text="去赚钱"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+    <ScrollView
+        android:id="@+id/mScrollShop"
+        android:layout_width="match_parent"
+        android:layout_marginTop="-40dp"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+
+        android:layout_marginLeft="11dp"
+        android:orientation="vertical"
+        android:layout_marginRight="11dp"
+        android:background="@drawable/client_item_sahp"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="39dp">
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="wrap_content"
+                android:text="邀请客户最高可得"
+                android:layout_marginLeft="13dp"
+                android:textColor="@color/gray_66"
+                android:textSize="11sp"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_toRightOf="@+id/tv"
+                android:layout_width="wrap_content"
+                android:text="￥"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="7dp"
+                android:textColor="@color/gray_66"
+                android:textSize="8sp"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_money"
+                android:layout_toRightOf="@+id/tv1"
+                android:layout_width="wrap_content"
+                android:text="50000"
+                android:textColor="@color/black_63"
+                android:textSize="16sp"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_toRightOf="@+id/tv_money"
+                android:layout_width="wrap_content"
+                android:text="/月"
+                android:textColor="@color/black_63"
+                android:textSize="11sp"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <View
+            android:background="@color/gray_f2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <RelativeLayout
+            android:layout_marginTop="21dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:textSize="12sp"
+            android:drawablePadding="5dp"
+            android:drawableRight="@mipmap/tishi_bg"
+            android:textColor="@color/black_63"
+            android:text="满足任一条件均可获得收益"
+            android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:paddingTop="20dp"
+            android:layout_marginTop="2dp"
+            android:paddingBottom="20dp"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/iv"
+                    android:layout_width="wrap_content"
+                    android:src="@mipmap/yaoqingren"
+                    android:layout_centerHorizontal="true"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_below="@+id/iv"
+                    android:textColor="@color/gray_66"
+                    android:layout_marginTop="11dp"
+                    android:text="邀请合伙人"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="@dimen/sp_12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <View
+                android:background="@color/gray_f2"
+                android:layout_width="1dp"
+                android:layout_height="35dp"/>
+            <RelativeLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/iv1"
+                    android:layout_width="wrap_content"
+                    android:src="@mipmap/xiadan"
+                    android:layout_centerHorizontal="true"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_below="@+id/iv1"
+                    android:textColor="@color/gray_66"
+                    android:layout_marginTop="11dp"
+                    android:text="平台下单"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="@dimen/sp_12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_marginLeft="11dp"
+        android:background="@color/gray_f2"
+        android:layout_marginRight="11dp"
+        android:layout_height="51dp">
+        <TextView
+            android:layout_width="122dp"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:background="@mipmap/quyaopqing"
+            android:textColor="@color/white"
+            android:text="邀请"
+            android:layout_height="27dp" />
+    </RelativeLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:background="@drawable/client_item_sahp"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:paddingTop="17dp"
+            android:paddingBottom="17dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv3"
+                    android:layout_width="wrap_content"
+                    android:text="邀请总人数>"
+                    android:textSize="14sp"
+                    android:textColor="@color/black_63"
+                    android:layout_centerHorizontal="true"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_below="@+id/tv3"
+                    android:textColor="@color/gray_66"
+                    android:layout_marginTop="22dp"
+                    android:text="5人"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+            <View
+                android:background="@color/gray_f2"
+                android:layout_width="1dp"
+                android:layout_height="46dp"/>
+            <RelativeLayout
+                android:id="@+id/rl_partner_sy"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv2"
+                android:layout_width="wrap_content"
+                android:text="合伙人收益>"
+                android:textSize="14sp"
+                android:textColor="@color/black_63"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_below="@+id/tv2"
+                android:textColor="@color/gray_66"
+                android:layout_marginTop="22dp"
+                android:text="8900元"
+                android:layout_centerHorizontal="true"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            </RelativeLayout>
+        </LinearLayout>
+        <TextView
+            android:layout_marginTop="7dp"
+            android:layout_width="match_parent"
+            android:textColor="@color/gray_66"
+            android:textSize="12sp"
+            android:layout_marginBottom="18dp"
+            android:gravity="center"
+            android:text="恭喜137***2334获得100.00收益奖励"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginLeft="11dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="11dp"
+        android:background="@drawable/client_item_sahp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:paddingBottom="8dp"
+            android:paddingTop="13dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv3"
+                android:src="@mipmap/huangguan"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="14sp"
+                android:layout_centerVertical="true"
+                android:textColor="@color/black_63"
+                android:layout_toRightOf="@+id/iv3"
+                android:text="总收益排行榜"
+                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+        <com.tdjpartner.widget.MyRecyclerView
+            android:id="@+id/ranking_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </com.tdjpartner.widget.MyRecyclerView>
+
+    </LinearLayout>
+    <TextView
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:text="以上数据展示本月前总收益最高的前10名"
+        android:textSize="10sp"
+        android:textColor="@color/gray_66"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

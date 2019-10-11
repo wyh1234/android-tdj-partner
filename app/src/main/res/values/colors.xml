@@ -142,4 +142,6 @@
     <color name="view_bg1">#F85D28</color>
     <color name="view_bg2">#38aefe</color>
     <color name="view_bg3">#4038aefe</color>
+    <color name="view_bg4">#66CCFF</color>
+
 </resources>

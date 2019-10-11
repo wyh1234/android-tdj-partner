@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="62dp"
+    android:id="@+id/tv_tiltle"
+    android:textColor="@drawable/filter_textcolor_select"
+    android:background="@drawable/filter_bg_select"
+    android:gravity="center"
+    android:text="今日"
+    android:textSize="12sp"
+    android:layout_height="26dp">
+
+</TextView>

@@ -2,6 +2,7 @@ package com.tdjpartner.ui.activity;
 
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -67,6 +68,7 @@ public class PartnerCheckDetailsActivity extends BaseActivity implements BaseQui
     @Override
     protected void initView() {
         Eyes.translucentStatusBar(this,true);
+        getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         data.add(new PartnerCheckDetails());
         data.add(new PartnerCheckDetails());
         data.add(new PartnerCheckDetails());

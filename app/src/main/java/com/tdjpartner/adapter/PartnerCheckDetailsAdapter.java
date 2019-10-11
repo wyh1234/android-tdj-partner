@@ -33,9 +33,9 @@ public class PartnerCheckDetailsAdapter extends BaseQuickAdapter<PartnerCheckDet
             baseViewHolder.setImageResource(R.id.iv_status,R.mipmap.huidian_bg);
         }
         if (baseViewHolder.getAdapterPosition()==data.size()-1){
-            baseViewHolder.setGone(R.id.view,false);
+            baseViewHolder.setBackgroundRes(R.id.ll_name,R.drawable.ll_shap_one);
         }else {
-            baseViewHolder.setGone(R.id.view,true);
+            baseViewHolder.setBackgroundRes(R.id.ll_name,R.drawable.ll_shap);
         }
         baseViewHolder.addOnClickListener(R.id.rl_one);
         baseViewHolder.addOnClickListener(R.id.rl_two);

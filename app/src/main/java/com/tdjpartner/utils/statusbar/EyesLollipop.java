@@ -42,7 +42,7 @@ class EyesLollipop {
             ViewCompat.requestApplyInsets(mChildView);
         }
         if (statusColor== GeneralUtils.getColor(activity, R.color.white)){
-            Eyes.setLightStatusBar(activity,true, R.color.white);
+            Eyes.setLightStatusBar(activity,true,statusColor);
 
         }
     }
