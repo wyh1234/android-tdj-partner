@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apkfuns.logutils.LogUtils;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class MessageItemActivity extends BaseActivity implements OnRefreshListener, OnLoadmoreListener, BaseQuickAdapter.OnItemClickListener {
     @BindView(R.id.refreshLayout)
@@ -34,9 +36,20 @@ public class MessageItemActivity extends BaseActivity implements OnRefreshListen
     RecyclerView recyclerView_list;
     @BindView(R.id.tv_title)
     TextView tv_title;
+    @BindView(R.id.btn_back)
+    ImageView btn_back;
     public int pageNo = 1;//翻页计数器
     private List<PartnerMessageInfo> partnerMessageInfoList=new ArrayList<>();
     private PartnerMessageItemAdapter partnerMessageItemAdapter;
+
+    @OnClick({R.id.btn_back})
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.btn_back:
+                finish();
+                break;
+        }
+    }
     @Override
     protected IPresenter loadPresenter() {
         return null;

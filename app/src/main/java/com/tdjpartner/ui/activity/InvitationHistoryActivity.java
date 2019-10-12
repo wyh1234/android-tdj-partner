@@ -3,6 +3,7 @@ package com.tdjpartner.ui.activity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apkfuns.logutils.LogUtils;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class InvitationHistoryActivity extends BaseActivity implements OnRefreshListener, OnLoadmoreListener {
     @BindView(R.id.refreshLayout)
@@ -29,9 +31,19 @@ public class InvitationHistoryActivity extends BaseActivity implements OnRefresh
     RecyclerView recyclerView_list;
     @BindView(R.id.tv_title)
     TextView tv_title;
+    @BindView(R.id.btn_back)
+    ImageView btn_back;
     public int pageNo = 1;//翻页计数器
     private List<InvitationHistory> invitationHistoryList=new ArrayList<>();
     private InvitationHistoryAdapter invitationHistoryAdapter;
+    @OnClick({R.id.btn_back})
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.btn_back:
+                finish();
+                break;
+        }
+    }
     @Override
     protected IPresenter loadPresenter() {
         return null;

@@ -2,6 +2,8 @@ package com.tdjpartner.ui.activity;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tdjpartner.R;
@@ -16,12 +18,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class OrderDetailsActivity extends BaseActivity {
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
+    @BindView(R.id.btn_back)
+    ImageView btn_back;
     private BaseQuickAdapter baseQuickAdapter;
     private List<OrderList> orderLists=new ArrayList<>();
+    @OnClick({R.id.btn_back})
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.btn_back:
+                finish();
+                break;
+        }
+    }
     @Override
     protected IPresenter loadPresenter() {
         return null;

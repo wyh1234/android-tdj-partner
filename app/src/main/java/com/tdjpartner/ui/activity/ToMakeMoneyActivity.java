@@ -38,6 +38,7 @@ public class ToMakeMoneyActivity extends BaseActivity {
     ImageView btn_back;
     @BindView(R.id.mScrollShop)
     ScrollView mScrollShop;
+
     private ToMakeMoneyRankingAdapter toMakeMoneyRankingAdapter;
     private List<ToMakeMoneyyRanking> toMakeMoneyyRankingList =new ArrayList<>();
     @OnClick({R.id.btn_back,R.id.rl_partner_sy,R.id.rl_yq_partner,R.id.rl_yq})

@@ -4,6 +4,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -32,8 +33,10 @@ public class PartnerCheckDetailsActivity extends BaseActivity implements BaseQui
     Toolbar toolbar;
     @BindView(R.id.btn)
     Button btn;
+    @BindView(R.id.btn_back)
+    ImageView btn_back;
     private PartnerCheckDetailsPopu partnerCheckDetailsPopu;
-    @OnClick({R.id.btn})
+    @OnClick({R.id.btn,R.id.btn_back})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.btn:
@@ -50,6 +53,9 @@ public class PartnerCheckDetailsActivity extends BaseActivity implements BaseQui
                     partnerCheckDetailsPopu.setPopupWindowFullScreen(true);//铺满
                     partnerCheckDetailsPopu.showPopupWindow();
                 }
+                break;
+            case R.id.btn_back:
+                finish();
                 break;
         }
     }

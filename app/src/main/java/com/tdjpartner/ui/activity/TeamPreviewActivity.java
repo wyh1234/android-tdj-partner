@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apkfuns.logutils.LogUtils;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class TeamPreviewActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.OnItemChildClickListener {
     @BindView(R.id.swipeRefreshLayout)
@@ -33,6 +35,16 @@ public class TeamPreviewActivity extends BaseActivity implements SwipeRefreshLay
     TextView tv_title;
     private TeamPreviewAdapter teamPreviewAdapter;
     private List<TeamPreview> data=new ArrayList<>();
+    @BindView(R.id.btn_back)
+    ImageView btn_back;
+    @OnClick({R.id.btn_back})
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.btn_back:
+                finish();
+                break;
+        }
+    }
     @Override
     protected IPresenter loadPresenter() {
         return null;

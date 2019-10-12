@@ -18,12 +18,17 @@ public class MyBankActivity extends BaseActivity {
     TextView tv_title;
     @BindView(R.id.binding_bank_iv)
     ImageView binding_bank_iv;
-    @OnClick({R.id.binding_bank_iv})
+    @BindView(R.id.btn_back)
+    ImageView btn_back;
+    @OnClick({R.id.binding_bank_iv,R.id.btn_back})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.binding_bank_iv:
                 Intent intent=new Intent(this,BindingBankActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.btn_back:
+                finish();
                 break;
         }
     }

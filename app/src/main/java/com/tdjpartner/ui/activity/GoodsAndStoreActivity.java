@@ -1,6 +1,8 @@
 package com.tdjpartner.ui.activity;
 
 import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.FragmentGoodsAndStoreAdapter;
@@ -14,12 +16,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class GoodsAndStoreActivity extends BaseActivity {
     @BindView(R.id.wtab)
     WTabLayout wtab;
     @BindView(R.id.viewPager)
     ViewPager viewPager;
+    @BindView(R.id.btn_back)
+    ImageView btn_back;
+    @OnClick({R.id.btn_back})
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.btn_back:
+                finish();
+                break;
+        }
+    }
     private FragmentGoodsAndStoreAdapter fragmentGoodsAndStoreAdapter;
     @Override
     protected IPresenter loadPresenter() {

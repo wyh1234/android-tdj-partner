@@ -3,6 +3,8 @@ package com.tdjpartner.ui.activity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.TeamMemberAdapter;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class TeamMemberActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
     private TeamMemberAdapter teamMemberAdapter;
@@ -25,6 +28,16 @@ public class TeamMemberActivity extends BaseActivity implements SwipeRefreshLayo
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
     private List<TeamMember> data=new ArrayList<>();
+    @BindView(R.id.btn_back)
+    ImageView btn_back;
+    @OnClick({R.id.btn_back})
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.btn_back:
+                finish();
+                break;
+        }
+    }
     @Override
     protected IPresenter loadPresenter() {
         return null;

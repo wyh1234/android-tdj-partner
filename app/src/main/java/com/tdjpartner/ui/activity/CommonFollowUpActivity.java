@@ -4,6 +4,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -43,7 +44,8 @@ public class CommonFollowUpActivity extends BaseActivity  implements SwipeRefres
     View view2;
     @BindView(R.id.view1)
     View view1;
-
+    @BindView(R.id.btn_back)
+    ImageView btn_back;
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.recyclerView_list)
@@ -51,7 +53,7 @@ public class CommonFollowUpActivity extends BaseActivity  implements SwipeRefres
     private CommonFollowUpAdapter commonFollowUpAdapter;
     private List<DropOuting> dropOutingList=new ArrayList<>();
     private FollowUpPopuWindow followUpPopuWindow;
-    @OnClick({R.id.rl_xd,R.id.rl_bf})
+    @OnClick({R.id.rl_xd,R.id.rl_bf,R.id.btn_back})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.rl_xd:
@@ -69,6 +71,9 @@ public class CommonFollowUpActivity extends BaseActivity  implements SwipeRefres
                 tv1.setTextColor(GeneralUtils.getColor(this,R.color.view_bg1));
                 view2.setVisibility(View.GONE);
                 view1.setVisibility(View.VISIBLE);
+                break;
+            case R.id.btn_back:
+                finish();
                 break;
         }
     }

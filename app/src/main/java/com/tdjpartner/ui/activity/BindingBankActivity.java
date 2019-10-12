@@ -2,6 +2,7 @@ package com.tdjpartner.ui.activity;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -18,12 +19,17 @@ public class BindingBankActivity extends BaseActivity {
     TextView tv_title;
     @BindView(R.id.rl_sel)
     RelativeLayout rl_sel;
-    @OnClick({R.id.rl_sel})
+    @BindView(R.id.btn_back)
+    ImageView btn_back;
+    @OnClick({R.id.rl_sel,R.id.btn_back})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.rl_sel:
                 Intent intent=new Intent(this,BankListActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.btn_back:
+                finish();
                 break;
         }
     }

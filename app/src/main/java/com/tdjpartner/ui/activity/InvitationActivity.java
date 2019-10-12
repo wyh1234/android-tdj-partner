@@ -3,6 +3,7 @@ package com.tdjpartner.ui.activity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tdjpartner.R;
@@ -21,11 +22,16 @@ public class InvitationActivity extends BaseActivity  {
     Toolbar toolbar;
     @BindView(R.id.btn)
     Button btn;
-    @OnClick({R.id.btn})
+    @BindView(R.id.btn_back)
+    ImageView btn_back;
+    @OnClick({R.id.btn,R.id.btn_back})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.btn:
 
+                break;
+            case R.id.btn_back:
+                finish();
                 break;
         }
     }
