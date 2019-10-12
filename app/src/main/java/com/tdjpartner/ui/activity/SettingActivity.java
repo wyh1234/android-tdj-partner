@@ -19,7 +19,9 @@ public class SettingActivity extends BaseActivity {
     ImageView btn_back;
     @BindView(R.id.rl_bank)
     RelativeLayout rl_bank;
-    @OnClick({R.id.btn_back,R.id.rl_bank})
+    @BindView(R.id.rl_modification)
+    RelativeLayout rl_modification;
+    @OnClick({R.id.btn_back,R.id.rl_bank,R.id.rl_modification})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.btn_back:
@@ -29,6 +31,10 @@ public class SettingActivity extends BaseActivity {
                 Intent intent=new Intent(this,MyBankActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.rl_modification:
+                Intent intent1=new Intent(this,ForgetPasswordActivity.class);
+                startActivity(intent1);
+                    break;
         }
     }
     @Override

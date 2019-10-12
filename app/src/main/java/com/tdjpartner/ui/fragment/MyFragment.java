@@ -9,12 +9,11 @@ import android.widget.RelativeLayout;
 
 import com.apkfuns.logutils.LogUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.MyFragmentAdapter;
-import com.tdjpartner.adapter.home.RankingAdapter;
 import com.tdjpartner.base.BaseFrgment;
 import com.tdjpartner.model.MyFragmentBottom;
-import com.tdjpartner.model.RankingData;
 import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.ui.activity.AddBaifangActivity;
 import com.tdjpartner.ui.activity.EarningsActivity;
@@ -24,23 +23,23 @@ import com.tdjpartner.ui.activity.RealNameAuthenticationActivity;
 import com.tdjpartner.ui.activity.SettingActivity;
 import com.tdjpartner.ui.activity.ToMakeMoneyActivity;
 import com.tdjpartner.utils.ViewUrils;
+import com.tdjpartner.utils.popuwindow.SetHeadImagePopu;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MyFragment extends BaseFrgment implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.OnItemClickListener , View.OnClickListener {
     @BindView(R.id.rv_recyclerView)
     RecyclerView rv_recyclerView;
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
-    RelativeLayout rl_sy,rl_more,rl;
+   private RelativeLayout rl_sy,rl_more,rl;
+    private RoundedImageView image;
     private MyFragmentAdapter  myFragmentAdapter;
     private List<MyFragmentBottom> list =new ArrayList();
-
+    private SetHeadImagePopu setHeadImagePopu;
     public void onClick(View view){
         switch (view.getId()){
             case R.id.rl_sy:
@@ -54,6 +53,21 @@ public class MyFragment extends BaseFrgment implements SwipeRefreshLayout.OnRefr
             case R.id.rl:
                 Intent intent2=new Intent(getContext(), MessageActivity.class);
                 startActivity(intent2);
+                break;
+            case R.id.image:
+                if (setHeadImagePopu!=null){
+                    if (setHeadImagePopu.isShowing()){
+                        return;
+                    }
+                    setHeadImagePopu.showPopupWindow();
+                }else {
+
+                    setHeadImagePopu = new SetHeadImagePopu(getContext());
+                    setHeadImagePopu.setPopupWindowFullScreen(true);//铺满
+                    setHeadImagePopu.setDismissWhenTouchOutside(false);
+                    setHeadImagePopu.setInterceptTouchEvent(false);
+                    setHeadImagePopu.showPopupWindow();
+                }
                 break;
 
         }
@@ -72,6 +86,8 @@ public class MyFragment extends BaseFrgment implements SwipeRefreshLayout.OnRefr
         rv_recyclerView.setAdapter(myFragmentAdapter);
         View view1 = ViewUrils.getFragmentView(rv_recyclerView, R.layout.myfragment_head);
         rl_sy=view1.findViewById(R.id.rl_sy);
+        image=view1.findViewById(R.id.image);
+        image.setOnClickListener(this);
         rl_more=view1.findViewById(R.id.rl_more);
         rl=view1.findViewById(R.id.rl);
         rl_more.setOnClickListener(this);
