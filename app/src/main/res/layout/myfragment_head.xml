@@ -114,6 +114,7 @@
             android:layout_marginBottom="5dp"
             android:layout_height="wrap_content" />
         <RelativeLayout
+            android:id="@+id/rl_more"
             android:layout_width="100dp"
             android:layout_gravity="right"
             android:padding="@dimen/dp_10"

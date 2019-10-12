@@ -1,11 +1,10 @@
 package com.tdjpartner.ui.activity;
 
-import android.content.Intent;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.Button;
+import android.widget.TextView;
 
-import com.tdjpartner.MainTabActivity;
 import com.tdjpartner.R;
 import com.tdjpartner.base.BaseActivity;
 import com.tdjpartner.mvp.presenter.IPresenter;
@@ -14,20 +13,19 @@ import com.tdjpartner.utils.statusbar.Eyes;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class SettingActivity extends BaseActivity {
-    @BindView(R.id.btn_back)
-    ImageView btn_back;
-    @BindView(R.id.rl_bank)
-    RelativeLayout rl_bank;
-    @OnClick({R.id.btn_back,R.id.rl_bank})
+
+public class InvitationActivity extends BaseActivity  {
+    @BindView(R.id.tv_title)
+    TextView tv_title;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.btn)
+    Button btn;
+    @OnClick({R.id.btn})
     public void onClick(View view){
         switch (view.getId()){
-            case R.id.btn_back:
-                finish();
-                break;
-            case  R.id.rl_bank:
-                Intent intent=new Intent(this,MyBankActivity.class);
-                startActivity(intent);
+            case R.id.btn:
+
                 break;
         }
     }
@@ -44,10 +42,13 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void initView() {
         Eyes.translucentStatusBar(this,true);
+        tv_title.setText("邀请");
+        toolbar.setBackgroundResource(R.mipmap.home_bg);
     }
 
     @Override
     protected int getLayoutId() {
-        return R.layout.setting_layout;
+        return R.layout.invitation_layout;
     }
+
 }

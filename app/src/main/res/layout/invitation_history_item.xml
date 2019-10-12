@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="37dp">
+    <ImageView
+        android:id="@+id/iv"
+        android:src="@mipmap/jiudainone"
+        android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="13dp"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_toRightOf="@+id/iv"
+        android:text="湘颚情酒店"
+        android:textSize="10sp"
+        android:layout_marginLeft="7dp"
+        android:textColor="@color/gray_66"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv_username"
+        android:layout_toRightOf="@+id/tv_name"
+        android:text="张三"
+        android:textSize="10sp"
+        android:layout_marginLeft="22dp"
+        android:textColor="@color/gray_66"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv_phone"
+        android:layout_toRightOf="@+id/tv_username"
+        android:text="18616803938"
+        android:textSize="10sp"
+        android:layout_marginLeft="7dp"
+        android:textColor="@color/gray_66"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_toRightOf="@+id/tv_phone"
+        android:text="2019.08.16"
+        android:textSize="10sp"
+        android:layout_marginLeft="21dp"
+        android:textColor="@color/gray_66"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_alignParentRight="true"
+        android:text="有效"
+        android:textSize="10sp"
+        android:layout_marginRight="13dp"
+        android:layout_marginLeft="21dp"
+        android:textColor="@color/view_bg1"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <View
+        android:layout_alignParentBottom="true"
+        android:background="@color/gray_f2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+</RelativeLayout>

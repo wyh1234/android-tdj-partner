@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.tdjpartner.AppAplication;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -186,6 +188,12 @@ public class GeneralUtils {
         return  context.getResources().getDrawable(resId);
     }
 
-
-
+    public static String getTimes(Date date) {//可根据需要自行截取数据显示
+        SimpleDateFormat format = new SimpleDateFormat("MM月dd日");
+        return format.format(date);
+    }
+    public static String getTime(Date date) {//可根据需要自行截取数据显示
+        SimpleDateFormat format = new SimpleDateFormat("MM月");
+        return format.format(date);
+    }
 }

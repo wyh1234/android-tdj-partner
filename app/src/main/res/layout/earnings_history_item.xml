@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="29dp">
     <TextView
-        android:layout_weight="0.9"
+        android:layout_weight="0.86"
         android:text="湘鄂情酒店"
         android:gravity="center"
         android:textColor="@color/gray_66"

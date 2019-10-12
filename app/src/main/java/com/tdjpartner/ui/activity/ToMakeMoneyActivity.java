@@ -30,13 +30,17 @@ public class ToMakeMoneyActivity extends BaseActivity {
     MyRecyclerView ranking_list;
     @BindView(R.id.rl_partner_sy)
     RelativeLayout rl_partner_sy;
+    @BindView(R.id.rl_yq_partner)
+    RelativeLayout rl_yq_partner;
+    @BindView(R.id.rl_yq)
+    RelativeLayout rl_yq;
     @BindView(R.id.btn_back)
     ImageView btn_back;
     @BindView(R.id.mScrollShop)
     ScrollView mScrollShop;
     private ToMakeMoneyRankingAdapter toMakeMoneyRankingAdapter;
     private List<ToMakeMoneyyRanking> toMakeMoneyyRankingList =new ArrayList<>();
-    @OnClick({R.id.btn_back,R.id.rl_partner_sy})
+    @OnClick({R.id.btn_back,R.id.rl_partner_sy,R.id.rl_yq_partner,R.id.rl_yq})
     public void onClick(View view){
         switch (view.getId()) {
             case R.id.btn_back:
@@ -46,6 +50,16 @@ public class ToMakeMoneyActivity extends BaseActivity {
                 Intent intent=new Intent(this,EarningsHistoryActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.rl_yq_partner:
+                Intent inten1=new Intent(this,InvitationHistoryActivity.class);
+                startActivity(inten1);
+                break;
+            case R.id.rl_yq:
+                Intent intens=new Intent(this,InvitationActivity.class);
+                startActivity(intens);
+                break;
+
+
         }
 
         }

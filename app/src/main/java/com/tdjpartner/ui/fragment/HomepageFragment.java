@@ -1,6 +1,7 @@
 package com.tdjpartner.ui.fragment;;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.TimePickerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tdjpartner.adapter.HomepageAdapter;
 import com.tdjpartner.R;
@@ -27,24 +29,27 @@ import com.tdjpartner.ui.activity.PartnerCheckActivity;
 import com.tdjpartner.ui.activity.SettingPersonActivity;
 import com.tdjpartner.ui.activity.TeamPreviewActivity;
 import com.tdjpartner.ui.activity.statistics.StatisticsListActivity;
+import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ViewUrils;
 import com.tdjpartner.widget.ScrollLinearLayoutManager;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> implements SwipeRefreshLayout.OnRefreshListener
-    ,BaseQuickAdapter.OnItemClickListener{
+    ,BaseQuickAdapter.OnItemClickListener, View.OnClickListener {
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.rv_recyclerView)
     RecyclerView rv_recyclerView;
     @BindView(R.id.rl_team)
     RelativeLayout rl_team;
-    private RecyclerView today_recyclerView,month_recyclerView,all_recyclerView,attention_recyclerView,register_recyclerView,order_recyclerView;
+    private RecyclerView today_recyclerView, month_recyclerView, all_recyclerView, attention_recyclerView, register_recyclerView, order_recyclerView;
     private TextView tv_bottom;
     private List<StatisticalData> todayList = new ArrayList<>();
     private List<StatisticalData> monthList = new ArrayList<>();
@@ -55,22 +60,63 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
     private HomepageAdapter homepageAdapter;
     private MonthDataAdapter monthDataAdapter;
     private AllDataAdapter allDataAdapter;
-    private  AttentionDataAdapter attentionDataAdapter;
+    private AttentionDataAdapter attentionDataAdapter;
     private RankingAdapter rankingAdapter;
+    private RelativeLayout rl_right, rl_rights;
+    private Calendar selectedDate, endDate, startDate;
+    private TimePickerView pvTime;
+    private TextView tv_today, tv_month;
+    private boolean f;
+
     @OnClick({R.id.rl_team})
-    public void onClick(View view){
-        switch (view.getId()){
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.rl_team:
-                Intent intent=new Intent(getContext(), TeamPreviewActivity.class);
+                Intent intent = new Intent(getContext(), TeamPreviewActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.rl_right:
+                f=true;
+                pvTime.show();
+                break;
+            case R.id.rl_rights:
+                f=false;
+                pvTime.show();
                 break;
         }
     }
+
     @Override
     protected void initView(View view) {
         swipeRefreshLayout.setColorSchemeResources(R.color.bbl_ff0000);
         swipeRefreshLayout.setOnRefreshListener(this);
+        selectedDate=Calendar.getInstance();
+        startDate = Calendar.getInstance();
+        startDate.set(Calendar.getInstance().get(Calendar.YEAR), (Calendar.getInstance().get(Calendar.MONTH)-1),Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        endDate = Calendar.getInstance();
+        endDate.set(Calendar.getInstance().get(Calendar.YEAR),  (Calendar.getInstance().get(Calendar.MONTH)),Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        pvTime = new TimePickerView.Builder(getContext(), new TimePickerView.OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {
+                if (f){
+                    tv_today.setText(GeneralUtils.getTimes(date));
+
+                }else {
+                    tv_month.setText(GeneralUtils.getTime(date));
+                }
+            }
+        }) //年月日时分秒 的显示与否，不设置则默认全部显示
+                .setType(new boolean[]{true, true, true, false, false, false})
+                .setLabel("年", "月", "日", "", "", "")
+                .isCenterLabel(true)
+                .setDividerColor(Color.DKGRAY)
+                .setContentSize(16)
+                .setDate(selectedDate)
+                .setRangDate(startDate, endDate)
+                .setDecorView(null)
+                .build();
     }
+
 
     @Override
     protected void loadData() {
@@ -78,6 +124,8 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
         rv_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         MessageListAdapter adapter = new MessageListAdapter(mMessages);
         rv_recyclerView.setAdapter(adapter);*/
+
+
         todayList.add(new StatisticalData("注册数"));
         todayList.add(new StatisticalData("新下单数"));
         todayList.add(new StatisticalData("日活数"));
@@ -100,7 +148,14 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
         rv_recyclerView.setAdapter(homepageAdapter);
 
         View footView = ViewUrils.getFragmentView(rv_recyclerView, R.layout.homepage_foot_layout);
+
         homepageAdapter.addFooterView(footView);
+        rl_rights=footView.findViewById(R.id.rl_rights);
+        tv_today=footView.findViewById(R.id.tv_today);
+        tv_month=footView.findViewById(R.id.tv_month);
+        rl_rights.setOnClickListener(this);
+         rl_right=footView.findViewById(R.id.rl_right);
+        rl_right.setOnClickListener(this);
         today_recyclerView=  footView.findViewById(R.id.today_recyclerView);
         month_recyclerView=  footView.findViewById(R.id.month_recyclerView);
         all_recyclerView=  footView.findViewById(R.id.all_recyclerView);
@@ -110,6 +165,11 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
         tv_bottom=  footView.findViewById(R.id.tv_bottom);
         tv_bottom.setText("我是123456778442222222222222222222222222222222222222222222222222");
         tv_bottom.setSelected(true);
+        tv_today.setText( (Calendar.getInstance().get(Calendar.MONTH)+1)+"月"+(Calendar.getInstance().get(Calendar.DAY_OF_MONTH))+"日");
+        tv_month.setText((Calendar.getInstance().get(Calendar.MONTH)+1)+"月");
+
+
+
         //今日统计；
         ScrollLinearLayoutManager layoutManager=   new ScrollLinearLayoutManager(getActivity(), 5);
         today_recyclerView.setLayoutManager(layoutManager);

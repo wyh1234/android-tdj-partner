@@ -141,6 +141,34 @@
         <activity
             android:name=".ui.activity.EarningsHistoryActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.InvitationHistoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.InvitationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.MessageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.MessageItemActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.MessageDetalisActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.RealNameAuthenticationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.MyBankActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.BindingBankActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.BankListActivity"
+            android:screenOrientation="portrait" />
+
 
         <!-- 腾讯X5内核初始化 -->
         <service android:name="com.tencent.smtt.export.external.DexClassLoaderProviderService"

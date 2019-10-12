@@ -120,6 +120,7 @@
             android:paddingBottom="20dp"
             android:layout_height="wrap_content">
             <RelativeLayout
+
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:gravity="center"
@@ -169,6 +170,7 @@
 
     </LinearLayout>
     <RelativeLayout
+        android:id="@+id/rl_yq"
         android:layout_width="match_parent"
         android:gravity="center"
         android:layout_marginLeft="11dp"
@@ -197,6 +199,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <RelativeLayout
+                android:id="@+id/rl_yq_partner"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:gravity="center"

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?><!--根布局，常用作蒙层（就是变暗的背景）-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#8f000000"
+    >
+    <!--播放动画的内容，可以认为是popup的主要内容布局-->
+    <RelativeLayout
+        android:id="@+id/popup_anima"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/client_item_sahp"
+            android:layout_height="227dp">
+            <ImageView
+                android:id="@+id/iv"
+                android:paddingLeft="14dp"
+                android:paddingTop="17dp"
+                android:src="@mipmap/yaoqingcha"
+                android:paddingBottom="17dp"
+                android:paddingRight="14dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <RelativeLayout
+                android:id="@+id/rl"
+                android:layout_below="@+id/iv"
+                android:layout_width="match_parent"
+                android:layout_marginTop="8dp"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv"
+                    android:layout_width="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="@color/gray_69"
+                    android:textSize="@dimen/sp_16"
+                    android:text="选择平台"
+                    android:layout_height="wrap_content" />
+                <View
+                    android:layout_toLeftOf="@+id/tv"
+                    android:background="@color/gray_f2"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="7dp"
+                    android:layout_width="88dp"
+                    android:layout_height="1dp"/>
+                <View
+                    android:layout_toRightOf="@+id/tv"
+                    android:background="@color/gray_f2"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="7dp"
+                    android:layout_width="88dp"
+                    android:layout_height="1dp"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_one"
+                android:layout_below="@+id/rl"
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+                <ImageView
+                    android:layout_toLeftOf="@+id/view"
+                    android:layout_centerVertical="true"
+                    android:layout_width="39dp"
+                    android:layout_height="38dp" />
+                <View
+                    android:id="@+id/view"
+                    android:layout_centerInParent="true"
+                    android:layout_width="66dp"
+                    android:layout_height="38dp"/>
+                <ImageView
+                    android:layout_toRightOf="@+id/view"
+                    android:layout_centerVertical="true"
+                    android:layout_width="39dp"
+                    android:layout_height="38dp" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+
+
+    </RelativeLayout>
+</RelativeLayout>

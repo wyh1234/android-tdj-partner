@@ -39,12 +39,12 @@
                 android:layout_centerVertical="true"
                 android:layout_height="match_parent">
                 <TextView
+
                     android:layout_toLeftOf="@+id/iv_xiala"
                     android:layout_marginRight="5dp"
                     android:id="@+id/tv_today"
                     android:drawableRight="@mipmap/xiala_bg"
                     android:layout_marginLeft="6dp"
-                    android:text="9月4日"
                     android:textSize="14sp"
                     android:textColor="@color/black_63"
                     android:layout_width="wrap_content"
@@ -96,9 +96,9 @@
                 android:layout_centerVertical="true"
                 android:layout_height="match_parent">
                 <TextView
+                    android:id="@+id/tv_month"
                     android:layout_marginRight="5dp"
                     android:layout_marginLeft="6dp"
-                    android:text="9月"
                     android:textSize="14sp"
                     android:textColor="@color/black_63"
                     android:layout_width="wrap_content"

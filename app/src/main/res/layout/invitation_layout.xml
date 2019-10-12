@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+    <include layout="@layout/toobar_layout" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_marginTop="50dp"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/img_share"/>
+
+        <TextView
+            android:layout_below="@+id/img_share"
+            android:gravity="center"
+            android:id="@+id/text_invite_code"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:background="@drawable/z_rect_orange_yellow"
+            android:text="我的邀请码"
+            android:textColor="@color/orange_yellow_ff7d01"
+            android:textSize="16sp"
+            android:layout_marginTop="30dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"/>
+
+    </RelativeLayout>
+    <Button
+        android:id="@+id/btn"
+        android:background="@mipmap/login_btn"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="86dp"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:text="邀请合伙人"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:layout_height="40dp" />
+</LinearLayout>

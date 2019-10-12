@@ -18,6 +18,9 @@ import com.tdjpartner.model.RankingData;
 import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.ui.activity.AddBaifangActivity;
 import com.tdjpartner.ui.activity.EarningsActivity;
+import com.tdjpartner.ui.activity.EarningsHistoryActivity;
+import com.tdjpartner.ui.activity.MessageActivity;
+import com.tdjpartner.ui.activity.RealNameAuthenticationActivity;
 import com.tdjpartner.ui.activity.SettingActivity;
 import com.tdjpartner.ui.activity.ToMakeMoneyActivity;
 import com.tdjpartner.utils.ViewUrils;
@@ -34,7 +37,7 @@ public class MyFragment extends BaseFrgment implements SwipeRefreshLayout.OnRefr
     RecyclerView rv_recyclerView;
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
-    RelativeLayout rl_sy;
+    RelativeLayout rl_sy,rl_more,rl;
     private MyFragmentAdapter  myFragmentAdapter;
     private List<MyFragmentBottom> list =new ArrayList();
 
@@ -44,6 +47,15 @@ public class MyFragment extends BaseFrgment implements SwipeRefreshLayout.OnRefr
                 Intent intent=new Intent(getContext(), EarningsActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.rl_more:
+                Intent intent1=new Intent(getContext(), EarningsHistoryActivity.class);
+                startActivity(intent1);
+                break;
+            case R.id.rl:
+                Intent intent2=new Intent(getContext(), MessageActivity.class);
+                startActivity(intent2);
+                break;
+
         }
     }
     @Override
@@ -60,7 +72,11 @@ public class MyFragment extends BaseFrgment implements SwipeRefreshLayout.OnRefr
         rv_recyclerView.setAdapter(myFragmentAdapter);
         View view1 = ViewUrils.getFragmentView(rv_recyclerView, R.layout.myfragment_head);
         rl_sy=view1.findViewById(R.id.rl_sy);
+        rl_more=view1.findViewById(R.id.rl_more);
+        rl=view1.findViewById(R.id.rl);
+        rl_more.setOnClickListener(this);
         rl_sy.setOnClickListener(this);
+        rl.setOnClickListener(this);
         myFragmentAdapter.addHeaderView(view1);
     }
 
@@ -102,6 +118,10 @@ public class MyFragment extends BaseFrgment implements SwipeRefreshLayout.OnRefr
 
         }else if (i==2){
             Intent intent=new Intent(getContext(), ToMakeMoneyActivity.class);
+            startActivity(intent);
+
+        }else {
+            Intent intent=new Intent(getContext(), RealNameAuthenticationActivity.class);
             startActivity(intent);
 
         }

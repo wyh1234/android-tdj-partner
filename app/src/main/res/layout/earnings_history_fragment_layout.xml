@@ -112,7 +112,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="26dp">
                 <TextView
-                    android:layout_weight="0.9"
+                    android:layout_weight="0.86"
                     android:text="客户名称"
                     android:gravity="center"
                     android:textColor="@color/gray_69"
