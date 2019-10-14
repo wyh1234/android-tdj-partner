@@ -19,17 +19,22 @@ import com.tdjpartner.adapter.PartnerMessageItemAdapter;
 import com.tdjpartner.base.BaseActivity;
 import com.tdjpartner.model.InvitationHistory;
 import com.tdjpartner.model.PartnerMessageInfo;
+import com.tdjpartner.model.PartnerMessageItemInfo;
 import com.tdjpartner.mvp.presenter.IPresenter;
+import com.tdjpartner.mvp.presenter.MessageItemPresenter;
+import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
 import com.tdjpartner.utils.statusbar.Eyes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MessageItemActivity extends BaseActivity implements OnRefreshListener, OnLoadmoreListener, BaseQuickAdapter.OnItemClickListener {
+public class MessageItemActivity extends BaseActivity<MessageItemPresenter> implements OnRefreshListener, OnLoadmoreListener, BaseQuickAdapter.OnItemClickListener {
     @BindView(R.id.refreshLayout)
     RefreshLayout refreshLayout;
     @BindView(R.id.recyclerView_list)
@@ -38,8 +43,8 @@ public class MessageItemActivity extends BaseActivity implements OnRefreshListen
     TextView tv_title;
     @BindView(R.id.btn_back)
     ImageView btn_back;
-    public int pageNo = 1;//翻页计数器
-    private List<PartnerMessageInfo> partnerMessageInfoList=new ArrayList<>();
+    public int pageNo = 0;//翻页计数器
+    private List<PartnerMessageItemInfo.ObjBean> objBeansList=new ArrayList<>();
     private PartnerMessageItemAdapter partnerMessageItemAdapter;
 
     @OnClick({R.id.btn_back})
@@ -51,8 +56,8 @@ public class MessageItemActivity extends BaseActivity implements OnRefreshListen
         }
     }
     @Override
-    protected IPresenter loadPresenter() {
-        return null;
+    protected MessageItemPresenter loadPresenter() {
+        return new MessageItemPresenter();
     }
 
     @Override
@@ -68,7 +73,7 @@ public class MessageItemActivity extends BaseActivity implements OnRefreshListen
         LinearLayoutManager layout = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
         recyclerView_list.setLayoutManager(layout);
-        partnerMessageItemAdapter=new PartnerMessageItemAdapter(R.layout.message_list_item_layout,partnerMessageInfoList);
+        partnerMessageItemAdapter=new PartnerMessageItemAdapter(R.layout.message_list_item_layout,objBeansList);
         recyclerView_list.setAdapter(partnerMessageItemAdapter);
         partnerMessageItemAdapter.setOnItemClickListener(this);
         tv_title.setText("消息");
@@ -87,27 +92,16 @@ public class MessageItemActivity extends BaseActivity implements OnRefreshListen
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
-        pageNo=1;
-        getData(1);
+        pageNo=0;
+        getData(0);
     }
     protected  void getData(int pn){
-        get_client_success();
-
-
-    }
-    public void get_client_success(){
-        if (refreshLayout.isRefreshing()){
-            if (!ListUtils.isEmpty(partnerMessageInfoList)) {
-                partnerMessageInfoList.clear();
-            }
-        }
-        partnerMessageInfoList.add(new PartnerMessageInfo());
-        partnerMessageInfoList.add(new PartnerMessageInfo());
-        partnerMessageInfoList.add(new PartnerMessageInfo());
-
-        partnerMessageItemAdapter.setNewData(partnerMessageInfoList);
-//        mStateView.showEmpty();
-        stop();
+        Map<String,Object> map=new HashMap<>();
+        map.put("offset",pn);
+        map.put("limit",10);
+        map.put("type",Integer.parseInt(getIntent().getStringExtra("type")));
+        map.put("userId",25653);
+        mPresenter.pushMessage_item(map);
     }
     public View getStateViewRoot() {
         return recyclerView_list;
@@ -127,6 +121,48 @@ public class MessageItemActivity extends BaseActivity implements OnRefreshListen
     @Override
     public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
         Intent intent=new Intent(this,MessageDetalisActivity.class);
+        intent.putExtra("imageurl",objBeansList.get(i).getDetailImgUrl());
+        intent.putExtra("Content",objBeansList.get(i).getContent());
         startActivity(intent);
+    }
+
+    public void getpushMessage_item(PartnerMessageItemInfo partnerMessageItemInfo) {
+        stop();
+           if (ListUtils.isEmpty(objBeansList)) {
+            if (ListUtils.isEmpty(partnerMessageItemInfo.getObj())) {
+                //获取不到数据,显示空布局
+               mStateView.showEmpty();
+                return;
+            }
+                mStateView.showContent();//显示内容
+        }
+
+        if (ListUtils.isEmpty(partnerMessageItemInfo.getObj())) {
+            //已经获取数据
+            if (pageNo!=1){
+                GeneralUtils.showToastshort("数据加载完毕");
+                return;
+            }else {
+                GeneralUtils.showToastshort("暂无数据");
+                return;
+            }
+        }
+        if (refreshLayout.isRefreshing()){
+            if (!ListUtils.isEmpty(objBeansList)) {
+                objBeansList.clear();
+            }
+        }
+        objBeansList.addAll(partnerMessageItemInfo.getObj());
+        partnerMessageItemAdapter.setNewData(objBeansList);
+
+    }
+
+    public void getpushMessage_item_failed() {
+        stop();
+        if (ListUtils.isEmpty(objBeansList)) {
+            //如果一开始进入没有数据
+            mStateView.showEmpty();//显示重试的布局
+        }
+
     }
 }

@@ -84,7 +84,9 @@ public class HttpHeaderInterceptor implements Interceptor {
                 newBaseUrl = HttpUrl.parse(PublicCache.getROOT_URL().get(1));
             }else if ("weather".equals(headerValue)) {
                 newBaseUrl = HttpUrl.parse(PublicCache.getROOT_URL().get(0));
-            }else{
+            }else if ("xuming".equals(headerValue)){
+                newBaseUrl = HttpUrl.parse(PublicCache.getROOT_URL().get(3));
+            }else {
                 newBaseUrl = oldHttpUrl;
             }
             //重建新的HttpUrl，修改需要修改的url部分

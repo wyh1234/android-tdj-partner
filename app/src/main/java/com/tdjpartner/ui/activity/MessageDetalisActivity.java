@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.tdjpartner.R;
 import com.tdjpartner.base.BaseActivity;
 import com.tdjpartner.mvp.presenter.IPresenter;
+import com.tdjpartner.utils.glide.ImageLoad;
 import com.tdjpartner.utils.statusbar.Eyes;
 
 import butterknife.BindView;
@@ -17,6 +18,10 @@ public class MessageDetalisActivity extends BaseActivity {
     TextView tv_title;
     @BindView(R.id.btn_back)
     ImageView btn_back;
+    @BindView(R.id.tv)
+    TextView tv;
+    @BindView(R.id.iv)
+    ImageView iv;
     @OnClick({R.id.btn_back})
     public void onClick(View view){
         switch (view.getId()){
@@ -39,6 +44,8 @@ public class MessageDetalisActivity extends BaseActivity {
     protected void initView() {
         Eyes.translucentStatusBar(this,true);
         tv_title.setText("详情");
+        tv.setText(getIntent().getStringExtra("Content"));
+        ImageLoad.loadImageViewLoding(getIntent().getStringExtra("imageurl"),iv);
     }
 
     @Override

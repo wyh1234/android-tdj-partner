@@ -137,7 +137,9 @@ public class MyFragment extends BaseFrgment implements SwipeRefreshLayout.OnRefr
             startActivity(intent);
 
         }else {
+
             Intent intent=new Intent(getContext(), RealNameAuthenticationActivity.class);
+            intent.putExtra("Is_realName","Is_realName");
             startActivity(intent);
 
         }

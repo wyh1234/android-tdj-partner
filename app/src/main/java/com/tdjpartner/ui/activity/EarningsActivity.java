@@ -21,6 +21,8 @@ public class EarningsActivity extends BaseActivity {
     TextView tv_title;
     @BindView(R.id.tv_right)
     TextView tv_right;
+    @BindView(R.id.tv_ky_money)
+    TextView tv_ky_money;
     @BindView(R.id.btn)
     Button btn;
     @OnClick({R.id.btn_back,R.id.tv_right,R.id.btn})
@@ -35,6 +37,7 @@ public class EarningsActivity extends BaseActivity {
                 break;
             case R.id.btn:
                 Intent intent1=new Intent(this,WithdrawActivity.class);
+                intent1.putExtra("tv_ky_money",tv_ky_money.getText().toString());
                 startActivity(intent1);
                 break;
         }

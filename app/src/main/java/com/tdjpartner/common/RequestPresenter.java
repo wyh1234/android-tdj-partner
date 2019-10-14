@@ -5,8 +5,12 @@ import com.google.gson.Gson;
 import com.tdjpartner.http.BaseObserver;
 import com.tdjpartner.http.RetrofitServiceManager;
 import com.tdjpartner.http.RxUtils;
+import com.tdjpartner.model.Bank;
+import com.tdjpartner.model.BankList;
 import com.tdjpartner.model.HomePageFuncationButton;
 import com.tdjpartner.model.IntegralShop;
+import com.tdjpartner.model.PartnerMessageInfo;
+import com.tdjpartner.model.PartnerMessageItemInfo;
 import com.tdjpartner.model.RentingInfos;
 import com.tdjpartner.model.UserInfo;
 import com.tdjpartner.utils.GeneralUtils;
@@ -16,7 +20,10 @@ import java.util.Map;
 
 import io.reactivex.disposables.Disposable;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+
+import static okhttp3.MultipartBody.FORM;
 
 public class RequestPresenter {
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -34,7 +41,16 @@ public class RequestPresenter {
     public  static Disposable commodity_queryList(Map<String, Object> map,BaseObserver<IntegralShop> baseObserver){
         return getApiService().commodity_queryList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(baseObserver);
     }
+    public  static Disposable pushMessage(Map<String, Object> map,BaseObserver<List<PartnerMessageInfo>> baseObserver){
+        return getApiService().pushMessage(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(baseObserver);
+    }
 
+
+
+
+    public  static Disposable pushMessage_item(Map<String, Object> map,BaseObserver<PartnerMessageItemInfo> baseObserver){
+        return getApiService().pushMessage_item(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(baseObserver);
+    }
     //采购商登录
     public static Disposable loginData(Map<String, Object> params,BaseObserver<UserInfo> baseObserver) {
         return getApiService().loginData(params).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(baseObserver);
@@ -46,6 +62,33 @@ public class RequestPresenter {
 
     public  static Disposable forget_pwd(Map<String, Object> params, BaseObserver<Object> baseObserver) {
         return getApiService().forget_pwd(params).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(baseObserver);
+    }
+
+    //图片上传
+    public static Disposable imageUpload(String fileName, byte[] imageByte, BaseObserver<String> baseObserver) {
+        return getApiService().imageUpload(getMultipartBody_part(fileName, imageByte)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(baseObserver);
+
+    }
+    public  static Disposable addUserCard(Map<String, Object> map,BaseObserver<Integer> baseObserver){
+        return getApiService().addUserCard(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(baseObserver);
+    }
+    public  static Disposable bankAccount(Map<String, Object> map,BaseObserver<Bank> baseObserver){
+        return getApiService().bankAccount(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(baseObserver);
+    }
+    public  static Disposable selectBankInfoList(Map<String, Object> map,BaseObserver<List<BankList>> baseObserver){
+        return getApiService().selectBankInfoList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(baseObserver);
+    }
+    public  static Disposable addBankAccount(Map<String, Object> map,BaseObserver<Bank> baseObserver){
+        return getApiService().addBankAccount(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(baseObserver);
+    }
+    public  static Disposable cashWithdrawalFlow(Map<String, Object> map,BaseObserver<Integer> baseObserver){
+        return getApiService().cashWithdrawalFlow(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(baseObserver);
+    }
+
+    public static MultipartBody.Part getMultipartBody_part(String fileName, byte[] content) {
+        // 创建 RequestBody，用于封装构建RequestBody
+        RequestBody requestFile = RequestBody.create(FORM, content);
+        return MultipartBody.Part.createFormData("image", fileName, requestFile);
     }
 
     public static RequestBody  jsonData(Map<String ,Object> map){

@@ -23,6 +23,7 @@ public class PublicCache {
             ROOT_HTTP_URL.get("real").add("http://www.51taodj.com:3001/");//http://node2.51taodj.com:8001/
             ROOT_HTTP_URL.get("real").add("http://finance.51taodj.com/");
             ROOT_HTTP_URL.get("real").add("http://gateway.51taodj.com:9000/");
+            ROOT_HTTP_URL.get("real").add("http://192.168.10.79:8897/");//徐明
             //模拟真实环境
             if (ROOT_HTTP_URL.get("model") == null) ROOT_HTTP_URL.put("model", new ArrayList<String>());
             ROOT_HTTP_URL.get("model").add("http://47.97.250.138:8001/");//http://node2.51taodj.com:8001/       http://121.196.199.8:8001/
@@ -33,6 +34,9 @@ public class PublicCache {
             ROOT_HTTP_URL.get("test").add("http://114.55.253.161:8001/");
             ROOT_HTTP_URL.get("test").add("http://test-finance2.51taodj.com:8080/");
             ROOT_HTTP_URL.get("test").add("http://47.111.22.162:9000/");
+            ROOT_HTTP_URL.get("test").add("http://192.168.10.79:8897/");//徐明
+
+
 
 
 

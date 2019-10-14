@@ -16,6 +16,7 @@
                 android:id="@+id/image_ani"
                 android:layout_width="21dp"
                 android:layout_height="21dp"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/jijiangdiaoluo"
                 />
                 <TextView

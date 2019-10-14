@@ -121,6 +121,7 @@
                 android:textColor="@color/black_63"
                 android:textSize="@dimen/sp_14" />
             <EditText
+                android:id="@+id/ed_idcard"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
@@ -159,8 +160,8 @@
                     android:gravity="center"
                     android:layout_height="178dp">
                     <ImageView
+                        android:id="@+id/id_card_positive_iv"
                         android:layout_width="165dp"
-                        android:scaleType="fitXY"
                         android:src="@mipmap/sfzz"
                         android:layout_height="116dp" />
                     
@@ -175,8 +176,8 @@
                 android:layout_marginTop="@dimen/dp_10"
                 android:layout_height="178dp">
                 <ImageView
+                    android:id="@+id/id_card_negative_iv"
                     android:layout_width="165dp"
-                    android:scaleType="fitXY"
                     android:src="@mipmap/sfzf"
                     android:layout_height="116dp" />
 

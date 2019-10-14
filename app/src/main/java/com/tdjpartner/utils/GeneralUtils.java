@@ -196,4 +196,26 @@ public class GeneralUtils {
         SimpleDateFormat format = new SimpleDateFormat("MM月");
         return format.format(date);
     }
+
+    //获取文件名带后缀
+    public static String getFileNames(String pathandname) {
+        int start = pathandname.lastIndexOf("/");
+        if (start != -1) {
+            return pathandname.substring(start + 1);
+        } else {
+            return null;
+        }
+
+    }
+
+    /**
+     * 验证输入的身份证号是否合法
+     */
+    public static boolean isLegalId(String id){
+        if (id.toUpperCase().matches("(^\\d{15}$)|(^\\d{17}([0-9]|X)$)")){
+            return true;
+        }else {
+            return false;
+        }
+    }
 }

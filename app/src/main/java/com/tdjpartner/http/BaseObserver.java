@@ -127,6 +127,7 @@ public abstract class BaseObserver<T> extends ResourceObserver<T> {
     @Override
     public void onNext(T t) {
         dismissLoading();
+        LogUtils.e(t);
         LogUtils.e(t instanceof BaseResponse);
         if (t instanceof BaseResponse){
             LogUtils.e(((BaseResponse) t).isSuccess());
@@ -145,6 +146,7 @@ public abstract class BaseObserver<T> extends ResourceObserver<T> {
 
 
         }else {
+            LogUtils.e(t);
 //            onSuccess((BaseResponse<T>) t);
             onSuccess(t);
         }

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.tdjpartner.adapter.GuidePageAdapter;
 import com.tdjpartner.base.BaseActivity;
 import com.tdjpartner.mvp.presenter.IPresenter;
+import com.tdjpartner.ui.activity.LoginActivity;
 import com.tdjpartner.utils.cache.DataUtils;
 import com.tdjpartner.utils.statusbar.Eyes;
 
@@ -53,7 +54,7 @@ public class PageGuideActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 DataUtils.getInstance().setFirstStartup(true);
-                Intent intent = new Intent(PageGuideActivity.this, MainTabActivity.class);
+                Intent intent = new Intent(PageGuideActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
             }

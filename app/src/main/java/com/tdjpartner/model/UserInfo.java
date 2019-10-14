@@ -9,6 +9,15 @@ public class UserInfo  {
     private int loginUserId;//第一次登陆ID
     private String alias;  //昵称
     private int empRole;//所属门店角色
+    private int site;
+
+    public int getSite() {
+        return site;
+    }
+
+    public void setSite(int site) {
+        this.site = site;
+    }
 
     public String getUsername() {
         return username;

@@ -2,6 +2,7 @@ package com.tdjpartner.utils.glide;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
@@ -9,6 +10,8 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.support.annotation.RequiresApi;
 import android.widget.ImageView;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * RenderScript图片高斯模糊
@@ -72,5 +75,64 @@ public class BlurBitmapUtils {
 
         return outputBitmap;
     }
+
+    // 根据路径获得图片并压缩，返回bitmap用于显示
+    public static Bitmap getSmallBitmap(String filePath,boolean... compress) {
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        //  inJustDecodeBounds设置为true，可以不把图片读到内存中,但依然可以计算出图片的大小
+        BitmapFactory.decodeFile(filePath, options);
+        // Calculate inSampleSize计算图片的缩放值
+        options.inSampleSize = calculateInSampleSize(options);
+        // Decode head_portrait_bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        //尺寸 初步压缩
+        Bitmap bitmap = BitmapFactory.decodeFile(filePath, options);
+        if (bitmap == null) return null;
+        //质量压缩
+        if (compress.length>0 ) {
+            return null;
+        }
+        return getcompressBitmap(bitmap);
+    }
+
+    //计算图片的缩放值
+    public static int calculateInSampleSize(BitmapFactory.Options options) {
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int w = 450;
+        int h = 800;
+        double dd = 1.0 * height * width / (w * h);
+        return (int) Math.round(Math.sqrt(dd));
+    }
+    //按比例缩小图片的质量
+    public static Bitmap getcompressBitmap(Bitmap bitmap) {
+        //缩小图片的质量
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+        return byteToBitmap(baos.toByteArray());
+    }
+    //字节转换为位图
+    public static Bitmap byteToBitmap(byte[] bytes) {
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
+
+    /*将位图转换为字节 needRecycle 是否释放*/
+    public static byte[] bitmapTobyte(Bitmap bmp, boolean needRecycle) {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, output);
+        if (needRecycle) {
+            bmp.recycle();
+        }
+        byte[] result = output.toByteArray();
+        try {
+            output.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
 
 }

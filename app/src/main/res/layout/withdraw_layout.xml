@@ -41,7 +41,6 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/tv"
                 android:layout_width="13dp"
-                android:background="@mipmap/zhaohang"
                 android:layout_height="13dp" />
             <TextView
                 android:id="@+id/tv_no"
@@ -50,7 +49,6 @@
                 android:textSize="12sp"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/iv"
-                android:text="招商银行******0192"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -83,7 +81,6 @@
                 android:maxLines="1"
                 android:gravity="center_vertical"
                 android:textSize="36dp"
-                android:text="111111111"
                 android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -95,6 +92,7 @@
 
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/rl"
             android:layout_width="match_parent"
             android:paddingLeft="19dp"
             android:layout_height="30dp">
@@ -102,7 +100,6 @@
                 android:id="@+id/tv1"
                 android:layout_width="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="当前最高可提现10000.00元,"
                 android:textSize="12sp"
                 android:textColor="@color/gray_69"
                 android:layout_height="wrap_content" />

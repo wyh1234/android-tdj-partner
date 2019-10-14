@@ -43,7 +43,7 @@ public class LoginActivityPresnter extends BasePresenter<Model, LoginActivity> {
 
     }
 
-    public void commodity_queryList(Map<String,Object> map){
+    public void pushMessage(Map<String,Object> map){
         getIView().addSubscribe(RequestPresenter.commodity_queryList(map, new BaseObserver<IntegralShop>(getIView().getContext(), true) {
             @Override
             protected void onSuccess(IntegralShop integralShop) {
