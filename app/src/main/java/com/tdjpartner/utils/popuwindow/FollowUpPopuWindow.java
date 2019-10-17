@@ -14,23 +14,46 @@ public class FollowUpPopuWindow extends BasePopupWindow {
     private View popupView;
     private TextView tv_content;
     private Button btn_qx,btn_next;
+
+    private FollowUpListener listener;
+
+    public void setFollowUpListener(FollowUpListener listener) {
+        this.listener = listener;
+    }
+    public interface FollowUpListener {
+        void onCancel();
+        void onOk();
+    }
     public FollowUpPopuWindow(Context context,String str) {
         super(context);
         tv_content=popupView.findViewById(R.id.tv_content);
         btn_qx=popupView.findViewById(R.id.btn_qx);
         btn_next=popupView.findViewById(R.id.btn_next);
-        if (str.equals("SELECTPERSON")){
+        if ("SELECTPERSON".contains(str)){
             tv_content.setText("您确定将客户"+'"'+123+'"'+"分配给456吗?");
-        }else if (str.equals("BAIFANG")){
+        }else if ("BAIFANG".contains(str)){
             tv_content.setText("恭喜您拜访客户成功");
             btn_qx.setText("知道了");
             btn_next.setText("返回上一页");
-        }else if (str.equals("ADDBAIFANG")){
+        }else if ("BAIFANG".contains("ADDBAIFANG")){
             tv_content.setText("新增拜访客户成功！");
             btn_qx.setText("知道了");
             btn_next.setText("返回");
+        }else {
+            tv_content.setText("您确定要跟进客户“"+str+"”吗？");
         }
-
+        btn_qx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onCancel();
+            }
+        });
+        btn_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onOk();
+            }
+        });
     }
 
     @Override

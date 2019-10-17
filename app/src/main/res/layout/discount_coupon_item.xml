@@ -36,22 +36,21 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/tv_money"
+                android:id="@+id/tv_cash_coupon_money"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@+id/tv"
-                android:text="5"
                 android:textColor="@color/white"
                 android:textSize="26sp" />
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/tv_cash_coupon_use_condition"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rl"
             android:layout_marginTop="14dp"
             android:gravity="center"
-            android:text="满50可用"
             android:textColor="@color/white"
             android:textSize="10sp" />
     </RelativeLayout>
@@ -77,23 +76,22 @@
             android:textSize="9sp" />
 
         <TextView
-            android:id="@+id/tv_type"
+            android:id="@+id/tv_cash_coupon_use_range"
             android:layout_marginLeft="4dp"
             android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/tv_type_tag"
-            android:text="米面粮油除外"
             android:textColor="@color/gray_66"
             android:textSize="12sp" />
         </RelativeLayout>
         <TextView
+            android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rl_two"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:text="2019.06.27-2019.07.27"
             android:textColor="@color/gray_69"
             android:textSize="10sp" />
         <ImageView

@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.apkfuns.logutils.LogUtils;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -15,22 +17,33 @@ import com.tdjpartner.adapter.EarningsHistoryAdapter;
 import com.tdjpartner.base.BaseFrgment;
 import com.tdjpartner.model.BaiFangHistory;
 import com.tdjpartner.model.EarningsHistory;
+import com.tdjpartner.mvp.presenter.EarningsHistoryPresenter;
 import com.tdjpartner.mvp.presenter.IPresenter;
+import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
+import com.tdjpartner.utils.cache.UserUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 
-public class EarningsHistoryFragment extends BaseFrgment implements OnRefreshListener, OnLoadmoreListener {
+public class EarningsHistoryFragment extends BaseFrgment<EarningsHistoryPresenter> implements OnRefreshListener, OnLoadmoreListener {
     @BindView(R.id.refreshLayout)
     RefreshLayout refreshLayout;
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
-    public int pageNo = 1;//翻页计数器
+    public int pageNo = 0;//翻页计数器
     private int index=0;
-    private List<EarningsHistory> earningsHistoryList=new ArrayList<>();
+    @BindView(R.id.tv_money)
+    TextView tv_money;
+    @BindView(R.id.tv_money_f)
+    TextView tv_money_f;
+    @BindView(R.id.tv_orderMoney)
+    TextView tv_orderMoney;
+    private List<EarningsHistory.ObjBean.ListBean> earningsHistoryList=new ArrayList<>();
     private EarningsHistoryAdapter earningsHistoryAdapter;
     public static EarningsHistoryFragment newInstance(int str) {
         Bundle args = new Bundle();
@@ -46,7 +59,7 @@ public class EarningsHistoryFragment extends BaseFrgment implements OnRefreshLis
         LinearLayoutManager layout = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
         recyclerView_list.setLayoutManager(layout);
-        earningsHistoryAdapter=new EarningsHistoryAdapter(R.layout.earnings_history_item,earningsHistoryList);
+        earningsHistoryAdapter=new EarningsHistoryAdapter(R.layout.earnings_history_item,earningsHistoryList,getContext());
         recyclerView_list.setAdapter(earningsHistoryAdapter);
     }
 
@@ -62,8 +75,8 @@ public class EarningsHistoryFragment extends BaseFrgment implements OnRefreshLis
         refreshLayout.autoRefresh();
     }
     @Override
-    protected IPresenter loadPresenter() {
-        return null;
+    protected EarningsHistoryPresenter loadPresenter() {
+        return new EarningsHistoryPresenter();
     }
 
     @Override
@@ -78,27 +91,32 @@ public class EarningsHistoryFragment extends BaseFrgment implements OnRefreshLis
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
-        pageNo=1;
-        getData(1);
+        pageNo=0;
+        getData(pageNo);
     }
     protected  void getData(int pn){
-        get_client_success();
+        Map<String,Object> map=new HashMap<>();
+        map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
+        map.put("limit", 10);
+        if (index==0){
+            map.put("timeType","today");
+        }else if (index==1){
+            map.put("timeType","seven");
+        }else if (index==2){
+            map.put("timeType","month");
+        }else if (index==3){
+            map.put("timeType","tmonth");
+        }else if (index==4){
+            map.put("timeType", "");
+        }
 
+        map.put("offset", pn);
+        mPresenter.earning_info(map);
 
     }
-    public void get_client_success(){
-        if (refreshLayout.isRefreshing()){
-            if (!ListUtils.isEmpty(earningsHistoryList)) {
-                earningsHistoryList.clear();
-            }
-        }
-        earningsHistoryList.add(new EarningsHistory());
-        earningsHistoryList.add(new EarningsHistory());
-        earningsHistoryList.add(new EarningsHistory());
 
-        earningsHistoryAdapter.setNewData(earningsHistoryList);
-//        mStateView.showEmpty();
-        stop();
+    public View getStateViewRoot() {
+        return recyclerView_list;
     }
 
 
@@ -111,6 +129,49 @@ public class EarningsHistoryFragment extends BaseFrgment implements OnRefreshLis
         if (refreshLayout.isEnableLoadmore()) {
             refreshLayout.finishLoadmore();
         }
+    }
+
+    public void earning_info_Success(EarningsHistory earningsHistory) {
+        stop();
+        if (refreshLayout.isRefreshing()){
+            if (!ListUtils.isEmpty(earningsHistoryList)) {
+                earningsHistoryList.clear();
+            }
+        }
+
+        if (ListUtils.isEmpty(earningsHistoryList)) {
+            if (ListUtils.isEmpty(earningsHistory.getObj().getList())) {
+                //获取不到数据,显示空布局
+                mStateView.showEmpty();
+                return;
+            }
+            mStateView.showContent();//显示内容
+        }
+
+        if (ListUtils.isEmpty(earningsHistory.getObj().getList())) {
+            //已经获取数据
+            if (pageNo!=1){
+                GeneralUtils.showToastshort("数据加载完毕");
+                return;
+            }else {
+                GeneralUtils.showToastshort("暂无数据");
+                return;
+            }
+        }
+        tv_money.setText(earningsHistory.getObj().getMoney()+"");
+        tv_money_f.setText("-"+earningsHistory.getObj().getSubMoney()+"");
+        tv_orderMoney.setText("+"+earningsHistory.getObj().getOrderMoney()+"");
+        earningsHistoryList.addAll(earningsHistory.getObj().getList());
+        earningsHistoryAdapter.setNewData(earningsHistoryList);
+    }
+
+    public void earning_info_failed() {
+        stop();
+        if (ListUtils.isEmpty(earningsHistoryList)) {
+            //如果一开始进入没有数据
+            mStateView.showEmpty();//显示重试的布局
+        }
+
     }
 
 }

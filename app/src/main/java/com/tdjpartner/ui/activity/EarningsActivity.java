@@ -9,7 +9,12 @@ import android.widget.TextView;
 import com.tdjpartner.R;
 import com.tdjpartner.base.BaseActivity;
 import com.tdjpartner.mvp.presenter.IPresenter;
+import com.tdjpartner.utils.GeneralUtils;
+import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.statusbar.Eyes;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -36,9 +41,17 @@ public class EarningsActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.btn:
-                Intent intent1=new Intent(this,WithdrawActivity.class);
-                intent1.putExtra("tv_ky_money",tv_ky_money.getText().toString());
-                startActivity(intent1);
+                if (UserUtils.getInstance().getLoginBean()!=null){
+                    if (!GeneralUtils.isNullOrZeroLenght(UserUtils.getInstance().getLoginBean().getIdCard())){
+                        Intent intent1=new Intent(this,WithdrawActivity.class);
+                        intent1.putExtra("tv_ky_money",tv_ky_money.getText().toString());
+                        startActivity(intent1);
+                    }else {
+                        Intent intent2=new Intent(this,RealNameAuthenticationActivity.class);
+                        startActivity(intent2);
+                    }
+                }
+
                 break;
         }
 

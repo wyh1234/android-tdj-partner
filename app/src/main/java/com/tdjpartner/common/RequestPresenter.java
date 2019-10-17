@@ -5,15 +5,28 @@ import com.google.gson.Gson;
 import com.tdjpartner.http.BaseObserver;
 import com.tdjpartner.http.RetrofitServiceManager;
 import com.tdjpartner.http.RxUtils;
+import com.tdjpartner.model.BaiFangHistory;
 import com.tdjpartner.model.Bank;
 import com.tdjpartner.model.BankList;
+import com.tdjpartner.model.CouponsStatistics;
+import com.tdjpartner.model.DiscountCoupon;
+import com.tdjpartner.model.DropOuting;
+import com.tdjpartner.model.EarningsHistory;
+import com.tdjpartner.model.GoodsInfo;
 import com.tdjpartner.model.HomePageFuncationButton;
 import com.tdjpartner.model.IntegralShop;
+import com.tdjpartner.model.InvitationHistory;
+import com.tdjpartner.model.OrderDetail;
+import com.tdjpartner.model.OrderList;
 import com.tdjpartner.model.PartnerMessageInfo;
 import com.tdjpartner.model.PartnerMessageItemInfo;
 import com.tdjpartner.model.RentingInfos;
+import com.tdjpartner.model.StoreInfo;
+import com.tdjpartner.model.ToMakeMoney;
 import com.tdjpartner.model.UserInfo;
+import com.tdjpartner.model.WithdrawDetalis;
 import com.tdjpartner.utils.GeneralUtils;
+import com.tdjpartner.utils.cache.UserUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -45,6 +58,9 @@ public class RequestPresenter {
         return getApiService().pushMessage(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(baseObserver);
     }
 
+    public  static Disposable coupons_statistics(Map<String, Object> map,BaseObserver<CouponsStatistics> baseObserver){
+        return getApiService().coupons_statistics(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(baseObserver);
+    }
 
 
 
@@ -83,6 +99,55 @@ public class RequestPresenter {
     }
     public  static Disposable cashWithdrawalFlow(Map<String, Object> map,BaseObserver<Integer> baseObserver){
         return getApiService().cashWithdrawalFlow(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(baseObserver);
+    }
+    public  static Disposable findCashWithdrawalFlowList(Map<String, Object> map,BaseObserver<WithdrawDetalis> baseObserver){
+        return getApiService().findCashWithdrawalFlowList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(baseObserver);
+    }
+    public static Disposable  customer_refreshInfo(int entityId,int loginUserId, BaseObserver<UserInfo> callback) {
+        return getApiService().customer_refreshInfo(UserUtils.getInstance().getLoginBean().getSite(), 1, entityId,loginUserId, GeneralUtils.getAndroidId()).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  pushMessageLogout(int userType,String phoneNumber, BaseObserver<Object> callback) {
+        return getApiService().pushMessageLogout(UserUtils.getInstance().getLoginBean().getSite(), userType,phoneNumber).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  downList(Map<String, Object> map, BaseObserver<DropOuting> callback) {
+        return getApiService().downList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  followList(Map<String, Object> map, BaseObserver<DropOuting> callback) {
+        return getApiService().followList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  internationalWaters(Map<String, Object> map, BaseObserver<Integer> callback) {
+        return getApiService().internationalWaters(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  collect_products(Map<String, Object> map, BaseObserver<GoodsInfo> callback) {
+        return getApiService().collect_products(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  collect_stores(Map<String, Object> map, BaseObserver<StoreInfo> callback) {
+        return getApiService().collect_stores(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+
+    public static Disposable  order_pageList(Map<String, Object> map, BaseObserver<OrderList> callback) {
+        return getApiService().order_pageList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  findOne(Map<String, Object> map, BaseObserver<OrderDetail> callback) {
+        return getApiService().findOne(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  coupons_findByUser(Map<String, Object> map, BaseObserver<DiscountCoupon> callback) {
+        return getApiService().coupons_findByUser(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  call_list(Map<String, Object> map, BaseObserver<BaiFangHistory> callback) {
+        return getApiService().call_list(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  call_insert(Map<String, Object> map, BaseObserver<Integer> callback) {
+        return getApiService().call_insert(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  amountAnalysisRecords(Map<String, Object> map, BaseObserver<ToMakeMoney> callback) {
+        return getApiService().amountAnalysisRecords(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  myCustomerList(Map<String, Object> map, BaseObserver<InvitationHistory> callback) {
+        return getApiService().myCustomerList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  earning_info(Map<String, Object> map, BaseObserver<EarningsHistory> callback) {
+        return getApiService().earning_info(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
 
     public static MultipartBody.Part getMultipartBody_part(String fileName, byte[] content) {

@@ -59,7 +59,7 @@
             <TextView
                 android:id="@+id/tv"
                 android:layout_width="wrap_content"
-                android:text="邀请客户最高可得"
+                android:text="邀请客户每月最高可得"
                 android:layout_marginLeft="13dp"
                 android:textColor="@color/gray_66"
                 android:textSize="11sp"
@@ -70,7 +70,7 @@
                 android:layout_toRightOf="@+id/tv"
                 android:layout_width="wrap_content"
                 android:text="￥"
-                android:layout_marginTop="15dp"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="7dp"
                 android:textColor="@color/gray_66"
                 android:textSize="8sp"
@@ -79,18 +79,9 @@
                 android:id="@+id/tv_money"
                 android:layout_toRightOf="@+id/tv1"
                 android:layout_width="wrap_content"
-                android:text="50000"
+                android:layout_centerVertical="true"
                 android:textColor="@color/black_63"
                 android:textSize="16sp"
-                android:layout_centerVertical="true"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_toRightOf="@+id/tv_money"
-                android:layout_width="wrap_content"
-                android:text="/月"
-                android:textColor="@color/black_63"
-                android:textSize="11sp"
-                android:layout_centerVertical="true"
                 android:layout_height="wrap_content" />
         </RelativeLayout>
         <View
@@ -207,16 +198,16 @@
                 <TextView
                     android:id="@+id/tv3"
                     android:layout_width="wrap_content"
-                    android:text="邀请总人数>"
+                    android:text="邀请门店总数>"
                     android:textSize="14sp"
                     android:textColor="@color/black_63"
                     android:layout_centerHorizontal="true"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/tv_customerCount"
                     android:layout_below="@+id/tv3"
                     android:textColor="@color/gray_66"
                     android:layout_marginTop="22dp"
-                    android:text="5人"
                     android:layout_centerHorizontal="true"
                     android:textSize="16sp"
                     android:layout_width="wrap_content"
@@ -240,10 +231,10 @@
                 android:layout_centerHorizontal="true"
                 android:layout_height="wrap_content" />
             <TextView
+                android:id="@+id/tv_myCountMoney"
                 android:layout_below="@+id/tv2"
                 android:textColor="@color/gray_66"
                 android:layout_marginTop="22dp"
-                android:text="8900元"
                 android:layout_centerHorizontal="true"
                 android:textSize="16sp"
                 android:layout_width="wrap_content"
@@ -251,13 +242,19 @@
             </RelativeLayout>
         </LinearLayout>
         <TextView
+            android:id="@+id/tv_newten_date"
             android:layout_marginTop="7dp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:textColor="@color/gray_66"
             android:textSize="12sp"
             android:layout_marginBottom="18dp"
-            android:gravity="center"
-            android:text="恭喜137***2334获得100.00收益奖励"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:marqueeRepeatLimit="marquee_forever"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
@@ -303,6 +300,7 @@
     <TextView
         android:layout_marginTop="15dp"
         android:gravity="center"
+        android:paddingBottom="@dimen/dp_10"
         android:text="以上数据展示本月前总收益最高的前10名"
         android:textSize="10sp"
         android:textColor="@color/gray_66"

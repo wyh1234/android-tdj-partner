@@ -17,25 +17,29 @@ import com.tdjpartner.base.BaseActivity;
 import com.tdjpartner.model.ClientInfo;
 import com.tdjpartner.model.OrderList;
 import com.tdjpartner.mvp.presenter.IPresenter;
+import com.tdjpartner.mvp.presenter.OrderListPresenter;
+import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
+import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.widget.CustomLinearLayout;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class OrderListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemClickListener {
+public class OrderListActivity extends BaseActivity<OrderListPresenter> implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemClickListener {
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout refreshLayout;
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
-    public int pageNo = 1;//翻页计数器
+    public int pageNo = 0;//翻页计数器
     private BaseQuickAdapter baseQuickAdapter;
-    private List<OrderList> orderLists=new ArrayList<>();
-    private Handler handler=new Handler();
+    private List<OrderList.ItemsBean> orderLists=new ArrayList<>();
     @BindView(R.id.btn_back)
     ImageView btn_back;
     @OnClick({R.id.btn_back})
@@ -47,8 +51,8 @@ public class OrderListActivity extends BaseActivity implements SwipeRefreshLayou
         }
     }
     @Override
-    protected IPresenter loadPresenter() {
-        return null;
+    protected OrderListPresenter loadPresenter() {
+        return new OrderListPresenter();
     }
 
     @Override
@@ -63,7 +67,7 @@ public class OrderListActivity extends BaseActivity implements SwipeRefreshLayou
         refreshLayout.setColorSchemeResources(R.color.bbl_ff0000);
         CustomLinearLayout layout = new CustomLinearLayout(getContext(),
                 LinearLayoutManager.VERTICAL, false);
-        layout.setScrollEnabled(false);
+        layout.setScrollEnabled(true);
         recyclerView_list.setLayoutManager(layout);
         baseQuickAdapter=new OrderListAdapter(R.layout.orderlist_item,orderLists);
         recyclerView_list.setAdapter(baseQuickAdapter);
@@ -80,8 +84,8 @@ public class OrderListActivity extends BaseActivity implements SwipeRefreshLayou
 
     @Override
     public void onRefresh() {
-        pageNo=1;
-        getData(1);
+        pageNo=0;
+        getData(pageNo);
     }
 
     @Override
@@ -96,34 +100,16 @@ public class OrderListActivity extends BaseActivity implements SwipeRefreshLayou
         stop();
     }
     protected  void getData(int pn){
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                /**
-                 *要执行的操作
-                 */
-                get_client_success();
-            }
-        }, 3000);//3秒后执行Runnable中的run方法
-
+        Map<String ,Object> map=new HashMap<>();
+        map.put("status","trade_success,wait_buyer_evaluate");
+        map.put("userType",0);
+        map.put("pn",pn);
+        map.put("ps",10);
+        map.put("site", UserUtils.getInstance().getLoginBean().getSite());
+        mPresenter.order_pageList(map);
 
     }
 
-    public void get_client_success(){
-        if (refreshLayout.isRefreshing()){
-            if (!ListUtils.isEmpty(orderLists)) {
-                orderLists.clear();
-            }
-
-        }
-        orderLists.add(new OrderList());
-        orderLists.add(new OrderList());
-        orderLists.add(new OrderList());
-        baseQuickAdapter.setNewData(orderLists);
-        baseQuickAdapter.disableLoadMoreIfNotFullPage(recyclerView_list);//数据项个数未满一屏幕,则不开启load more,add数据后设置
-//        mStateView.showEmpty();
-        stop();
-    }
     public void stop() {
         if (refreshLayout != null && refreshLayout.isRefreshing()) {
             refreshLayout.setRefreshing(false);
@@ -138,7 +124,51 @@ public class OrderListActivity extends BaseActivity implements SwipeRefreshLayou
     @Override
     public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
         Intent intent=new Intent(this,OrderDetailsActivity.class);
+        intent.putExtra("orderNO",orderLists.get(i).getOrderNo());
         startActivity(intent);
 
     }
+
+    public void order_pageList_Success(OrderList orderList) {
+        stop();
+        if (refreshLayout.isRefreshing()){
+            if (!ListUtils.isEmpty(orderLists)) {
+                orderLists.clear();
+            }
+        }
+            if (ListUtils.isEmpty(orderLists)) {
+                if (ListUtils.isEmpty(orderList.getObj())) {
+                    //获取不到数据,显示空布局
+                    mStateView.showEmpty();
+                    return;
+                }
+                mStateView.showContent();//显示内容
+            }
+
+            if (ListUtils.isEmpty(orderList.getObj())) {
+                //已经获取数据
+                if (pageNo!=1){
+                    GeneralUtils.showToastshort("数据加载完毕");
+                }else {
+                    GeneralUtils.showToastshort("暂无数据");
+                }
+                return;
+            }
+        orderLists.addAll(orderList.getObj());
+        baseQuickAdapter.setNewData(orderLists);
+        baseQuickAdapter.disableLoadMoreIfNotFullPage(recyclerView_list);//
+    }
+
+    public void order_pageList_Failed() {
+        stop();
+        if (ListUtils.isEmpty(orderLists)) {
+            mStateView.showEmpty();//显示重试的布局
+        }
+    }
+
+    /**StateView的根布局，默认是整个界面，如果需要变换可以重写此方法*/
+    public View getStateViewRoot() {
+        return recyclerView_list;
+    }
+
 }

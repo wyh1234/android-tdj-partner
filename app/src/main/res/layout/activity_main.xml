@@ -28,7 +28,7 @@
             android:layout_weight="1"
             app:iconNormal="@mipmap/tab_home_normal"
             app:iconSelected="@mipmap/tab_home_selected"
-            app:itemText="合伙人"
+            app:itemText="首页"
             app:itemTextSize="10sp"
             app:textColorNormal="@color/gray_66"
             app:textColorSelected="@color/view_bg1"

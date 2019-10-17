@@ -24,6 +24,7 @@ public class LoginActivityPresnter extends BasePresenter<Model, LoginActivity> {
         Map<String, Object> map_login = new HashMap<>();
         map_login.put("sourceType", "android");
         map_login.put("account", username);
+        map_login.put("type", "partner");
         map_login.put("loginType", type);//PASSWORD_LOGIN密码登录；VER_CODE_LOGIN验证码登录
          map_login.put("password", MD5AndSHA.md5Encode(password));
         getIView().addSubscribe(RequestPresenter.loginData(map_login, new BaseObserver<UserInfo>(getIView().getContext(), true) {

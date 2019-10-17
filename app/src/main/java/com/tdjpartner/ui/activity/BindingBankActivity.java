@@ -68,8 +68,8 @@ public class BindingBankActivity extends BaseActivity<BindingBankPresenter> {
                     GeneralUtils.showToastshort("请输入银行卡号");
                 }
                 Map<String,Object> map=new HashMap<>();
-                map.put("userId",25653);
-                map.put("cityId",3);//城市id
+                map.put("userId",UserUtils.getInstance().getLoginBean().getEntityId());
+                map.put("cityId",UserUtils.getInstance().getLoginBean().getSite());//城市id
                 map.put("accountNo",ed_accountno.getText().toString());
                 map.put("partnerName",tv_username.getText().toString());
                 map.put("partnerPhone",tv_phone.getText().toString());

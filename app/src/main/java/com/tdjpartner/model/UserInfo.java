@@ -5,11 +5,65 @@ public class UserInfo  {
     private String realname;
     private String phoneNumber;
     private int entityId;
-    private String headUrl;
+    private String headUrl;//淘大集用户图像
     private int loginUserId;//第一次登陆ID
     private String alias;  //昵称
     private int empRole;//所属门店角色
     private int site;
+    private Integer grade;//用户级别1经理2主管3业务员(合伙人)
+    private Long surplusAmount 	;//总提成收益
+    private String idCard 	;//非空，已实名
+    private String avatarUrl 	;//自定义合伙人图片
+    private Long pmCount 	;//未读消息数
+    private String siteName;
+
+    public String getSiteName() {
+        return siteName;
+    }
+
+    public void setSiteName(String siteName) {
+        this.siteName = siteName;
+    }
+
+    public Integer getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Integer grade) {
+        this.grade = grade;
+    }
+
+    public Long getSurplusAmount() {
+        return surplusAmount;
+    }
+
+    public void setSurplusAmount(Long surplusAmount) {
+        this.surplusAmount = surplusAmount;
+    }
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
+    public Long getPmCount() {
+        return pmCount;
+    }
+
+    public void setPmCount(Long pmCount) {
+        this.pmCount = pmCount;
+    }
 
     public int getSite() {
         return site;

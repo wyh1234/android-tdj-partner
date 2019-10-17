@@ -3,16 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="34dp">
     <TextView
+        android:id="@+id/tv_partnerPhone"
         android:layout_width="wrap_content"
-        android:text="158****2323"
         android:textColor="@color/gray_66"
         android:layout_marginLeft="11dp"
         android:textSize="14sp"
         android:layout_centerVertical="true"
         android:layout_height="wrap_content" />
     <TextView
+        android:id="@+id/tv_amountCommission"
         android:layout_width="wrap_content"
-        android:text="1000.00元"
         android:textColor="@color/view_bg1"
         android:layout_marginLeft="11dp"
         android:textSize="14sp"

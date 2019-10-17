@@ -14,6 +14,7 @@ import com.tdjpartner.model.Bank;
 import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.mvp.presenter.WithdrawPresnter;
 import com.tdjpartner.utils.GeneralUtils;
+import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.glide.ImageLoad;
 import com.tdjpartner.utils.statusbar.Eyes;
 
@@ -55,7 +56,7 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresnter> {
                     return;
                 }
                 Map<String,Object> map=new HashMap<>();
-                map.put("userId",25653);
+                map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
                 map.put("capitalWithdrawal",new BigDecimal(ed_money.getText().toString()));
                 mPresenter.cashWithdrawalFlow(map);
 
@@ -73,7 +74,7 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresnter> {
     @Override
     protected void initData() {
         Map<String,Object> map=new HashMap<>();
-        map.put("userId",25653);
+        map.put("userId",UserUtils.getInstance().getLoginBean().getEntityId());
         mPresenter.bankAccount(map);
 
     }

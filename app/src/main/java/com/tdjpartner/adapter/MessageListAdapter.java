@@ -44,9 +44,9 @@ public class MessageListAdapter  extends MultipleItemRvAdapter<Message, BaseView
     @Override
     protected int getViewType(Message message) {
         //返回对应的viewType
-        if (message instanceof GoodsInfo) {//月份title
+        if (message instanceof GoodsInfo.ObjBean) {//月份title
             return GoodsList;
-        }else if (message instanceof StoreInfo){//月份title对应数据
+        }else if (message instanceof StoreInfo.ObjBean){//月份title对应数据
             return StoreList;
         }
         return 0;

@@ -21,6 +21,7 @@
                 android:orientation="vertical"
                 android:layout_height="match_parent">
                 <TextView
+                    android:id="@+id/tv_ok"
                     android:layout_weight="1"
                     android:textSize="14sp"
                     android:text="上传"
@@ -33,6 +34,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"/>
                 <TextView
+                    android:id="@+id/tv_qx"
                     android:layout_weight="1"
                     android:textSize="14sp"
                     android:text="取消"

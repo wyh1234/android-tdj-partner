@@ -130,6 +130,21 @@
                 android:background="@color/white"
                 android:hint="请输入15或18位身份证号"
                 android:textColor="@color/black_63"
+                android:gravity="center_vertical"
+                android:textColorHint="@color/gray_69"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tv_idcard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="7dp"
+                android:visibility="gone"
+                android:gravity="center_vertical"
+                android:layout_toRightOf="@+id/tv2"
+                android:background="@color/white"
+                android:hint="请输入15或18位身份证号"
+                android:textColor="@color/black_63"
                 android:textColorHint="@color/gray_69"
                 android:textSize="12sp" />
         </RelativeLayout>

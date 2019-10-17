@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.tdjpartner.R;
 import com.tdjpartner.model.MyFragmentBottom;
 import com.tdjpartner.utils.GeneralUtils;
+import com.tdjpartner.utils.cache.UserUtils;
 
 import java.util.List;
 
@@ -22,10 +23,13 @@ public class MyFragmentAdapter extends BaseQuickAdapter<MyFragmentBottom, BaseVi
     protected void convert(BaseViewHolder baseViewHolder, MyFragmentBottom myFragmentBottom) {
         LogUtils.e(baseViewHolder.getAdapterPosition());
         baseViewHolder.setText(R.id.tv_tiltle,myFragmentBottom.getTitle());
-        if (myFragmentBottom.isF()){
-            baseViewHolder.setVisible(R.id.tv_sm,true);
-        }else {
-            baseViewHolder.setVisible(R.id.tv_sm,false);
+        if (UserUtils.getInstance().getLoginBean()!=null){
+            if (GeneralUtils.isNullOrZeroLenght(UserUtils.getInstance().getLoginBean().getIdCard())){
+                baseViewHolder.setGone(R.id.tv_sm,false);
+            }else {
+                baseViewHolder.setGone(R.id.tv_sm,true);
+            }
+
         }
 
         if (baseViewHolder.getLayoutPosition()==data.size()){

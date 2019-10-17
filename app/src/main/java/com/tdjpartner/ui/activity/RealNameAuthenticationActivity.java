@@ -17,6 +17,7 @@ import com.tdjpartner.base.BaseActivity;
 import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.mvp.presenter.RealNameAuthenticationPresenter;
 import com.tdjpartner.utils.GeneralUtils;
+import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.glide.GifSizeFilter;
 import com.tdjpartner.utils.glide.ImageLoad;
 import com.tdjpartner.utils.glide.MyGlideEngine;
@@ -47,8 +48,10 @@ public class RealNameAuthenticationActivity extends BaseActivity<RealNameAuthent
     Button btn;
     @BindView(R.id.ed_idcard)
     EditText ed_idcard;
+    @BindView(R.id.tv_idcard)
+    TextView tv_idcard;
     private RxPermissions rxPermissions;
-    private static final int REQUEST_CODE_CHOOSE_GRIDE = 23;
+
     private Map<String,Object> map=new HashMap<>();
     private boolean flag;
 
@@ -79,7 +82,7 @@ public class RealNameAuthenticationActivity extends BaseActivity<RealNameAuthent
                     GeneralUtils.showToastshort("请上传身份证照片");
                     return;
                 }
-                map.put("userId",25653);
+                map.put("userId",UserUtils.getInstance().getLoginBean().getEntityId());
                 map.put("idCard",ed_idcard.getText().toString());
                 mPresenter.addUserCard(map);
 
@@ -101,12 +104,23 @@ public class RealNameAuthenticationActivity extends BaseActivity<RealNameAuthent
         Eyes.translucentStatusBar(this,true);
         rxPermissions = new RxPermissions(this);
         tv_title.setText("实名认证");
-
+        if (UserUtils.getInstance().getLoginBean()!=null){
+            if (GeneralUtils.isNullOrZeroLenght(UserUtils.getInstance().getLoginBean().getIdCard())){
+                tv_idcard.setVisibility(View.GONE);
+                ed_idcard.setVisibility(View.VISIBLE);
+                btn.setVisibility(View.VISIBLE);
+            }else {
+                tv_idcard.setVisibility(View.VISIBLE);
+                ed_idcard.setVisibility(View.GONE);
+                btn.setVisibility(View.GONE);
+            }
+        }
 
     }
 
     public void getImage(){
-        rxPermissions.request(android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.READ_PHONE_STATE, android.Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
+        GeneralUtils.getImage(rxPermissions,this);
+   /*     rxPermissions.request(android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.READ_PHONE_STATE, android.Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean aBoolean) throws Exception {
                 if (aBoolean) {
@@ -128,13 +142,13 @@ public class RealNameAuthenticationActivity extends BaseActivity<RealNameAuthent
 
                 }
             }
-        });
+        });*/
 
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_CHOOSE_GRIDE && resultCode == RESULT_OK) {//storage/emulated/0/Pictures/JPEG_20181011_155709.jpg
+        if (requestCode == GeneralUtils.REQUEST_CODE_CHOOSE_GRIDE && resultCode == RESULT_OK) {//storage/emulated/0/Pictures/JPEG_20181011_155709.jpg
             LogUtils.i(Matisse.obtainPathResult(data).get(0));
             Log.e("OnActivityResult ", String.valueOf(Matisse.obtainPathResult(data).get(0)));
                 mPresenter.imageUpload(Matisse.obtainPathResult(data).get(0));

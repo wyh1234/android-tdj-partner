@@ -15,7 +15,7 @@
             android:id="@+id/tv_tiltle"
             android:layout_width="match_parent"
             android:textColor="@color/white"
-            android:text="城市合伙人"
+            android:text="淘大集创客"
             android:textSize="17sp"
             android:gravity="center"
             android:layout_height="wrap_content" />

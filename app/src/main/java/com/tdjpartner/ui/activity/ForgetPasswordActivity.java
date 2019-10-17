@@ -2,6 +2,7 @@ package com.tdjpartner.ui.activity;
 
 import android.content.Context;
 import android.os.Handler;
+import android.support.v7.widget.Toolbar;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -41,6 +42,8 @@ public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordPresenter
     EditText ed_password;
     @BindView(R.id.btn_save)
     Button btn_save;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     private Handler handler = GeneralUtils.getHandler();
     private int datetime = 60;
 
@@ -123,9 +126,11 @@ public class ForgetPasswordActivity extends BaseActivity<ForgetPasswordPresenter
 
     @Override
     protected void initView() {
-        Eyes.setStatusBarColor(this, GeneralUtils.getColor(this, R.color.white));
+        Eyes.translucentStatusBar(this,true);
+        Eyes.setLightStatusBar(this,true);
         btn_back.setVisibility(View.VISIBLE);
         btn_back.setImageResource(R.mipmap.back);
+        toolbar.setBackgroundResource(R.color.white);
         if (getIntent().getStringExtra("forgetpassword")!=null){
             tv_title.setText("忘记密码");
 

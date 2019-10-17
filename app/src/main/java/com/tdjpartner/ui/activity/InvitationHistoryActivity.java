@@ -15,16 +15,21 @@ import com.tdjpartner.adapter.InvitationHistoryAdapter;
 import com.tdjpartner.base.BaseActivity;
 import com.tdjpartner.model.InvitationHistory;
 import com.tdjpartner.mvp.presenter.IPresenter;
+import com.tdjpartner.mvp.presenter.InvitationHistoryPrensenter;
+import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
+import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.statusbar.Eyes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class InvitationHistoryActivity extends BaseActivity implements OnRefreshListener, OnLoadmoreListener {
+public class InvitationHistoryActivity extends BaseActivity<InvitationHistoryPrensenter> implements OnRefreshListener, OnLoadmoreListener {
     @BindView(R.id.refreshLayout)
     RefreshLayout refreshLayout;
     @BindView(R.id.recyclerView_list)
@@ -33,8 +38,8 @@ public class InvitationHistoryActivity extends BaseActivity implements OnRefresh
     TextView tv_title;
     @BindView(R.id.btn_back)
     ImageView btn_back;
-    public int pageNo = 1;//翻页计数器
-    private List<InvitationHistory> invitationHistoryList=new ArrayList<>();
+    public int pageNo = 0;//翻页计数器
+    private List<InvitationHistory.ObjBean> invitationHistoryList=new ArrayList<>();
     private InvitationHistoryAdapter invitationHistoryAdapter;
     @OnClick({R.id.btn_back})
     public void onClick(View view){
@@ -45,8 +50,8 @@ public class InvitationHistoryActivity extends BaseActivity implements OnRefresh
         }
     }
     @Override
-    protected IPresenter loadPresenter() {
-        return null;
+    protected InvitationHistoryPrensenter loadPresenter() {
+        return new InvitationHistoryPrensenter();
     }
 
     @Override
@@ -80,27 +85,17 @@ public class InvitationHistoryActivity extends BaseActivity implements OnRefresh
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
-        pageNo=1;
-        getData(1);
+        pageNo=0;
+        getData(pageNo);
     }
     protected  void getData(int pn){
-        get_client_success();
+        Map<String,Object> map=new HashMap<>();
+        map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
+        map.put("limit", 10);
+        map.put("offset", pn);
+        mPresenter.myCustomerList(map);
 
 
-    }
-    public void get_client_success(){
-        if (refreshLayout.isRefreshing()){
-            if (!ListUtils.isEmpty(invitationHistoryList)) {
-                invitationHistoryList.clear();
-            }
-        }
-        invitationHistoryList.add(new InvitationHistory());
-        invitationHistoryList.add(new InvitationHistory());
-        invitationHistoryList.add(new InvitationHistory());
-
-        invitationHistoryAdapter.setNewData(invitationHistoryList);
-//        mStateView.showEmpty();
-        stop();
     }
     public View getStateViewRoot() {
         return recyclerView_list;
@@ -115,5 +110,46 @@ public class InvitationHistoryActivity extends BaseActivity implements OnRefresh
         if (refreshLayout.isEnableLoadmore()) {
             refreshLayout.finishLoadmore();
         }
+    }
+
+    public void myCustomerListSuccess(InvitationHistory invitationHistory) {
+        stop();
+        if (refreshLayout.isRefreshing()){
+            if (!ListUtils.isEmpty(invitationHistoryList)) {
+                invitationHistoryList.clear();
+            }
+        }
+
+        if (ListUtils.isEmpty(invitationHistoryList)) {
+            if (ListUtils.isEmpty(invitationHistory.getObj())) {
+                //获取不到数据,显示空布局
+                mStateView.showEmpty();
+                return;
+            }
+            mStateView.showContent();//显示内容
+        }
+
+        if (ListUtils.isEmpty(invitationHistory.getObj())) {
+            //已经获取数据
+            if (pageNo!=1){
+                GeneralUtils.showToastshort("数据加载完毕");
+                return;
+            }else {
+                GeneralUtils.showToastshort("暂无数据");
+                return;
+            }
+        }
+
+        invitationHistoryList.addAll(invitationHistory.getObj());
+        invitationHistoryAdapter.setNewData(invitationHistoryList);
+
+    }
+    public void myCustomerListfailed() {
+        stop();
+        if (ListUtils.isEmpty(invitationHistoryList)) {
+            //如果一开始进入没有数据
+            mStateView.showEmpty();//显示重试的布局
+        }
+
     }
 }

@@ -31,7 +31,7 @@ public class PageGuideActivity extends BaseActivity {
 
     //导航页图片资源
     public int[] guides = new int[] { R.mipmap.guide1,
-            R.mipmap.guide1, R.mipmap.guide1, R.mipmap.guide4};
+            R.mipmap.guide2, R.mipmap.guide3, R.mipmap.guide4};
     @Override
     protected IPresenter loadPresenter() {
         return null;
@@ -49,8 +49,8 @@ public class PageGuideActivity extends BaseActivity {
         }
         //经过遍历，此时item是最后一个view，设置button
         ImageView imageview = (ImageView) item.findViewById(R.id.imageView);
-        imageview.setVisibility(View.VISIBLE);
-        imageview.setOnClickListener(new View.OnClickListener() {
+        imageview.setVisibility(View.GONE);
+        item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DataUtils.getInstance().setFirstStartup(true);

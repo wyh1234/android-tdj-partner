@@ -8,6 +8,7 @@ import com.tdjpartner.R;
 import com.tdjpartner.adapter.FragmentEarningsHistoryAdapter;
 import com.tdjpartner.adapter.FragmentStatisticsAdapter;
 import com.tdjpartner.base.BaseActivity;
+import com.tdjpartner.model.EarningsHistory;
 import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.widget.tablayout.WTabLayout;
@@ -65,4 +66,6 @@ public class EarningsHistoryActivity extends BaseActivity {
     protected int getLayoutId() {
         return R.layout.earnings_history_layout;
     }
+
+
 }

@@ -22,6 +22,7 @@ import com.tdjpartner.model.PartnerMessageInfo;
 import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.mvp.presenter.MessagePersenter;
 import com.tdjpartner.utils.ListUtils;
+import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.statusbar.Eyes;
 
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class MessageActivity extends BaseActivity<MessagePersenter> implements B
     @Override
     protected void initData() {
 //        Map<String,Object> map= new HashMap<>();
-//        map.put("userId",25653);
+//        map.put("userId",UserUtils.getInstance().getLoginBean().getEntityId());
 //        mPresenter.pushMessage(map);
 
     }
@@ -66,7 +67,7 @@ public class MessageActivity extends BaseActivity<MessagePersenter> implements B
     protected void onResume() {
         super.onResume();
         Map<String,Object> map= new HashMap<>();
-        map.put("userId",25653);
+        map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
         mPresenter.pushMessage(map);
     }
 

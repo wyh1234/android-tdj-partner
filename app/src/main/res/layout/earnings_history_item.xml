@@ -7,42 +7,41 @@
         android:layout_width="match_parent"
         android:layout_height="29dp">
     <TextView
+        android:id="@+id/tv_customerName"
         android:layout_weight="0.86"
-        android:text="湘鄂情酒店"
         android:gravity="center"
         android:textColor="@color/gray_66"
         android:textSize="11dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     <TextView
+        android:id="@+id/tv_customerNickName"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="张三"
         android:textColor="@color/gray_66"
         android:textSize="11dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     <TextView
+        android:id="@+id/tv_customerPhone"
         android:layout_weight="0.9"
         android:gravity="center"
-        android:text="18616803938"
         android:textColor="@color/gray_66"
         android:textSize="11dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     <TextView
+        android:id="@+id/tv_createTime"
         android:layout_weight="0.95"
         android:gravity="center"
-        android:text="2019.08.16"
-
         android:textColor="@color/gray_66"
         android:textSize="11dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     <TextView
+        android:id="@+id/tv_amount"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="+200"
         android:textColor="@color/view_bg1"
         android:textSize="11dp"
         android:layout_width="match_parent"

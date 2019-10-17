@@ -1,5 +1,7 @@
 package com.tdjpartner;
 
+import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 
@@ -8,6 +10,7 @@ import com.tdjpartner.adapter.MainTabAdapter;
 import com.tdjpartner.base.BaseActivity;
 import com.tdjpartner.base.BaseFrgment;
 import com.tdjpartner.model.ClientFragmentType;
+import com.tdjpartner.model.ImageUploadOk;
 import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.ui.fragment.ClientFragment;
 import com.tdjpartner.ui.fragment.HomepageFragment;
@@ -16,7 +19,9 @@ import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.widget.bottombar.BottomBarItem;
 import com.tdjpartner.widget.bottombar.BottomBarLayout;
+import com.zhihu.matisse.Matisse;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
@@ -83,4 +88,13 @@ public class MainTabActivity extends BaseActivity {
             ((ClientFragment) mainTabAdapter.getBaseFrgment()).checkClientFragment(clientFragmentType);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+                super.onActivityResult(requestCode,resultCode,data);
+        if (requestCode == GeneralUtils.REQUEST_CODE_CHOOSE_GRIDE && resultCode == RESULT_OK) {//storage/emulated/0/Pictures/JPEG_20181011_155709.jpg
+            LogUtils.i(Matisse.obtainPathResult(data).get(0));
+            EventBus.getDefault().post(new ImageUploadOk(Matisse.obtainPathResult(data).get(0)));
+        }
+
+    }
 }

@@ -1,8 +1,10 @@
 package com.tdjpartner.utils;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -17,14 +19,26 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.AppAplication;
+import com.tdjpartner.R;
+import com.tdjpartner.ui.activity.RealNameAuthenticationActivity;
+import com.tdjpartner.utils.glide.GifSizeFilter;
+import com.tdjpartner.utils.glide.MyGlideEngine;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.filter.Filter;
+import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import io.reactivex.functions.Consumer;
+
 public class GeneralUtils {
+    public static final int REQUEST_CODE_CHOOSE_GRIDE = 23;
     /**
      * <手机号码判断>
      *
@@ -196,6 +210,10 @@ public class GeneralUtils {
         SimpleDateFormat format = new SimpleDateFormat("MM月");
         return format.format(date);
     }
+    public static String getTimeFilter(Date date) {//可根据需要自行截取数据显示
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(date);
+    }
 
     //获取文件名带后缀
     public static String getFileNames(String pathandname) {
@@ -217,5 +235,32 @@ public class GeneralUtils {
         }else {
             return false;
         }
+    }
+
+    public static void getImage(RxPermissions rxPermissions,Activity activity){
+        rxPermissions.request(android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.READ_PHONE_STATE, android.Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) throws Exception {
+                if (aBoolean) {
+                    //从相册中选择图片 此处使用知乎开源库Matisse
+                    Matisse.from(activity)
+                            .choose(MimeType.ofImage())
+                            .theme(R.style.Matisse_Dracula)
+                            .countable(true)//true:选中后显示数字;false:选中后显示对号
+                            .maxSelectable(1)
+                            .capture(true)
+                            .captureStrategy(new CaptureStrategy(true, "com.tdjpartner.fileProvider")) //是否拍照功能，并设置拍照后图片的保存路径; FILE_PATH = 你项目的包名.fileprovider,必须配置不然会抛异常
+                            .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
+                            .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                            .originalEnable(true)
+                            .maxOriginalSize(10)
+                            .thumbnailScale(0.85f)
+                            .imageEngine(new MyGlideEngine())
+                            .forResult(REQUEST_CODE_CHOOSE_GRIDE);
+
+                }
+            }
+        });
+
     }
 }

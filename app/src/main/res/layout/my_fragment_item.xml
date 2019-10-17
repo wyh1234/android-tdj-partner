@@ -23,6 +23,7 @@
             android:textSize="10sp"
             android:gravity="center"
             android:text="已实名"
+            android:visibility="gone"
             android:textColor="@color/white"
             android:background="@color/view_bg1"
             android:layout_marginLeft="7dp"

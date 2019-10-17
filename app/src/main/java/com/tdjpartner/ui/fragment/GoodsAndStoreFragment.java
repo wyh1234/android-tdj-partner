@@ -17,20 +17,25 @@ import com.tdjpartner.model.GoodsAndStore;
 import com.tdjpartner.model.GoodsInfo;
 import com.tdjpartner.model.Message;
 import com.tdjpartner.model.StoreInfo;
+import com.tdjpartner.mvp.presenter.GoodsAndStorePresenter;
 import com.tdjpartner.mvp.presenter.IPresenter;
+import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
+import com.tdjpartner.utils.cache.UserUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 
-public class GoodsAndStoreFragment extends BaseFrgment implements OnRefreshListener, OnLoadmoreListener {
+public class GoodsAndStoreFragment extends BaseFrgment<GoodsAndStorePresenter> implements OnRefreshListener, OnLoadmoreListener {
     @BindView(R.id.refreshLayout)
     RefreshLayout refreshLayout;
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
-    public int pageNo = 1;//翻页计数器
+    public int pageNo = 0;//翻页计数器
     private int index=0;
     private MessageListAdapter messageListAdapter;
     private List<Message> goodsAndStoreArrayList=new ArrayList<>();
@@ -65,8 +70,8 @@ public class GoodsAndStoreFragment extends BaseFrgment implements OnRefreshListe
     }
 
     @Override
-    protected IPresenter loadPresenter() {
-        return null;
+    protected GoodsAndStorePresenter loadPresenter() {
+        return new GoodsAndStorePresenter();
     }
 
     @Override
@@ -82,58 +87,30 @@ public class GoodsAndStoreFragment extends BaseFrgment implements OnRefreshListe
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
         LogUtils.e(index);
-        pageNo=1;
-        getData(1);
+        pageNo=0;
+        getData(0);
     }
     protected  void getData(int pn){
-        get_client_success();
-
-
-    }
-
-    public void get_client_success(){
-        if (refreshLayout.isRefreshing()){
-            if (!ListUtils.isEmpty(goodsAndStoreArrayList)) {
-                goodsAndStoreArrayList.clear();
-            }
-        }
+        Map<String,Object> map=new HashMap<>();
+        map.put("pn",pn);
+        map.put("ps",10);
+        map.put("site", UserUtils.getInstance().getLoginBean().getSite());
+        map.put("personId", UserUtils.getInstance().getLoginBean().getEntityId());
         if (index==0){
-            goodsAndStoreArrayList.add(new GoodsInfo());
-            goodsAndStoreArrayList.add(new GoodsInfo());
+            map.put("type", 2);
         }else {
-            goodsAndStoreArrayList.add(new StoreInfo());
-            goodsAndStoreArrayList.add(new StoreInfo());
-            goodsAndStoreArrayList.add(new GoodsInfo());
-            goodsAndStoreArrayList.add(new StoreInfo());
+            map.put("type", 1);
+        }
+        map.put("userType", 0);
+        if (index==0){
+            mPresenter.collect_products(map);
+        }else {
+            mPresenter.collect_stores(map);
         }
 
-        messageListAdapter.setNewData(goodsAndStoreArrayList);
-//        mStateView.showEmpty();
-        stop();
-  /*      if (ListUtils.isEmpty(data)) {
-            if (ListUtils.isEmpty(body.getData().getObj())) {
-                //获取不到数据,显示空布局
-               mStateView.showEmpty();
-                return;
-            }
-                mStateView.showContent();//显示内容
-        }
 
-        if (ListUtils.isEmpty(body.getData().getObj())) {
-            //已经获取数据
-            if (pn!=1){
-                GeneralUtils.showToastshort("数据加载完毕");
-                return;
-            }else {
-                GeneralUtils.showToastshort("暂无数据");
-                return;
-            }
-
-        }
-
-        data.addAll(body.getData().getObj());
-        clientListAdapter.notifyDataSetChanged();*/
     }
+
 
     /**StateView的根布局，默认是整个界面，如果需要变换可以重写此方法*/
     public View getStateViewRoot() {
@@ -151,9 +128,66 @@ public class GoodsAndStoreFragment extends BaseFrgment implements OnRefreshListe
         }
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
+    public void collect_products_Success(StoreInfo storeInfo,GoodsInfo goodsInfo) {
         stop();
+        if (refreshLayout.isRefreshing()){
+            if (!ListUtils.isEmpty(goodsAndStoreArrayList)) {
+                goodsAndStoreArrayList.clear();
+            }
+        }
+        if (index==0){
+            if (ListUtils.isEmpty(goodsAndStoreArrayList)) {
+                if (ListUtils.isEmpty(goodsInfo.getObj())) {
+                    //获取不到数据,显示空布局
+                    mStateView.showEmpty();
+                    return;
+                }
+                mStateView.showContent();//显示内容
+            }
+
+            if (ListUtils.isEmpty(goodsInfo.getObj())) {
+                //已经获取数据
+                if (pageNo!=1){
+                    GeneralUtils.showToastshort("数据加载完毕");
+                }else {
+                    GeneralUtils.showToastshort("暂无数据");
+                }
+                return;
+            }
+            goodsAndStoreArrayList.addAll(goodsInfo.getObj());
+
+        }else {
+            if (ListUtils.isEmpty(goodsAndStoreArrayList)) {
+                if (ListUtils.isEmpty(storeInfo.getObj())) {
+                    //获取不到数据,显示空布局
+                    mStateView.showEmpty();
+                    return;
+                }
+                mStateView.showContent();//显示内容
+            }
+
+            if (ListUtils.isEmpty(storeInfo.getObj())) {
+                //已经获取数据
+                if (pageNo!=1){
+                    GeneralUtils.showToastshort("数据加载完毕");
+                }else {
+                    GeneralUtils.showToastshort("暂无数据");
+                }
+                return;
+            }
+            goodsAndStoreArrayList.addAll(storeInfo.getObj());
+        }
+
+        messageListAdapter.setNewData(goodsAndStoreArrayList);
+
     }
+
+
+    public void collect_products_Failed() {
+        stop();
+        if (ListUtils.isEmpty(goodsAndStoreArrayList)) {
+            mStateView.showEmpty();//显示重试的布局
+        }
+    }
+
 }

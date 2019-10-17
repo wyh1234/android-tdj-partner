@@ -23,30 +23,29 @@
             <TextView
                 android:id="@+id/tv_goods_name"
                 android:layout_width="wrap_content"
-                android:text="冰红茶"
                 android:textSize="12sp"
                 android:textColor="@color/black_63"
                 android:layout_height="wrap_content" />
             <TextView
+                android:id="@+id/tv_nickname"
                 android:layout_toRightOf="@+id/tv_goods_name"
                 android:layout_width="wrap_content"
-                android:text="(惠友冰红茶特价促销)"
                 android:textSize="12sp"
                 android:textColor="@color/gray_69"
                 android:layout_height="wrap_content" />
         </RelativeLayout>
         <TextView
+            android:id="@+id/tv_tiltle"
             android:layout_toRightOf="@+id/tv"
             android:layout_width="wrap_content"
-            android:text="11.99元/箱（24盒*250毫升）"
             android:textSize="11sp"
             android:layout_marginTop="5dp"
             android:textColor="@color/view_bg1"
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/tv_tag"
             android:layout_width="48dp"
-            android:text="保鲜蔬"
             android:gravity="center"
             android:background="@mipmap/goodsimage_one"
             android:layout_marginTop="2dp"

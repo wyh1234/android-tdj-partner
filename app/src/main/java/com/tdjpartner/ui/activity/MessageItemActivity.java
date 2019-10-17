@@ -24,6 +24,7 @@ import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.mvp.presenter.MessageItemPresenter;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
+import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.statusbar.Eyes;
 
 import java.util.ArrayList;
@@ -100,7 +101,7 @@ public class MessageItemActivity extends BaseActivity<MessageItemPresenter> impl
         map.put("offset",pn);
         map.put("limit",10);
         map.put("type",Integer.parseInt(getIntent().getStringExtra("type")));
-        map.put("userId",25653);
+        map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
         mPresenter.pushMessage_item(map);
     }
     public View getStateViewRoot() {
@@ -128,6 +129,12 @@ public class MessageItemActivity extends BaseActivity<MessageItemPresenter> impl
 
     public void getpushMessage_item(PartnerMessageItemInfo partnerMessageItemInfo) {
         stop();
+        if (refreshLayout.isRefreshing()){
+            if (!ListUtils.isEmpty(objBeansList)) {
+                objBeansList.clear();
+            }
+        }
+
            if (ListUtils.isEmpty(objBeansList)) {
             if (ListUtils.isEmpty(partnerMessageItemInfo.getObj())) {
                 //获取不到数据,显示空布局
@@ -147,11 +154,7 @@ public class MessageItemActivity extends BaseActivity<MessageItemPresenter> impl
                 return;
             }
         }
-        if (refreshLayout.isRefreshing()){
-            if (!ListUtils.isEmpty(objBeansList)) {
-                objBeansList.clear();
-            }
-        }
+
         objBeansList.addAll(partnerMessageItemInfo.getObj());
         partnerMessageItemAdapter.setNewData(objBeansList);
 

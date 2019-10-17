@@ -2,6 +2,7 @@ package com.tdjpartner.ui.activity;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -12,6 +13,7 @@ import com.tdjpartner.model.Bank;
 import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.mvp.presenter.SettingPresenter;
 import com.tdjpartner.utils.GeneralUtils;
+import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.statusbar.Eyes;
 
 import java.util.HashMap;
@@ -27,22 +29,36 @@ public class SettingActivity extends BaseActivity<SettingPresenter> {
     RelativeLayout rl_bank;
     @BindView(R.id.rl_modification)
     RelativeLayout rl_modification;
-    @OnClick({R.id.btn_back,R.id.rl_bank,R.id.rl_modification})
+    @BindView(R.id.btn_out_login)
+    Button btn_out_login;
+    @OnClick({R.id.btn_back,R.id.rl_bank,R.id.rl_modification,R.id.btn_out_login})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.btn_back:
                 finish();
                 break;
             case  R.id.rl_bank://判断是否实名，通过用户信息判断
-                Map<String,Object> map=new HashMap<>();
-                map.put("userId",25653);
-                mPresenter.bankAccount(map);
+                if (UserUtils.getInstance().getLoginBean()!=null){
+                    if (!GeneralUtils.isNullOrZeroLenght(UserUtils.getInstance().getLoginBean().getIdCard())){
+                        Map<String,Object> map=new HashMap<>();
+                        map.put("userId",UserUtils.getInstance().getLoginBean().getEntityId());
+                        mPresenter.bankAccount(map);
+                    }else {
+                        Intent intent=new Intent(this,RealNameAuthenticationActivity.class);
+                        startActivity(intent);
+                    }
+                }
+
 
                 break;
             case R.id.rl_modification:
                 Intent intent1=new Intent(this,ForgetPasswordActivity.class);
                 startActivity(intent1);
                     break;
+            case R.id.btn_out_login:
+                mPresenter.pushMessageLogout();
+
+                break;
         }
     }
     @Override

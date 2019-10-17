@@ -14,25 +14,33 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.WithdrawDetalisAdapter;
 import com.tdjpartner.base.BaseActivity;
+import com.tdjpartner.model.BankList;
+import com.tdjpartner.model.Filterinfo;
 import com.tdjpartner.model.WithdrawDetalis;
 import com.tdjpartner.mvp.presenter.IPresenter;
+import com.tdjpartner.mvp.presenter.WithdrawDetalisPresenter;
+import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
+import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.statusbar.Eyes;
 
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class WithdrawDetalisActivity extends BaseActivity implements OnRefreshListener, OnLoadmoreListener {
+public class WithdrawDetalisActivity extends BaseActivity<WithdrawDetalisPresenter> implements OnRefreshListener, OnLoadmoreListener {
     @BindView(R.id.refreshLayout)
     RefreshLayout refreshLayout;
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
-    public int pageNo = 1;//翻页计数器
-    private int index=0;
-    private List<WithdrawDetalis> withdrawDetalisList=new ArrayList<>();
+    public int pageNo = 0;//翻页计数器
+    private List<WithdrawDetalis.WithdrawDetalisData> withdrawDetalisList=new ArrayList<>();
     private WithdrawDetalisAdapter withdrawDetalisAdapter;
     @BindView(R.id.btn_back)
     ImageView btn_back;
@@ -40,6 +48,16 @@ public class WithdrawDetalisActivity extends BaseActivity implements OnRefreshLi
     TextView tv_title;
     @BindView(R.id.tv_right)
     TextView tv_right;
+    private Filterinfo filterinfo;
+
+    public Filterinfo getFilterinfo() {
+        return filterinfo;
+    }
+
+    public void setFilterinfo(Filterinfo filterinfo) {
+        this.filterinfo = filterinfo;
+    }
+
     @OnClick({R.id.btn_back,R.id.tv_right})
     public void onClick(View view){
         switch (view.getId()){
@@ -53,8 +71,8 @@ public class WithdrawDetalisActivity extends BaseActivity implements OnRefreshLi
         }
     }
     @Override
-    protected IPresenter loadPresenter() {
-        return null;
+    protected WithdrawDetalisPresenter loadPresenter() {
+        return new WithdrawDetalisPresenter();
     }
 
     @Override
@@ -62,6 +80,12 @@ public class WithdrawDetalisActivity extends BaseActivity implements OnRefreshLi
 
     }
 
+    @Subscribe
+    public void onEvent(Filterinfo filterinfo) {
+        setFilterinfo(filterinfo);
+        refreshLayout.autoRefresh();
+
+    }
     @Override
     protected void initView() {
         Eyes.translucentStatusBar(this,true);
@@ -69,13 +93,10 @@ public class WithdrawDetalisActivity extends BaseActivity implements OnRefreshLi
         tv_right.setText("筛选");
         refreshLayout.setOnRefreshListener(this);
         refreshLayout.setOnLoadmoreListener(this);
-        withdrawDetalisList.add(new WithdrawDetalis());
-        withdrawDetalisList.add(new WithdrawDetalis());
-        withdrawDetalisList.add(new WithdrawDetalis());
         LinearLayoutManager layout = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
         recyclerView_list.setLayoutManager(layout);
-        withdrawDetalisAdapter=new WithdrawDetalisAdapter(R.layout.withdraw_details_item,withdrawDetalisList);
+        withdrawDetalisAdapter=new WithdrawDetalisAdapter(R.layout.withdraw_details_item,withdrawDetalisList,this);
         recyclerView_list.setAdapter(withdrawDetalisAdapter);
         refreshLayout.autoRefresh();
     }
@@ -92,29 +113,22 @@ public class WithdrawDetalisActivity extends BaseActivity implements OnRefreshLi
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
-        pageNo=1;
-        getData(1);
+        pageNo=0;
+        getData(pageNo);
     }
     protected  void getData(int pn){
-        get_client_success();
+        Map<String,Object> map=new HashMap<>();
+        map.put("offset",pn);
+        map.put("limit",10);
+        map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
 
+        map.put("appStatus",getFilterinfo()==null?"":getFilterinfo().getAppStatus());
+        map.put("createStartTime",getFilterinfo()==null?"":getFilterinfo().getCreateStartTime());
+        map.put("createEndTime",getFilterinfo()==null?"":getFilterinfo().getCreateEndTime());
+        mPresenter.findCashWithdrawalFlowList(map);
 
     }
 
-    public void get_client_success(){
-        if (refreshLayout.isRefreshing()){
-            if (!ListUtils.isEmpty(withdrawDetalisList)) {
-                withdrawDetalisList.clear();
-            }
-        }
-        withdrawDetalisList.add(new WithdrawDetalis());
-        withdrawDetalisList.add(new WithdrawDetalis());
-        withdrawDetalisList.add(new WithdrawDetalis());
-
-        withdrawDetalisAdapter.setNewData(withdrawDetalisList);
-//        mStateView.showEmpty();
-        stop();
-    }
     public View getStateViewRoot() {
         return recyclerView_list;
     }
@@ -126,5 +140,43 @@ public class WithdrawDetalisActivity extends BaseActivity implements OnRefreshLi
         if (refreshLayout.isEnableLoadmore()) {
             refreshLayout.finishLoadmore();
         }
+    }
+
+    public void getWithdrawDetailsSuccess(WithdrawDetalis  withdrawDetalis) {
+        stop();
+        if (refreshLayout.isRefreshing()){
+            if (!ListUtils.isEmpty(withdrawDetalisList)) {
+                withdrawDetalisList.clear();
+            }
+        }
+
+        if (ListUtils.isEmpty(withdrawDetalisList)) {
+            if (ListUtils.isEmpty(withdrawDetalis.getObj())) {
+                //获取不到数据,显示空布局
+                mStateView.showEmpty();
+                return;
+            }
+            mStateView.showContent();//显示内容
+        }
+
+        if (ListUtils.isEmpty(withdrawDetalis.getObj())) {
+            //已经获取数据
+            if (pageNo!=1){
+                GeneralUtils.showToastshort("数据加载完毕");
+            }else {
+                GeneralUtils.showToastshort("暂无数据");
+            }
+            return;
+        }
+        withdrawDetalisList.addAll(withdrawDetalis.getObj());
+        withdrawDetalisAdapter.setNewData(withdrawDetalisList);
+    }
+    public void getpushMessage_item_failed() {
+        stop();
+        if (ListUtils.isEmpty(withdrawDetalisList)) {
+            //如果一开始进入没有数据
+            mStateView.showEmpty();//显示重试的布局
+        }
+
     }
 }

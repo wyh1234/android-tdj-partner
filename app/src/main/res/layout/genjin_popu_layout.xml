@@ -25,7 +25,7 @@
                 android:layout_marginRight="@dimen/dp_40"
                 android:textColor="@color/black_63"
                 android:textSize="@dimen/sp_16"
-                android:text="您确定要跟进客户“中铁大桥局食堂”吗？"
+
                 android:layout_height="109dp" />
             <View
                 android:id="@+id/view"

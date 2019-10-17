@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <LinearLayout
-            android:id="@+id/ll"
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -42,9 +42,9 @@
                         android:textStyle="bold"
                         android:textSize="27sp"
                         android:gravity="bottom"
+                        android:text="0"
                         android:layout_toRightOf="@+id/tv"
                         android:textColor="@color/view_bg1"
-                        android:text="1000.00"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent" />
                     <TextView
@@ -71,9 +71,10 @@
                         android:textColor="@color/gray_69"
                         android:layout_height="wrap_content" />
                     <TextView
+                        android:id="@+id/tv_orderMoney"
                         android:layout_toRightOf="@+id/tv1"
                         android:layout_width="wrap_content"
-                        android:text="+90000"
+                        android:text="0"
                         android:layout_marginLeft="10dp"
                         android:textSize="@dimen/sp_12"
                         android:textColor="@color/black_63"
@@ -83,15 +84,15 @@
                         android:layout_marginRight="19dp"
                         android:layout_alignParentRight="true"
                         android:layout_width="wrap_content"
-                        android:text="-90000"
                         android:textSize="@dimen/sp_12"
+                        android:text="0"
                         android:layout_marginLeft="10dp"
                         android:textColor="@color/black_63"
                         android:layout_height="wrap_content" />
                     <TextView
                         android:layout_toLeftOf="@+id/tv_money_f"
                         android:layout_width="wrap_content"
-                        android:text="订单收益:"
+                        android:text="减退款提成:"
                         android:textSize="@dimen/sp_12"
                         android:textColor="@color/gray_69"
                         android:layout_height="wrap_content" />
@@ -157,9 +158,9 @@
                 android:id="@+id/recyclerView_list"
                 android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
+                android:layout_height="match_parent">
             </android.support.v7.widget.RecyclerView>
+
         </LinearLayout>
 
         <com.scwang.smartrefresh.layout.footer.ClassicsFooter
