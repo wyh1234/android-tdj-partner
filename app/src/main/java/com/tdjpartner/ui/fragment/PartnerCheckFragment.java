@@ -1,5 +1,6 @@
 package com.tdjpartner.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,24 +17,40 @@ import com.tdjpartner.R;
 import com.tdjpartner.base.BaseFrgment;
 import com.tdjpartner.model.ClientInfo;
 import com.tdjpartner.model.PartnerCheck;
+import com.tdjpartner.model.SeachTag;
 import com.tdjpartner.mvp.presenter.IPresenter;
+import com.tdjpartner.mvp.presenter.PartnerCheckPresenter;
 import com.tdjpartner.ui.activity.PartnerCheckDetailsActivity;
 import com.tdjpartner.utils.ListUtils;
+import com.tdjpartner.utils.cache.UserUtils;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 
-public class PartnerCheckFragment extends BaseFrgment  implements OnRefreshListener, OnLoadmoreListener, BaseQuickAdapter.OnItemClickListener{
+public class PartnerCheckFragment extends BaseFrgment<PartnerCheckPresenter>  implements OnRefreshListener, BaseQuickAdapter.OnItemClickListener{
     @BindView(R.id.refreshLayout)
     RefreshLayout refreshLayout;
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
     private int index=0;
-    public int pageNo = 1;//翻页计数器
     private List<PartnerCheck> data=new ArrayList<>();
     private PartnerCheckAdapter partnerCheckAdapter;
+    private SeachTag seachTag;
+
+    public SeachTag getSeachTag() {
+        return seachTag;
+    }
+
+    public void setSeachTag(SeachTag seachTag) {
+        this.seachTag = seachTag;
+    }
+
     public static PartnerCheckFragment newInstance(int str) {
         Bundle args = new Bundle();
         args.putInt("intent", str);
@@ -41,11 +58,22 @@ public class PartnerCheckFragment extends BaseFrgment  implements OnRefreshListe
         f.setArguments(args);
         return f;
     }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        LogUtils.e("onAttach");
+        registerEventBus(this);
+    }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        LogUtils.e("onDetach");
+        unregisterEventBus(this);
+    }
     @Override
     protected void initView(View view) {
         refreshLayout.setOnRefreshListener(this);
-        refreshLayout.setOnLoadmoreListener(this);
         LinearLayoutManager layout = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
         recyclerView_list.setLayoutManager(layout);
@@ -67,8 +95,8 @@ public class PartnerCheckFragment extends BaseFrgment  implements OnRefreshListe
     }
 
     @Override
-    protected IPresenter loadPresenter() {
-        return null;
+    protected PartnerCheckPresenter loadPresenter() {
+        return new PartnerCheckPresenter();
     }
 
     @Override
@@ -79,49 +107,35 @@ public class PartnerCheckFragment extends BaseFrgment  implements OnRefreshListe
     @Override
     public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
         Intent intent=new Intent(getContext(), PartnerCheckDetailsActivity.class);
+        intent.putExtra("verifyStatus",data.get(i).getVerifyStatus()+"");
         startActivity(intent);
 
     }
 
-    @Override
-    public void onLoadmore(RefreshLayout refreshlayout) {
-        getData(++pageNo);
-    }
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
         LogUtils.e(index);
-        pageNo=1;
-        getData(1);
+        getData();
     }
-    protected  void getData(int pn){
-        get_client_success();
-
-
-    }
-
-    public void  get_client_Failed(){
-        stop();
-        if (ListUtils.isEmpty(data)) {
-            //如果一开始进入没有数据
-            mStateView.showEmpty();//显示重试的布局
+    protected  void getData(){
+        Map<String,Object> map=new HashMap<>();
+        map.put("userId", "25736");
+        if (index==1){
+            map.put("verifyStatus", 0);
+        }else if (index==2||index==3){
+            map.put("verifyStatus", index);
         }
+        map.put("keyword",seachTag==null?"":seachTag.getTag());
+        mPresenter.verifyList(map);
+
 
     }
-    public void get_client_success(){
-        if (refreshLayout.isRefreshing()){
-            if (!ListUtils.isEmpty(data)) {
-                data.clear();
-            }
-        }
+    @Subscribe
+    public void eventCode(SeachTag seachTag) {
+        setSeachTag(seachTag);
+        refreshLayout.autoRefresh();
 
-        data.add(new PartnerCheck());
-        data.add(new PartnerCheck());
-        data.add(new PartnerCheck());
-        data.add(new PartnerCheck());
-        partnerCheckAdapter.notifyDataSetChanged();
-//        mStateView.showEmpty();
-        stop();
     }
     /**StateView的根布局，默认是整个界面，如果需要变换可以重写此方法*/
     public View getStateViewRoot() {
@@ -134,14 +148,34 @@ public class PartnerCheckFragment extends BaseFrgment  implements OnRefreshListe
         if (refreshLayout.isRefreshing()) {
             refreshLayout.finishRefresh();
         }
-        if (refreshLayout.isEnableLoadmore()) {
-            refreshLayout.finishLoadmore();
-        }
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
+
+    public void verifyList_Success(List<PartnerCheck> partnerCheckList) {
         stop();
+        if (!ListUtils.isEmpty(data)) {
+            data.clear();
+        }
+
+        if (ListUtils.isEmpty(data)) {
+            if (ListUtils.isEmpty(partnerCheckList)) {
+                //获取不到数据,显示空布局
+                mStateView.showEmpty();
+                return;
+            }
+            mStateView.showContent();//显示内容
+        }
+
+
+        data.addAll(partnerCheckList);
+        partnerCheckAdapter.setNewData(data);
+    }
+
+    public void verifyList_Failed() {
+        stop();
+        if (ListUtils.isEmpty(data)) {
+            //如果一开始进入没有数据
+            mStateView.showEmpty();//显示重试的布局
+        }
     }
 }

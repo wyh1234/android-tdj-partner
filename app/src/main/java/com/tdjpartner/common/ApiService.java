@@ -6,6 +6,8 @@ import com.tdjpartner.model.BaiFangHistory;
 import com.tdjpartner.model.Bank;
 import com.tdjpartner.model.BankList;
 import com.tdjpartner.model.BannerEntity;
+import com.tdjpartner.model.ClientInfo;
+import com.tdjpartner.model.ClientSeachInfo;
 import com.tdjpartner.model.CouponsStatistics;
 import com.tdjpartner.model.DiscountCoupon;
 import com.tdjpartner.model.DropOuting;
@@ -14,8 +16,11 @@ import com.tdjpartner.model.GoodsInfo;
 import com.tdjpartner.model.HomePageFuncationButton;
 import com.tdjpartner.model.IntegralShop;
 import com.tdjpartner.model.InvitationHistory;
+import com.tdjpartner.model.MyCountMoney;
 import com.tdjpartner.model.OrderDetail;
 import com.tdjpartner.model.OrderList;
+import com.tdjpartner.model.PartnerCheck;
+import com.tdjpartner.model.PartnerCheckDetails;
 import com.tdjpartner.model.PartnerMessageInfo;
 import com.tdjpartner.model.PartnerMessageItemInfo;
 import com.tdjpartner.model.RentingInfos;
@@ -340,6 +345,53 @@ public interface ApiService {
     @Headers({"url_type:xuming"})
     @POST("partner/amountAnalysisRecords/info")
     Observable<BaseResponse<EarningsHistory>> earning_info(@Body RequestBody body);
+
+    /*
+     *.地图
+     *
+     *
+     * */
+    @Headers({"url_type:xuming"})
+    @POST("report/customer/hotelMap")
+    Observable<BaseResponse<List<ClientInfo> >> hotelMap(@Body RequestBody body);
+
+
+    /*
+     *.地图搜索
+     *
+     *
+     * */
+    @Headers({"url_type:xuming"})
+    @POST("report/customer/hotelSearch")
+    Observable<BaseResponse<ClientSeachInfo>> customer_hotelMap(@Body RequestBody body);
+
+    /*
+     *.审核列表
+     *
+     *
+     * */
+    @Headers({"url_type:xuming"})
+    @POST("partner/userApply/verifyList")
+    Observable<BaseResponse<List<PartnerCheck>>> verifyList(@Body  RequestBody body);
+
+
+    /*
+     *.获取我的个人资金信息  总收益  已提现  剩余金额
+     *
+     *
+     * */
+    @Headers({"url_type:xuming"})
+    @POST("partner/amountAnalysisRecords/myCountMoney")
+    Observable<BaseResponse<MyCountMoney>> myCountMoney(@Body  RequestBody body);
+
+    /*
+     *.审核明细
+     *
+     *
+     * */
+    @Headers({"url_type:xuming"})
+    @POST("partner/userApply/verifyDetail")
+    Observable<BaseResponse<PartnerCheckDetails>> verifyDetail(@Body  RequestBody body);
 
 
 }

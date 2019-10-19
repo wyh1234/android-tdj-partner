@@ -177,6 +177,7 @@
                     <ImageView
                         android:id="@+id/id_card_positive_iv"
                         android:layout_width="165dp"
+                        android:scaleType="centerCrop"
                         android:src="@mipmap/sfzz"
                         android:layout_height="116dp" />
                     
@@ -194,6 +195,7 @@
                     android:id="@+id/id_card_negative_iv"
                     android:layout_width="165dp"
                     android:src="@mipmap/sfzf"
+                    android:scaleType="centerCrop"
                     android:layout_height="116dp" />
 
             </RelativeLayout>

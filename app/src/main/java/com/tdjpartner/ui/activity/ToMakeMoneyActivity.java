@@ -118,7 +118,7 @@ public class ToMakeMoneyActivity extends BaseActivity<ToMakeMoneyPresenter> {
         }
         if (toMakeMoney.getNewTenDate().size()>0){
             for (int i=0;i<toMakeMoney.getNewTenDate().size();i++){
-                builder.append(toMakeMoney.getNewTenDate().get(i));
+                builder.append(toMakeMoney.getNewTenDate().get(i)+"\t\t\t");
             }
             tv_newten_date.setText(builder.toString());
         }

@@ -5,12 +5,11 @@
     <RelativeLayout
         android:gravity="center_vertical"
         android:layout_marginLeft="@dimen/dp_10"
-        android:layout_marginRight="30dp"
+        android:layout_marginRight="@dimen/dp_10"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TextView
             android:id="@+id/tv_num"
-            android:text="2"
             android:layout_marginTop="-4dp"
             android:textColor="@color/black_63"
             android:layout_alignParentTop="true"
@@ -20,29 +19,28 @@
         <ImageView
             android:id="@+id/iv"
             android:layout_toRightOf="@+id/tv_num"
-            android:layout_width="wrap_content"
+            android:layout_width="17dp"
             android:src="@mipmap/map_info_item_bg"
-            android:layout_height="wrap_content" />
+            android:layout_height="17dp" />
         <TextView
             android:id="@+id/tv_tiltle"
             android:layout_toRightOf="@+id/iv"
             android:layout_marginLeft="7dp"
-            android:text="湘颚情酒店"
             android:textColor="@color/black_63"
             android:textSize="@dimen/sp_14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:id="@+id/tv_regionCollNo"
             android:layout_toRightOf="@+id/tv_tiltle"
             android:layout_marginLeft="9dp"
-            android:text="D92区72-58"
             android:textColor="@color/gray_66"
             android:textSize="@dimen/sp_12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
+            android:id="@+id/tv_boss"
             android:layout_alignParentRight="true"
-            android:text="李四"
             android:drawablePadding="10dp"
             android:drawableLeft="@mipmap/call_hei_bg"
             android:textColor="@color/gray_66"
@@ -50,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:text="徐东大街100号"
+            android:id="@+id/tv_address"
             android:layout_toRightOf="@+id/iv"
             android:layout_below="@+id/tv_tiltle"
             android:layout_marginLeft="10dp"

@@ -37,7 +37,7 @@ public class LocationUtils {
         return LocationHolder.INSTANCE;
     }
 
-    public void startLocalService() {
+    public void startLocalService(String tag) {
         //初始化定位
         mLocationClient = new AMapLocationClient(AppAplication.getAppContext());
         //设置定位回调监听
@@ -52,6 +52,7 @@ public class LocationUtils {
                     locationBean.setLatitude(aMapLocation.getLatitude());
                     locationBean.setaMapLocation(aMapLocation);
                     locationBean.setAddress(aMapLocation.getAddress());
+                    locationBean.setTag(tag);
                     EventBus.getDefault().post(locationBean);
                 }else {
                     LogUtils.i("location<<<failed", "定位失败\n错误码：" + aMapLocation.getErrorCode()

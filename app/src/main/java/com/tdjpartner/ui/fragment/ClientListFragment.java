@@ -1,5 +1,7 @@
 package com.tdjpartner.ui.fragment;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,30 +15,43 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.ClientListAdapter;
 import com.tdjpartner.base.BaseFrgment;
 import com.tdjpartner.model.ClientInfo;
 import com.tdjpartner.model.IntegralShop;
+import com.tdjpartner.model.LocationBean;
+import com.tdjpartner.mvp.presenter.ClientListPresenter;
 import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.ui.activity.ClientDetailsActivity;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
+import com.tdjpartner.utils.LocationUtils;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
+import io.reactivex.functions.Consumer;
 
-public class ClientListFragment extends BaseFrgment  implements OnRefreshListener, OnLoadmoreListener, BaseQuickAdapter.OnItemClickListener {
+public class ClientListFragment extends BaseFrgment<ClientListPresenter>  implements OnRefreshListener, BaseQuickAdapter.OnItemClickListener {
     @BindView(R.id.refreshLayout)
     RefreshLayout refreshLayout;
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
     private int index=0;
-    public int pageNo = 1;//翻页计数器
+    public int pageNo = 0;//翻页计数器
     private ClientListAdapter clientListAdapter;
     private List<ClientInfo> data=new ArrayList<>();
+    public RxPermissions rxPermissions;
+    private boolean aBoolean;
+    private LocationBean locationBean;
     public static ClientListFragment newInstance(int str) {
         Bundle args = new Bundle();
         args.putInt("intent", str);
@@ -46,9 +61,8 @@ public class ClientListFragment extends BaseFrgment  implements OnRefreshListene
     }
     @Override
     protected void initView(View view) {
-
         refreshLayout.setOnRefreshListener(this);
-        refreshLayout.setOnLoadmoreListener(this);
+        rxPermissions = new RxPermissions(getActivity());
         LinearLayoutManager layout = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
         recyclerView_list.setLayoutManager(layout);
@@ -63,18 +77,49 @@ public class ClientListFragment extends BaseFrgment  implements OnRefreshListene
     protected void loadData() {
 
     }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        LogUtils.e("onAttach");
+        registerEventBus(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        LogUtils.e("onDetach");
+        unregisterEventBus(this);
+    }
+
 
     @Override
     public void onUserVisible() {
         super.onUserVisible();//可见时
+        LogUtils.e("2222222");
         index=getArguments().getInt("intent");
-
         refreshLayout.autoRefresh();
+
+    }
+    /*code 不同事件接受處理*/
+    @Subscribe
+    public void eventCode(LocationBean locationBean) {
+        if (locationBean.getTag().contains("LOCATION")){
+            LogUtils.e(locationBean);
+            Map<String,Object> map=new HashMap<>();
+            map.put("userId",21);
+            map.put("userType",index+1);
+            map.put("latitude","30.5998320000");
+            map.put("longitude","114.3439610000");
+            map.put("keyword","");
+            mPresenter.hotelMap(map);
+        }
+
+
     }
 
     @Override
-    protected IPresenter loadPresenter() {
-        return null;
+    protected ClientListPresenter loadPresenter() {
+        return new ClientListPresenter();
     }
 
     @Override
@@ -88,69 +133,39 @@ public class ClientListFragment extends BaseFrgment  implements OnRefreshListene
         return R.layout.client_list_fragment;
     }
 
-    @Override
+/*    @Override
     public void onLoadmore(RefreshLayout refreshlayout) {
-        getData(++pageNo);
-    }
+//        getData(++pageNo);
+    }*/
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
-
-        LogUtils.e(index);
-        pageNo=1;
-        getData(1);
+//        LogUtils.e(index);
+//        pageNo=0;
+//        getData(pageNo);
+        getData();
     }
-    protected  void getData(int pn){
-                get_client_success();
+    protected  void getData(){
+        rxPermissions.request( Manifest.permission.ACCESS_COARSE_LOCATION).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean b) throws Exception {
+                LogUtils.e(b);
+                aBoolean=b;
+                if (b){
+                    LocationUtils.getInstance().startLocalService("LOCATION");
+                }else {
+                    GeneralUtils.isNullOrZeroLenght("请开启位置信息");
+                    hotelMap_failed();
+                }
 
-
-    }
-    public void  get_client_Failed(){
-        stop();
-        if (ListUtils.isEmpty(data)) {
-            //如果一开始进入没有数据
-            mStateView.showEmpty();//显示重试的布局
-        }
-
-    }
-    public void get_client_success(){
-        if (refreshLayout.isRefreshing()){
-            if (!ListUtils.isEmpty(data)) {
-                data.clear();
             }
-        }
+        });
 
-        data.add(new ClientInfo());
-        data.add(new ClientInfo());
-        data.add(new ClientInfo());
-        data.add(new ClientInfo());
-        clientListAdapter.notifyDataSetChanged();
-//        mStateView.showEmpty();
-        stop();
-  /*      if (ListUtils.isEmpty(data)) {
-            if (ListUtils.isEmpty(body.getData().getObj())) {
-                //获取不到数据,显示空布局
-               mStateView.showEmpty();
-                return;
-            }
-                mStateView.showContent();//显示内容
-        }
 
-        if (ListUtils.isEmpty(body.getData().getObj())) {
-            //已经获取数据
-            if (pn!=1){
-                GeneralUtils.showToastshort("数据加载完毕");
-                return;
-            }else {
-                GeneralUtils.showToastshort("暂无数据");
-                return;
-            }
 
-        }
 
-        data.addAll(body.getData().getObj());
-        clientListAdapter.notifyDataSetChanged();*/
     }
+
 
     /**StateView的根布局，默认是整个界面，如果需要变换可以重写此方法*/
     public View getStateViewRoot() {
@@ -163,21 +178,45 @@ public class ClientListFragment extends BaseFrgment  implements OnRefreshListene
         if (refreshLayout.isRefreshing()) {
             refreshLayout.finishRefresh();
         }
-        if (refreshLayout.isEnableLoadmore()) {
+     /*   if (refreshLayout.isEnableLoadmore()) {
             refreshLayout.finishLoadmore();
-        }
+        }*/
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        stop();
-    }
 
 
     @Override
     public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
         Intent intent=new Intent(getContext(), ClientDetailsActivity.class);
         startActivity(intent);
+    }
+
+    public void hotelMap_failed() {
+        stop();
+        if (ListUtils.isEmpty(data)) {
+            //如果一开始进入没有数据
+            mStateView.showEmpty();//显示重试的布局
+        }
+    }
+
+    public void hotelMap_Success(List<ClientInfo> clientInfoList) {
+        stop();
+            if (!ListUtils.isEmpty(data)) {
+                data.clear();
+            }
+
+        if (ListUtils.isEmpty(data)) {
+            if (ListUtils.isEmpty(clientInfoList)) {
+                //获取不到数据,显示空布局
+                mStateView.showEmpty();
+                return;
+            }
+            mStateView.showContent();//显示内容
+        }
+
+
+        data.addAll(clientInfoList);
+        clientListAdapter.setIndex(index);
+        clientListAdapter.setNewData(data);
     }
 }

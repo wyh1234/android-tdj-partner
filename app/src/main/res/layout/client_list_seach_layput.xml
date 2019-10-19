@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:background="@mipmap/client_bg"
+        android:layout_width="match_parent"
+        android:paddingTop="30dp"
+        android:layout_height="65dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="24dp">
+            <ImageView
+                android:id="@+id/btn_back"
+                android:layout_width="wrap_content"
+                android:src="@mipmap/back_home_one"
+                android:paddingLeft="15dp"
+                android:layout_centerVertical="true"
+                android:paddingRight="15dp"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/search_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@+id/tv_list_type"
+                android:layout_toRightOf="@+id/btn_back"
+                android:background="@drawable/search_text"
+                android:drawableStart="@mipmap/sousuo_bg"
+                android:drawablePadding="10dp"
+                android:layout_marginLeft="23dp"
+               android:hint="请输入门店名称/手机号"
+                android:gravity="center_vertical"
+                android:paddingStart="10dp"
+                android:textColor="@color/gray_66"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tv_list_type"
+                android:text="搜索"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/white"
+                android:layout_width="48dp"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+    <com.tdjpartner.widget.tablayout.WTabLayout
+        android:id="@+id/wtab"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        app:xTabDisplayNum="2"
+        app:xTabIndicatorColor="@color/view_bg1"
+        app:xTabIndicatorHeight="2dp"
+        app:xTabIndicatorWidth="23dp"
+        app:xTabSelectedTextColor="@color/view_bg1"
+        app:xTabTextColor="@color/gray_66"
+        app:xTabTextSize="14sp"
+        android:layout_height="38dp">
+
+    </com.tdjpartner.widget.tablayout.WTabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

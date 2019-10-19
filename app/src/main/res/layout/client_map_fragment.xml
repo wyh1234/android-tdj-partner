@@ -50,7 +50,7 @@
                 android:gravity="center"
                 android:paddingLeft="12dp"
                 android:paddingRight="@dimen/dp_10"
-                android:text="地图模式"
+                android:text="列表模式"
                 android:textColor="@color/gray_66"
                 android:textSize="12sp" />
         </RelativeLayout>
@@ -70,11 +70,12 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="199dp"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="@dimen/dp_10"
             android:layout_marginRight="@dimen/dp_10"
             android:layout_marginBottom="15dp"
+            android:visibility="gone"
             android:background="@drawable/client_item_sahp">
 
         </android.support.v7.widget.RecyclerView>

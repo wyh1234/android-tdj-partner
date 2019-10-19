@@ -21,11 +21,15 @@ public class ClientFragment  extends BaseFrgment {
     private  String listdata = "list";
     @Override
     protected void initView(View view) {
-        checkClientFragment(new ClientFragmentType(listdata));
-
-
 
     }
+
+    @Override
+    protected void onFragmentFirstVisible() {
+        super.onFragmentFirstVisible();
+        checkClientFragment(new ClientFragmentType(listdata));
+    }
+
     public List<Fragment> getChildFrament() {
         return getChildFragmentManager().getFragments();
     }

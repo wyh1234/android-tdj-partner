@@ -18,7 +18,7 @@ public class PartnerCheckDetailsAdapter extends BaseQuickAdapter<PartnerCheckDet
 
     @Override
     protected void convert(BaseViewHolder baseViewHolder, PartnerCheckDetails partnerCheckDetails) {
-        if (partnerCheckDetails.isF()){
+  /*      if (partnerCheckDetails.isF()){
             baseViewHolder.setGone(R.id.ll_isf,false);
             baseViewHolder.setImageResource(R.id.iv1,R.mipmap.xuanzhong);
             baseViewHolder.setImageResource(R.id.iv2,R.mipmap.weixuanzhong);
@@ -26,7 +26,7 @@ public class PartnerCheckDetailsAdapter extends BaseQuickAdapter<PartnerCheckDet
             baseViewHolder.setGone(R.id.ll_isf,true);
             baseViewHolder.setImageResource(R.id.iv1,R.mipmap.weixuanzhong);
             baseViewHolder.setImageResource(R.id.iv2,R.mipmap.xuanzhong);
-        }
+        }*/
         if (baseViewHolder.getAdapterPosition()==0){
             baseViewHolder.setImageResource(R.id.iv_status,R.mipmap.hongdian_bg);
         }else {

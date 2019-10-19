@@ -193,7 +193,7 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
         //关注；
         attentionDataList.add(new AttentionData("即将掉落"));
         attentionDataList.add(new AttentionData("公海跟进"));
-        attentionDataList.add(new AttentionData("合伙人审核"));
+        attentionDataList.add(new AttentionData("创客审核"));
         attentionDataList.add(new AttentionData("设置专员"));
         ScrollLinearLayoutManager layoutManager3=   new ScrollLinearLayoutManager(getActivity(), 4);
         attention_recyclerView.setLayoutManager(layoutManager3);

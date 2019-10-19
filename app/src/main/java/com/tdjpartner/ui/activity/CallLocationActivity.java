@@ -209,7 +209,7 @@ public class CallLocationActivity extends BaseActivity  implements LocationSourc
             public void accept(Boolean b) throws Exception {
                 aBoolean=b;
                 if (b){
-                    LocationUtils.getInstance().startLocalService();
+                    LocationUtils.getInstance().startLocalService("");
                 }
 
             }

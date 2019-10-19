@@ -19,38 +19,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:id="@+id/tv_leaderName"
             android:layout_width="wrap_content"
             android:textSize="14sp"
             android:textColor="@color/black_63"
-            android:text="负责人：张三"
             android:gravity="center"
             android:layout_height="wrap_content" />
         <TextView
+            android:id="@+id/tv_enterpriseCode"
             android:layout_width="wrap_content"
             android:textSize="12sp"
             android:gravity="center"
             android:layout_marginTop="@dimen/dp_10"
             android:textColor="@color/gray_66"
-            android:text="希尔顿酒店（主账号）"
             android:layout_height="wrap_content" />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_marginTop="13dp"
             android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/tv_nickNameAndPhone"
                 android:layout_width="wrap_content"
                 android:textSize="@dimen/sp_12"
-                android:text="周伟     18681222311"
                 android:drawableLeft="@mipmap/dianhua_bg"
                 android:drawablePadding="3dp"
                 android:textColor="@color/gray_69"
                 android:layout_height="wrap_content" />
             <TextView
+                android:id="@+id/tv_createdAt"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:textSize="@dimen/sp_12"
                 android:layout_marginRight="3dp"
-                android:text="2018.09.16    16:18:11"
                 android:drawableLeft="@mipmap/shijian_bg"
                 android:drawablePadding="3dp"
                 android:textColor="@color/gray_69"
@@ -77,9 +77,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <ImageView
+                    android:id="@+id/tv_imageUrl"
                     android:layout_width="match_parent"
-                    android:src="@mipmap/yingyezhao_bg"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     android:layout_height="71dp" />
                 <TextView
                     android:layout_alignParentBottom="true"
@@ -98,9 +98,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
             <ImageView
+                android:id="@+id/tv_bzlicenceUrl"
                 android:layout_weight="1"
-                android:src="@mipmap/yingyezhao_bg"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 android:layout_width="match_parent"
                 android:layout_height="71dp" />
 
@@ -119,11 +119,10 @@
             android:layout_marginTop="16dp"
             android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/tv_verifyStatus"
                 android:layout_width="70dp"
                 android:layout_alignParentRight="true"
-                android:background="@mipmap/check_item_hui_bg"
                 android:gravity="center"
-                android:textColor="@color/gray_66"
                 android:textSize="14sp"
                 android:text="待审核"
                 android:layout_height="25dp" />

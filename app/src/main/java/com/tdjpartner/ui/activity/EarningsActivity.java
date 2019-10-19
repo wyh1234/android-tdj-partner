@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import com.tdjpartner.R;
 import com.tdjpartner.base.BaseActivity;
+import com.tdjpartner.model.MyCountMoney;
+import com.tdjpartner.mvp.presenter.EarningsPresenter;
 import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
@@ -19,7 +21,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class EarningsActivity extends BaseActivity {
+public class EarningsActivity extends BaseActivity<EarningsPresenter> {
     @BindView(R.id.btn_back)
     ImageView btn_back;
     @BindView(R.id.tv_title)
@@ -28,6 +30,10 @@ public class EarningsActivity extends BaseActivity {
     TextView tv_right;
     @BindView(R.id.tv_ky_money)
     TextView tv_ky_money;
+    @BindView(R.id.tv_money)
+    TextView tv_money;
+    @BindView(R.id.tv_tx_money)
+    TextView tv_tx_money;
     @BindView(R.id.btn)
     Button btn;
     @OnClick({R.id.btn_back,R.id.tv_right,R.id.btn})
@@ -57,12 +63,15 @@ public class EarningsActivity extends BaseActivity {
 
     }
     @Override
-    protected IPresenter loadPresenter() {
-        return null;
+    protected EarningsPresenter loadPresenter() {
+        return new EarningsPresenter();
     }
 
     @Override
     protected void initData() {
+        Map<String,Object> map=new HashMap<>();
+        map.put("userId",25653);
+        mPresenter.myCountMoney(map);
 
     }
 
@@ -76,5 +85,20 @@ public class EarningsActivity extends BaseActivity {
     @Override
     protected int getLayoutId() {
         return R.layout.earnings_layout;
+    }
+
+    public void myCountMoneySuccess(MyCountMoney myCountMoney) {
+        if (!GeneralUtils.isNullOrZeroLenght(myCountMoney.getCount())){
+            tv_money.setText(myCountMoney.getCount());
+
+        }
+        if (!GeneralUtils.isNullOrZeroLenght(myCountMoney.getSurplusAmount())){
+            tv_ky_money.setText(myCountMoney.getSurplusAmount());
+        }
+        if (!GeneralUtils.isNullOrZeroLenght(myCountMoney.getWithdrawalAmount())){
+            tv_tx_money.setText(myCountMoney.getWithdrawalAmount());
+
+        }
+
     }
 }

@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -13,18 +14,21 @@ import com.tdjpartner.adapter.PartnerCheckDetailsAdapter;
 import com.tdjpartner.base.BaseActivity;
 import com.tdjpartner.model.PartnerCheckDetails;
 import com.tdjpartner.mvp.presenter.IPresenter;
+import com.tdjpartner.mvp.presenter.PartnerCheckDetailsPresenter;
 import com.tdjpartner.utils.popuwindow.FollowUpPopuWindow;
 import com.tdjpartner.utils.popuwindow.PartnerCheckDetailsPopu;
 import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.widget.CustomLinearLayout;
 import com.tdjpartner.widget.MyRecyclerView;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class PartnerCheckDetailsActivity extends BaseActivity implements BaseQuickAdapter.OnItemChildClickListener {
+public class PartnerCheckDetailsActivity extends BaseActivity<PartnerCheckDetailsPresenter> implements BaseQuickAdapter.OnItemChildClickListener {
     @BindView(R.id.recyclerview)
     MyRecyclerView recyclerview;
     @BindView(R.id.tv_title)
@@ -35,6 +39,8 @@ public class PartnerCheckDetailsActivity extends BaseActivity implements BaseQui
     Button btn;
     @BindView(R.id.btn_back)
     ImageView btn_back;
+    @BindView(R.id.ll)
+    LinearLayout ll;
     private PartnerCheckDetailsPopu partnerCheckDetailsPopu;
     @OnClick({R.id.btn,R.id.btn_back})
     public void onClick(View view){
@@ -62,12 +68,17 @@ public class PartnerCheckDetailsActivity extends BaseActivity implements BaseQui
     private PartnerCheckDetailsAdapter partnerCheckAdapter;
     private List<PartnerCheckDetails> data=new ArrayList<>();
     @Override
-    protected IPresenter loadPresenter() {
-        return null;
+    protected PartnerCheckDetailsPresenter loadPresenter() {
+        return new PartnerCheckDetailsPresenter();
     }
 
     @Override
     protected void initData() {
+
+        Map<String,Object> map=new HashMap<>();
+        map.put("userId",25736);
+        map.put("verifyStatus",getIntent().getStringExtra("verifyStatus"));
+        mPresenter.verifyDetail(map);
 
     }
 
@@ -87,6 +98,12 @@ public class PartnerCheckDetailsActivity extends BaseActivity implements BaseQui
         partnerCheckAdapter.setOnItemChildClickListener(this);
         tv_title.setText("审核处理");
         toolbar.setBackgroundResource(R.mipmap.home_bg);
+
+        if (getIntent().getStringExtra("verifyStatus").equals("1")){
+            ll.setVisibility(View.VISIBLE);
+        }else {
+            ll.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -96,13 +113,13 @@ public class PartnerCheckDetailsActivity extends BaseActivity implements BaseQui
 
     @Override
     public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-        if (view.getId()==R.id.rl_one){
+       /* if (view.getId()==R.id.rl_one){
             data.get(i).setF(true);
 
         }else if (view.getId()==R.id.rl_two){
             data.get(i).setF(false);
         }
-        partnerCheckAdapter.notifyDataSetChanged();
+        partnerCheckAdapter.notifyDataSetChanged();*/
 
     }
 }

@@ -49,6 +49,10 @@ public class ImageLoad {
     public static void loadImageViewSize(Context mContext, String path, int width, int height, ImageView mImageView) {
         GlideApp.with(mContext).load(path).override(width, height).into(mImageView);
     }
+    //设置加载中以及加载失败图片,加载图片
+    public static void loadImageViewLoding( String path, ImageView mImageView,int res) {
+        GlideApp.with(mImageView.getContext()).load(path).placeholder(res).error(res).into(mImageView);
+    }
 
     //设置加载中以及加载失败图片,加载图片
     public static void loadImageViewLoding( String path, ImageView mImageView) {

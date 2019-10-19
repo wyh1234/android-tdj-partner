@@ -23,14 +23,15 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray_66"
                 android:textSize="@dimen/sp_14"
-                android:text="希尔顿酒店"/>
+                />
             <TextView
+                android:id="@+id/tv_boss"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray_66"
                 android:textSize="@dimen/sp_12"
-                android:text="负责人:张三"/>
+              />
         </RelativeLayout>
 
         <RelativeLayout
@@ -42,8 +43,9 @@
                 android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="15dp"
-               android:src="@mipmap/yirenzheng"/>
+              />
             <TextView
+                android:id="@+id/tv_regionCollNo"
                 android:layout_toRightOf="@+id/iv_stastu"
                 android:layout_marginLeft="5dp"
                 android:layout_width="wrap_content"
@@ -51,7 +53,7 @@
                 android:gravity="center"
                 android:textColor="@color/gray_66"
                 android:textSize="@dimen/sp_12"
-                android:text="A2-12"/>
+                />
         </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -67,7 +69,6 @@
                     android:gravity="center"
                     android:textSize="@dimen/sp_12"
                     android:textColor="@color/gray_69"
-                    android:text="100"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:layout_below="@+id/tv_num"
@@ -96,14 +97,13 @@
                     android:gravity="center"
                     android:textSize="@dimen/sp_12"
                     android:textColor="@color/gray_69"
-                    android:text="100"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:layout_below="@+id/tv_num1"
                     android:gravity="center"
                     android:textSize="@dimen/sp_12"
                     android:textColor="@color/gray_69"
-                    android:text="今日下单额"
+                    android:text="客均价"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -124,14 +124,13 @@
                     android:gravity="center"
                     android:textSize="@dimen/sp_12"
                     android:textColor="@color/gray_69"
-                    android:text="100"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:layout_below="@+id/tv_num2"
                     android:gravity="center"
                     android:textSize="@dimen/sp_12"
                     android:textColor="@color/gray_69"
-                    android:text="今日下单额"
+                    android:text="近30天频次"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -151,14 +150,13 @@
                     android:gravity="center"
                     android:textSize="@dimen/sp_12"
                     android:textColor="@color/gray_69"
-                    android:text="100"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:layout_below="@+id/tv_num3"
                     android:gravity="center"
                     android:textSize="@dimen/sp_12"
                     android:textColor="@color/gray_69"
-                    android:text="今日下单额"
+                    android:text="连续未下单"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </RelativeLayout>
@@ -182,23 +180,28 @@
                 android:textSize="@dimen/sp_12"
                 android:textColor="@color/gray_69"
                 android:layout_marginLeft="8dp"
-                android:text="李媛"
                 android:layout_height="wrap_content" />
+
             <TextView
                 android:id="@+id/tv_address"
-                android:layout_toRightOf="@+id/tv_username"
                 android:layout_width="wrap_content"
-                android:gravity="center"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:textSize="@dimen/sp_12"
-                android:textColor="@color/gray_69"
+                android:layout_marginStart="17dp"
                 android:layout_marginLeft="16dp"
-                android:text="武昌徐东大街100号"
-                android:layout_height="wrap_content" />
+                android:layout_toEndOf="@+id/tv_username"
+                android:layout_toRightOf="@+id/tv_username"
+                android:gravity="center"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:layout_marginRight="55dp"
+                android:textColor="@color/gray_69"
+                android:textSize="@dimen/sp_12" />
             <TextView
                 android:id="@+id/tv_gj_status"
                 android:background="@mipmap/zaizhi"
                 android:gravity="center"
+                android:visibility="gone"
                 android:layout_alignParentRight="true"
                 android:textColor="@color/white"
                 android:textSize="10sp"

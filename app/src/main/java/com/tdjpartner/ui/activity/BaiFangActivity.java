@@ -167,7 +167,6 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter> implements F
         Eyes.translucentStatusBar(this,true);
         ed_callName.setText(UserUtils.getInstance().getLoginBean().getRealname());
         ed_callMobile.setText(UserUtils.getInstance().getLoginBean().getPhoneNumber());
-
         rxPermissions = new RxPermissions(this);
         location();
 
@@ -180,7 +179,7 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter> implements F
             public void accept(Boolean b) throws Exception {
                 f=b;
                 if (b){
-                    LocationUtils.getInstance().startLocalService();
+                    LocationUtils.getInstance().startLocalService("");
                 }else {
                     rl_dk.setBackgroundResource(R.mipmap.dakashibai);
                     tv_state.setText("无法打卡");
@@ -208,7 +207,7 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter> implements F
         }else {
             rl_dk.setBackgroundResource(R.mipmap.daka_one);
             tv_state.setText("正常打卡");
-            tv_state.setText(GeneralUtils.getColor(BaiFangActivity.this,R.color.white));
+            tv_state.setText(GeneralUtils.getColor(getContext(),R.color.white));
             tv_laction_name.setText("已进入考勤范围"+locationBean.getAddress());
             iv.setImageResource(R.mipmap.dakazc);
             GeneralUtils.showToastshort("您已打卡成功");

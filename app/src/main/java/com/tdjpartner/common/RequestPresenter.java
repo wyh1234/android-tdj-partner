@@ -8,6 +8,8 @@ import com.tdjpartner.http.RxUtils;
 import com.tdjpartner.model.BaiFangHistory;
 import com.tdjpartner.model.Bank;
 import com.tdjpartner.model.BankList;
+import com.tdjpartner.model.ClientInfo;
+import com.tdjpartner.model.ClientSeachInfo;
 import com.tdjpartner.model.CouponsStatistics;
 import com.tdjpartner.model.DiscountCoupon;
 import com.tdjpartner.model.DropOuting;
@@ -16,8 +18,11 @@ import com.tdjpartner.model.GoodsInfo;
 import com.tdjpartner.model.HomePageFuncationButton;
 import com.tdjpartner.model.IntegralShop;
 import com.tdjpartner.model.InvitationHistory;
+import com.tdjpartner.model.MyCountMoney;
 import com.tdjpartner.model.OrderDetail;
 import com.tdjpartner.model.OrderList;
+import com.tdjpartner.model.PartnerCheck;
+import com.tdjpartner.model.PartnerCheckDetails;
 import com.tdjpartner.model.PartnerMessageInfo;
 import com.tdjpartner.model.PartnerMessageItemInfo;
 import com.tdjpartner.model.RentingInfos;
@@ -148,6 +153,21 @@ public class RequestPresenter {
     }
     public static Disposable  earning_info(Map<String, Object> map, BaseObserver<EarningsHistory> callback) {
         return getApiService().earning_info(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  customer_hotelMap(Map<String, Object> map, BaseObserver<ClientSeachInfo> callback) {
+        return getApiService().customer_hotelMap(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  hotelMap(Map<String, Object> map, BaseObserver<List<ClientInfo> > callback) {
+        return getApiService().hotelMap(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  verifyList(Map<String, Object> map, BaseObserver<List<PartnerCheck>> callback) {
+        return getApiService().verifyList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  myCountMoney(Map<String, Object> map, BaseObserver<MyCountMoney> callback) {
+        return getApiService().myCountMoney(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  verifyDetail(Map<String, Object> map, BaseObserver<PartnerCheckDetails> callback) {
+        return getApiService().verifyDetail(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
 
     public static MultipartBody.Part getMultipartBody_part(String fileName, byte[] content) {

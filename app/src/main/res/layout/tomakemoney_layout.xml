@@ -126,7 +126,7 @@
                     android:layout_below="@+id/iv"
                     android:textColor="@color/gray_66"
                     android:layout_marginTop="11dp"
-                    android:text="邀请合伙人"
+                    android:text="邀请创客"
                     android:layout_centerHorizontal="true"
                     android:textSize="@dimen/sp_12"
                     android:layout_width="wrap_content"
@@ -225,7 +225,7 @@
             <TextView
                 android:id="@+id/tv2"
                 android:layout_width="wrap_content"
-                android:text="合伙人收益>"
+                android:text="创客收益>"
                 android:textSize="14sp"
                 android:textColor="@color/black_63"
                 android:layout_centerHorizontal="true"

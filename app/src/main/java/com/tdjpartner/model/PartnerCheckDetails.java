@@ -1,13 +1,7 @@
 package com.tdjpartner.model;
 
+import java.util.List;
+
 public class PartnerCheckDetails {
-    private boolean f;
 
-    public boolean isF() {
-        return f;
-    }
-
-    public void setF(boolean f) {
-        this.f = f;
-    }
 }

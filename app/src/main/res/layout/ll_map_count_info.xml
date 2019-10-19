@@ -4,16 +4,14 @@
     android:layout_height="20dp">
     <ImageView
         android:id="@+id/iv_maker_bg"
-        android:layout_width="wrap_content"
-        android:src="@mipmap/jiudianone_bg"
+        android:layout_width="18dp"
         android:layout_centerVertical="true"
-        android:layout_height="wrap_content" />
+        android:layout_height="18dp" />
     <TextView
         android:id="@+id/txt_count"
         android:layout_width="wrap_content"
         android:layout_toRightOf="@+id/iv_maker_bg"
         android:textSize="10sp"
-        android:text="长江酒店"
         android:layout_marginLeft="5dp"
         android:textColor="@color/gray_66"
         android:layout_centerVertical="true"

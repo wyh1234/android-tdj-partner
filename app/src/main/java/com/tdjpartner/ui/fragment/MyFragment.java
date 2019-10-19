@@ -121,9 +121,15 @@ public class MyFragment extends BaseFrgment<MyFragmentPresneter> implements Swip
         rl_sy.setOnClickListener(this);
         rl.setOnClickListener(this);
         myFragmentAdapter.addHeaderView(view1);
+
+
+
+    }
+
+    @Override
+    protected void onFragmentFirstVisible() {
+        super.onFragmentFirstVisible();
         setMyData();
-
-
     }
 
     public void setMyData(){
@@ -135,7 +141,7 @@ public class MyFragment extends BaseFrgment<MyFragmentPresneter> implements Swip
                 }else if (UserUtils.getInstance().getLoginBean().getGrade()==2){
                     tv_name.setText("城市主管");
                 }else {
-                    tv_name.setText("合伙人");
+                    tv_name.setText("创客");
                 }
             }
 

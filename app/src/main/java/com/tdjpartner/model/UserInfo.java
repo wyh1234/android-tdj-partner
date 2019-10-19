@@ -10,10 +10,10 @@ public class UserInfo  {
     private String alias;  //昵称
     private int empRole;//所属门店角色
     private int site;
-    private Integer grade;//用户级别1经理2主管3业务员(合伙人)
+    private Integer grade;//用户级别1经理2主管3业务员(创客)
     private Long surplusAmount 	;//总提成收益
     private String idCard 	;//非空，已实名
-    private String avatarUrl 	;//自定义合伙人图片
+    private String avatarUrl 	;//自定义创客图片
     private Long pmCount 	;//未读消息数
     private String siteName;
 

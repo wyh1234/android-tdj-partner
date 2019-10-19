@@ -13,6 +13,7 @@ import com.github.nukc.stateview.StateView;
 import com.tdjpartner.R;
 import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.mvp.view.IView;
+import com.tdjpartner.utils.LocationUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -104,6 +105,7 @@ public abstract class BaseFrgment<P extends IPresenter> extends LazyLoadFragment
         if (compositeDisposable != null) {
             compositeDisposable.clear();
         }
+        LocationUtils.getInstance().stopLocalService();
     }
 
     public void addSubscribe(Disposable disposable) {

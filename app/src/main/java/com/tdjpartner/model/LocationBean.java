@@ -7,6 +7,15 @@ public class LocationBean {
     private double Latitude;
     private String address;
     private AMapLocation aMapLocation;
+    private String tag;
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
 
     public AMapLocation getaMapLocation() {
         return aMapLocation;

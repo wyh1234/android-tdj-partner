@@ -143,6 +143,34 @@
                     android:layout_height="20dp" />
             </RelativeLayout>
         </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:paddingLeft="11dp"
+            android:paddingRight="11dp"
+            android:paddingTop="9dp"
+            android:background="@drawable/youshi_shap"
+            android:layout_marginTop="15dp"
+            android:layout_height="83dp" >
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="wrap_content"
+            android:textColor="@color/black_63"
+            android:textSize="12sp"
+            android:drawableLeft="@mipmap/zan"
+            android:drawablePadding="3dp"
+            android:text="优势"
+            android:layout_height="wrap_content" />
+            <TextView
+                android:layout_below="@+id/tv"
+                android:layout_marginTop="9dp"
+                android:textColor="@color/black_63"
+                android:textSize="12sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </RelativeLayout>
+
+
     </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -181,6 +209,7 @@
         android:layout_height="wrap_content">
     </com.tdjpartner.widget.MyRecyclerView>
         <LinearLayout
+            android:id="@+id/ll"
             android:orientation="vertical"
             android:background="@color/gray_f2"
             android:paddingTop="13dp"

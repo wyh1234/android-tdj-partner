@@ -171,6 +171,9 @@
         <activity
             android:name=".PageGuideActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ClientListSeachActivity"
+            android:screenOrientation="portrait" />
 
         <!-- 腾讯X5内核初始化 -->
         <service android:name="com.tencent.smtt.export.external.DexClassLoaderProviderService"

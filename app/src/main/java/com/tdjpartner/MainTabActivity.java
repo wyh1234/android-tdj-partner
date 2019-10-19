@@ -84,7 +84,6 @@ public class MainTabActivity extends BaseActivity {
 
     @Subscribe
     public void checkClientFragment(ClientFragmentType clientFragmentType){
-        LogUtils.e(clientFragmentType);
             ((ClientFragment) mainTabAdapter.getBaseFrgment()).checkClientFragment(clientFragmentType);
     }
 
