@@ -60,7 +60,7 @@ public class DropOutingActivity extends BaseActivity<DropOutingPresenter>  imple
     private List<DropOuting.ObjBean> dropOutingList=new ArrayList<>();
     @BindView(R.id.btn_back)
     ImageView btn_back;
-    public int pageNo = 0;//翻页计数器
+    public int pageNo = 1;//翻页计数器
     private String type="order";
     @OnClick({R.id.rl_xd,R.id.rl_bf,R.id.btn_back})
     public void onClick(View view){
@@ -126,7 +126,7 @@ public class DropOutingActivity extends BaseActivity<DropOutingPresenter>  imple
     }
 
     public void onRefresh() {
-        pageNo=0;
+        pageNo=1;
         getData(pageNo);
     }
 

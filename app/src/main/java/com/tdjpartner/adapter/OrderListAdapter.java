@@ -24,7 +24,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderList.ItemsBean, Base
         baseViewHolder.setText(R.id.tv_count_image,orderList.getItemCount()+"");
         baseViewHolder.setText(R.id.cart_price_sum,"总计："+orderList.getActualTotalCost()+"元");
 
-        ImageLoad.loadImageViewLoding(orderList.getExtraField().get(0).getProductImage(),baseViewHolder.getView(R.id.iv));
+        ImageLoad.loadImageViewLoding(orderList.getExtraField().get(0).getProductImage(),baseViewHolder.getView(R.id.iv1));
         baseViewHolder.setText(R.id.tv_goods_name,orderList.getExtraField().get(0).getProductName());
         baseViewHolder.setText(R.id.tv_nickname,orderList.getExtraField().get(0).getNickName());
         baseViewHolder.setText(R.id.tv_tag,orderList.getExtraField().get(0).getStoreName());

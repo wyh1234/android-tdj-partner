@@ -44,7 +44,7 @@ public class MessageItemActivity extends BaseActivity<MessageItemPresenter> impl
     TextView tv_title;
     @BindView(R.id.btn_back)
     ImageView btn_back;
-    public int pageNo = 0;//翻页计数器
+    public int pageNo = 1;//翻页计数器
     private List<PartnerMessageItemInfo.ObjBean> objBeansList=new ArrayList<>();
     private PartnerMessageItemAdapter partnerMessageItemAdapter;
 
@@ -93,13 +93,13 @@ public class MessageItemActivity extends BaseActivity<MessageItemPresenter> impl
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
-        pageNo=0;
-        getData(0);
+        pageNo=1;
+        getData(pageNo);
     }
     protected  void getData(int pn){
         Map<String,Object> map=new HashMap<>();
-        map.put("offset",pn);
-        map.put("limit",10);
+        map.put("pn",pn);
+        map.put("ps",10);
         map.put("type",Integer.parseInt(getIntent().getStringExtra("type")));
         map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
         mPresenter.pushMessage_item(map);

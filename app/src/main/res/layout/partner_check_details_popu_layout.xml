@@ -28,6 +28,7 @@
                 android:layout_height="wrap_content" />
 
                 <Button
+                    android:id="@+id/btn"
                     android:layout_below="@+id/tv_content"
                     android:background="@mipmap/wzd"
                     android:textSize="14sp"

@@ -20,6 +20,23 @@ public class PartnerCheckDetailsPresenter extends BasePresenter<Model, PartnerCh
         getIView().addSubscribe(RequestPresenter.verifyDetail(map, new BaseObserver<PartnerCheckDetails>(getIView().getContext(), true) {
             @Override
             protected void onSuccess(PartnerCheckDetails partnerCheckDetails) {
+                getIView().verifyDetail_Success(partnerCheckDetails);
+
+
+            }
+
+            @Override
+            protected void onFailed(Throwable e) {
+            }
+        }));
+
+    }
+
+    public void clickVerify(Map<String, Object> map) {
+        getIView().addSubscribe(RequestPresenter.clickVerify(map, new BaseObserver<Integer>(getIView().getContext(), true) {
+            @Override
+            protected void onSuccess(Integer integer) {
+                getIView().clickVerify_Success();
 
 
             }

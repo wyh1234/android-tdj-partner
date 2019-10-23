@@ -34,7 +34,7 @@ public class ClientListAdapter extends BaseQuickAdapter<ClientInfo, BaseViewHold
             baseViewHolder.setImageResource(R.id.iv_stastu,R.mipmap.yirenzheng);
         }
 
-        baseViewHolder.setText(R.id.tv_regionCollNo,clientInfo.getRegionCollNo()+"-"+clientInfo.getRegionNo());
+        baseViewHolder.setText(R.id.tv_regionCollNo,clientInfo.getRegionCollNo());
         baseViewHolder.setText(R.id.tv_num,clientInfo.getTodayAmount()+"");
         baseViewHolder.setText(R.id.tv_num1,clientInfo.getAverageAmount()+"");
         baseViewHolder.setText(R.id.tv_num2,clientInfo.getMonthTimes()+"");

@@ -37,6 +37,7 @@
             <LinearLayout
               android:layout_below="@+id/view"
                 android:layout_width="match_parent"
+                android:layout_margin="1dp"
                 android:layout_height="match_parent">
                 <Button
                     android:id="@+id/btn_qx"

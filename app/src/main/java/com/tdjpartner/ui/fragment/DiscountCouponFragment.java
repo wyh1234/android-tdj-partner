@@ -31,7 +31,7 @@ public class DiscountCouponFragment extends BaseFrgment<DiscountCouponPresenter>
     RefreshLayout refreshLayout;
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
-    public int pageNo = 0;//翻页计数器
+    public int pageNo = 1;//翻页计数器
     private int index=0;
     private List<DiscountCoupon.ItemsBean> discountCouponArrayList=new ArrayList<>();
     private DiscountCouponAdapter discountCouponAdapter;
@@ -51,7 +51,7 @@ public class DiscountCouponFragment extends BaseFrgment<DiscountCouponPresenter>
         LinearLayoutManager layout = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
         recyclerView_list.setLayoutManager(layout);
-        discountCouponAdapter=new DiscountCouponAdapter(R.layout.discount_coupon_item,discountCouponArrayList,index);
+        discountCouponAdapter=new DiscountCouponAdapter(R.layout.discount_coupon_item,discountCouponArrayList);
         recyclerView_list.setAdapter(discountCouponAdapter);
 
     }
@@ -84,7 +84,7 @@ public class DiscountCouponFragment extends BaseFrgment<DiscountCouponPresenter>
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
-        pageNo=0;
+        pageNo=1;
         getData(pageNo);
     }
     protected  void getData(int pn){
@@ -115,6 +115,7 @@ public class DiscountCouponFragment extends BaseFrgment<DiscountCouponPresenter>
     }
 
     public void coupons_findByUser_Success(DiscountCoupon discountCoupon) {
+        discountCouponAdapter.setMindex(index);
         stop();
         if (refreshLayout.isRefreshing()){
             if (!ListUtils.isEmpty(discountCouponArrayList)) {

@@ -64,76 +64,30 @@ public class OrderList {
          * actualTotalCost : 25
          */
 
-        private BigDecimal baseTotalRefund;
-        private int buyNumber;
-        private long confirmReceiveTime;
         private String createTime;
-        private String customerContactName;
         private int customerId;
-        private String customerLogo;
-        private String customerName;
-        private String customerTel;
-        private String expectDeliveredDate;
-        private String expectDeliveredEarliestTime;
-        private String expectDeliveredLatestTime;
         private int itemCount;
         private String lastName;
+        private String customerLogo;
         private int orderId;
-        private String orderIds;
-        private String orderNo;
-        private int shipCost;
-        private int shipStatus;
-        private String statusCode;
-        private BigDecimal subtotalCost;
-        private BigDecimal totalCost;
-        private int updateTime;
-        private String outTradeNo;
-        private int couponAmount;
-        private int totalFreight;
         private BigDecimal actualTotalCost;
         private List<CartGoodsBean> extraField;
-        private boolean isFold;
+        private String orderNo;
 
-        private int originalorCustomerId;//创建订单ID
-
-        public int getOriginalorCustomerId() {
-            return originalorCustomerId;
+        public String getCustomerLogo() {
+            return customerLogo;
         }
 
-        public void setOriginalorCustomerId(int originalorCustomerId) {
-            this.originalorCustomerId = originalorCustomerId;
+        public void setCustomerLogo(String customerLogo) {
+            this.customerLogo = customerLogo;
         }
 
-        public boolean isFold() {
-            return isFold;
+        public String getOrderNo() {
+            return orderNo;
         }
 
-        public void setFold(boolean fold) {
-            isFold = fold;
-        }
-
-        public BigDecimal getBaseTotalRefund() {
-            return baseTotalRefund;
-        }
-
-        public void setBaseTotalRefund(BigDecimal baseTotalRefund) {
-            this.baseTotalRefund = baseTotalRefund;
-        }
-
-        public int getBuyNumber() {
-            return buyNumber;
-        }
-
-        public void setBuyNumber(int buyNumber) {
-            this.buyNumber = buyNumber;
-        }
-
-        public long getConfirmReceiveTime() {
-            return confirmReceiveTime;
-        }
-
-        public void setConfirmReceiveTime(long confirmReceiveTime) {
-            this.confirmReceiveTime = confirmReceiveTime;
+        public void setOrderNo(String orderNo) {
+            this.orderNo = orderNo;
         }
 
         public String getCreateTime() {
@@ -144,13 +98,6 @@ public class OrderList {
             this.createTime = createTime;
         }
 
-        public String getCustomerContactName() {
-            return customerContactName;
-        }
-
-        public void setCustomerContactName(String customerContactName) {
-            this.customerContactName = customerContactName;
-        }
 
         public int getCustomerId() {
             return customerId;
@@ -160,53 +107,6 @@ public class OrderList {
             this.customerId = customerId;
         }
 
-        public String getCustomerLogo() {
-            return customerLogo;
-        }
-
-        public void setCustomerLogo(String customerLogo) {
-            this.customerLogo = customerLogo;
-        }
-
-        public String getCustomerName() {
-            return customerName;
-        }
-
-        public void setCustomerName(String customerName) {
-            this.customerName = customerName;
-        }
-
-        public String getCustomerTel() {
-            return customerTel;
-        }
-
-        public void setCustomerTel(String customerTel) {
-            this.customerTel = customerTel;
-        }
-
-        public String getExpectDeliveredDate() {
-            return expectDeliveredDate;
-        }
-
-        public void setExpectDeliveredDate(String expectDeliveredDate) {
-            this.expectDeliveredDate = expectDeliveredDate;
-        }
-
-        public String getExpectDeliveredEarliestTime() {
-            return expectDeliveredEarliestTime;
-        }
-
-        public void setExpectDeliveredEarliestTime(String expectDeliveredEarliestTime) {
-            this.expectDeliveredEarliestTime = expectDeliveredEarliestTime;
-        }
-
-        public String getExpectDeliveredLatestTime() {
-            return expectDeliveredLatestTime;
-        }
-
-        public void setExpectDeliveredLatestTime(String expectDeliveredLatestTime) {
-            this.expectDeliveredLatestTime = expectDeliveredLatestTime;
-        }
 
         public int getItemCount() {
             return itemCount;
@@ -231,95 +131,6 @@ public class OrderList {
         public void setOrderId(int orderId) {
             this.orderId = orderId;
         }
-
-        public String getOrderIds() {
-            return orderIds;
-        }
-
-        public void setOrderIds(String orderIds) {
-            this.orderIds = orderIds;
-        }
-
-        public String getOrderNo() {
-            return orderNo;
-        }
-
-        public void setOrderNo(String orderNo) {
-            this.orderNo = orderNo;
-        }
-
-        public int getShipCost() {
-            return shipCost;
-        }
-
-        public void setShipCost(int shipCost) {
-            this.shipCost = shipCost;
-        }
-
-        public int getShipStatus() {
-            return shipStatus;
-        }
-
-        public void setShipStatus(int shipStatus) {
-            this.shipStatus = shipStatus;
-        }
-
-        public String getStatusCode() {
-            return statusCode;
-        }
-
-        public void setStatusCode(String statusCode) {
-            this.statusCode = statusCode;
-        }
-
-        public BigDecimal getSubtotalCost() {
-            return subtotalCost;
-        }
-
-        public void setSubtotalCost(BigDecimal subtotalCost) {
-            this.subtotalCost = subtotalCost;
-        }
-
-        public BigDecimal getTotalCost() {
-            return totalCost;
-        }
-
-        public void setTotalCost(BigDecimal totalCost) {
-            this.totalCost = totalCost;
-        }
-
-        public int getUpdateTime() {
-            return updateTime;
-        }
-
-        public void setUpdateTime(int updateTime) {
-            this.updateTime = updateTime;
-        }
-
-        public String getOutTradeNo() {
-            return outTradeNo;
-        }
-
-        public void setOutTradeNo(String outTradeNo) {
-            this.outTradeNo = outTradeNo;
-        }
-
-        public int getCouponAmount() {
-            return couponAmount;
-        }
-
-        public void setCouponAmount(int couponAmount) {
-            this.couponAmount = couponAmount;
-        }
-
-        public int getTotalFreight() {
-            return totalFreight;
-        }
-
-        public void setTotalFreight(int totalFreight) {
-            this.totalFreight = totalFreight;
-        }
-
         public BigDecimal getActualTotalCost() {
             return actualTotalCost;
         }

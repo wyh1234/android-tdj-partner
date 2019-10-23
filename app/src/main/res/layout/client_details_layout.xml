@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:src="@mipmap/xingxiangzhao_bg" />
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -70,7 +70,6 @@
                 android:layout_below="@+id/iv_heard"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="6dp"
-                android:text="湘鄂情酒店"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 
@@ -97,7 +96,6 @@
                     android:layout_marginLeft="11dp"
                     android:layout_toRightOf="@+id/tv_call"
                     android:gravity="center"
-                    android:text="李老板:18616833332"
                     android:textColor="@color/white"
                     android:textSize="@dimen/sp_12" />
 
@@ -140,7 +138,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/tv"
-                        android:text="D92区72-58"
                         android:textColor="@color/gray_69"
                         android:textSize="@dimen/sp_12" />
 
@@ -149,7 +146,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:text="07:00-09:00"
                         android:textColor="@color/gray_69"
                         android:textSize="@dimen/sp_12" />
 
@@ -180,7 +176,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/tv1"
-                        android:text="D92区72-58"
                         android:textColor="@color/gray_69"
                         android:textSize="@dimen/sp_12" />
 
@@ -190,7 +185,6 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_marginLeft="6dp"
-                        android:text=":15002728888"
                         android:textColor="@color/gray_69"
                         android:textSize="@dimen/sp_12" />
 
@@ -220,7 +214,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/tv2"
-                        android:text="武汉市武昌区徐东大街100号"
                         android:textColor="@color/gray_69"
                         android:textSize="@dimen/sp_12" />
                 </RelativeLayout>

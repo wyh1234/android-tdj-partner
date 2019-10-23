@@ -11,17 +11,19 @@ import com.tdjpartner.utils.glide.ImageLoad;
 
 import java.util.List;
 
-public class PartnerCheckAdapter extends BaseQuickAdapter<PartnerCheck, BaseViewHolder> {
-    public PartnerCheckAdapter(int layoutResId, @Nullable List<PartnerCheck> data) {
+public class PartnerCheckAdapter extends BaseQuickAdapter<PartnerCheck.ObjBean, BaseViewHolder> {
+    public PartnerCheckAdapter(int layoutResId, @Nullable List<PartnerCheck.ObjBean> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder baseViewHolder, PartnerCheck partnerCheck) {
-        baseViewHolder.setText(R.id.tv_leaderName,"负责人："+partnerCheck.getLeaderName());
+    protected void convert(BaseViewHolder baseViewHolder, PartnerCheck.ObjBean partnerCheck) {
+        baseViewHolder.setText(R.id.tv_leaderName,"负责人："+partnerCheck.getLeaderName()+"(主账号)");
         baseViewHolder.setText(R.id.tv_enterpriseCode,partnerCheck.getEnterpriseCode());
         baseViewHolder.setText(R.id.tv_nickNameAndPhone,partnerCheck.getNickName()+"\t"+partnerCheck.getPhone());
         baseViewHolder.setText(R.id.tv_createdAt,partnerCheck.getCreatedAt());
+        baseViewHolder.setText(R.id.tv_address,partnerCheck.getEnterpriseMsg());
+
         ImageLoad.loadImageViewLoding(partnerCheck.getImageUrl(),baseViewHolder.getView(R.id.tv_imageUrl),R.mipmap.yingyezhao_bg);
         ImageLoad.loadImageViewLoding(partnerCheck.getBzlicenceUrl(),baseViewHolder.getView(R.id.tv_bzlicenceUrl),R.mipmap.yingyezhao_bg);
         if (partnerCheck.getVerifyStatus()==0){
@@ -36,6 +38,9 @@ public class PartnerCheckAdapter extends BaseQuickAdapter<PartnerCheck, BaseView
             baseViewHolder.setText(R.id.tv_verifyStatus,"审核通过");
             baseViewHolder.setBackgroundRes(R.id.tv_verifyStatus,R.mipmap.shtg);
             baseViewHolder.setTextColor(R.id.tv_verifyStatus, GeneralUtils.getColor(baseViewHolder.getView(R.id.tv_verifyStatus).getContext(),R.color.white));
+        }else {
+            baseViewHolder.setGone(R.id.tv_verifyStatus,false);
+
         }
     }
 }

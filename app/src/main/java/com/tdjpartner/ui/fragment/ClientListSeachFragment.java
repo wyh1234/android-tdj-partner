@@ -39,7 +39,7 @@ public class ClientListSeachFragment extends BaseFrgment<ClientListSeachPresente
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
     private int index=0;
-    public int pageNo = 0;//翻页计数器
+    public int pageNo = 1;//翻页计数器
     private ClientListSeachAdapter clientListSeachAdapter;
     private List<ClientSeachInfo.ObjBean> data=new ArrayList<>();
     private SeachTag seachTag;
@@ -157,7 +157,7 @@ public class ClientListSeachFragment extends BaseFrgment<ClientListSeachPresente
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
         LogUtils.e(index);
-        pageNo=0;
+        pageNo=1;
         getData(pageNo);
     }
 

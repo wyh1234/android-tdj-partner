@@ -1,8 +1,10 @@
 package com.tdjpartner.mvp.presenter;
 
+import com.apkfuns.logutils.LogUtils;
 import com.tdjpartner.base.BasePresenter;
 import com.tdjpartner.common.RequestPresenter;
 import com.tdjpartner.http.BaseObserver;
+import com.tdjpartner.model.Bank;
 import com.tdjpartner.model.PartnerMessageInfo;
 import com.tdjpartner.model.UserInfo;
 import com.tdjpartner.mvp.model.Model;
@@ -48,6 +50,23 @@ public class MyFragmentPresneter extends BasePresenter<Model, MyFragment> {
 
                     }
                 }));
+
+    }
+
+    public void modifyAvatarUrl(Map<String,Object> map){
+        getIView().addSubscribe(RequestPresenter.modifyAvatarUrl(map, new BaseObserver<Integer>(getIView().getContext(), true) {
+            @Override
+            protected void onSuccess(Integer integer) {
+                LogUtils.e(integer);
+
+
+            }
+
+            @Override
+            protected void onFailed(Throwable e) {
+
+            }
+        }));
 
     }
 }

@@ -79,6 +79,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter> {
 
         Map<String,Object> map=new HashMap<>();
         map.put("orderNO",getIntent().getStringExtra("orderNO"));
+//        map.put("orderNO","65922838302066278407");
         map.put("site", UserUtils.getInstance().getLoginBean().getSite());
         mPresenter.findOne(map);
     }

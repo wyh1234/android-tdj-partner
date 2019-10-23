@@ -60,7 +60,7 @@ public class CommonFollowUpActivity extends BaseActivity<CommonFollowUpPresenter
     private CommonFollowUpAdapter commonFollowUpAdapter;
     private List<DropOuting.ObjBean> dropOutingList=new ArrayList<>();
     private FollowUpPopuWindow followUpPopuWindow;
-    public int pageNo = 0;//翻页计数器
+    public int pageNo = 1;//翻页计数器
     private String type="followNot";
     private int customerId;
     private int pos;
@@ -148,7 +148,7 @@ public class CommonFollowUpActivity extends BaseActivity<CommonFollowUpPresenter
 
     @Override
     public void onRefresh() {
-        pageNo=0;
+        pageNo=1;
         getData(pageNo);
     }
     public void stop() {

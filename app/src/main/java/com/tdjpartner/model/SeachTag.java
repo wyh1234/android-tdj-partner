@@ -1,6 +1,8 @@
 package com.tdjpartner.model;
 
-public class SeachTag {
+import java.io.Serializable;
+
+public class SeachTag implements Serializable {
     private String tag;
 
     public SeachTag(String tag) {

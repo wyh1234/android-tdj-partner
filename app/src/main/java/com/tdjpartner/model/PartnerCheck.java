@@ -1,7 +1,26 @@
 package com.tdjpartner.model;
 
-public class PartnerCheck {
+import java.util.List;
 
+public class PartnerCheck {
+    private int total;
+    private List<ObjBean> obj;
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public List<ObjBean> getObj() {
+        return obj;
+    }
+
+    public void setObj(List<ObjBean> obj) {
+        this.obj = obj;
+    }
 
     /**
      * id : 2
@@ -28,6 +47,9 @@ public class PartnerCheck {
      * applyId : null
      * applyCode : null
      */
+    public static class ObjBean{
+
+
 
     private int id;
     private int userId;
@@ -238,4 +260,5 @@ public class PartnerCheck {
     public void setApplyCode(Object applyCode) {
         this.applyCode = applyCode;
     }
+}
 }

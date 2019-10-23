@@ -27,6 +27,7 @@ public class BaiFangHistoryActivity extends BaseActivity {
     TextView tv_title;
     @BindView(R.id.btn_back)
     ImageView btn_back;
+    public int buyId;
     @OnClick({R.id.btn_back})
     public void onClick(View view){
         switch (view.getId()){
@@ -43,7 +44,7 @@ public class BaiFangHistoryActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-
+        buyId=Integer.parseInt(getIntent().getStringExtra("buyId"));
     }
 
     @Override

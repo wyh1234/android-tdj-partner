@@ -35,7 +35,7 @@ public class EarningsHistoryFragment extends BaseFrgment<EarningsHistoryPresente
     RefreshLayout refreshLayout;
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
-    public int pageNo = 0;//翻页计数器
+    public int pageNo = 1;//翻页计数器
     private int index=0;
     @BindView(R.id.tv_money)
     TextView tv_money;
@@ -91,13 +91,13 @@ public class EarningsHistoryFragment extends BaseFrgment<EarningsHistoryPresente
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
-        pageNo=0;
+        pageNo=1;
         getData(pageNo);
     }
     protected  void getData(int pn){
         Map<String,Object> map=new HashMap<>();
         map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
-        map.put("limit", 10);
+        map.put("ps", 10);
         if (index==0){
             map.put("timeType","today");
         }else if (index==1){
@@ -110,7 +110,7 @@ public class EarningsHistoryFragment extends BaseFrgment<EarningsHistoryPresente
             map.put("timeType", "");
         }
 
-        map.put("offset", pn);
+        map.put("pn", pn);
         mPresenter.earning_info(map);
 
     }

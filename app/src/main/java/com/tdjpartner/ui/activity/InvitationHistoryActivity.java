@@ -38,7 +38,7 @@ public class InvitationHistoryActivity extends BaseActivity<InvitationHistoryPre
     TextView tv_title;
     @BindView(R.id.btn_back)
     ImageView btn_back;
-    public int pageNo = 0;//翻页计数器
+    public int pageNo = 1;//翻页计数器
     private List<InvitationHistory.ObjBean> invitationHistoryList=new ArrayList<>();
     private InvitationHistoryAdapter invitationHistoryAdapter;
     @OnClick({R.id.btn_back})
@@ -85,14 +85,14 @@ public class InvitationHistoryActivity extends BaseActivity<InvitationHistoryPre
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
-        pageNo=0;
+        pageNo=1;
         getData(pageNo);
     }
     protected  void getData(int pn){
         Map<String,Object> map=new HashMap<>();
         map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
-        map.put("limit", 10);
-        map.put("offset", pn);
+        map.put("ps", 10);
+        map.put("pn", pn);
         mPresenter.myCustomerList(map);
 
 

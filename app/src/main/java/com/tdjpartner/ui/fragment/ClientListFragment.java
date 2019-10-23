@@ -46,7 +46,7 @@ public class ClientListFragment extends BaseFrgment<ClientListPresenter>  implem
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
     private int index=0;
-    public int pageNo = 0;//翻页计数器
+    public int pageNo = 1;//翻页计数器
     private ClientListAdapter clientListAdapter;
     private List<ClientInfo> data=new ArrayList<>();
     public RxPermissions rxPermissions;
@@ -97,6 +97,7 @@ public class ClientListFragment extends BaseFrgment<ClientListPresenter>  implem
         super.onUserVisible();//可见时
         LogUtils.e("2222222");
         index=getArguments().getInt("intent");
+        stop();
         refreshLayout.autoRefresh();
 
     }
@@ -141,7 +142,7 @@ public class ClientListFragment extends BaseFrgment<ClientListPresenter>  implem
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
 //        LogUtils.e(index);
-//        pageNo=0;
+//        pageNo=1;
 //        getData(pageNo);
         getData();
     }
@@ -187,8 +188,12 @@ public class ClientListFragment extends BaseFrgment<ClientListPresenter>  implem
 
     @Override
     public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-        Intent intent=new Intent(getContext(), ClientDetailsActivity.class);
-        startActivity(intent);
+        if (index==0||index==1){
+            Intent intent=new Intent(getContext(), ClientDetailsActivity.class);
+            intent.putExtra("customerId",data.get(i).getCustomerId()+"");
+            startActivity(intent);
+        }
+
     }
 
     public void hotelMap_failed() {

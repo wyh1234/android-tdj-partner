@@ -86,11 +86,17 @@ public abstract class BaseObserver<T> extends ResourceObserver<T> {
             GeneralUtils.showToastshort( errorMsg);
         }else if(e instanceof ApiException){
             LogUtils.e(((ApiException) e).getCode());
-            GeneralUtils.showToastshort(((ApiException) e).getMsg());
+
             if (((ApiException) e).getCode()==4||((ApiException) e).getCode()==901){
+                GeneralUtils.showToastshort(((ApiException) e).getMsg());
                 if (ClickCheckedUtil.onClickChecked(1000))
                     EventBus.getDefault().post(new LoginLoseEfficacyEvent());
                 return;
+            }else if (((ApiException) e).getCode()==0){
+                onNext(null);
+
+            }else {
+                GeneralUtils.showToastshort(((ApiException) e).getMsg());
             }
 
         }else if(e instanceof HttpException){

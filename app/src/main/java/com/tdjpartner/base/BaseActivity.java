@@ -211,7 +211,7 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
         if (!ActivityManager.isActivityExist(LoginActivity.class) ) {
             BaseActivity baseActivity = ActivityManager.getTopActivity();
             if (baseActivity == null) return;
-            ActivityManager.removeActivity(this);//删除所有activity
+            ActivityManager.removeAllActivity();//删除所有activity
             Intent intent = new Intent();
             intent.setClass(this, LoginActivity.class);
             startActivity(intent);//这里的Activity是弹出登录的

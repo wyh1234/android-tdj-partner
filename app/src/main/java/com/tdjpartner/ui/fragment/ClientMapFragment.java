@@ -22,6 +22,7 @@ import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.apkfuns.logutils.LogUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.ClientMapAdapter;
@@ -30,6 +31,7 @@ import com.tdjpartner.model.ClientFragmentType;
 import com.tdjpartner.model.ClientInfo;
 import com.tdjpartner.model.LocationBean;
 import com.tdjpartner.mvp.presenter.ClientMapPresenter;
+import com.tdjpartner.ui.activity.ClientDetailsActivity;
 import com.tdjpartner.ui.activity.ClientListSeachActivity;
 import com.tdjpartner.utils.ListUtils;
 import com.tdjpartner.utils.LocationUtils;
@@ -47,7 +49,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
 
-public class ClientMapFragment extends BaseFrgment<ClientMapPresenter> implements LocationSource, AMap.OnMapLoadedListener {
+public class ClientMapFragment extends BaseFrgment<ClientMapPresenter> implements LocationSource, AMap.OnMapLoadedListener, BaseQuickAdapter.OnItemClickListener {
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
     @BindView(R.id.tv_list_type)
@@ -95,6 +97,7 @@ public class ClientMapFragment extends BaseFrgment<ClientMapPresenter> implement
                 LinearLayoutManager.VERTICAL, false);
         recyclerview.setLayoutManager(layout);
         clientMapAdapter=new ClientMapAdapter(R.layout.map_info_list_layout,clientMapInfoList);
+        clientMapAdapter.setOnItemClickListener(this);
         recyclerview.setAdapter(clientMapAdapter);
 
     }
@@ -230,8 +233,8 @@ public class ClientMapFragment extends BaseFrgment<ClientMapPresenter> implement
 
         Map<String,Object> map=new HashMap<>();
         map.put("userId",21);
-        map.put("latitude","30.5998320000");
-        map.put("longitude","114.3439610000");
+        map.put("latitude",getLocationBean().getLatitude());
+        map.put("longitude",getLocationBean().getLongitude());
         map.put("keyword","");
         mPresenter.hotelMap(map);
 
@@ -289,4 +292,13 @@ public class ClientMapFragment extends BaseFrgment<ClientMapPresenter> implement
 
     }
 
+    @Override
+    public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+        if (clientMapInfoList.get(i).getUserType()==1||clientMapInfoList.get(i).getUserType()==2){
+            Intent intent=new Intent(getContext(), ClientDetailsActivity.class);
+            intent.putExtra("customerId",clientMapInfoList.get(i).getCustomerId()+"");
+            startActivity(intent);
+        }
+
+    }
 }

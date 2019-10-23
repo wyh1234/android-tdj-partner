@@ -8,6 +8,7 @@ import com.tdjpartner.http.RxUtils;
 import com.tdjpartner.model.BaiFangHistory;
 import com.tdjpartner.model.Bank;
 import com.tdjpartner.model.BankList;
+import com.tdjpartner.model.ClientDetails;
 import com.tdjpartner.model.ClientInfo;
 import com.tdjpartner.model.ClientSeachInfo;
 import com.tdjpartner.model.CouponsStatistics;
@@ -26,6 +27,8 @@ import com.tdjpartner.model.PartnerCheckDetails;
 import com.tdjpartner.model.PartnerMessageInfo;
 import com.tdjpartner.model.PartnerMessageItemInfo;
 import com.tdjpartner.model.RentingInfos;
+import com.tdjpartner.model.SelectPerson;
+import com.tdjpartner.model.SettingPerson;
 import com.tdjpartner.model.StoreInfo;
 import com.tdjpartner.model.ToMakeMoney;
 import com.tdjpartner.model.UserInfo;
@@ -160,7 +163,7 @@ public class RequestPresenter {
     public static Disposable  hotelMap(Map<String, Object> map, BaseObserver<List<ClientInfo> > callback) {
         return getApiService().hotelMap(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
-    public static Disposable  verifyList(Map<String, Object> map, BaseObserver<List<PartnerCheck>> callback) {
+    public static Disposable  verifyList(Map<String, Object> map, BaseObserver<PartnerCheck> callback) {
         return getApiService().verifyList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
     public static Disposable  myCountMoney(Map<String, Object> map, BaseObserver<MyCountMoney> callback) {
@@ -168,6 +171,24 @@ public class RequestPresenter {
     }
     public static Disposable  verifyDetail(Map<String, Object> map, BaseObserver<PartnerCheckDetails> callback) {
         return getApiService().verifyDetail(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  clickVerify(Map<String, Object> map, BaseObserver<Integer> callback) {
+        return getApiService().clickVerify(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  managerList(Map<String, Object> map, BaseObserver<SettingPerson> callback) {
+        return getApiService().managerList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  client_details(Map<String, Object> map, BaseObserver<ClientDetails> callback) {
+        return getApiService().client_details(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  userRelations_managerList(Map<String, Object> map, BaseObserver<SelectPerson> callback) {
+        return getApiService().userRelations_managerList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  userRelations_setManager(Map<String, Object> map, BaseObserver<Integer> callback) {
+        return getApiService().userRelations_setManager(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  modifyAvatarUrl(Map<String, Object> map, BaseObserver<Integer> callback) {
+        return getApiService().modifyAvatarUrl(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
 
     public static MultipartBody.Part getMultipartBody_part(String fileName, byte[] content) {

@@ -102,12 +102,14 @@
 
                 <TextView
                     android:id="@+id/tv_tag"
-                    android:layout_width="48dp"
+                    android:layout_width="wrap_content"
                     android:gravity="center"
-                    android:background="@mipmap/goodsimage_one"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:background="@mipmap/xiangqing_bg"
                     android:layout_marginTop="2dp"
                     android:textSize="9sp"
-                    android:textColor="@color/gray_66"
+                    android:textColor="@color/view_bg1"
                     android:layout_height="match_parent" />
             </LinearLayout>
         </RelativeLayout>

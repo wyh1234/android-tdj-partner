@@ -11,9 +11,14 @@ import java.util.List;
 
 public class DiscountCouponAdapter extends BaseQuickAdapter<DiscountCoupon.ItemsBean, BaseViewHolder> {
     private int mindex;
-    public DiscountCouponAdapter(int layoutResId, @Nullable List<DiscountCoupon.ItemsBean> data,int index) {
+
+
+    public void setMindex(int mindex) {
+        this.mindex = mindex;
+    }
+
+    public DiscountCouponAdapter(int layoutResId, @Nullable List<DiscountCoupon.ItemsBean> data) {
         super(layoutResId, data);
-        this.mindex=index;
     }
 
     @Override
@@ -31,7 +36,7 @@ public class DiscountCouponAdapter extends BaseQuickAdapter<DiscountCoupon.Items
         baseViewHolder.setText(R.id.tv_cash_coupon_money,discountCoupon.getAmount()+"");
 
         baseViewHolder.setText(R.id.tv_cash_coupon_use_condition,discountCoupon.getPurchaseAmount()+"");
-        baseViewHolder.setText(R.id.tv_time,discountCoupon.getStartTime()+"—"+discountCoupon.getEndTime());
+        baseViewHolder.setText(R.id.tv_time,discountCoupon.getStartTime().substring(0,10)+"—"+discountCoupon.getEndTime().substring(0,10));
         baseViewHolder.setText(R.id.tv_cash_coupon_use_range,discountCoupon.getCouponDesc());
 
 

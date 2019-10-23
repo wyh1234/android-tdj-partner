@@ -25,6 +25,7 @@ public class GoodsAndStoreActivity extends BaseActivity {
     ViewPager viewPager;
     @BindView(R.id.btn_back)
     ImageView btn_back;
+    public String customerId;
     @OnClick({R.id.btn_back})
     public void onClick(View view){
         switch (view.getId()){
@@ -56,6 +57,7 @@ public class GoodsAndStoreActivity extends BaseActivity {
 //        viewPager.setOffscreenPageLimit(3);
         //将TabLayout和ViewPager关联起来。
         wtab.setupWithViewPager(viewPager);
+        customerId=getIntent().getStringExtra("buyId");
     }
 
     @Override

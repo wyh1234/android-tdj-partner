@@ -29,9 +29,7 @@ public class FollowUpPopuWindow extends BasePopupWindow {
         tv_content=popupView.findViewById(R.id.tv_content);
         btn_qx=popupView.findViewById(R.id.btn_qx);
         btn_next=popupView.findViewById(R.id.btn_next);
-        if ("SELECTPERSON".contains(str)){
-            tv_content.setText("您确定将客户"+'"'+123+'"'+"分配给456吗?");
-        }else if ("BAIFANG".contains(str)){
+          if ("BAIFANG".contains(str)){
             tv_content.setText("恭喜您拜访客户成功");
             btn_qx.setText("知道了");
             btn_next.setText("返回上一页");

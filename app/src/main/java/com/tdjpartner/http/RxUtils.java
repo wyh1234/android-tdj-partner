@@ -1,5 +1,7 @@
 package com.tdjpartner.http;
 
+import com.apkfuns.logutils.LogUtils;
+
 import io.reactivex.FlowableTransformer;
 import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
@@ -41,7 +43,8 @@ public class RxUtils {
         return httpResponseObservable ->
                 httpResponseObservable.flatMap((Function<BaseResponse<T>, Observable<T>>) baseResponse -> {
                     if(baseResponse.getCode() == 0
-                            && baseResponse.getData() != null) {
+                            && baseResponse.getData() != null)
+                   /* if(baseResponse.getCode() == 0)*/ {
                         return createData(baseResponse);
                     } else {
                         //请求失败；
@@ -61,6 +64,7 @@ public class RxUtils {
                 emitter.onNext(baseResponse.getData());
                 emitter.onComplete();
             } catch (Exception e) {
+                LogUtils.e(baseResponse.getData());
                 emitter.onError(e);
             }
         });

@@ -1,5 +1,6 @@
 package com.tdjpartner.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ import com.tdjpartner.model.BaiFangHistory;
 import com.tdjpartner.model.DiscountCoupon;
 import com.tdjpartner.mvp.presenter.BaiFangHistoryPresenter;
 import com.tdjpartner.mvp.presenter.IPresenter;
+import com.tdjpartner.ui.activity.BaiFangHistoryActivity;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
 
@@ -32,10 +34,11 @@ public class BaiFangHistoryFragment extends BaseFrgment<BaiFangHistoryPresenter>
     RefreshLayout refreshLayout;
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
-    public int pageNo = 0;//翻页计数器
+    public int pageNo = 1;//翻页计数器
     private int index=0;
     private List<BaiFangHistory.ObjBean> baiFangHistoryList=new ArrayList<>();
     private BaiFangHistoryAdapter baiFangHistoryAdapter;
+    private BaiFangHistoryActivity baiFangHistoryActivity;
     public static BaiFangHistoryFragment newInstance(int str) {
         Bundle args = new Bundle();
         args.putInt("intent", str);
@@ -43,6 +46,13 @@ public class BaiFangHistoryFragment extends BaseFrgment<BaiFangHistoryPresenter>
         f.setArguments(args);
         return f;
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        baiFangHistoryActivity=(BaiFangHistoryActivity)context;
+    }
+
     @Override
     protected void initView(View view) {
         refreshLayout.setOnRefreshListener(this);
@@ -82,12 +92,12 @@ public class BaiFangHistoryFragment extends BaseFrgment<BaiFangHistoryPresenter>
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
-        pageNo=0;
+        pageNo=1;
         getData(pageNo);
     }
     protected  void getData(int pn){
         Map<String,Object> map=new HashMap<>();
-        map.put("buyId","");
+        map.put("buyId",baiFangHistoryActivity.buyId);
         if (index==0){
             map.put("type","today");
         }else if (index==1){

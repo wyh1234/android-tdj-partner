@@ -49,12 +49,11 @@
                 android:layout_marginLeft="5dp"
                 android:layout_height="wrap_content" />
             <TextView
+                android:id="@+id/tv_verifyStatus"
                 android:layout_width="59dp"
                 android:textSize="12sp"
                 android:gravity="center"
                 android:textColor="@color/gray_66"
-                android:text="待审核"
-                android:background="@mipmap/shengkezhuangtai"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_height="20dp" />
@@ -65,34 +64,34 @@
                 android:background="@color/gray_f2"/>
         </RelativeLayout>
         <TextView
+            android:id="@+id/tv_leaderName"
             android:layout_width="wrap_content"
             android:textSize="12sp"
             android:layout_marginTop="13dp"
             android:textColor="@color/gray_66"
-            android:text="希尔顿酒店       负责人：1868122231（主账号）"
             android:gravity="center"
             android:layout_height="wrap_content" />
         <TextView
+            android:id="@+id/tv_qy"
             android:layout_width="wrap_content"
             android:textSize="12sp"
             android:gravity="center"
             android:layout_marginTop="@dimen/dp_10"
             android:textColor="@color/gray_66"
-            android:text="区域：东西湖永旺梦乐城"
             android:layout_height="wrap_content" />
             <TextView
+                android:id="@+id/tv_address"
                 android:layout_width="wrap_content"
                 android:textSize="@dimen/sp_12"
-                android:text="地址：武昌徐东大街100号"
                 android:layout_marginTop="11dp"
                 android:textColor="@color/gray_66"
                 android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/tv_createdAt"
             android:layout_width="wrap_content"
             android:textSize="@dimen/sp_12"
             android:layout_marginTop="10dp"
-            android:text="入驻日期：2018.09.16     16:18:11"
             android:textColor="@color/gray_66"
             android:layout_height="wrap_content" />
         <LinearLayout
@@ -106,9 +105,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <ImageView
+                    android:id="@+id/tv_imageUrl"
                     android:layout_width="match_parent"
                     android:src="@mipmap/yingyezhao_bg"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     android:layout_height="71dp" />
                 <TextView
                     android:layout_alignParentBottom="true"
@@ -127,9 +127,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <ImageView
+                   android:id="@+id/tv_bzlicenceUrl"
                     android:layout_weight="1"
                     android:src="@mipmap/yingyezhao_bg"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     android:layout_width="match_parent"
                     android:layout_height="71dp" />
 
@@ -161,6 +162,7 @@
             android:text="优势"
             android:layout_height="wrap_content" />
             <TextView
+                android:id="@+id/tv_remark"
                 android:layout_below="@+id/tv"
                 android:layout_marginTop="9dp"
                 android:textColor="@color/black_63"
@@ -211,6 +213,7 @@
         <LinearLayout
             android:id="@+id/ll"
             android:orientation="vertical"
+            android:visibility="gone"
             android:background="@color/gray_f2"
             android:paddingTop="13dp"
             android:paddingBottom="18dp"

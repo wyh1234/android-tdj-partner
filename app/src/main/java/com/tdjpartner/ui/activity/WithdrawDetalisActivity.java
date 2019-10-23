@@ -39,7 +39,7 @@ public class WithdrawDetalisActivity extends BaseActivity<WithdrawDetalisPresent
     RefreshLayout refreshLayout;
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
-    public int pageNo = 0;//翻页计数器
+    public int pageNo = 1;//翻页计数器
     private List<WithdrawDetalis.WithdrawDetalisData> withdrawDetalisList=new ArrayList<>();
     private WithdrawDetalisAdapter withdrawDetalisAdapter;
     @BindView(R.id.btn_back)
@@ -113,13 +113,13 @@ public class WithdrawDetalisActivity extends BaseActivity<WithdrawDetalisPresent
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
-        pageNo=0;
+        pageNo=1;
         getData(pageNo);
     }
     protected  void getData(int pn){
         Map<String,Object> map=new HashMap<>();
-        map.put("offset",pn);
-        map.put("limit",10);
+        map.put("pn",pn);
+        map.put("ps",10);
         map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
 
         map.put("appStatus",getFilterinfo()==null?"":getFilterinfo().getAppStatus());

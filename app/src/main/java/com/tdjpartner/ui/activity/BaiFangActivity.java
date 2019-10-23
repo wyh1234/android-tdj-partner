@@ -16,6 +16,7 @@ import com.apkfuns.logutils.LogUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
 import com.tdjpartner.base.BaseActivity;
+import com.tdjpartner.model.ClientDetails;
 import com.tdjpartner.model.LocationBean;
 import com.tdjpartner.mvp.presenter.BaiFangPresenter;
 import com.tdjpartner.mvp.presenter.IPresenter;
@@ -37,7 +38,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
 
-public class BaiFangActivity extends BaseActivity<BaiFangPresenter> implements FollowUpPopuWindow.FollowUpListener {
+public class BaiFangActivity extends BaseActivity<BaiFangPresenter>  {
     @BindView(R.id.rl_dk)
     RelativeLayout rl_dk;
     @BindView(R.id.rl_location)
@@ -53,20 +54,23 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter> implements F
     @BindView(R.id.iv)
     ImageView iv;
     @BindView(R.id.ed_callName)
-    EditText ed_callName;
+    TextView ed_callName;
     @BindView(R.id.ed_callMobile)
-    EditText ed_callMobile;
+    TextView ed_callMobile;
     @BindView(R.id.ed_matters)
     EditText ed_matters;
     @BindView(R.id.ed_results)
     EditText ed_results;
     @BindView(R.id.iv_upload)
     ImageView iv_upload;
+    @BindView(R.id.tv_name)
+    TextView tv_name;
     private RxPermissions rxPermissions;
     private FollowUpPopuWindow followUpPopuWindow;
     private boolean f;
     private float distance;
     private String path;
+    private  ClientDetails clientDetails;
 
     public String getPath() {
         return path;
@@ -85,6 +89,7 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter> implements F
             case R.id.rl_location:
                 if (f){
                     Intent intent=new Intent(this,CallLocationActivity.class);
+                    intent.putExtra("clientDetails",clientDetails);
                     startActivity(intent);
                 }else {
                     location();
@@ -122,20 +127,20 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter> implements F
                     GeneralUtils.showToastshort("请上传拜访图片");
                     return;
                 }
+
                 Map<String,Object> map=new HashMap<>();
-                map.put("buyId","");//酒店id;
-                map.put("buyName","");//酒店名称,从客户详情带入
-                map.put("address","");//拜访地点
-                map.put("callId",UserUtils.getInstance().getLoginBean().getEntityId());//	拜访地点
+                map.put("buyId",clientDetails.getCustomerId());//酒店id;
+                map.put("buyName",clientDetails.getName());//酒店名称,从客户详情带入
+                map.put("address",clientDetails.getAddress());//拜访地点
+                map.put("callId",UserUtils.getInstance().getLoginBean().getEntityId());
                 map.put("callName",ed_callName.getText().toString());//拜访人
                 map.put("callMobile",ed_callMobile.getText().toString());//拜访人电话
                 map.put("userId","");//酒店负责人id,可为空
-                map.put("userName","");//酒店负责人名称
+                map.put("userName",clientDetails.getBoss());//酒店负责人名称
                 map.put("matters",ed_matters.getText().toString());//主要事宜
-
                 map.put("results",ed_results.getText().toString());//拜访结果
                 map.put("callPic",getPath());//拜访图片
-                map.put("buyPic","");//门店门头照,从客户详情带入，可不传
+                map.put("buyPic",clientDetails.getHeadUrl()==null?"":clientDetails.getHeadUrl());//门店门头照,从客户详情带入，可不传
 
                 mPresenter.call_insert(map);
 
@@ -165,11 +170,12 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter> implements F
     @Override
     protected void initView() {
         Eyes.translucentStatusBar(this,true);
-        ed_callName.setText(UserUtils.getInstance().getLoginBean().getRealname());
-        ed_callMobile.setText(UserUtils.getInstance().getLoginBean().getPhoneNumber());
         rxPermissions = new RxPermissions(this);
         location();
-
+         clientDetails=  ((ClientDetails)getIntent().getSerializableExtra("clientDetails"));
+        tv_name.setText(clientDetails.getName());
+        ed_callName.setText(UserUtils.getInstance().getLoginBean().getRealname());
+        ed_callMobile.setText(UserUtils.getInstance().getLoginBean().getPhoneNumber());
 
     }
 
@@ -193,21 +199,23 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter> implements F
         });
     }
 
-    @Subscribe( threadMode = ThreadMode.MAIN)
+    @Subscribe
     public void eventCode(LocationBean locationBean) {
         LogUtils.e(locationBean);//根据酒店的经纬度计算距离
-        distance =AMapUtils.calculateLineDistance(new LatLng(locationBean.getLatitude(),locationBean.getLongitude()),null);
+        distance =AMapUtils.calculateLineDistance(
+                new LatLng(locationBean.getLatitude(),locationBean.getLongitude()),
+                new LatLng(Double.parseDouble(clientDetails.getLat()),Double.parseDouble(clientDetails.getLon())));
         LogUtils.e(distance);
-        if (distance>120){//根据配置的距离计算是否在打卡范围
+        if (distance>clientDetails.getPunchDistance()){//根据配置的距离计算是否在打卡范围
             rl_dk.setBackgroundResource(R.mipmap.daka_two);
             tv_state.setText("超区打卡");
-            tv_state.setText(GeneralUtils.getColor(BaiFangActivity.this,R.color.white));
+            tv_state.setTextColor(GeneralUtils.getColor(this,R.color.white));
             tv_laction_name.setText("您不在打卡范围，"+locationBean.getAddress());
             iv.setImageResource(R.mipmap.gantanhao);
         }else {
             rl_dk.setBackgroundResource(R.mipmap.daka_one);
             tv_state.setText("正常打卡");
-            tv_state.setText(GeneralUtils.getColor(getContext(),R.color.white));
+            tv_state.setTextColor(GeneralUtils.getColor(getContext(),R.color.white));
             tv_laction_name.setText("已进入考勤范围"+locationBean.getAddress());
             iv.setImageResource(R.mipmap.dakazc);
             GeneralUtils.showToastshort("您已打卡成功");
@@ -222,8 +230,10 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter> implements F
     }
 
     public void call_insert_Success() {
+        GeneralUtils.showToastshort("提交成功");
+        finish();
 
-        if (followUpPopuWindow!=null){
+/*        if (followUpPopuWindow!=null){
             if (followUpPopuWindow.isShowing()){
                 return;
             }
@@ -234,11 +244,12 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter> implements F
             followUpPopuWindow.setDismissWhenTouchOutside(false);
             followUpPopuWindow.setInterceptTouchEvent(false);
             followUpPopuWindow.setPopupWindowFullScreen(true);//铺满
+            followUpPopuWindow.setFollowUpListener(this);
             followUpPopuWindow.showPopupWindow();
-        }
+        }*/
     }
 
-    @Override
+/*    @Override
     public void onCancel() {
         followUpPopuWindow.dismiss();
     }
@@ -247,7 +258,7 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter> implements F
     public void onOk() {
         finish();
 
-    }
+    }*/
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

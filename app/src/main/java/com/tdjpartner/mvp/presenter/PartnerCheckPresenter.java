@@ -17,9 +17,9 @@ public class PartnerCheckPresenter extends BasePresenter<Model, PartnerCheckFrag
         return null;
     }
     public void verifyList(Map<String, Object> map) {
-        getIView().addSubscribe(RequestPresenter.verifyList(map, new BaseObserver<List<PartnerCheck>>(getIView().getContext(), true) {
+        getIView().addSubscribe(RequestPresenter.verifyList(map, new BaseObserver<PartnerCheck>(getIView().getContext(), true) {
             @Override
-            protected void onSuccess(List<PartnerCheck> partnerCheckList) {
+            protected void onSuccess(PartnerCheck partnerCheckList) {
                 getIView().verifyList_Success(partnerCheckList);
 
 

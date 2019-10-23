@@ -153,7 +153,7 @@ public class StatisticsFragment extends BaseFrgment  implements SwipeRefreshLayo
     public void onRefresh() {
         LogUtils.e(index);
         pageNo=1;
-        getData(1);
+        getData(pageNo);
     }
 
     public void stop() {

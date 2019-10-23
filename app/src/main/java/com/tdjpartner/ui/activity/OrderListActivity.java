@@ -37,7 +37,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter> implemen
     SwipeRefreshLayout refreshLayout;
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
-    public int pageNo = 0;//翻页计数器
+    public int pageNo = 1;//翻页计数器
     private BaseQuickAdapter baseQuickAdapter;
     private List<OrderList.ItemsBean> orderLists=new ArrayList<>();
     @BindView(R.id.btn_back)
@@ -84,7 +84,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter> implemen
 
     @Override
     public void onRefresh() {
-        pageNo=0;
+        pageNo=1;
         getData(pageNo);
     }
 
@@ -101,9 +101,11 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter> implemen
     }
     protected  void getData(int pn){
         Map<String ,Object> map=new HashMap<>();
-        map.put("status","trade_success,wait_buyer_evaluate");
+        map.put("status","trade_finished");
         map.put("userType",0);
         map.put("pn",pn);
+        map.put("customerId",Integer.parseInt(getIntent().getStringExtra("buyId")));
+//        map.put("customerId",45);
         map.put("ps",10);
         map.put("site", UserUtils.getInstance().getLoginBean().getSite());
         mPresenter.order_pageList(map);

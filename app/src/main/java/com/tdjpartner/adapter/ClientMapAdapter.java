@@ -30,7 +30,7 @@ public class ClientMapAdapter extends BaseQuickAdapter<ClientInfo, BaseViewHolde
             baseViewHolder.setImageResource(R.id.iv,R.mipmap.huangse);
         }
         baseViewHolder.setText(R.id.tv_tiltle,clientMapInfo.getName());
-        baseViewHolder.setText(R.id.tv_regionCollNo,clientMapInfo.getRegionCollNo()+"-"+clientMapInfo.getRegionNo());
+        baseViewHolder.setText(R.id.tv_regionCollNo,clientMapInfo.getRegionCollNo());
         baseViewHolder.setText(R.id.tv_address,clientMapInfo.getAddress());
         baseViewHolder.setText(R.id.tv_address,clientMapInfo.getAddress());
         baseViewHolder.setText(R.id.tv_boss,clientMapInfo.getBoss());

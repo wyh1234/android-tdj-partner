@@ -42,7 +42,9 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 
@@ -256,6 +258,10 @@ public class MyFragment extends BaseFrgment<MyFragmentPresneter> implements Swip
     public void eventCode(ImageUploadOk imageUploadOk) {
         LogUtils.e(imageUploadOk);
         ImageLoad.loadImageViewLoding(imageUploadOk.getPath(),image);
+        Map<String,Object>map=new HashMap<>();
+        map.put("userId",UserUtils.getInstance().getLoginBean().getEntityId());
+        map.put("avatarUrl",imageUploadOk.getPath());
+        mPresenter.modifyAvatarUrl(map);
 
     }
 

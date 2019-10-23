@@ -17,6 +17,6 @@ public class HistoryInfoAdapter extends BaseQuickAdapter<HistoryInfo, BaseViewHo
     @Override
     protected void convert(BaseViewHolder baseViewHolder, HistoryInfo historyInfo) {
         baseViewHolder.setText(R.id.tv_tiltle,historyInfo.getTitle());
-
+        baseViewHolder.setImageResource(R.id.iv,historyInfo.getRes());
     }
 }

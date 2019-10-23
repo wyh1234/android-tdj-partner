@@ -6,6 +6,7 @@ import com.tdjpartner.model.BaiFangHistory;
 import com.tdjpartner.model.Bank;
 import com.tdjpartner.model.BankList;
 import com.tdjpartner.model.BannerEntity;
+import com.tdjpartner.model.ClientDetails;
 import com.tdjpartner.model.ClientInfo;
 import com.tdjpartner.model.ClientSeachInfo;
 import com.tdjpartner.model.CouponsStatistics;
@@ -24,6 +25,8 @@ import com.tdjpartner.model.PartnerCheckDetails;
 import com.tdjpartner.model.PartnerMessageInfo;
 import com.tdjpartner.model.PartnerMessageItemInfo;
 import com.tdjpartner.model.RentingInfos;
+import com.tdjpartner.model.SelectPerson;
+import com.tdjpartner.model.SettingPerson;
 import com.tdjpartner.model.StoreInfo;
 import com.tdjpartner.model.ToMakeMoney;
 import com.tdjpartner.model.UserInfo;
@@ -32,6 +35,7 @@ import com.tdjpartner.model.WithdrawDetalis;
 import java.util.List;
 import java.util.Map;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -128,7 +132,7 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("partner/pushMessage/findListCountByUserId")
+    @POST("tdj-partner/partner/pushMessage/findListCountByUserId")
     Observable<BaseResponse<List<PartnerMessageInfo>>> pushMessage(@Body RequestBody body);
 
     /*
@@ -137,7 +141,7 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("partner/pushMessage/findListByParam")
+    @POST("tdj-partner/partner/pushMessage/findListByParam")
     Observable<BaseResponse<PartnerMessageItemInfo>> pushMessage_item(@Body RequestBody body);
 
     //图片上传
@@ -152,7 +156,7 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("partner/userCard/addUserCard")
+    @POST("tdj-partner/partner/userCard/addUserCard")
     Observable<BaseResponse<Integer>> addUserCard(@Body RequestBody body);
 
     /*
@@ -161,7 +165,7 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("partner/bankAccount/selectDefaultByUserId")
+    @POST("tdj-partner/partner/bankAccount/selectDefaultByUserId")
     Observable<BaseResponse<Bank>> bankAccount(@Body RequestBody body);
 
     /*
@@ -170,7 +174,7 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("partner/bankAccount/selectBankInfoList")
+    @POST("tdj-partner/partner/bankAccount/selectBankInfoList")
     Observable<BaseResponse<List<BankList>>> selectBankInfoList(@Body RequestBody body);
 
     /*
@@ -179,7 +183,7 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("partner/bankAccount/addBankAccount")
+    @POST("tdj-partner/partner/bankAccount/addBankAccount")
     Observable<BaseResponse<Bank>> addBankAccount(@Body RequestBody body);
     /*
      *提现
@@ -187,7 +191,7 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("partner/cashWithdrawalFlow/addUserCashWithdrawalFlow")
+    @POST("tdj-partner/partner/cashWithdrawalFlow/addUserCashWithdrawalFlow")
     Observable<BaseResponse<Integer>> cashWithdrawalFlow(@Body RequestBody body);
 
     /*
@@ -196,7 +200,7 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("partner/cashWithdrawalFlow/findCashWithdrawalFlowList")
+    @POST("tdj-partner/partner/cashWithdrawalFlow/findCashWithdrawalFlowList")
     Observable<BaseResponse<WithdrawDetalis>> findCashWithdrawalFlowList(@Body RequestBody body);
 
     /**
@@ -227,7 +231,7 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("report/customer/downList")
+    @POST("tdj-report/report/customer/downList")
     Observable<BaseResponse<DropOuting>> downList(@Body RequestBody body);
 
     /*
@@ -236,7 +240,7 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("report/customer/followList")
+    @POST("tdj-report/report/customer/followList")
     Observable<BaseResponse<DropOuting>> followList(@Body RequestBody body);
 
     /*
@@ -245,7 +249,7 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("partner/internationalWaters/want")
+    @POST("tdj-partner/partner/internationalWaters/want")
     Observable<BaseResponse<Integer>> internationalWaters(@Body RequestBody body);
 
     /*
@@ -254,7 +258,7 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("partner/collect/products")
+    @POST("tdj-partner/partner/collect/products")
     Observable<BaseResponse<GoodsInfo>> collect_products(@Body RequestBody body);
 
 
@@ -264,7 +268,7 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("partner/collect/stores")
+    @POST("tdj-partner/partner/collect/stores")
     Observable<BaseResponse<StoreInfo>> collect_stores(@Body RequestBody body);
 
 
@@ -274,7 +278,7 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("partner/order/pageList")
+    @POST("tdj-partner/partner/order/pageList")
     Observable<BaseResponse<OrderList>> order_pageList(@Body RequestBody body);
 
     /*
@@ -283,7 +287,7 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("order/findOne")
+    @POST("tdj-partner/partner/order/findOne")
     Observable<BaseResponse<OrderDetail>> findOne(@Body RequestBody body);
 
     /*
@@ -292,7 +296,7 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("partner/coupons/findByUser")
+    @POST("tdj-partner/partner/coupons/findByUser")
     Observable<BaseResponse<DiscountCoupon>> coupons_findByUser(@Body RequestBody body);
 
     /*
@@ -301,7 +305,7 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("partner/call/list")
+    @POST("tdj-partner/partner/call/list")
     Observable<BaseResponse<BaiFangHistory>> call_list(@Body RequestBody body);
     /*
      *.我要拜访
@@ -309,7 +313,7 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("partner/call/insert")
+    @POST("tdj-partner/partner/call/insert")
     Observable<BaseResponse<Integer>> call_insert(@Body RequestBody body);
 
     /*
@@ -318,7 +322,7 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("partner/coupons/statistics")
+    @POST("tdj-partner/partner/coupons/statistics")
     Observable<BaseResponse<CouponsStatistics>> coupons_statistics(@Body RequestBody body);
 
     /*
@@ -327,7 +331,7 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("partner/amountAnalysisRecords/toMakeMoney")
+    @POST("tdj-partner/partner/amountAnalysisRecords/toMakeMoney")
     Observable<BaseResponse<ToMakeMoney>> amountAnalysisRecords(@Body RequestBody body);
     /*
      *.邀请记录
@@ -335,7 +339,7 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("partner/amountAnalysisRecords/myCustomerList")
+    @POST("tdj-partner/partner/amountAnalysisRecords/myCustomerList")
     Observable<BaseResponse<InvitationHistory>> myCustomerList(@Body RequestBody body);
     /*
      *.收益记录
@@ -343,7 +347,7 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("partner/amountAnalysisRecords/info")
+    @POST("tdj-partner/partner/amountAnalysisRecords/info")
     Observable<BaseResponse<EarningsHistory>> earning_info(@Body RequestBody body);
 
     /*
@@ -352,7 +356,7 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("report/customer/hotelMap")
+    @POST("tdj-report/report/customer/hotelMap")
     Observable<BaseResponse<List<ClientInfo> >> hotelMap(@Body RequestBody body);
 
 
@@ -362,7 +366,7 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("report/customer/hotelSearch")
+    @POST("tdj-report/report/customer/hotelSearch")
     Observable<BaseResponse<ClientSeachInfo>> customer_hotelMap(@Body RequestBody body);
 
     /*
@@ -371,8 +375,8 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("partner/userApply/verifyList")
-    Observable<BaseResponse<List<PartnerCheck>>> verifyList(@Body  RequestBody body);
+    @POST("tdj-partner/partner/userApply/verifyList")
+    Observable<BaseResponse<PartnerCheck>> verifyList(@Body  RequestBody body);
 
 
     /*
@@ -381,7 +385,7 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("partner/amountAnalysisRecords/myCountMoney")
+    @POST("tdj-partner/partner/amountAnalysisRecords/myCountMoney")
     Observable<BaseResponse<MyCountMoney>> myCountMoney(@Body  RequestBody body);
 
     /*
@@ -390,8 +394,66 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("partner/userApply/verifyDetail")
+    @POST("tdj-partner/partner/userApply/verifyDetail")
     Observable<BaseResponse<PartnerCheckDetails>> verifyDetail(@Body  RequestBody body);
+
+    /*
+     *.审核明细
+     *
+     *
+     * */
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/userApply/clickVerify")
+    Observable<BaseResponse<Integer>> clickVerify(@Body  RequestBody body);
+
+
+    /*
+     *.专员列表
+     *
+     *
+     * */
+    @Headers({"url_type:xuming"})
+    @POST("tdj-report/report/customer/setManagerList")
+    Observable<BaseResponse<SettingPerson>> managerList(@Body  RequestBody body);
+
+    /*
+     *.客户详情
+     *
+     *
+     * */
+    @Headers({"url_type:xuming"})
+    @POST("tdj-report/report/customer/customerInfo")
+    Observable<BaseResponse<ClientDetails>> client_details(@Body  RequestBody body);
+
+    /*
+     *.选择专员列表
+     *
+     *
+     * */
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/userRelations/managerList")
+    Observable<BaseResponse<SelectPerson>> userRelations_managerList(@Body  RequestBody body);
+
+
+    /*
+     *.选择专员列表
+     *
+     *
+     * */
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/userRelations/setManager")
+    Observable<BaseResponse<Integer>> userRelations_setManager(@Body  RequestBody body);
+
+    /*
+     *.选择专员列表
+     *
+     *
+     * */
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/userRelations/modifyAvatarUrl")
+    Observable<BaseResponse<Integer>> modifyAvatarUrl(@Body  RequestBody body);
+
+
 
 
 }

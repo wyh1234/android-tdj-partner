@@ -37,6 +37,7 @@ import com.tdjpartner.AppAplication;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.ClientMapAdapter;
 import com.tdjpartner.base.BaseActivity;
+import com.tdjpartner.model.ClientDetails;
 import com.tdjpartner.model.LocationBean;
 import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.ui.fragment.ClientMapFragment;
@@ -95,7 +96,7 @@ public class CallLocationActivity extends BaseActivity  implements LocationSourc
     private MarkerOptions markerOption;
     private Marker screenMarker;
     private LocationBean locationBean;
-
+    private ClientDetails clientDetails;
     public LocationBean getLocationBean() {
         return locationBean;
     }
@@ -149,20 +150,21 @@ public class CallLocationActivity extends BaseActivity  implements LocationSourc
         aMap.setMyLocationEnabled(true);
         myLocationStyle.strokeColor(Color.argb(0, 0, 0, 0));// 设置圆形的边框颜色
         myLocationStyle.radiusFillColor(Color.argb(0, 0, 0, 0));// 设置圆形的填充颜
-        CreateCircle(30.593291,114.33751);
+        clientDetails=  ((ClientDetails)getIntent().getSerializableExtra("clientDetails"));
+        CreateCircle(Double.parseDouble(clientDetails.getLat()),Double.parseDouble(clientDetails.getLon()));
 
     }
 
     public void CreateCircle(double a,double b){
         circle=aMap.addCircle(new CircleOptions().
                 center(new LatLng(a,b)).
-                radius(167).
+                radius(clientDetails.getPunchDistance()).
                 fillColor(GeneralUtils.getColor(getContext(),R.color.view_bg3)).
                 strokeColor(GeneralUtils.getColor(getContext(),R.color.view_bg2)).
                 strokeWidth(2));
 
         DPoint centerPoint = new DPoint(a,b);
-        mGeoFenceClient.addGeoFence(centerPoint, 167f, "1");
+        mGeoFenceClient.addGeoFence(centerPoint, clientDetails.getPunchDistance(), "1");
     }
     @Override
     public void onGeoFenceCreateFinished(List<GeoFence> list, int i, String s) {
@@ -244,7 +246,6 @@ public class CallLocationActivity extends BaseActivity  implements LocationSourc
     }
 
     private void addMarkerInScreenCenter() {
-
         LatLng latLng = new LatLng(getLocationBean().getLatitude(),getLocationBean().getLongitude());
         markerOption = new MarkerOptions();
         markerOption.position(latLng);
@@ -295,7 +296,7 @@ public class CallLocationActivity extends BaseActivity  implements LocationSourc
                 Bundle bundle = intent.getExtras();
                 //获取当前有触发的围栏对象：
                 GeoFence fence = bundle.getParcelable(GeoFence.BUNDLE_KEY_FENCE);
-                Toast.makeText(context, fence.getStatus() + "-----------", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, fence.getStatus() + "-----------", Toast.LENGTH_SHORT).show();
                 int status = bundle.getInt(GeoFence.BUNDLE_KEY_FENCESTATUS);
                 switch (status) {
                     case GeoFence.STATUS_LOCFAIL:

@@ -1,5 +1,6 @@
 package com.tdjpartner.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import com.tdjpartner.model.Message;
 import com.tdjpartner.model.StoreInfo;
 import com.tdjpartner.mvp.presenter.GoodsAndStorePresenter;
 import com.tdjpartner.mvp.presenter.IPresenter;
+import com.tdjpartner.ui.activity.GoodsAndStoreActivity;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
 import com.tdjpartner.utils.cache.UserUtils;
@@ -35,10 +37,11 @@ public class GoodsAndStoreFragment extends BaseFrgment<GoodsAndStorePresenter> i
     RefreshLayout refreshLayout;
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
-    public int pageNo = 0;//翻页计数器
+    public int pageNo = 1;//翻页计数器
     private int index=0;
     private MessageListAdapter messageListAdapter;
     private List<Message> goodsAndStoreArrayList=new ArrayList<>();
+    private GoodsAndStoreActivity goodsAndStoreActivity;
     public static GoodsAndStoreFragment newInstance(int str) {
         Bundle args = new Bundle();
         args.putInt("intent", str);
@@ -70,6 +73,12 @@ public class GoodsAndStoreFragment extends BaseFrgment<GoodsAndStorePresenter> i
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        goodsAndStoreActivity=(GoodsAndStoreActivity)context;
+    }
+
+    @Override
     protected GoodsAndStorePresenter loadPresenter() {
         return new GoodsAndStorePresenter();
     }
@@ -87,15 +96,17 @@ public class GoodsAndStoreFragment extends BaseFrgment<GoodsAndStorePresenter> i
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
         LogUtils.e(index);
-        pageNo=0;
-        getData(0);
+        pageNo=1;
+        getData(pageNo);
     }
     protected  void getData(int pn){
         Map<String,Object> map=new HashMap<>();
         map.put("pn",pn);
         map.put("ps",10);
         map.put("site", UserUtils.getInstance().getLoginBean().getSite());
-        map.put("personId", UserUtils.getInstance().getLoginBean().getEntityId());
+//        map.put("personId", goodsAndStoreActivity.customerId);
+        map.put("personId", 45);
+
         if (index==0){
             map.put("type", 2);
         }else {

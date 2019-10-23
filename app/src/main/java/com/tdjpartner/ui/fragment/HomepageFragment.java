@@ -92,9 +92,11 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
         swipeRefreshLayout.setOnRefreshListener(this);
         selectedDate=Calendar.getInstance();
         startDate = Calendar.getInstance();
-        startDate.set(Calendar.getInstance().get(Calendar.YEAR), (Calendar.getInstance().get(Calendar.MONTH)-1),Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+//        startDate.set(Calendar.getInstance().get(Calendar.YEAR), (Calendar.getInstance().get(Calendar.MONTH)-1),Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        startDate.set(2019, 9,01);
         endDate = Calendar.getInstance();
-        endDate.set(Calendar.getInstance().get(Calendar.YEAR),  (Calendar.getInstance().get(Calendar.MONTH)),Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+//        endDate.set(2029, 11, 28);
+        endDate.set(endDate.get(Calendar.YEAR),  (endDate.get(Calendar.MONTH)),endDate.get(Calendar.DAY_OF_MONTH));
         pvTime = new TimePickerView.Builder(getContext(), new TimePickerView.OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {

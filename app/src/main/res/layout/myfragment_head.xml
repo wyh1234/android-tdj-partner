@@ -43,9 +43,11 @@
             android:layout_marginLeft="11dp"
             android:layout_height="50dp">
             <com.makeramen.roundedimageview.RoundedImageView
-                android:layout_width="50dp"
+                android:layout_width="51dp"
                 android:id="@+id/image"
-                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:layout_height="51dp"
+                app:riv_border_width="2dp"
                 android:src="@mipmap/touxiang_bg"
                 app:riv_border_color="@color/white"
                 app:riv_oval="true" />
