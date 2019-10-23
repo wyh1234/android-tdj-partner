@@ -28,6 +28,7 @@ public class ClientFragment  extends BaseFrgment {
     protected void onFragmentFirstVisible() {
         super.onFragmentFirstVisible();
         checkClientFragment(new ClientFragmentType(listdata));
+
     }
 
     public List<Fragment> getChildFrament() {

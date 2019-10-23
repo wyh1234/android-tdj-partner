@@ -270,9 +270,10 @@
         <ImageView
             android:id="@+id/iv_upload"
             android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
+            android:layout_width="62dp"
+            android:scaleType="centerCrop"
             android:src="@mipmap/sahngchuantupian"
-            android:layout_height="wrap_content" />
+            android:layout_height="62dp" />
         
     </RelativeLayout>
 

@@ -16,7 +16,7 @@ public class RankingAdapter extends BaseQuickAdapter<RankingData, BaseViewHolder
 
     @Override
     protected void convert(BaseViewHolder baseViewHolder, RankingData rankingData) {
-        LogUtils.e(baseViewHolder.getAdapterPosition());
+//        LogUtils.e(baseViewHolder.getAdapterPosition());
 
     }
 }

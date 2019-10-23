@@ -44,13 +44,13 @@ public class MainTabActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-
         mFragmentList = new ArrayList<>(5);
         mFragmentList.add(new HomepageFragment());
         mFragmentList.add(new ClientFragment());
         mFragmentList.add(new MyFragment());
         mainTabAdapter=new MainTabAdapter(mFragmentList,getSupportFragmentManager());
         mVpContent.setAdapter(mainTabAdapter);
+        mVpContent.setOffscreenPageLimit(mFragmentList.size());
         mBottomBarLayout.setViewPager(mVpContent);
         mBottomBarLayout.setOnItemSelectedListener(new BottomBarLayout.OnItemSelectedListener() {
             @Override

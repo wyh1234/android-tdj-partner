@@ -21,16 +21,8 @@ public class MyFragmentAdapter extends BaseQuickAdapter<MyFragmentBottom, BaseVi
 
     @Override
     protected void convert(BaseViewHolder baseViewHolder, MyFragmentBottom myFragmentBottom) {
-        LogUtils.e(baseViewHolder.getAdapterPosition());
         baseViewHolder.setText(R.id.tv_tiltle,myFragmentBottom.getTitle());
-        if (UserUtils.getInstance().getLoginBean()!=null){
-            if (GeneralUtils.isNullOrZeroLenght(UserUtils.getInstance().getLoginBean().getIdCard())){
-                baseViewHolder.setGone(R.id.tv_sm,false);
-            }else {
-                baseViewHolder.setGone(R.id.tv_sm,true);
-            }
-
-        }
+                baseViewHolder.setGone(R.id.tv_sm,myFragmentBottom.isF());
 
         if (baseViewHolder.getLayoutPosition()==data.size()){
             baseViewHolder.setBackgroundRes(R.id.rl,R.drawable.home_item_shap);

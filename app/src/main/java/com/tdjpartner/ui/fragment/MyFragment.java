@@ -102,7 +102,7 @@ public class MyFragment extends BaseFrgment<MyFragmentPresneter> implements Swip
         swipeRefreshLayout.setColorSchemeResources(R.color.bbl_ff0000);
         swipeRefreshLayout.setOnRefreshListener(this);
         list.add(new MyFragmentBottom("新增拜访",false));
-        list.add(new MyFragmentBottom("实名认证",true));
+        list.add(new MyFragmentBottom("实名认证",false));
         list.add(new MyFragmentBottom("去赚钱",false));
         list.add(new MyFragmentBottom("设置",false));
         rv_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -131,7 +131,9 @@ public class MyFragment extends BaseFrgment<MyFragmentPresneter> implements Swip
     @Override
     protected void onFragmentFirstVisible() {
         super.onFragmentFirstVisible();
-        setMyData();
+        LogUtils.e("我的");
+        swipeRefreshLayout.setRefreshing(true);
+        onRefresh();
     }
 
     public void setMyData(){
@@ -153,11 +155,18 @@ public class MyFragment extends BaseFrgment<MyFragmentPresneter> implements Swip
 
             }
             if (UserUtils.getInstance().getLoginBean().getPmCount()!=null){
-                tv_pmcount.setText(UserUtils.getInstance().getLoginBean().getPmCount()+"");
+                if (UserUtils.getInstance().getLoginBean().getPmCount()!=0){
+                    tv_pmcount.setText(UserUtils.getInstance().getLoginBean().getPmCount()+"");
+                }
+
 
             }
             ImageLoad.loadImageViewLoding(UserUtils.getInstance().getLoginBean().getAvatarUrl(),image);
         }
+
+
+        list.get(1).setF(!GeneralUtils.isNullOrZeroLenght(UserUtils.getInstance().getLoginBean().getIdCard()));
+        myFragmentAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -177,6 +186,7 @@ public class MyFragment extends BaseFrgment<MyFragmentPresneter> implements Swip
 
     @Override
     public void onRefresh() {
+        LogUtils.e(UserUtils.getInstance().getLoginBean());
         mPresenter.customer_refreshInfo(UserUtils.getInstance().getLoginBean().getEntityId(),UserUtils.getInstance().getLoginBean().getLoginUserId());
 
 
@@ -215,9 +225,9 @@ public class MyFragment extends BaseFrgment<MyFragmentPresneter> implements Swip
             startActivity(intent);
 
         }else {
+                Intent intent=new Intent(getContext(), RealNameAuthenticationActivity.class);
+                startActivity(intent);
 
-            Intent intent=new Intent(getContext(), RealNameAuthenticationActivity.class);
-            startActivity(intent);
 
         }
 

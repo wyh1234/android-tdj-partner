@@ -50,6 +50,8 @@ public class RealNameAuthenticationActivity extends BaseActivity<RealNameAuthent
     EditText ed_idcard;
     @BindView(R.id.tv_idcard)
     TextView tv_idcard;
+    @BindView(R.id.tv_name)
+    TextView tv_name;
     private RxPermissions rxPermissions;
 
     private Map<String,Object> map=new HashMap<>();
@@ -111,11 +113,14 @@ public class RealNameAuthenticationActivity extends BaseActivity<RealNameAuthent
                 btn.setVisibility(View.VISIBLE);
             }else {
                 tv_idcard.setVisibility(View.VISIBLE);
+                tv_idcard.setText(UserUtils.getInstance().getLoginBean().getIdCard());
                 ed_idcard.setVisibility(View.GONE);
                 btn.setVisibility(View.GONE);
+                ImageLoad.loadImageViewLoding(UserUtils.getInstance().getLoginBean().getCardUrlPositive(),id_card_positive_iv,R.mipmap.sfzz);
+                ImageLoad.loadImageViewLoding(UserUtils.getInstance().getLoginBean().getCardUrlNegative(),id_card_negative_iv,R.mipmap.sfzf);
             }
         }
-
+        tv_name.setText(UserUtils.getInstance().getLoginBean().getRealname());
     }
 
     public void getImage(){

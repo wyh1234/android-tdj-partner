@@ -52,6 +52,7 @@
             android:orientation="vertical"
             android:layout_height="wrap_content">
             <EditText
+                android:id="@+id/ed_storeName"
                 android:layout_width="match_parent"
                 android:gravity="center_vertical"
                 android:background="@null"
@@ -67,6 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
             <EditText
+                android:id="@+id/ed_byCallName"
                 android:layout_width="match_parent"
                 android:gravity="center_vertical"
                 android:background="@null"
@@ -82,6 +84,7 @@
                 android:layout_height="1dp"/>
 
             <EditText
+                android:id="@+id/ed_byCallMobile"
                 android:layout_width="match_parent"
                 android:gravity="center_vertical"
                 android:background="@null"
@@ -110,6 +113,7 @@
                 android:layout_height="1dp"/>
 
             <EditText
+                android:id="@+id/ed_storeAddress"
                 android:layout_width="match_parent"
                 android:gravity="center_vertical"
                 android:background="@null"
@@ -128,6 +132,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="37dp">
                 <TextView
+
                     android:id="@+id/tv_time"
                     android:layout_width="match_parent"
                     android:gravity="center_vertical"
@@ -154,6 +159,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="37dp">
                 <TextView
+                    android:id="@+id/tv_callType"
                     android:layout_width="match_parent"
                     android:gravity="center_vertical"
                     android:textColor="@color/black_63"
@@ -188,6 +194,7 @@
                     android:layout_height="wrap_content">
                 </TextView>
                 <TextView
+                    android:id="@+id/tv_callMobile"
                     android:layout_below="@+id/tv_username"
                     android:layout_width="wrap_content"
                     android:textColor="@color/black_63"
@@ -201,6 +208,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
             <EditText
+                android:id="@+id/ed_matters"
                 android:layout_width="match_parent"
                 android:gravity="center_vertical"
                 android:background="@null"
@@ -216,6 +224,7 @@
                 android:layout_height="1dp"/>
 
             <EditText
+                android:id="@+id/ed_results"
                 android:layout_width="match_parent"
                 android:gravity="center_vertical"
                 android:background="@null"
@@ -229,6 +238,19 @@
                 android:background="@color/gray_f2"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
+            <RelativeLayout
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="117dp">
+                <ImageView
+                    android:id="@+id/iv_upload"
+                    android:layout_centerInParent="true"
+                    android:layout_width="62dp"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/sahngchuantupian"
+                    android:layout_height="62dp" />
+
+            </RelativeLayout>
         </LinearLayout>
         <Button
             android:id="@+id/btn"

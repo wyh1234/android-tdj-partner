@@ -22,7 +22,7 @@ public class TodyDataAdapter extends BaseQuickAdapter<StatisticalData,BaseViewHo
 
     @Override
     protected void convert(BaseViewHolder baseViewHolder, StatisticalData statisticalData) {
-        LogUtils.e(baseViewHolder.getLayoutPosition());
+//        LogUtils.e(baseViewHolder.getLayoutPosition());
         if (baseViewHolder.getLayoutPosition()==4){
             baseViewHolder.setVisible(R.id.view,false);
         }else {

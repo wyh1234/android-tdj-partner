@@ -16,6 +16,24 @@ public class UserInfo  {
     private String avatarUrl 	;//自定义创客图片
     private Long pmCount 	;//未读消息数
     private String siteName;
+    private String cardUrlPositive;//身份证正面
+    private String cardUrlNegative;//身份证反面
+
+    public String getCardUrlPositive() {
+        return cardUrlPositive;
+    }
+
+    public void setCardUrlPositive(String cardUrlPositive) {
+        this.cardUrlPositive = cardUrlPositive;
+    }
+
+    public String getCardUrlNegative() {
+        return cardUrlNegative;
+    }
+
+    public void setCardUrlNegative(String cardUrlNegative) {
+        this.cardUrlNegative = cardUrlNegative;
+    }
 
     public String getSiteName() {
         return siteName;
