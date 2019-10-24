@@ -90,6 +90,7 @@
                 android:background="@null"
                 android:hint="请输入被拜访人手机号"
                 android:textColor="@color/black_63"
+                android:inputType="number"
                 android:textSize="12sp"
                 android:textColorHint="@color/gray_6b"
                 android:layout_height="37dp">
@@ -138,7 +139,7 @@
                     android:gravity="center_vertical"
                     android:textColor="@color/black_63"
                     android:textColorHint="@color/gray_6b"
-                    android:hint="输入拜访时间，例如：2019.19.20 10:00"
+                    android:hint="请选择拜访时间，例如：2019.19.20 10:00"
                     android:textSize="12sp"
                     android:layout_height="37dp">
                 </TextView>
@@ -189,7 +190,6 @@
                     android:id="@+id/tv_username"
                     android:layout_width="wrap_content"
                     android:textColor="@color/black_63"
-                    android:text="张三"
                     android:textSize="12sp"
                     android:layout_height="wrap_content">
                 </TextView>
@@ -198,7 +198,6 @@
                     android:layout_below="@+id/tv_username"
                     android:layout_width="wrap_content"
                     android:textColor="@color/black_63"
-                    android:text="13216803333"
                     android:textSize="12sp"
                     android:layout_height="wrap_content">
                 </TextView>

@@ -33,7 +33,7 @@ public class FollowUpPopuWindow extends BasePopupWindow {
             tv_content.setText("恭喜您拜访客户成功");
             btn_qx.setText("知道了");
             btn_next.setText("返回上一页");
-        }else if ("BAIFANG".contains("ADDBAIFANG")){
+        }else if ("ADDBAIFANG".contains(str)){
             tv_content.setText("新增拜访客户成功！");
             btn_qx.setText("知道了");
             btn_next.setText("返回");

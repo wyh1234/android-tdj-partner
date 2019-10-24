@@ -453,7 +453,14 @@ public interface ApiService {
     @POST("tdj-partner/partner/userRelations/modifyAvatarUrl")
     Observable<BaseResponse<Integer>> modifyAvatarUrl(@Body  RequestBody body);
 
-
+    /*
+     *.选择专员列表
+     *
+     *
+     * */
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/worship/insert")
+    Observable<BaseResponse<Integer>> worship(@Body  RequestBody body);
 
 
 }

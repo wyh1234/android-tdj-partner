@@ -190,6 +190,9 @@ public class RequestPresenter {
     public static Disposable  modifyAvatarUrl(Map<String, Object> map, BaseObserver<Integer> callback) {
         return getApiService().modifyAvatarUrl(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
+    public static Disposable  worship(Map<String, Object> map, BaseObserver<Integer> callback) {
+        return getApiService().worship(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
 
     public static MultipartBody.Part getMultipartBody_part(String fileName, byte[] content) {
         // 创建 RequestBody，用于封装构建RequestBody
