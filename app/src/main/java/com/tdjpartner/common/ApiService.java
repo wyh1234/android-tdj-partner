@@ -28,6 +28,7 @@ import com.tdjpartner.model.RentingInfos;
 import com.tdjpartner.model.SelectPerson;
 import com.tdjpartner.model.SettingPerson;
 import com.tdjpartner.model.StoreInfo;
+import com.tdjpartner.model.TeamOverView;
 import com.tdjpartner.model.ToMakeMoney;
 import com.tdjpartner.model.UserInfo;
 import com.tdjpartner.model.WithdrawDetalis;
@@ -461,6 +462,29 @@ public interface ApiService {
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/worship/insert")
     Observable<BaseResponse<Integer>> worship(@Body  RequestBody body);
+    /*
+     *.
+     *
+     *
+     * */
+    @Headers({"url_type:xuming"})
+    @POST("tdj-report/report/teamOverView/day")
+    Observable<BaseResponse<TeamOverView>> teamOverView_day(@Body  RequestBody body);
+    /*
+     *.
+     *
+     *
+     * */
+    @Headers({"url_type:xuming"})
+    @POST("tdj-report/report/teamOverView/month")
+    Observable<BaseResponse<TeamOverView>> teamOverView_month(@Body  RequestBody body);
 
-
+    /*
+     *.
+     *
+     *
+     * */
+    @Headers({"url_type:xuming"})
+    @POST("tdj-report/report/teamOverView/all")
+    Observable<BaseResponse<TeamOverView>> teamOverView_all(@Body  RequestBody body);
 }

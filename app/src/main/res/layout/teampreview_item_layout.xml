@@ -17,6 +17,7 @@
             android:background="@color/view_bg1"
             android:layout_height="17dp"/>
         <TextView
+            android:id="@+id/tv_tiltle"
             android:layout_toRightOf="@+id/view1"
             android:layout_marginLeft="6dp"
             android:text="今日统计"
@@ -36,7 +37,6 @@
                 android:id="@+id/tv_today"
                 android:drawableRight="@mipmap/xiala_bg"
                 android:layout_marginLeft="6dp"
-                android:text="9月4日"
                 android:textSize="14sp"
                 android:textColor="@color/black_63"
                 android:layout_width="wrap_content"
@@ -66,8 +66,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/tv_amountCommission"
                     android:layout_below="@+id/tv"
-                    android:text="10000.00"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="13dp"
                     android:textColor="@color/view_bg1"
@@ -87,18 +87,18 @@
                 android:layout_height="match_parent">
                 <TextView
                     android:id="@+id/tv1"
-                    android:text="订单收益"
+                    android:text="售后退款"
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/gray_66"
                     android:textSize="10sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/tv_afterSaleAmount"
                     android:layout_below="@+id/tv1"
-                    android:text="10000.00"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="13dp"
-                    android:textColor="@color/view_bg1"
+                    android:textColor="@color/gray_69"
                     android:textSize="17sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -132,8 +132,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/tv_userNum"
                     android:layout_below="@+id/tv2"
-                    android:text="10人"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="13dp"
                     android:textColor="@color/gray_69"
@@ -160,8 +160,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/tv_activeNum"
                     android:layout_below="@+id/tv3"
-                    android:text="2家"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="13dp"
                     android:textColor="@color/gray_69"
@@ -189,8 +189,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/tv_addActiveNum"
                     android:layout_below="@+id/tv4"
-                    android:text="2家"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="13dp"
                     android:textColor="@color/gray_69"
@@ -199,11 +199,13 @@
                     android:layout_height="wrap_content" />
             </RelativeLayout>
             <View
+                android:id="@+id/view_w"
                 android:layout_gravity="center_vertical"
                 android:layout_width="1dp"
                 android:background="@color/gray_f2"
                 android:layout_height="37dp"/>
             <RelativeLayout
+                android:id="@+id/rl_w"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:layout_width="match_parent"
@@ -217,8 +219,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/tv_noOrderNum"
                     android:layout_below="@+id/tv5"
-                    android:text="2家"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="13dp"
                     android:textColor="@color/gray_69"
@@ -231,6 +233,7 @@
 
 
         <LinearLayout
+            android:id="@+id/ll_bottom"
             android:layout_below="@+id/ll_one"
             android:layout_width="match_parent"
             android:layout_marginLeft="@dimen/dp_10"
@@ -251,11 +254,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/tv_amount"
                     android:layout_below="@+id/tv6"
-                    android:text="10人"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="18dp"
-                    android:textColor="@color/gray_69"
+                    android:textColor="@color/black_63"
                     android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -279,11 +282,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/tv_addAmount"
                     android:layout_below="@+id/tv7"
-                    android:text="2家"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="18dp"
-                    android:textColor="@color/gray_69"
+                    android:textColor="@color/black_63"
                     android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -301,18 +304,18 @@
                 android:layout_height="73dp">
                 <TextView
                     android:id="@+id/tv8"
-                    android:text="新增日活"
+                    android:text="拜访总数"
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/gray_66"
                     android:textSize="12sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/tv_callNum"
                     android:layout_below="@+id/tv8"
-                    android:text="2家"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="18dp"
-                    android:textColor="@color/gray_69"
+                    android:textColor="@color/black_63"
                     android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

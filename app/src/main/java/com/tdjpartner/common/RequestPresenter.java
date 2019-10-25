@@ -30,6 +30,7 @@ import com.tdjpartner.model.RentingInfos;
 import com.tdjpartner.model.SelectPerson;
 import com.tdjpartner.model.SettingPerson;
 import com.tdjpartner.model.StoreInfo;
+import com.tdjpartner.model.TeamOverView;
 import com.tdjpartner.model.ToMakeMoney;
 import com.tdjpartner.model.UserInfo;
 import com.tdjpartner.model.WithdrawDetalis;
@@ -192,6 +193,15 @@ public class RequestPresenter {
     }
     public static Disposable  worship(Map<String, Object> map, BaseObserver<Integer> callback) {
         return getApiService().worship(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  teamOverView_day(Map<String, Object> map, BaseObserver<TeamOverView> callback) {
+        return getApiService().teamOverView_day(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  teamOverView_month(Map<String, Object> map, BaseObserver<TeamOverView> callback) {
+        return getApiService().teamOverView_month(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  teamOverView_all(Map<String, Object> map, BaseObserver<TeamOverView> callback) {
+        return getApiService().teamOverView_all(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
 
     public static MultipartBody.Part getMultipartBody_part(String fileName, byte[] content) {

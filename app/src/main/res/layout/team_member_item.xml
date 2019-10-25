@@ -13,7 +13,7 @@
         android:orientation="vertical"
         android:paddingLeft="11dp"
         android:paddingRight="11dp"
-        android:layout_height="wrap_content">
+        android:layout_height="38dp">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="33dp">
@@ -22,7 +22,7 @@
                 android:layout_marginLeft="5dp"
                 android:text="张三"
                 android:textSize="12sp"
-                android:textColor="@color/view_bg1"
+                android:textColor="@color/black_63"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
@@ -37,9 +37,11 @@
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="5dp"
-                android:text="区域：A2-12"
+                android:text="18616833332"
+                android:drawablePadding="9dp"
                 android:textSize="12sp"
-                android:textColor="@color/gray_69"
+                android:drawableLeft="@mipmap/call"
+                android:textColor="@color/gray_66"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -48,7 +50,7 @@
             android:background="@color/gray_f2"
             android:layout_width="match_parent"
             android:layout_height="1dp"/>
-        <RelativeLayout
+   <!--     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="33dp">
             <ImageView
@@ -252,7 +254,7 @@
                 android:layout_marginLeft="16dp"
                 android:text="在职"
                 android:layout_height="17dp" />
-        </RelativeLayout>
+        </RelativeLayout>-->
     </LinearLayout>
 
 </LinearLayout>

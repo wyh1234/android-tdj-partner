@@ -60,11 +60,10 @@ public class StatisticsListActivity extends BaseActivity {
         List<String> titles = new ArrayList<>();
         tv_title.setText(getIntent().getStringExtra("title"));
         if (getIntent().getStringExtra("title").equals("今日统计")){
-            titles.add("注册数");
-            titles.add("新下单数");
-            titles.add("已下单数");
-            titles.add("下单金额");
-        }else if (getIntent().getStringExtra("title").equals("当月统计")){
+            titles.add("全部75");
+            titles.add("未下单数55");
+            titles.add("已下单数10");
+        }else if (getIntent().getStringExtra("title").equals("月统计")){
             titles.add("注册数");
             titles.add("平均日活量");
             titles.add("已下单金额");

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?><!--根布局，常用作蒙层（就是变暗的背景）-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#8f000000"
+    >
+    <!--播放动画的内容，可以认为是popup的主要内容布局-->
+    <RelativeLayout
+        android:id="@+id/popup_anima"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_one"
+            android:layout_width="match_parent"
+            android:text="市场专员"
+            android:textColor="@color/black_63"
+            android:textSize="@dimen/sp_16"
+            android:gravity="center"
+            android:layout_height="40dp" />
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/tv_one"
+            android:background="@color/gray_f2"
+            android:layout_height="1dp"/>
+        <TextView
+            android:id="@+id/tv_two"
+            android:layout_below="@+id/view"
+            android:layout_width="match_parent"
+            android:text="城市主管"
+            android:textColor="@color/black_63"
+            android:textSize="@dimen/sp_16"
+            android:gravity="center"
+            android:layout_height="40dp" />
+        <View
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/tv_two"
+            android:background="@color/gray_f2"
+            android:layout_height="1dp"/>
+        <TextView
+            android:id="@+id/tv_three"
+
+            android:layout_below="@+id/view1"
+            android:layout_width="match_parent"
+            android:text="城市经理"
+            android:textColor="@color/black_63"
+            android:textSize="@dimen/sp_16"
+            android:gravity="center"
+            android:layout_height="40dp" />
+
+
+
+    </RelativeLayout>
+</RelativeLayout>

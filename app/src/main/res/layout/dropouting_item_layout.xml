@@ -113,7 +113,7 @@
                     android:gravity="center"
                     android:textSize="@dimen/sp_12"
                     android:textColor="@color/gray_69"
-                    android:text="客均价"
+                    android:text="今日客均价"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -140,7 +140,7 @@
                     android:gravity="center"
                     android:textSize="@dimen/sp_12"
                     android:textColor="@color/gray_69"
-                    android:text="近30天频次"
+                    android:text="下单次数"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -166,7 +166,7 @@
                     android:gravity="center"
                     android:textSize="@dimen/sp_12"
                     android:textColor="@color/gray_69"
-                    android:text="连续未下单"
+                    android:text="退款次数"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </RelativeLayout>

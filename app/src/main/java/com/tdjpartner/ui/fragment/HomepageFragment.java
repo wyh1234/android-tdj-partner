@@ -254,7 +254,7 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
         }else if (baseQuickAdapter instanceof MonthDataAdapter){
             if (pos==0||pos==1||pos==2){
                 Intent intent=new Intent(getContext(), StatisticsListActivity.class);
-                intent.putExtra("title","当月统计");
+                intent.putExtra("title","月统计");
                 intent.putExtra("pos",""+pos);
                 startActivity(intent);
             }

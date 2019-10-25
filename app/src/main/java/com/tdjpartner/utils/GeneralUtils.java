@@ -214,7 +214,6 @@ public class GeneralUtils {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.format(date);
     }
-
     //获取文件名带后缀
     public static String getFileNames(String pathandname) {
         int start = pathandname.lastIndexOf("/");

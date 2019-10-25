@@ -5,14 +5,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.TeamMemberAdapter;
-import com.tdjpartner.adapter.TeamPreviewAdapter;
 import com.tdjpartner.base.BaseActivity;
 import com.tdjpartner.model.TeamMember;
-import com.tdjpartner.model.TeamPreview;
 import com.tdjpartner.mvp.presenter.IPresenter;
+import com.tdjpartner.mvp.presenter.TeamMemberPresenter;
+import com.tdjpartner.utils.popuwindow.FollowUpPopuWindow;
+import com.tdjpartner.utils.popuwindow.TeamMemberPopuWindow;
 import com.tdjpartner.utils.statusbar.Eyes;
 
 import java.util.ArrayList;
@@ -21,7 +24,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class TeamMemberActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class TeamMemberActivity extends BaseActivity<TeamMemberPresenter> implements SwipeRefreshLayout.OnRefreshListener,TeamMemberPopuWindow.TeamMemberPopuWindowListener {
     private TeamMemberAdapter teamMemberAdapter;
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout refreshLayout;
@@ -30,17 +33,47 @@ public class TeamMemberActivity extends BaseActivity implements SwipeRefreshLayo
     private List<TeamMember> data=new ArrayList<>();
     @BindView(R.id.btn_back)
     ImageView btn_back;
-    @OnClick({R.id.btn_back})
+    @BindView(R.id.tv_name)
+    TextView tv_name;
+    @BindView(R.id.rl_seach)
+    RelativeLayout rl_seach;
+    private TeamMemberPopuWindow teamMemberPopuWindow;
+    private int type=3;
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    @OnClick({R.id.btn_back,R.id.tv_name})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.btn_back:
                 finish();
                 break;
+            case R.id.tv_name:
+                if (teamMemberPopuWindow!=null){
+                    if (teamMemberPopuWindow.isShowing()){
+                        return;
+                    }
+                    teamMemberPopuWindow.showPopupWindow(rl_seach);
+                }else {
+                    teamMemberPopuWindow = new TeamMemberPopuWindow(this);
+                    teamMemberPopuWindow.setDismissWhenTouchOutside(false);
+                    teamMemberPopuWindow.setInterceptTouchEvent(false);
+                    teamMemberPopuWindow.showPopupWindow(rl_seach);
+                    teamMemberPopuWindow.setPopupWindowFullScreen(true);//铺满
+                    teamMemberPopuWindow.setTeamMemberPopuWindowListener(this);
+                }
+                break;
         }
     }
     @Override
-    protected IPresenter loadPresenter() {
-        return null;
+    protected TeamMemberPresenter loadPresenter() {
+        return new TeamMemberPresenter();
     }
 
     @Override
@@ -56,9 +89,6 @@ public class TeamMemberActivity extends BaseActivity implements SwipeRefreshLayo
         LinearLayoutManager layout = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
         recyclerView_list.setLayoutManager(layout);
-        data.add(new TeamMember());
-        data.add(new TeamMember());
-        data.add(new TeamMember());
         teamMemberAdapter=new TeamMemberAdapter(R.layout.team_member_item,data);
         recyclerView_list.setAdapter(teamMemberAdapter);
     }
@@ -78,5 +108,11 @@ public class TeamMemberActivity extends BaseActivity implements SwipeRefreshLayo
         if (refreshLayout != null && refreshLayout.isRefreshing()) {
             refreshLayout.setRefreshing(false);
         }
+    }
+
+    @Override
+    public void onOk(int type) {
+        setType(type);
+        teamMemberPopuWindow.dismiss();
     }
 }
