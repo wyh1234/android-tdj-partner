@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.tdjpartner.http.BaseObserver;
 import com.tdjpartner.http.RetrofitServiceManager;
 import com.tdjpartner.http.RxUtils;
+import com.tdjpartner.model.AppVersion;
 import com.tdjpartner.model.BaiFangHistory;
 import com.tdjpartner.model.Bank;
 import com.tdjpartner.model.BankList;
@@ -16,10 +17,13 @@ import com.tdjpartner.model.DiscountCoupon;
 import com.tdjpartner.model.DropOuting;
 import com.tdjpartner.model.EarningsHistory;
 import com.tdjpartner.model.GoodsInfo;
+import com.tdjpartner.model.HomeData;
+import com.tdjpartner.model.HomeDataDetails;
 import com.tdjpartner.model.HomePageFuncationButton;
 import com.tdjpartner.model.IntegralShop;
 import com.tdjpartner.model.InvitationHistory;
 import com.tdjpartner.model.MyCountMoney;
+import com.tdjpartner.model.MyTeam;
 import com.tdjpartner.model.OrderDetail;
 import com.tdjpartner.model.OrderList;
 import com.tdjpartner.model.PartnerCheck;
@@ -203,7 +207,19 @@ public class RequestPresenter {
     public static Disposable  teamOverView_all(Map<String, Object> map, BaseObserver<TeamOverView> callback) {
         return getApiService().teamOverView_all(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
+    public static Disposable  homeData(Map<String, Object> map, BaseObserver<HomeData> callback) {
+        return getApiService().homeData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  homeDataDetails(Map<String, Object> map, BaseObserver<HomeDataDetails> callback) {
+        return getApiService().homeDataDetails(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  myTeamPartnerList(Map<String, Object> map, BaseObserver<MyTeam> callback) {
+        return getApiService().myTeamPartnerList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
 
+    public static Disposable  version_check(Map<String, Object> map, BaseObserver<AppVersion> callback) {
+        return getApiService().version_check(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
     public static MultipartBody.Part getMultipartBody_part(String fileName, byte[] content) {
         // 创建 RequestBody，用于封装构建RequestBody
         RequestBody requestFile = RequestBody.create(FORM, content);
@@ -215,7 +231,6 @@ public class RequestPresenter {
         map.put("versionCode", String.valueOf(GeneralUtils.getVersionCode()));
         map.put("versionName",GeneralUtils.getVersionName());
         map.put("uniqueId",GeneralUtils.getAndroidId());
-        LogUtils.e(map);
         return RequestBody.create(JSON, new Gson().toJson(map));
     }
 

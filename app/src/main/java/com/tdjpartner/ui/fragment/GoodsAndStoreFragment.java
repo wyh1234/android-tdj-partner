@@ -140,12 +140,13 @@ public class GoodsAndStoreFragment extends BaseFrgment<GoodsAndStorePresenter> i
     }
 
     public void collect_products_Success(StoreInfo storeInfo,GoodsInfo goodsInfo) {
-        stop();
+
         if (refreshLayout.isRefreshing()){
             if (!ListUtils.isEmpty(goodsAndStoreArrayList)) {
                 goodsAndStoreArrayList.clear();
             }
         }
+        stop();
         if (index==0){
             if (ListUtils.isEmpty(goodsAndStoreArrayList)) {
                 if (ListUtils.isEmpty(goodsInfo.getObj())) {

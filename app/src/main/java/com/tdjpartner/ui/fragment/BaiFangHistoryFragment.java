@@ -133,12 +133,13 @@ public class BaiFangHistoryFragment extends BaseFrgment<BaiFangHistoryPresenter>
 
 
     public void call_list_Success(BaiFangHistory baiFangHistory) {
-        stop();
+
         if (refreshLayout.isRefreshing()){
             if (!ListUtils.isEmpty(baiFangHistoryList)) {
                 baiFangHistoryList.clear();
             }
         }
+        stop();
         if (ListUtils.isEmpty(baiFangHistoryList)) {
             if (ListUtils.isEmpty(baiFangHistory.getObj())) {
                 //获取不到数据,显示空布局

@@ -6,6 +6,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.tdjpartner.R;
 import com.tdjpartner.model.DropOuting;
+import com.tdjpartner.utils.GeneralUtils;
 
 import java.util.List;
 
@@ -27,14 +28,15 @@ public class CommonFollowUpAdapter extends BaseQuickAdapter<DropOuting.ObjBean, 
         }
 
 
-        baseViewHolder.setText(R.id.tv_regionCollNo,dropOuting.getRegionCollNo()+"-"+dropOuting.getRegionNo());
+        baseViewHolder.setText(R.id.tv_regionCollNo,dropOuting.getRegionCollNo());
         if (type.equals("followNot")){
             baseViewHolder.setText(R.id.tv_gj_status,"待跟进");
-            baseViewHolder.setImageResource(R.id.tv_gj_status,R.mipmap.dgj_bg);
+            baseViewHolder.setTextColor(R.id.tv_gj_status, GeneralUtils.getColor(baseViewHolder.getView(R.id.tv_gj_status).getContext(),R.color.white));
+            baseViewHolder.setBackgroundRes(R.id.tv_gj_status,R.mipmap.dgj_bg);
 
         }else {
             baseViewHolder.setText(R.id.tv_gj_status,"已跟进");
-            baseViewHolder.setImageResource(R.id.tv_gj_status,R.mipmap.dgj_hui_bg);
+            baseViewHolder.setBackgroundRes(R.id.tv_gj_status,R.mipmap.dgj_hui_bg);
         }
 
         baseViewHolder.setText(R.id.tv_num,dropOuting.getTodayAmount()+"");

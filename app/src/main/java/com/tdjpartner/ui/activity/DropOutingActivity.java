@@ -168,19 +168,18 @@ public class DropOutingActivity extends BaseActivity<DropOutingPresenter>  imple
     }
 
     public void downListSuccess(DropOuting dropOuting) {
-
-        stop();
-        tv_num.setText(dropOuting.getOrderNum()+"");
-        tv_num1.setText(dropOuting.getCallNum()+"");
+        tv_num.setText(dropOuting.getObj().getOrderNum()+"");
+        tv_num1.setText(dropOuting.getObj().getCallNum()+"");
         dropOutingAdapter.setType(type);
         if (swipeRefreshLayout.isRefreshing()){
             if (!ListUtils.isEmpty(dropOutingList)) {
                 dropOutingList.clear();
+                dropOutingAdapter.notifyDataSetChanged();
             }
         }
-
+        stop();
         if (ListUtils.isEmpty(dropOutingList)) {
-            if (ListUtils.isEmpty(dropOuting.getObj())) {
+            if (ListUtils.isEmpty(dropOuting.getObj().getList())) {
                 //获取不到数据,显示空布局
                 mStateView.showEmpty();
                 return;
@@ -188,16 +187,14 @@ public class DropOutingActivity extends BaseActivity<DropOutingPresenter>  imple
             mStateView.showContent();//显示内容
         }
 
-        if (ListUtils.isEmpty(dropOuting.getObj())) {
+        if (ListUtils.isEmpty(dropOuting.getObj().getList())) {
             //已经获取数据
             if (pageNo!=1){
-                GeneralUtils.showToastshort("数据加载完毕");
-            }else {
-                GeneralUtils.showToastshort("暂无数据");
+                dropOutingAdapter.loadMoreEnd();
             }
             return;
         }
-        dropOutingList.addAll(dropOuting.getObj());
+        dropOutingList.addAll(dropOuting.getObj().getList());
         dropOutingAdapter.setNewData(dropOutingList);
         dropOutingAdapter.disableLoadMoreIfNotFullPage(recyclerView_list);//数据项个数未满一屏幕,则不开启load more,add数据后设置
     }

@@ -47,5 +47,6 @@ public class ClientListAdapter extends BaseQuickAdapter<ClientInfo, BaseViewHold
         }else {
             baseViewHolder.setGone(R.id.tv_gj_status,false);
         }
+        baseViewHolder.addOnClickListener(R.id.tv_gj_status);
     }
 }

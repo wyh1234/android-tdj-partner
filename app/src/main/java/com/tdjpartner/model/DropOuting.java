@@ -14,27 +14,9 @@ public class DropOuting {
      */
 
     private int total;
-    private List<ObjBean> obj;
-    private int orderNum;
-    private int callNum;
-    private int followNum;
-    private int followedNum;
+    private ObjBeans obj;
 
-    public int getFollowNum() {
-        return followNum;
-    }
 
-    public void setFollowNum(int followNum) {
-        this.followNum = followNum;
-    }
-
-    public int getFollowedNum() {
-        return followedNum;
-    }
-
-    public void setFollowedNum(int followedNum) {
-        this.followedNum = followedNum;
-    }
 
     public int getTotal() {
         return total;
@@ -44,28 +26,60 @@ public class DropOuting {
         this.total = total;
     }
 
-    public List<ObjBean> getObj() {
+    public ObjBeans getObj() {
         return obj;
     }
 
-    public void setObj(List<ObjBean> obj) {
+    public void setObj(ObjBeans obj) {
         this.obj = obj;
     }
 
-    public int getOrderNum() {
-        return orderNum;
-    }
+    public static class ObjBeans{
+        private int orderNum;
+        private int callNum;
+        private int followNum;
+        private int followedNum;
+        private List<ObjBean> list;
 
-    public void setOrderNum(int orderNum) {
-        this.orderNum = orderNum;
-    }
+        public List<ObjBean> getList() {
+            return list;
+        }
 
-    public int getCallNum() {
-        return callNum;
-    }
+        public void setList(List<ObjBean> list) {
+            this.list = list;
+        }
 
-    public void setCallNum(int callNum) {
-        this.callNum = callNum;
+        public int getOrderNum() {
+            return orderNum;
+        }
+
+        public void setOrderNum(int orderNum) {
+            this.orderNum = orderNum;
+        }
+
+        public int getCallNum() {
+            return callNum;
+        }
+
+        public void setCallNum(int callNum) {
+            this.callNum = callNum;
+        }
+
+        public int getFollowNum() {
+            return followNum;
+        }
+
+        public void setFollowNum(int followNum) {
+            this.followNum = followNum;
+        }
+
+        public int getFollowedNum() {
+            return followedNum;
+        }
+
+        public void setFollowedNum(int followedNum) {
+            this.followedNum = followedNum;
+        }
     }
 
     public static class ObjBean{

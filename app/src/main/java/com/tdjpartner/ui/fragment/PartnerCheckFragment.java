@@ -126,7 +126,7 @@ public class PartnerCheckFragment extends BaseFrgment<PartnerCheckPresenter>  im
     }
     protected  void getData(int pn){
         Map<String,Object> map=new HashMap<>();
-        map.put("userId", "23251");
+        map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
         if (index==1){
             map.put("verifyStatus", 0);
         }else if (index==2||index==3){
@@ -163,13 +163,13 @@ public class PartnerCheckFragment extends BaseFrgment<PartnerCheckPresenter>  im
 
 
     public void verifyList_Success(PartnerCheck partnerCheckList) {
-        stop();
+
         if (refreshLayout.isRefreshing()){
             if (!ListUtils.isEmpty(data)) {
                 data.clear();
             }
         }
-
+        stop();
 
         if (ListUtils.isEmpty(data)) {
             if (ListUtils.isEmpty(partnerCheckList.getObj())) {

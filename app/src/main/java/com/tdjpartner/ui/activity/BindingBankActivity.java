@@ -40,9 +40,9 @@ public class BindingBankActivity extends BaseActivity<BindingBankPresenter> {
     @BindView(R.id.tv_phone)
     TextView tv_phone;
     @BindView(R.id.tv_username)
-    EditText tv_username;
+    TextView tv_username;
     @BindView(R.id.tv_idcard)
-    EditText tv_idcard;
+    TextView tv_idcard;
     @BindView(R.id.ed_accountno)
     EditText ed_accountno;
     @BindView(R.id.tv_bankname)
@@ -102,6 +102,8 @@ public class BindingBankActivity extends BaseActivity<BindingBankPresenter> {
             ed_accountno.setText(bank.getAccountNo());
         }else {
             tv_phone.setText(UserUtils.getInstance().getLoginBean().getPhoneNumber());
+            tv_username.setText(UserUtils.getInstance().getLoginBean().getRealname());
+            tv_idcard.setText(UserUtils.getInstance().getLoginBean().getIdCard());
         }
 
     }

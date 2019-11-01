@@ -18,6 +18,15 @@ public class UserInfo  {
     private String siteName;
     private String cardUrlPositive;//身份证正面
     private String cardUrlNegative;//身份证反面
+    private String verifyCode;;
+
+    public String getVerifyCode() {
+        return verifyCode;
+    }
+
+    public void setVerifyCode(String verifyCode) {
+        this.verifyCode = verifyCode;
+    }
 
     public String getCardUrlPositive() {
         return cardUrlPositive;

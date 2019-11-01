@@ -183,15 +183,17 @@ public class SettingPersonActivity extends BaseActivity<SettingPersonPresenter> 
     }
     public void managerList_Success(SettingPerson settingPerson) {
 
-        stop();
+
         tv_num.setText(settingPerson.getObj().getNewCustomerNum()+"");
         tv_num1.setText(settingPerson.getObj().getOldCustomerNum()+"");
         settingPersonAdapter.setType(type);
         if (swipeRefreshLayout.isRefreshing()){
             if (!ListUtils.isEmpty(data)) {
                 data.clear();
+                settingPersonAdapter.notifyDataSetChanged();
             }
         }
+        stop();
 
         if (ListUtils.isEmpty(data)) {
             if (ListUtils.isEmpty(settingPerson.getObj().getList())) {
@@ -205,9 +207,7 @@ public class SettingPersonActivity extends BaseActivity<SettingPersonPresenter> 
         if (ListUtils.isEmpty(settingPerson.getObj().getList())) {
             //已经获取数据
             if (pn!=1){
-                GeneralUtils.showToastshort("数据加载完毕");
-            }else {
-                GeneralUtils.showToastshort("暂无数据");
+                settingPersonAdapter.loadMoreEnd();
             }
             return;
         }

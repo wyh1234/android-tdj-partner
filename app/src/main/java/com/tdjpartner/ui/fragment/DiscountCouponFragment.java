@@ -116,12 +116,13 @@ public class DiscountCouponFragment extends BaseFrgment<DiscountCouponPresenter>
 
     public void coupons_findByUser_Success(DiscountCoupon discountCoupon) {
         discountCouponAdapter.setMindex(index);
-        stop();
+
         if (refreshLayout.isRefreshing()){
             if (!ListUtils.isEmpty(discountCouponArrayList)) {
                 discountCouponArrayList.clear();
             }
         }
+        stop();
         if (ListUtils.isEmpty(discountCouponArrayList)) {
             if (ListUtils.isEmpty(discountCoupon.getObj())) {
                 //获取不到数据,显示空布局

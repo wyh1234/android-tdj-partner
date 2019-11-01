@@ -179,6 +179,7 @@ public class CommonFollowUpActivity extends BaseActivity<CommonFollowUpPresenter
                 followUpPopuWindow.setInterceptTouchEvent(false);
                 followUpPopuWindow.setPopupWindowFullScreen(true);//铺满
                 followUpPopuWindow.showPopupWindow();
+                followUpPopuWindow.setFollowUpListener(this);
             }
 
             }
@@ -198,18 +199,19 @@ public class CommonFollowUpActivity extends BaseActivity<CommonFollowUpPresenter
 
     public void followListSuccess(DropOuting dropOuting) {
 
-        stop();
-        tv_num.setText(dropOuting.getFollowNum()+"");
-        tv_num1.setText(dropOuting.getFollowedNum()+"");
+
+        tv_num.setText(dropOuting.getObj().getFollowNum()+"");
+        tv_num1.setText(dropOuting.getObj().getFollowedNum()+"");
         commonFollowUpAdapter.setType(type);
         if (swipeRefreshLayout.isRefreshing()){
             if (!ListUtils.isEmpty(dropOutingList)) {
                 dropOutingList.clear();
+                commonFollowUpAdapter.notifyDataSetChanged();
             }
         }
-
+        stop();
         if (ListUtils.isEmpty(dropOutingList)) {
-            if (ListUtils.isEmpty(dropOuting.getObj())) {
+            if (ListUtils.isEmpty(dropOuting.getObj().getList())) {
                 //获取不到数据,显示空布局
                 mStateView.showEmpty();
                 return;
@@ -217,16 +219,14 @@ public class CommonFollowUpActivity extends BaseActivity<CommonFollowUpPresenter
             mStateView.showContent();//显示内容
         }
 
-        if (ListUtils.isEmpty(dropOuting.getObj())) {
+        if (ListUtils.isEmpty(dropOuting.getObj().getList())) {
             //已经获取数据
             if (pageNo!=1){
-                GeneralUtils.showToastshort("数据加载完毕");
-            }else {
-                GeneralUtils.showToastshort("暂无数据");
+                commonFollowUpAdapter.loadMoreEnd();
             }
             return;
         }
-        dropOutingList.addAll(dropOuting.getObj());
+        dropOutingList.addAll(dropOuting.getObj().getList());
         commonFollowUpAdapter.setNewData(dropOutingList);
         commonFollowUpAdapter.disableLoadMoreIfNotFullPage(recyclerView_list);//数据项个数未满一屏幕,则不开启load more,add数据后设置
     }
@@ -265,7 +265,7 @@ public class CommonFollowUpActivity extends BaseActivity<CommonFollowUpPresenter
     @Override
     public void onOk() {
         Map<String,Object> map=new HashMap<>();
-        map.put("customerId", UserUtils.getInstance().getLoginBean().getSite());
+        map.put("customerId", getCustomerId());
         map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
         map.put("userName", "");
         map.put("address", "");
@@ -277,6 +277,7 @@ public class CommonFollowUpActivity extends BaseActivity<CommonFollowUpPresenter
 
     public void internationalWatersSuccess() {
         commonFollowUpAdapter.remove(getPos());
+        followUpPopuWindow.dismiss();
 
     }
 }

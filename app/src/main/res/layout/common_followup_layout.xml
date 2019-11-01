@@ -101,7 +101,7 @@
                 android:layout_height="match_parent">
                 <TextView
                     android:id="@+id/tv_num"
-                    android:text="2"
+                    android:text="0"
                     android:textSize="18sp"
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/view_bg1"
@@ -132,7 +132,7 @@
                 android:layout_height="match_parent">
                 <TextView
                     android:id="@+id/tv_num1"
-                    android:text="2"
+                    android:text="0"
                     android:textSize="18sp"
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/gray_6c"

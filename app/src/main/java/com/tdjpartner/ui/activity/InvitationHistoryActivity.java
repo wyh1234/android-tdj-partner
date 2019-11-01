@@ -113,13 +113,12 @@ public class InvitationHistoryActivity extends BaseActivity<InvitationHistoryPre
     }
 
     public void myCustomerListSuccess(InvitationHistory invitationHistory) {
-        stop();
         if (refreshLayout.isRefreshing()){
             if (!ListUtils.isEmpty(invitationHistoryList)) {
                 invitationHistoryList.clear();
             }
         }
-
+        stop();
         if (ListUtils.isEmpty(invitationHistoryList)) {
             if (ListUtils.isEmpty(invitationHistory.getObj())) {
                 //获取不到数据,显示空布局

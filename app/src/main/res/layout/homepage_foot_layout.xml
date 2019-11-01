@@ -3,6 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:orientation="vertical"
     android:background="@color/gray_f2"
+    android:paddingBottom="@dimen/dp_10"
+    android:paddingLeft="@dimen/dp_10"
+    android:paddingRight="@dimen/dp_10"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -153,6 +156,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll"
         android:background="@drawable/client_item_sahp"
         android:paddingTop="@dimen/dp_10"
         android:paddingLeft="8dp"
@@ -198,6 +202,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_one"
         android:background="@drawable/client_item_sahp"
         android:paddingTop="@dimen/dp_10"
         android:paddingLeft="8dp"
@@ -240,6 +245,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_two"
         android:background="@drawable/client_item_sahp"
         android:paddingTop="@dimen/dp_10"
         android:paddingLeft="8dp"
@@ -275,12 +281,13 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/order_recyclerView"
             android:layout_marginTop="@dimen/sp_12"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
 
     </LinearLayout>
-    <TextView
+<!--    <TextView
         android:id="@+id/tv_bottom"
         android:layout_width="match_parent"
         android:layout_height="38dp"
@@ -292,5 +299,5 @@
         android:marqueeRepeatLimit="marquee_forever"
         android:textColor="@color/white"
         android:textSize="12sp"
-       />
+       />-->
 </LinearLayout>

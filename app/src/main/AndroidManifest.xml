@@ -174,11 +174,45 @@
         <activity
             android:name=".ui.activity.ClientListSeachActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.HomePageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.WebViewActivity"
+            android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".utils.appupdate.PermissionActivity"
+            android:label=""
+            android:theme="@style/DialogActivity" />
         <!-- 腾讯X5内核初始化 -->
         <service android:name="com.tencent.smtt.export.external.DexClassLoaderProviderService"
             android:label="dexopt"
             android:process=":dexopt" />
+
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent1105981855" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

@@ -9,13 +9,10 @@ import com.chaychan.adapter.MultipleItemRvAdapter;
 import com.tdjpartner.adapter.provider.GoodsListAdapter;
 import com.tdjpartner.adapter.provider.StoreListAdapter;
 import com.tdjpartner.model.AttentionData;
-import com.tdjpartner.model.CarouselData;
 import com.tdjpartner.model.GoodsInfo;
 import com.tdjpartner.model.Message;
-import com.tdjpartner.model.RankingData;
 import com.tdjpartner.model.StatisticalData;
 import com.tdjpartner.model.StoreInfo;
-import com.tdjpartner.model.TitleData;
 
 import java.util.List;
 
@@ -65,8 +62,6 @@ public class MessageListAdapter  extends MultipleItemRvAdapter<Message, BaseView
                         return ((StatisticalData) message).getType();
                     }else if (message instanceof AttentionData){
                         return 4;
-                    }else if (message instanceof RankingData){
-                        return 3;
                     }
                     return 1;
 

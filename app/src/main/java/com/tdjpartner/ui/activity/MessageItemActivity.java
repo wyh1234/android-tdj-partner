@@ -128,13 +128,13 @@ public class MessageItemActivity extends BaseActivity<MessageItemPresenter> impl
     }
 
     public void getpushMessage_item(PartnerMessageItemInfo partnerMessageItemInfo) {
-        stop();
+
         if (refreshLayout.isRefreshing()){
             if (!ListUtils.isEmpty(objBeansList)) {
                 objBeansList.clear();
             }
         }
-
+        stop();
            if (ListUtils.isEmpty(objBeansList)) {
             if (ListUtils.isEmpty(partnerMessageItemInfo.getObj())) {
                 //获取不到数据,显示空布局

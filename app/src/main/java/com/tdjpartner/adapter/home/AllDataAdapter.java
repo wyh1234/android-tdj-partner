@@ -25,5 +25,6 @@ public class AllDataAdapter extends BaseQuickAdapter<StatisticalData, BaseViewHo
             baseViewHolder.setVisible(R.id.view,true);
         }
         baseViewHolder.setText(R.id.tv_tiltle,statisticalData.getTitle());
+        baseViewHolder.setText(R.id.tv_num,statisticalData.getNum()+"");
     }
 }

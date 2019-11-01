@@ -12,25 +12,25 @@
 
         android:layout_height="match_parent">
         <TextView
+            android:id="@+id/tv_name"
             android:layout_weight="1"
             android:gravity="left|center_vertical"
-            android:text="张三"
             android:textSize="@dimen/sp_12"
             android:textColor="@color/black_63"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
         <TextView
+            android:id="@+id/tv_phone"
             android:layout_weight="1"
-            android:text="11111111111"
             android:textSize="@dimen/sp_12"
             android:textColor="@color/black_63"
             android:gravity="center|center_vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
         <TextView
+            android:id="@+id/tv_num"
             android:layout_weight="1"
             android:gravity="right|center_vertical"
-            android:text="10家"
             android:textSize="@dimen/sp_12"
             android:textColor="@color/black_63"
             android:layout_width="match_parent"

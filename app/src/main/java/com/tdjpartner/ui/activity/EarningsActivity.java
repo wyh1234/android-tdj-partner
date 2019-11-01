@@ -70,7 +70,7 @@ public class EarningsActivity extends BaseActivity<EarningsPresenter> {
     @Override
     protected void initData() {
         Map<String,Object> map=new HashMap<>();
-        map.put("userId",25653);
+        map.put("userId",UserUtils.getInstance().getLoginBean().getEntityId());
         mPresenter.myCountMoney(map);
 
     }

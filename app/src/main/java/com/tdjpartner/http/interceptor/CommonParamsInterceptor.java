@@ -49,7 +49,6 @@ public class CommonParamsInterceptor implements Interceptor {
               }
             newRequest = heard.method(request.method(), bodyBuilder.build()).build();
 //            newRequest = request.newBuilder().post(bodyBuilder.build()).build();
-            LogUtils.i(bodyBuilder);
             return chain.proceed(newRequest);
         }
         return chain.proceed(request);

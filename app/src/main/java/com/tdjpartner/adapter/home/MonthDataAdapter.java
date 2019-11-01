@@ -30,5 +30,6 @@ public class MonthDataAdapter extends BaseQuickAdapter<StatisticalData, BaseView
             baseViewHolder.setVisible(R.id.view,false);
         }
         baseViewHolder.setText(R.id.tv_tiltle,statisticalData.getTitle());
+        baseViewHolder.setText(R.id.tv_num,statisticalData.getNum());
     }
 }

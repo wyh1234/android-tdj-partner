@@ -141,11 +141,15 @@ public class MyFragment extends BaseFrgment<MyFragmentPresneter> implements Swip
         if (UserUtils.getInstance().getLoginBean()!=null){
             if (UserUtils.getInstance().getLoginBean().getGrade()!=null){
                 if (UserUtils.getInstance().getLoginBean().getGrade()==1){
-                    tv_name.setText("城市经理");
+                    tv_name.setText("市场经理");
                 }else if (UserUtils.getInstance().getLoginBean().getGrade()==2){
-                    tv_name.setText("城市主管");
-                }else {
+                    tv_name.setText("市场主管");
+                }else if (UserUtils.getInstance().getLoginBean().getGrade()==3){
                     tv_name.setText("创客");
+                }else if (UserUtils.getInstance().getLoginBean().getGrade()==4){
+                    tv_name.setText("城市总监");
+                }else if (UserUtils.getInstance().getLoginBean().getGrade()==5){
+                    tv_name.setText("市场总监");
                 }
             }
 

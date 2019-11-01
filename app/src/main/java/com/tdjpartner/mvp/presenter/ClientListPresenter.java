@@ -7,6 +7,7 @@ import com.tdjpartner.model.Bank;
 import com.tdjpartner.model.ClientInfo;
 import com.tdjpartner.mvp.model.Model;
 import com.tdjpartner.ui.fragment.ClientListFragment;
+import com.tdjpartner.utils.GeneralUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,23 @@ public class ClientListPresenter extends BasePresenter<Model, ClientListFragment
             @Override
             protected void onFailed(Throwable e) {
                 getIView().hotelMap_failed();
+
+            }
+        }));
+
+    }
+    public void internationalWaters(Map<String, Object> map) {
+        getIView().addSubscribe(RequestPresenter.internationalWaters(map, new BaseObserver<Integer>(getIView().getContext(), true) {
+            @Override
+            protected void onSuccess(Integer dropOuting) {
+                GeneralUtils.showToastshort("跟进成功请在24小时内进行拜访");
+                getIView().internationalWatersSuccess();
+
+
+            }
+
+            @Override
+            protected void onFailed(Throwable e) {
 
             }
         }));

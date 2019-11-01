@@ -36,7 +36,7 @@ public class DropOutingAdapter extends BaseQuickAdapter<DropOuting.ObjBean, Base
         }
 
 
-        baseViewHolder.setText(R.id.tv_regionCollNo,dropOuting.getRegionCollNo()+"-"+dropOuting.getRegionNo());
+        baseViewHolder.setText(R.id.tv_regionCollNo,dropOuting.getRegionCollNo());
         if (type.equals("order")){
             if (dropOuting.getNotOrderDays()!=null){
                 if (dropOuting.getNotOrderDays()>0){

@@ -98,7 +98,7 @@ public final class DownloadService extends Service implements OnDownloadListener
             int curr = (int) (progress / (double) max * 100.0);
             if (curr != lastProgress) {
                 lastProgress = curr;
-                NotificationUtil.showProgressNotification(this, smallIcon, "正在下载新版本", "", max, progress);
+                NotificationUtil.showProgressNotification(this, smallIcon, "正在下载新版本",  String.format("%.2f", (progress / ( 1024 * 1000.00)))+"M/"+String.format("%.2f", (max / ( 1024 * 1000.00)))+"M", max, progress);
             }
         }
         if (listener != null) {

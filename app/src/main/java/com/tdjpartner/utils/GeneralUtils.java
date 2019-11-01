@@ -31,6 +31,7 @@ import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -225,6 +226,7 @@ public class GeneralUtils {
 
     }
 
+
     /**
      * 验证输入的身份证号是否合法
      */
@@ -260,6 +262,46 @@ public class GeneralUtils {
                 }
             }
         });
+
+    }
+
+
+    /**
+     * 根据当前日期获得是星期几
+     * time=yyyy-MM-dd
+     * @return
+     */
+    public static String getWeekDay(long seconds) {
+
+        Date date = new Date(seconds);
+        String Week = "";
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+
+        int wek = c.get(Calendar.DAY_OF_WEEK);
+
+        if (wek == 1) {
+            Week += "星期日";
+        }
+        if (wek == 2) {
+            Week += "星期一";
+        }
+        if (wek == 3) {
+            Week += "星期二";
+        }
+        if (wek == 4) {
+            Week += "星期三";
+        }
+        if (wek == 5) {
+            Week += "星期四";
+        }
+        if (wek == 6) {
+            Week += "星期五";
+        }
+        if (wek == 7) {
+            Week += "星期六";
+        }
+        return Week;
 
     }
 }

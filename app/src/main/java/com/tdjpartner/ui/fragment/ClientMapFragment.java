@@ -35,6 +35,7 @@ import com.tdjpartner.ui.activity.ClientDetailsActivity;
 import com.tdjpartner.ui.activity.ClientListSeachActivity;
 import com.tdjpartner.utils.ListUtils;
 import com.tdjpartner.utils.LocationUtils;
+import com.tdjpartner.utils.cache.UserUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -232,7 +233,7 @@ public class ClientMapFragment extends BaseFrgment<ClientMapPresenter> implement
 
 
         Map<String,Object> map=new HashMap<>();
-        map.put("userId",21);
+        map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
         map.put("latitude",getLocationBean().getLatitude());
         map.put("longitude",getLocationBean().getLongitude());
         map.put("keyword","");

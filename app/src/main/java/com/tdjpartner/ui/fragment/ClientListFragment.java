@@ -28,6 +28,8 @@ import com.tdjpartner.ui.activity.ClientDetailsActivity;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
 import com.tdjpartner.utils.LocationUtils;
+import com.tdjpartner.utils.cache.UserUtils;
+import com.tdjpartner.utils.popuwindow.FollowUpPopuWindow;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -40,7 +42,8 @@ import java.util.Map;
 import butterknife.BindView;
 import io.reactivex.functions.Consumer;
 
-public class ClientListFragment extends BaseFrgment<ClientListPresenter>  implements OnRefreshListener, BaseQuickAdapter.OnItemClickListener {
+public class ClientListFragment extends BaseFrgment<ClientListPresenter>  implements OnRefreshListener,
+        BaseQuickAdapter.OnItemClickListener,BaseQuickAdapter.OnItemChildClickListener,FollowUpPopuWindow.FollowUpListener {
     @BindView(R.id.refreshLayout)
     RefreshLayout refreshLayout;
     @BindView(R.id.recyclerView_list)
@@ -52,6 +55,25 @@ public class ClientListFragment extends BaseFrgment<ClientListPresenter>  implem
     public RxPermissions rxPermissions;
     private boolean aBoolean;
     private LocationBean locationBean;
+    private FollowUpPopuWindow followUpPopuWindow;
+    private int customerId;
+    private int pos;
+
+    public int getPos() {
+        return pos;
+    }
+
+    public void setPos(int pos) {
+        this.pos = pos;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
     public static ClientListFragment newInstance(int str) {
         Bundle args = new Bundle();
         args.putInt("intent", str);
@@ -69,7 +91,7 @@ public class ClientListFragment extends BaseFrgment<ClientListPresenter>  implem
         clientListAdapter=new ClientListAdapter(R.layout.client_item,data);
         recyclerView_list.setAdapter(clientListAdapter);
         clientListAdapter.setOnItemClickListener(this);
-
+        clientListAdapter.setOnItemChildClickListener(this);
 
     }
 
@@ -107,7 +129,7 @@ public class ClientListFragment extends BaseFrgment<ClientListPresenter>  implem
         if (locationBean.getTag().contains("LOCATION")){
             LogUtils.e(locationBean);
             Map<String,Object> map=new HashMap<>();
-            map.put("userId",21);
+            map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
             map.put("userType",index+1);
             map.put("latitude","30.5998320000");
             map.put("longitude","114.3439610000");
@@ -222,5 +244,51 @@ public class ClientListFragment extends BaseFrgment<ClientListPresenter>  implem
         data.addAll(clientInfoList);
         clientListAdapter.setIndex(index);
         clientListAdapter.setNewData(data);
+    }
+
+    @Override
+    public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+        if (view.getId()==R.id.tv_gj_status){
+            setCustomerId(data.get(i).getCustomerId());
+            if (followUpPopuWindow!=null){
+                if (followUpPopuWindow.isShowing()){
+                    return;
+                }
+                followUpPopuWindow.showPopupWindow();
+            }else {
+
+                followUpPopuWindow = new FollowUpPopuWindow(getContext(),data.get(i).getName());
+                followUpPopuWindow.setDismissWhenTouchOutside(false);
+                followUpPopuWindow.setInterceptTouchEvent(false);
+                followUpPopuWindow.setPopupWindowFullScreen(true);//铺满
+                followUpPopuWindow.showPopupWindow();
+                followUpPopuWindow.setFollowUpListener(this);
+            }
+
+        }
+    }
+
+    @Override
+    public void onCancel() {
+        followUpPopuWindow.dismiss();
+    }
+
+    @Override
+    public void onOk() {
+        Map<String,Object> map=new HashMap<>();
+        map.put("customerId", getCustomerId());
+        map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
+        map.put("userName", "");
+        map.put("address", "");
+        map.put("lon", "");
+        map.put("lat", "");
+        mPresenter.internationalWaters(map);
+
+    }
+
+    public void internationalWatersSuccess() {
+        clientListAdapter.remove(getPos());
+        followUpPopuWindow.dismiss();
+
     }
 }

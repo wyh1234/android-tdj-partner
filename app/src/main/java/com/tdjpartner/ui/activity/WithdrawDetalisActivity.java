@@ -143,13 +143,13 @@ public class WithdrawDetalisActivity extends BaseActivity<WithdrawDetalisPresent
     }
 
     public void getWithdrawDetailsSuccess(WithdrawDetalis  withdrawDetalis) {
-        stop();
+
         if (refreshLayout.isRefreshing()){
             if (!ListUtils.isEmpty(withdrawDetalisList)) {
                 withdrawDetalisList.clear();
             }
         }
-
+        stop();
         if (ListUtils.isEmpty(withdrawDetalisList)) {
             if (ListUtils.isEmpty(withdrawDetalis.getObj())) {
                 //获取不到数据,显示空布局

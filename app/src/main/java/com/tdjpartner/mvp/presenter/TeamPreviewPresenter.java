@@ -3,6 +3,7 @@ package com.tdjpartner.mvp.presenter;
 import com.tdjpartner.base.BasePresenter;
 import com.tdjpartner.common.RequestPresenter;
 import com.tdjpartner.http.BaseObserver;
+import com.tdjpartner.model.MyTeam;
 import com.tdjpartner.model.TeamOverView;
 import com.tdjpartner.model.ToMakeMoney;
 import com.tdjpartner.mvp.model.Model;
@@ -26,7 +27,6 @@ public class TeamPreviewPresenter extends BasePresenter<Model, TeamPreviewActivi
 
             @Override
             protected void onFailed(Throwable e) {
-                getIView().teamOverView_failed();
 
             }
         }));
@@ -43,7 +43,6 @@ public class TeamPreviewPresenter extends BasePresenter<Model, TeamPreviewActivi
 
             @Override
             protected void onFailed(Throwable e) {
-                getIView().teamOverView_failed();
             }
         }));
 
@@ -59,7 +58,20 @@ public class TeamPreviewPresenter extends BasePresenter<Model, TeamPreviewActivi
 
             @Override
             protected void onFailed(Throwable e) {
-                getIView().teamOverView_failed();
+            }
+        }));
+
+    }
+
+    public void myTeamPartnerList(Map<String,Object> map){
+        getIView().addSubscribe(RequestPresenter.myTeamPartnerList(map, new BaseObserver<MyTeam>(getIView().getContext(), true) {
+            @Override
+            protected void onSuccess(MyTeam myTeam) {
+                getIView().myTeamPartnerList_Success(myTeam);
+            }
+
+            @Override
+            protected void onFailed(Throwable e) {
             }
         }));
 

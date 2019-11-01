@@ -120,7 +120,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter> implemen
         if (baseQuickAdapter.isLoadMoreEnable()){
             baseQuickAdapter.loadMoreComplete();
         }
-        LogUtils.e(baseQuickAdapter.isLoadMoreEnable());
     }
 
     @Override
@@ -132,13 +131,14 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter> implemen
     }
 
     public void order_pageList_Success(OrderList orderList) {
-        stop();
+
         if (refreshLayout.isRefreshing()){
             if (!ListUtils.isEmpty(orderLists)) {
                 orderLists.clear();
             }
         }
-            if (ListUtils.isEmpty(orderLists)) {
+        stop();
+        if (ListUtils.isEmpty(orderLists)) {
                 if (ListUtils.isEmpty(orderList.getObj())) {
                     //获取不到数据,显示空布局
                     mStateView.showEmpty();
@@ -150,9 +150,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter> implemen
             if (ListUtils.isEmpty(orderList.getObj())) {
                 //已经获取数据
                 if (pageNo!=1){
-                    GeneralUtils.showToastshort("数据加载完毕");
-                }else {
-                    GeneralUtils.showToastshort("暂无数据");
+                    baseQuickAdapter.loadMoreEnd();
                 }
                 return;
             }

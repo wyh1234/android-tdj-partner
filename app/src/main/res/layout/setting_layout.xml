@@ -64,6 +64,7 @@
         android:layout_height="1dp"/>
 
     <RelativeLayout
+        android:id="@+id/rl_check_version"
         android:layout_width="match_parent"
         android:layout_marginTop="13dp"
         android:layout_marginLeft="29dp"
@@ -92,6 +93,7 @@
         android:layout_height="1dp"/>
 
     <RelativeLayout
+        android:id="@+id/rl_bottom"
         android:layout_width="match_parent"
         android:layout_marginTop="13dp"
         android:layout_marginLeft="29dp"

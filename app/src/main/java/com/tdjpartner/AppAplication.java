@@ -6,7 +6,11 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.tdjpartner.utils.Density;
+import com.tdjpartner.utils.GeneralUtils;
 import com.tencent.smtt.sdk.QbSdk;
+import com.umeng.commonsdk.UMConfigure;
+import com.umeng.socialize.PlatformConfig;
+import com.zhihu.matisse.internal.utils.UIUtils;
 
 public class AppAplication extends Application {
     private static Application app = null;
@@ -22,6 +26,11 @@ public class AppAplication extends Application {
         mHandler = new Handler();
         mMainThreadId = android.os.Process.myTid();
 
+        UMConfigure.init(this,"5db927390cafb2661b00069b"
+                ,"umeng",UMConfigure.DEVICE_TYPE_PHONE,"");
+        UMConfigure.setLogEnabled(true);
+        PlatformConfig.setWeixin("wxf1c361fc73d52a29", "58faa8bcfd0184cd54e661a65b07debd");
+        PlatformConfig.setQQZone("1105981855", "L8VEYdKQt0YfHP49");
 
     }
     /**

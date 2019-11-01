@@ -40,7 +40,6 @@ public class CookieManger implements CookieJar {
     @Override
     public List<Cookie> loadForRequest(HttpUrl url) {
         List<Cookie> cookies = cookieStore.get(url);
-        Log.i("cookies", cookies.toString());
         return cookies;
     }
 }

@@ -167,13 +167,12 @@ public class SelectPersonActivity extends BaseActivity<SelectPersonActivityPrese
     }
 
     public void userRelations_managerList_Success(SelectPerson selectPerson) {
-        stop();
         if (swipeRefreshLayout.isRefreshing()){
             if (!ListUtils.isEmpty(selectPersonList)) {
                 selectPersonList.clear();
             }
         }
-
+        stop();
         if (ListUtils.isEmpty(selectPersonList)) {
             if (ListUtils.isEmpty(selectPerson.getObj())) {
                 //获取不到数据,显示空布局
@@ -186,9 +185,7 @@ public class SelectPersonActivity extends BaseActivity<SelectPersonActivityPrese
         if (ListUtils.isEmpty(selectPerson.getObj())) {
             //已经获取数据
             if (pageNo!=1){
-                GeneralUtils.showToastshort("数据加载完毕");
-            }else {
-                GeneralUtils.showToastshort("暂无数据");
+                settingPersonAdapter.loadMoreEnd();
             }
             return;
         }

@@ -2,7 +2,6 @@ package com.tdjpartner.model;
 
 public class ClientInfo {
 
-
     /**
      * customerId : 16543
      * auth : 0

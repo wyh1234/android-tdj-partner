@@ -28,16 +28,15 @@
             android:id="@+id/tv_username"
             android:layout_marginLeft="10dp"
             android:textSize="@dimen/sp_12"
-            android:text="你好，张三！"
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
             <TextView
+                android:id="@+id/tv_time"
                 android:layout_below="@+id/tv_username"
                 android:layout_marginLeft="10dp"
                 android:textSize="@dimen/sp_12"
                 android:layout_marginTop="7dp"
-                android:text="09月04日  星期三"
                 android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -72,8 +71,6 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_marginLeft="@dimen/dp_10"
-        android:layout_marginRight="@dimen/dp_10"
         android:layout_height="match_parent"
      >
 

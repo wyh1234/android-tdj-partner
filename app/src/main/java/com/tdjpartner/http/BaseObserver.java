@@ -81,7 +81,6 @@ public abstract class BaseObserver<T> extends ResourceObserver<T> {
 
     @Override
     public void onError(Throwable e) {
-        LogUtils.e(e);
         if(!TextUtils.isEmpty(errorMsg)){
             GeneralUtils.showToastshort( errorMsg);
         }else if(e instanceof ApiException){
@@ -133,7 +132,6 @@ public abstract class BaseObserver<T> extends ResourceObserver<T> {
     @Override
     public void onNext(T t) {
         dismissLoading();
-        LogUtils.e(t instanceof BaseResponse);
         if (t instanceof BaseResponse){
             LogUtils.e(((BaseResponse) t).isSuccess());
 //            LogUtils.i(((BaseResponse) t).isSuccess());

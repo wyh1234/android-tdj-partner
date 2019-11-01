@@ -167,11 +167,32 @@ public class ClientListSeachFragment extends BaseFrgment<ClientListSeachPresente
     }
 
     public void hotelMap_Success(ClientSeachInfo clientInfoList) {
-        if (!ListUtils.isEmpty(clientInfoList.getObj())){
-            data.addAll(clientInfoList.getObj());
-            clientListSeachAdapter.setNewData(data);
+        if (refreshLayout.isRefreshing()){
+            if (!ListUtils.isEmpty(data)) {
+                data.clear();
+            }
         }
+        stop();
 
+
+        if (ListUtils.isEmpty(data)) {
+            if (ListUtils.isEmpty(clientInfoList.getObj())) {
+                //获取不到数据,显示空布局
+                mStateView.showEmpty();
+                return;
+            }
+            mStateView.showContent();//显示内容
+        }
+        if (ListUtils.isEmpty(clientInfoList.getObj())) {
+            //已经获取数据
+            if (pageNo!=1){
+                clientListSeachAdapter.loadMoreEnd();
+            }
+            return;
+        }
+        data.addAll(clientInfoList.getObj());
+        clientListSeachAdapter.setNewData(data);
+        clientListSeachAdapter.disableLoadMoreIfNotFullPage(recyclerView_list);//数据项个数未满一屏幕,则不开启load more,add数据后设置
 
     }
 

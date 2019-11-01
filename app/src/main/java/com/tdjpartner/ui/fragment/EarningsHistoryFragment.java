@@ -132,13 +132,13 @@ public class EarningsHistoryFragment extends BaseFrgment<EarningsHistoryPresente
     }
 
     public void earning_info_Success(EarningsHistory earningsHistory) {
-        stop();
+
         if (refreshLayout.isRefreshing()){
             if (!ListUtils.isEmpty(earningsHistoryList)) {
                 earningsHistoryList.clear();
             }
         }
-
+        stop();
         if (ListUtils.isEmpty(earningsHistoryList)) {
             if (ListUtils.isEmpty(earningsHistory.getObj().getList())) {
                 //获取不到数据,显示空布局

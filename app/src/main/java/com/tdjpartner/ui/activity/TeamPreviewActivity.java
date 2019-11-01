@@ -2,6 +2,8 @@ package com.tdjpartner.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.apkfuns.logutils.LogUtils;
@@ -19,14 +22,19 @@ import com.tdjpartner.adapter.TeamPreviewAdapter;
 import com.tdjpartner.adapter.TeamPreviewAllAdapter;
 import com.tdjpartner.adapter.TeamPreviewMothAdapter;
 import com.tdjpartner.base.BaseActivity;
+import com.tdjpartner.model.MyTeam;
 import com.tdjpartner.model.TeamOverView;
 import com.tdjpartner.mvp.presenter.TeamPreviewPresenter;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
 import com.tdjpartner.utils.cache.UserUtils;
+import com.tdjpartner.utils.popuwindow.TeamMemberPopuWindow;
+import com.tdjpartner.utils.popuwindow.TeamPreviewPopuWindow;
 import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.widget.CustomLinearLayout;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -37,7 +45,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class TeamPreviewActivity extends BaseActivity<TeamPreviewPresenter> implements  BaseQuickAdapter.OnItemChildClickListener {
+public class TeamPreviewActivity extends BaseActivity<TeamPreviewPresenter> implements  BaseQuickAdapter.OnItemChildClickListener,TeamPreviewPopuWindow.TeamPreviewPopuWindowListener {
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
     @BindView(R.id.recyclerView_list1)
@@ -48,22 +56,53 @@ public class TeamPreviewActivity extends BaseActivity<TeamPreviewPresenter> impl
     Toolbar toolbar;
     @BindView(R.id.tv_title)
     TextView tv_title;
+    @BindView(R.id.tv_right)
+    TextView tv_right;
+    @BindView(R.id.title)
+    RelativeLayout title;
     private TeamPreviewAdapter teamPreviewAdapter;
     private TeamPreviewMothAdapter teamPreviewAdapter1;
     private TeamPreviewAllAdapter teamPreviewAdapter2;
     private List<TeamOverView> data=new ArrayList<>();//今日
     private List<TeamOverView> data1=new ArrayList<>();//当月
     private List<TeamOverView> data2=new ArrayList<>();//所有
+    private List<MyTeam.ObjBean> mtTeamData=new ArrayList<>();
+    private TeamPreviewPopuWindow teamPreviewPopuWindow;
     private String startTime="";
     @BindView(R.id.btn_back)
     ImageView btn_back;
     private Calendar selectedDate, endDate, startDate;
     private TimePickerView pvTime;
-    @OnClick({R.id.btn_back})
+    private int userId;
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    @OnClick({R.id.btn_back,R.id.tv_right})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.btn_back:
                 finish();
+                break;
+            case R.id.tv_right:
+                if (teamPreviewPopuWindow!=null){
+                    if (teamPreviewPopuWindow.isShowing()){
+                        return;
+                    }
+                    teamPreviewPopuWindow.showPopupWindow(title);
+                }else {
+                    teamPreviewPopuWindow = new TeamPreviewPopuWindow(this,mtTeamData);
+                    teamPreviewPopuWindow.setDismissWhenTouchOutside(false);
+                    teamPreviewPopuWindow.setInterceptTouchEvent(false);
+                    teamPreviewPopuWindow.showPopupWindow(title);
+                    teamPreviewPopuWindow.setPopupWindowFullScreen(true);//铺满
+                    teamPreviewPopuWindow.setTeamPreviewPopuWindowListener(this);
+                }
                 break;
         }
     }
@@ -77,27 +116,34 @@ public class TeamPreviewActivity extends BaseActivity<TeamPreviewPresenter> impl
         teamOverView_day();
         teamOverView_month();
         teamOverView_all();
-
+        myTeamPartnerList();
     }
 
     public void teamOverView_day(){
         Map<String,Object> map=new HashMap<>();
-        map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
+        map.put("userId", getUserId());
         map.put("startTime", startTime);
         map.put("flag", "all");
         mPresenter.teamOverView_day(map);//今日；
     }
     public void teamOverView_month(){
         Map<String,Object> map=new HashMap<>();
-        map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
+        map.put("userId",getUserId());
         map.put("startTime", startTime);
         map.put("flag", "all");
         mPresenter.teamOverView_month(map);//今月；
     }
     public void teamOverView_all(){
         Map<String,Object> map=new HashMap<>();
-        map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
+        map.put("userId", getUserId());
         mPresenter.teamOverView_all(map);//今月；
+    }
+    public void myTeamPartnerList(){
+        Map<String,Object> map=new HashMap<>();
+        map.put("userId", getUserId());
+        map.put("isManage", "yes");
+
+        mPresenter.myTeamPartnerList(map);//今月；
     }
 
     @Override
@@ -139,6 +185,7 @@ public class TeamPreviewActivity extends BaseActivity<TeamPreviewPresenter> impl
         startDate.set(startDate.get(Calendar.YEAR),  (startDate.get(Calendar.MONTH)-6),startDate.get(Calendar.DAY_OF_MONTH));
         endDate = Calendar.getInstance();
         endDate.set(endDate.get(Calendar.YEAR),  (endDate.get(Calendar.MONTH)),endDate.get(Calendar.DAY_OF_MONTH));
+        setUserId(Integer.parseInt(getIntent().getStringExtra("userId")));
     }
 
     @Override
@@ -156,21 +203,30 @@ public class TeamPreviewActivity extends BaseActivity<TeamPreviewPresenter> impl
     public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
         if (view.getId()!=R.id.rl_right){
             Intent intent=new Intent(this,TeamMemberActivity.class);
-            if (GeneralUtils.isNullOrZeroLenght(startTime)){
-                LogUtils.e(Calendar.getInstance().get(Calendar.YEAR)+"-"+(Calendar.getInstance().get(Calendar.MONTH)+1)+"-"+(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)));
-                intent.putExtra("startTime",Calendar.getInstance().get(Calendar.YEAR)+"-"+(Calendar.getInstance().get(Calendar.MONTH)+1)+"-"+(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)));
+            intent.putExtra("userId",getUserId()+"");
+            if (baseQuickAdapter instanceof TeamPreviewAdapter){
+                intent.putExtra("timeType","day");
+                if (GeneralUtils.isNullOrZeroLenght(startTime)){
+                    intent.putExtra("startTime", Calendar.getInstance().get(Calendar.YEAR)+
+                            "-"+(Calendar.getInstance().get(Calendar.MONTH)+1)+"-"+(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)));
+                }else {
+                    intent.putExtra("startTime",startTime);
+                }
+            }else if (baseQuickAdapter instanceof TeamPreviewMothAdapter){
+                intent.putExtra("timeType","month");
+                if (GeneralUtils.isNullOrZeroLenght(startTime)){
+                    intent.putExtra("startTime", Calendar.getInstance().get(Calendar.YEAR)+
+                            "-"+(Calendar.getInstance().get(Calendar.MONTH)+1)+"-"+(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)));
+                }else {
+                    intent.putExtra("startTime",startTime);
+                }
             }else {
-                LogUtils.e(startTime);
-                intent.putExtra("startTime",startTime);
+                intent.putExtra("timeType","all");
             }
-            startActivity(intent);
+            startActivity(intent) ;
         }else {
            if (baseQuickAdapter instanceof TeamPreviewAdapter){
-
                 setTime(1);
-
-
-
             }else if (baseQuickAdapter instanceof TeamPreviewMothAdapter){
                 setTime(2);
             }
@@ -215,9 +271,6 @@ public class TeamPreviewActivity extends BaseActivity<TeamPreviewPresenter> impl
     }
 
 
-    public void teamOverView_failed() {
-//        stop();
-    }
 
     public void setTime(int type){
         pvTime = new TimePickerView.Builder(getContext(), new TimePickerView.OnTimeSelectListener() {
@@ -249,4 +302,26 @@ public class TeamPreviewActivity extends BaseActivity<TeamPreviewPresenter> impl
     }
 
 
+    public void myTeamPartnerList_Success(MyTeam myTeam) {
+        if (myTeam.getObj().size()>0){
+           tv_right.setText("所有团队");
+            mtTeamData.addAll(myTeam.getObj());
+        }
+
+
+
+    }
+
+
+    @Override
+    public void onOk(int userId) {
+        LogUtils.e(userId);
+        setUserId(userId);
+        teamOverView_month();
+        teamOverView_all();
+        myTeamPartnerList();
+        teamPreviewPopuWindow.dismiss();
+
+
+    }
 }

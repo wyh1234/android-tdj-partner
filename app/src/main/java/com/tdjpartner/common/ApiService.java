@@ -2,6 +2,7 @@ package com.tdjpartner.common;
 
 
 import com.tdjpartner.http.BaseResponse;
+import com.tdjpartner.model.AppVersion;
 import com.tdjpartner.model.BaiFangHistory;
 import com.tdjpartner.model.Bank;
 import com.tdjpartner.model.BankList;
@@ -14,10 +15,13 @@ import com.tdjpartner.model.DiscountCoupon;
 import com.tdjpartner.model.DropOuting;
 import com.tdjpartner.model.EarningsHistory;
 import com.tdjpartner.model.GoodsInfo;
+import com.tdjpartner.model.HomeData;
+import com.tdjpartner.model.HomeDataDetails;
 import com.tdjpartner.model.HomePageFuncationButton;
 import com.tdjpartner.model.IntegralShop;
 import com.tdjpartner.model.InvitationHistory;
 import com.tdjpartner.model.MyCountMoney;
+import com.tdjpartner.model.MyTeam;
 import com.tdjpartner.model.OrderDetail;
 import com.tdjpartner.model.OrderList;
 import com.tdjpartner.model.PartnerCheck;
@@ -487,4 +491,45 @@ public interface ApiService {
     @Headers({"url_type:xuming"})
     @POST("tdj-report/report/teamOverView/all")
     Observable<BaseResponse<TeamOverView>> teamOverView_all(@Body  RequestBody body);
+
+    /*
+     *.
+     *
+     *
+     * */
+    @Headers({"url_type:xuming"})
+    @POST("tdj-report/report/customer/homeData")
+    Observable<BaseResponse<HomeData>> homeData(@Body  RequestBody body);
+
+    /*
+     *.
+     *
+     *
+     * */
+    @Headers({"url_type:xuming"})
+    @POST("tdj-report/report/customer/homeDataDetails")
+    Observable<BaseResponse<HomeDataDetails>> homeDataDetails(@Body  RequestBody body);
+
+    /*
+     *.
+     *
+     *
+     * */
+    @Headers({"url_type:xuming"})
+    @POST("tdj-report/report/teamOverView/myTeamPartnerList")
+    Observable<BaseResponse<MyTeam>> myTeamPartnerList(@Body  RequestBody body);
+
+
+    /*
+     *.
+     *
+     *
+     * */
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/version/check")
+    Observable<BaseResponse<AppVersion>> version_check(@Body  RequestBody body);
+
+
+
+
 }
