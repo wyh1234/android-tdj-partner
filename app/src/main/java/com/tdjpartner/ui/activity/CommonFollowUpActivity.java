@@ -1,5 +1,6 @@
 package com.tdjpartner.ui.activity;
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -167,12 +168,12 @@ public class CommonFollowUpActivity extends BaseActivity<CommonFollowUpPresenter
             if (commonFollowUpAdapter.getType().equals("followNot")){
 
             setCustomerId(dropOutingList.get(i).getCustomerId());
-            if (followUpPopuWindow!=null){
+        /*    if (followUpPopuWindow!=null){
                 if (followUpPopuWindow.isShowing()){
                     return;
                 }
                 followUpPopuWindow.showPopupWindow();
-            }else {
+            }else {*/
 
                 followUpPopuWindow = new FollowUpPopuWindow(this,dropOutingList.get(i).getName());
                 followUpPopuWindow.setDismissWhenTouchOutside(false);
@@ -180,7 +181,7 @@ public class CommonFollowUpActivity extends BaseActivity<CommonFollowUpPresenter
                 followUpPopuWindow.setPopupWindowFullScreen(true);//铺满
                 followUpPopuWindow.showPopupWindow();
                 followUpPopuWindow.setFollowUpListener(this);
-            }
+//            }
 
             }
         }
@@ -254,7 +255,9 @@ public class CommonFollowUpActivity extends BaseActivity<CommonFollowUpPresenter
     }
     @Override
     public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-
+      Intent intent=new Intent(getContext(), ClientDetailsActivity.class);
+        intent.putExtra("customerId",dropOutingList.get(i).getCustomerId()+"");
+        startActivity(intent);
     }
 
     @Override

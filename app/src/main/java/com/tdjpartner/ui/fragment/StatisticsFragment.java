@@ -1,6 +1,7 @@
 package com.tdjpartner.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,6 +23,7 @@ import com.tdjpartner.model.HomeDataDetails;
 import com.tdjpartner.model.SeachTag;
 import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.mvp.presenter.StatisticsFragmentPresenter;
+import com.tdjpartner.ui.activity.ClientDetailsActivity;
 import com.tdjpartner.ui.activity.statistics.StatisticsListActivity;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
@@ -39,7 +41,8 @@ import butterknife.BindView;
 
 
 
-public class StatisticsFragment extends BaseFrgment<StatisticsFragmentPresenter>  implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
+public class StatisticsFragment extends BaseFrgment<StatisticsFragmentPresenter>  implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener
+,BaseQuickAdapter.OnItemClickListener{
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout refreshLayout;
     @BindView(R.id.recyclerView_list)
@@ -76,7 +79,7 @@ public class StatisticsFragment extends BaseFrgment<StatisticsFragmentPresenter>
         baseQuickAdapter=new HomeDataDetailsAdapter(R.layout.client_item,data);
         recyclerView_list.setAdapter(baseQuickAdapter);
         baseQuickAdapter.setOnLoadMoreListener(this,recyclerView_list);
-
+        baseQuickAdapter.setOnItemClickListener(this);
 
 
     }
@@ -220,5 +223,12 @@ public class StatisticsFragment extends BaseFrgment<StatisticsFragmentPresenter>
             //如果一开始进入没有数据
             mStateView.showEmpty();//显示重试的布局
         }
+    }
+
+    @Override
+    public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+        Intent intent=new Intent(getContext(), ClientDetailsActivity.class);
+        intent.putExtra("customerId",data.get(i).getCustomerId()+"");
+        startActivity(intent);
     }
 }

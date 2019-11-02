@@ -33,7 +33,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class SettingPersonActivity extends BaseActivity<SettingPersonPresenter>  implements SwipeRefreshLayout.OnRefreshListener,
-        BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemChildClickListener,BaseQuickAdapter.OnItemClickListener{
+        BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemClickListener{
     @BindView(R.id.rl_xd)
     RelativeLayout rl_xd;
     @BindView(R.id.rl_bf)
@@ -121,7 +121,6 @@ public class SettingPersonActivity extends BaseActivity<SettingPersonPresenter> 
                 LinearLayoutManager.VERTICAL, false);
         recyclerView_list.setLayoutManager(layout);
         settingPersonAdapter=new SettingPersonAdapter(R.layout.setting_person_item_layout,data);
-        settingPersonAdapter.setOnItemChildClickListener(this);
         settingPersonAdapter.setOnItemClickListener(this);
         recyclerView_list.setAdapter(settingPersonAdapter);
         settingPersonAdapter.setOnLoadMoreListener(this,recyclerView_list);
@@ -164,11 +163,6 @@ public class SettingPersonActivity extends BaseActivity<SettingPersonPresenter> 
         }
     }
 
-    @Override
-    public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-
-
-    }
 
     @Override
     public void onLoadMoreRequested() {

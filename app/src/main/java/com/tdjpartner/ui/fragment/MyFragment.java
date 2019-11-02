@@ -145,7 +145,7 @@ public class MyFragment extends BaseFrgment<MyFragmentPresneter> implements Swip
                 }else if (UserUtils.getInstance().getLoginBean().getGrade()==2){
                     tv_name.setText("市场主管");
                 }else if (UserUtils.getInstance().getLoginBean().getGrade()==3){
-                    tv_name.setText("创客");
+                    tv_name.setText("市场专员");
                 }else if (UserUtils.getInstance().getLoginBean().getGrade()==4){
                     tv_name.setText("城市总监");
                 }else if (UserUtils.getInstance().getLoginBean().getGrade()==5){
@@ -153,18 +153,20 @@ public class MyFragment extends BaseFrgment<MyFragmentPresneter> implements Swip
                 }
             }
 
-            tv_phone.setText(UserUtils.getInstance().getLoginBean().getPhoneNumber());
+            tv_phone.setText(UserUtils.getInstance().getLoginBean().getPhoneNumber().substring(0,3)+"****"+UserUtils.getInstance().getLoginBean().getPhoneNumber()
+                    .substring(7,UserUtils.getInstance().getLoginBean().getPhoneNumber().length()));
             if (UserUtils.getInstance().getLoginBean().getSurplusAmount()!=null){
                 tv_money.setText(UserUtils.getInstance().getLoginBean().getSurplusAmount()+"");
 
             }
-            if (UserUtils.getInstance().getLoginBean().getPmCount()!=null){
-                if (UserUtils.getInstance().getLoginBean().getPmCount()!=0){
+            if (UserUtils.getInstance().getLoginBean().getPmCount()!=null&&UserUtils.getInstance().getLoginBean().getPmCount()!=0){
                     tv_pmcount.setText(UserUtils.getInstance().getLoginBean().getPmCount()+"");
-                }
 
-
+                }else {
+                       tv_pmcount.setText("");
             }
+
+
             ImageLoad.loadImageViewLoding(UserUtils.getInstance().getLoginBean().getAvatarUrl(),image);
         }
 

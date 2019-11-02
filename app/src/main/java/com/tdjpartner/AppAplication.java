@@ -30,7 +30,7 @@ public class AppAplication extends Application {
                 ,"umeng",UMConfigure.DEVICE_TYPE_PHONE,"");
         UMConfigure.setLogEnabled(true);
         PlatformConfig.setWeixin("wxf1c361fc73d52a29", "58faa8bcfd0184cd54e661a65b07debd");
-        PlatformConfig.setQQZone("1105981855", "L8VEYdKQt0YfHP49");
+        PlatformConfig.setQQZone("1109665317", "KkdvL0CH53fsPSLb");
 
     }
     /**

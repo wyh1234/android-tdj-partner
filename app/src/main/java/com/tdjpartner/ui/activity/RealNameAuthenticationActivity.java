@@ -64,12 +64,18 @@ public class RealNameAuthenticationActivity extends BaseActivity<RealNameAuthent
                 finish();
                 break;
             case R.id.id_card_negative_iv://反
-                flag=true;
-                getImage();
+                if (GeneralUtils.isNullOrZeroLenght(UserUtils.getInstance().getLoginBean().getIdCard())){
+                    flag=true;
+                    getImage();
+                }
+
                 break;
             case R.id.id_card_positive_iv://正
-                flag=false;
-                getImage();
+                if (GeneralUtils.isNullOrZeroLenght(UserUtils.getInstance().getLoginBean().getIdCard())){
+                    flag=false;
+                    getImage();
+                }
+
                 break;
             case R.id.btn:
                 if (GeneralUtils.isNullOrZeroLenght(ed_idcard.getText().toString())){

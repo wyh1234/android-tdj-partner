@@ -62,6 +62,7 @@ public class GeneralUtils {
     public static boolean isNullOrZeroLenght(String str) {
         return (null == str || "".equals(str.trim())) ? true : false;
     }
+
     /**
      * 返回当前程序版本名
      */
@@ -213,6 +214,21 @@ public class GeneralUtils {
     }
     public static String getTimeFilter(Date date) {//可根据需要自行截取数据显示
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(date);
+    }
+    public static String getCurr() {//可根据需要自行截取数据显示
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(date);
+    }
+    public static String getCurrMonth() {//可根据需要自行截取数据显示
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat format = new SimpleDateFormat("MM月");
+        return format.format(date);
+    }
+    public static String getCurrDay() {//可根据需要自行截取数据显示
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat format = new SimpleDateFormat("MM月dd日");
         return format.format(date);
     }
     //获取文件名带后缀

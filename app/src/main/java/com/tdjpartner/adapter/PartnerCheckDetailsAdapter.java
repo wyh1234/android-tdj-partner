@@ -29,7 +29,7 @@ public class PartnerCheckDetailsAdapter extends BaseQuickAdapter<PartnerCheckDet
         if (baseViewHolder.getLayoutPosition()==0){
             baseViewHolder.setText(R.id.tv_nodeName,"创客提交申请");
         }else {
-            baseViewHolder.setText(R.id.tv_nodeName,partnerCheckDetails.getNodeName());
+            baseViewHolder.setText(R.id.tv_nodeName,partnerCheckDetails.getNodeName()+"审核");
         }
         if (baseViewHolder.getLayoutPosition()==0){
             baseViewHolder.setText(R.id.tv_time,"申请日期："+partnerCheckDetails.getCreateTime());

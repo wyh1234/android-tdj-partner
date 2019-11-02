@@ -42,7 +42,6 @@
             android:layout_height="48dp">
             <TextView
                 android:id="@+id/tv_name"
-                android:text="9月"
                 android:textSize="14sp"
                 android:drawableRight="@mipmap/xialabai_bg"
                 android:drawablePadding="5dp"

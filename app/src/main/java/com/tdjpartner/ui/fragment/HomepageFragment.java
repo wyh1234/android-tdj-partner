@@ -163,10 +163,10 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
         order_recyclerView=  footView.findViewById(R.id.order_recyclerView);
 //        tv_bottom=  footView.findViewById(R.id.tv_bottom);
 
-        tv_today.setText( (Calendar.getInstance().get(Calendar.MONTH)+1)+"月"+(Calendar.getInstance().get(Calendar.DAY_OF_MONTH))+"日");
-        tv_month.setText((Calendar.getInstance().get(Calendar.MONTH)+1)+"月");
+        tv_today.setText( GeneralUtils.getCurrDay());
+        tv_month.setText( GeneralUtils.getCurrMonth());
         tv_username.setText("你好,"+UserUtils.getInstance().getLoginBean().getRealname()+"!");
-        tv_time.setText( (Calendar.getInstance().get(Calendar.MONTH)+1)+"月"+(Calendar.getInstance().get(Calendar.DAY_OF_MONTH))+"日\t\t"+GeneralUtils.getWeekDay(System.currentTimeMillis()));
+        tv_time.setText( GeneralUtils.getCurrDay()+"\t\t"+GeneralUtils.getWeekDay(System.currentTimeMillis()));
 
 
         //今日统计；
@@ -231,9 +231,9 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
         map.put("userId",UserUtils.getInstance().getLoginBean().getEntityId());
         map.put("seatType",1);
         map.put("websiteId", UserUtils.getInstance().getLoginBean().getSite());
-        map.put("monthTime", GeneralUtils.isNullOrZeroLenght(homeFilter.getMonthTime())?Calendar.getInstance().get(Calendar.YEAR)+"-"+(Calendar.getInstance().get(Calendar.MONTH)+1)+"-"+(Calendar.getInstance().get(Calendar.DAY_OF_MONTH))
+        map.put("monthTime", GeneralUtils.isNullOrZeroLenght(homeFilter.getMonthTime())?GeneralUtils.getCurr()
                 :homeFilter.getMonthTime());
-        map.put("dayDate", GeneralUtils.isNullOrZeroLenght(homeFilter.getDayDate())?Calendar.getInstance().get(Calendar.YEAR)+"-"+(Calendar.getInstance().get(Calendar.MONTH)+1)+"-"+(Calendar.getInstance().get(Calendar.DAY_OF_MONTH))
+        map.put("dayDate", GeneralUtils.isNullOrZeroLenght(homeFilter.getDayDate())?GeneralUtils.getCurr()
                 :homeFilter.getDayDate());
         mPresenter.homeData(map);
 
@@ -252,7 +252,7 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
                 Intent intent=new Intent(getContext(), StatisticsListActivity.class);
                 intent.putExtra("title","今日统计");
                  intent.putExtra("userId",UserUtils.getInstance().getLoginBean().getEntityId()+"");
-                intent.putExtra("dayDate",GeneralUtils.isNullOrZeroLenght(homeFilter.getDayDate())?Calendar.getInstance().get(Calendar.YEAR)+"-"+(Calendar.getInstance().get(Calendar.MONTH)+1)+"-"+(Calendar.getInstance().get(Calendar.DAY_OF_MONTH))
+                intent.putExtra("dayDate",GeneralUtils.isNullOrZeroLenght(homeFilter.getDayDate())?GeneralUtils.getCurr()
                         :homeFilter.getDayDate());
                 startActivity(intent);
 //            }
@@ -260,7 +260,7 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
                 Intent intent=new Intent(getContext(), StatisticsListActivity.class);
                 intent.putExtra("title","月统计");
                  intent.putExtra("userId",UserUtils.getInstance().getLoginBean().getEntityId()+"");
-                intent.putExtra("monthTime",GeneralUtils.isNullOrZeroLenght(homeFilter.getMonthTime())?Calendar.getInstance().get(Calendar.YEAR)+"-"+(Calendar.getInstance().get(Calendar.MONTH)+1)+"-"+(Calendar.getInstance().get(Calendar.DAY_OF_MONTH))
+                intent.putExtra("monthTime",GeneralUtils.isNullOrZeroLenght(homeFilter.getMonthTime())?GeneralUtils.getCurr()
                         :homeFilter.getMonthTime());
                 startActivity(intent);
 
@@ -310,7 +310,7 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
                 orderList.clear();
             }
 
-        StatisticalData statisticalData=new StatisticalData("注册总数",homeData.getAllData().getCountCustomer().toString());
+        StatisticalData statisticalData=new StatisticalData("客户总数",homeData.getAllData().getCountCustomer().toString());
         StatisticalData statisticalData1=new StatisticalData("下单客户数",homeData.getAllData().getOrderCustomer().toString());
         StatisticalData statisticalData2=new StatisticalData("未下单数",homeData.getAllData().getNotOrderCustomer().toString());
         StatisticalData statisticalData3=new StatisticalData("待审核数",homeData.getAllData().getNoVerifyNum().toString());

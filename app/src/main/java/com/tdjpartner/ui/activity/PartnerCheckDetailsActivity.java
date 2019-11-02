@@ -77,6 +77,8 @@ public class PartnerCheckDetailsActivity extends BaseActivity<PartnerCheckDetail
                 map.put("id",getIntent().getStringExtra("id"));
                 map.put("applyId",partnerCheckAdapter.data.get(data.size()-1).getApplyId());
                 map.put("nodeNumber",partnerCheckAdapter.data.get(data.size()-1).getNodeNumber());
+                map.put("verifyUserId",partnerCheckAdapter.data.get(data.size()-1).getVerifyUserId());
+
                 map.put("verifyRemark",partnerCheckAdapter.data.get(data.size()-1).getVerifyRemark());
 //                map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
                 map.put("userId", partnerCheckAdapter.data.get(data.size()-1).getUserId());
@@ -103,7 +105,7 @@ public class PartnerCheckDetailsActivity extends BaseActivity<PartnerCheckDetail
         map.put("loginId",UserUtils.getInstance().getLoginBean().getEntityId());
         map.put("id",getIntent().getStringExtra("id"));
 //        map.put("id",21);
-        map.put("verifyStatus","");
+//        map.put("verifyStatus","");
         mPresenter.verifyDetail(map);
     }
 

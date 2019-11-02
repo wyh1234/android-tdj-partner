@@ -97,6 +97,7 @@
                 android:paddingLeft="@dimen/dp_10"
                 android:paddingTop="@dimen/dp_10"
                 android:paddingBottom="@dimen/dp_10"
+                android:visibility="gone"
                 android:src="@mipmap/tishi_bg" />
             <View
                 android:layout_width="match_parent"

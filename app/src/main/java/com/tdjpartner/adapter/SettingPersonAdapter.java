@@ -17,7 +17,7 @@ public class SettingPersonAdapter extends BaseQuickAdapter<SettingPerson.ObjBean
 
     @Override
     protected void convert(BaseViewHolder baseViewHolder, SettingPerson.ObjBean.ListBean dropOuting) {
-        baseViewHolder.addOnClickListener(R.id.tv_gj_status);
+//        baseViewHolder.addOnClickListener(R.id.tv_gj_status);
 
         baseViewHolder.setText(R.id.tv_name,dropOuting.getName());
         baseViewHolder.setText(R.id.tv_boss,"负责人:"+dropOuting.getPartnerName());

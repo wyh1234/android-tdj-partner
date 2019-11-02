@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.apkfuns.logutils.LogUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
 import com.tdjpartner.base.BaseActivity;
@@ -49,8 +50,7 @@ public class InvitationActivity extends BaseActivity<InvitationPresenter>  {
                     @Override
                     public void accept(Boolean b) throws Exception {
                         if (b){
-                            new ShareUtils(InvitationActivity.this).shareWeb(shareURL, "淘大集创客", "");
-
+                            new ShareUtils(InvitationActivity.this).shareWeb("https://m.51taodj.com/tdjh5/new/register/registerPage?verifyCode="+UserUtils.getInstance().getLoginBean().getVerifyCode(), "淘大集创客", "");
                         }else {
                             GeneralUtils.showToastshort("请允许淘大集读取存储卡");
                         }
@@ -71,7 +71,8 @@ public class InvitationActivity extends BaseActivity<InvitationPresenter>  {
 
     @Override
     protected void initData() {
-        mPresenter.version_check();
+//        mPresenter.version_check();
+    ImageLoad.loadImageViewLoding("http://finance.51taodj.com/fund/static/images/qrcode/"+UserUtils.getInstance().getLoginBean().getVerifyCode()+".png",img_share);
 
     }
 
@@ -91,7 +92,7 @@ public class InvitationActivity extends BaseActivity<InvitationPresenter>  {
 
     public void version_check_success(AppVersion appVersion) {
         shareURL=appVersion.getQrcodeImage();
-        ImageLoad.loadImageViewLoding(appVersion.getQrcodeImage(),img_share);
+
 
 
     }

@@ -1,6 +1,7 @@
 package com.tdjpartner.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +21,7 @@ import com.tdjpartner.model.LocationBean;
 import com.tdjpartner.model.SeachTag;
 import com.tdjpartner.mvp.presenter.ClientListSeachPresenter;
 import com.tdjpartner.mvp.presenter.IPresenter;
+import com.tdjpartner.ui.activity.ClientDetailsActivity;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
 import com.tdjpartner.utils.cache.UserUtils;
@@ -163,7 +165,9 @@ public class ClientListSeachFragment extends BaseFrgment<ClientListSeachPresente
 
     @Override
     public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-
+        Intent intent=new Intent(getContext(), ClientDetailsActivity.class);
+        intent.putExtra("customerId",data.get(i).getCustomerId()+"");
+        startActivity(intent);
     }
 
     public void hotelMap_Success(ClientSeachInfo clientInfoList) {

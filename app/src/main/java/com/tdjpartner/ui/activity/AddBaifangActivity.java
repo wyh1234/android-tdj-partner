@@ -64,6 +64,16 @@ public class AddBaifangActivity extends BaseActivity<AddBaifangPresenter> implem
     TextView tv_callMobile;
     private int type;
     private String path;
+    private String time;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     public int getType() {
         return type;
     }
@@ -145,7 +155,7 @@ public class AddBaifangActivity extends BaseActivity<AddBaifangPresenter> implem
                 map.put("byCallName",ed_byCallName.getText().toString());
                 map.put("byCallMobile",ed_byCallMobile.getText().toString());
                 map.put("storeAddress",ed_storeAddress.getText().toString());
-                map.put("callDate",tv_time.getText().toString());
+                map.put("callDate",getTime());
                 map.put("callType",getType());
                 map.put("callPic",getPath());
                 map.put("matters",ed_matters.getText().toString());
@@ -187,6 +197,10 @@ public class AddBaifangActivity extends BaseActivity<AddBaifangPresenter> implem
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd hh:mm");
         return format.format(date);
     }
+    private String getTime(Date date) {//可根据需要自行截取数据显示
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        return format.format(date);
+    }
     @Override
     protected AddBaifangPresenter loadPresenter() {
         return new AddBaifangPresenter();
@@ -209,6 +223,7 @@ public class AddBaifangActivity extends BaseActivity<AddBaifangPresenter> implem
             @Override
             public void onTimeSelect(Date date, View v) {
                 tv_time.setText(getTimes(date));
+                setTime(getTime(date));
             }
         }) //年月日时分秒 的显示与否，不设置则默认全部显示
                 .setType(new boolean[]{true, true, true, true, true, false})
@@ -273,6 +288,7 @@ public class AddBaifangActivity extends BaseActivity<AddBaifangPresenter> implem
     @Override
     public void onCancel() {
         followUpPopuWindow.dismiss();
+        finish();
     }
 
     @Override

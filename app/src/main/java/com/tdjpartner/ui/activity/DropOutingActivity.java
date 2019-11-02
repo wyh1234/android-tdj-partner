@@ -1,5 +1,6 @@
 package com.tdjpartner.ui.activity;
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -206,7 +207,9 @@ public class DropOutingActivity extends BaseActivity<DropOutingPresenter>  imple
 
     @Override
     public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-
+        Intent intent=new Intent(getContext(), ClientDetailsActivity.class);
+        intent.putExtra("customerId",dropOutingList.get(i).getCustomerId()+"");
+        startActivity(intent);
     }
 
     public void  getdownList_Failed(){

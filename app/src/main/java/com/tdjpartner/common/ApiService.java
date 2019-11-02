@@ -516,7 +516,7 @@ public interface ApiService {
      *
      * */
     @Headers({"url_type:xuming"})
-    @POST("tdj-report/report/teamOverView/myTeamPartnerList")
+    @POST("tdj-report/report/teamOverView/myTeamHistoryPartnerList")
     Observable<BaseResponse<MyTeam>> myTeamPartnerList(@Body  RequestBody body);
 
 

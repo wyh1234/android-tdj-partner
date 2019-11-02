@@ -131,8 +131,8 @@ public class ClientListFragment extends BaseFrgment<ClientListPresenter>  implem
             Map<String,Object> map=new HashMap<>();
             map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
             map.put("userType",index+1);
-            map.put("latitude","30.5998320000");
-            map.put("longitude","114.3439610000");
+            map.put("latitude",locationBean.getLatitude());
+            map.put("longitude",locationBean.getLongitude());
             map.put("keyword","");
             mPresenter.hotelMap(map);
         }
@@ -248,14 +248,20 @@ public class ClientListFragment extends BaseFrgment<ClientListPresenter>  implem
 
     @Override
     public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+        LogUtils.e(data.get(i).getName());
         if (view.getId()==R.id.tv_gj_status){
             setCustomerId(data.get(i).getCustomerId());
-            if (followUpPopuWindow!=null){
+     /*       if (followUpPopuWindow!=null){
                 if (followUpPopuWindow.isShowing()){
                     return;
                 }
+                followUpPopuWindow = new FollowUpPopuWindow(getContext(),data.get(i).getName());
+                followUpPopuWindow.setDismissWhenTouchOutside(false);
+                followUpPopuWindow.setInterceptTouchEvent(false);
+                followUpPopuWindow.setPopupWindowFullScreen(true);//铺满
                 followUpPopuWindow.showPopupWindow();
-            }else {
+                followUpPopuWindow.setFollowUpListener(this);
+            }else {*/
 
                 followUpPopuWindow = new FollowUpPopuWindow(getContext(),data.get(i).getName());
                 followUpPopuWindow.setDismissWhenTouchOutside(false);
@@ -263,7 +269,7 @@ public class ClientListFragment extends BaseFrgment<ClientListPresenter>  implem
                 followUpPopuWindow.setPopupWindowFullScreen(true);//铺满
                 followUpPopuWindow.showPopupWindow();
                 followUpPopuWindow.setFollowUpListener(this);
-            }
+//            }
 
         }
     }

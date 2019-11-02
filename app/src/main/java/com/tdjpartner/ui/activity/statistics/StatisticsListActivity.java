@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.apkfuns.logutils.LogUtils;
 import com.bigkoo.pickerview.TimePickerView;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.FragmentAdapter;
@@ -150,8 +151,10 @@ public class StatisticsListActivity extends BaseActivity {
         }else if (getIntent().getStringExtra("title").equals("月统计")){
             tv_name.setText(getIntent().getStringExtra("monthTime").substring(5,7)+"月");
         }else {
-            tv_name.setText((Calendar.getInstance().get(Calendar.YEAR)+"-"+
-                    (Calendar.getInstance().get(Calendar.MONTH)+1)+"-"+(Calendar.getInstance().get(Calendar.DAY_OF_MONTH))).substring(5,7)+"月");
+            tv_name.setPadding(15,0,15,0);
+            tv_name.setVisibility(View.INVISIBLE);
+//            tv_name.setText((Calendar.getInstance().get(Calendar.YEAR)+"-"+
+//                    (Calendar.getInstance().get(Calendar.MONTH)+1)+"-"+(Calendar.getInstance().get(Calendar.DAY_OF_MONTH))).substring(5,7)+"月");
 
         }
     }

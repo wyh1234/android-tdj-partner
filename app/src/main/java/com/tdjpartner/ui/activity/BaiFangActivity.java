@@ -218,7 +218,6 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter>  {
             tv_state.setTextColor(GeneralUtils.getColor(getContext(),R.color.white));
             tv_laction_name.setText("已进入考勤范围"+locationBean.getAddress());
             iv.setImageResource(R.mipmap.dakazc);
-            GeneralUtils.showToastshort("您已打卡成功");
         }
 
 

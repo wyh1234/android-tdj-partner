@@ -103,6 +103,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginLeft="6dp"
                     android:textSize="14sp"
+                    android:drawableRight="@mipmap/xiala_bg"
                     android:textColor="@color/black_63"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

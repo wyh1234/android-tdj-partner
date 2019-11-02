@@ -47,7 +47,7 @@ public class ShareUtils {
         web.setDescription(description);
         web.setTitle(title);
 
-        new ShareAction(mContext).withMedia(web).setDisplayList(/*SHARE_MEDIA.SINA, */SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE).setCallback(umShareListener).open();
+        new ShareAction(mContext).withMedia(web).setDisplayList(/*SHARE_MEDIA.SINA, *//*SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE,*/ SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE).setCallback(umShareListener).open();
     }
 
     public ShareUtils setUmShareListener(UMShareListener umShareListener) {

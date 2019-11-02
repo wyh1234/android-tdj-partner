@@ -68,6 +68,15 @@ public class PartnerCheckDetails {
         private Object applyId;
         private Object applyCode;
         private String regionCollNo;
+        private int verifyUserId;
+
+        public int getVerifyUserId() {
+            return verifyUserId;
+        }
+
+        public void setVerifyUserId(int verifyUserId) {
+            this.verifyUserId = verifyUserId;
+        }
 
         public int getIsVerify() {
             return isVerify;
