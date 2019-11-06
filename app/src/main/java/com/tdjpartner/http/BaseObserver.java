@@ -81,6 +81,7 @@ public abstract class BaseObserver<T> extends ResourceObserver<T> {
 
     @Override
     public void onError(Throwable e) {
+        LogUtils.e(e);
         if(!TextUtils.isEmpty(errorMsg)){
             GeneralUtils.showToastshort( errorMsg);
         }else if(e instanceof ApiException){

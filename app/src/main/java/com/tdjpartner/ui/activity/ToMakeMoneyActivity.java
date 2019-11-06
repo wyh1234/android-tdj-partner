@@ -121,6 +121,7 @@ public class ToMakeMoneyActivity extends BaseActivity<ToMakeMoneyPresenter> {
                 builder.append(toMakeMoney.getNewTenDate().get(i)+"\t\t\t");
             }
             tv_newten_date.setText(builder.toString());
+            tv_newten_date.setSelected(true);
         }
 
         tv_customerCount.setText(toMakeMoney.getCustomerCount()+"人");

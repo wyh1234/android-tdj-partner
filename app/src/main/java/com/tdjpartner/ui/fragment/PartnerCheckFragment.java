@@ -143,6 +143,10 @@ public class PartnerCheckFragment extends BaseFrgment<PartnerCheckPresenter>  im
     public void eventCode(SeachTag seachTag) {
         setSeachTag(seachTag);
         refreshLayout.autoRefresh();
+        if (!ListUtils.isEmpty(data)) {
+            data.clear();
+            partnerCheckAdapter.notifyDataSetChanged();
+        }
 
     }
     /**StateView的根布局，默认是整个界面，如果需要变换可以重写此方法*/

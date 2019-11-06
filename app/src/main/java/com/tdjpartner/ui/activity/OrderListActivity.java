@@ -101,7 +101,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter> implemen
     }
     protected  void getData(int pn){
         Map<String ,Object> map=new HashMap<>();
-        map.put("status","trade_finished");
+//        map.put("status","trade_success,wait_buyer_evaluate");
         map.put("userType",0);
         map.put("pn",pn);
         map.put("customerId",Integer.parseInt(getIntent().getStringExtra("buyId")));
@@ -164,6 +164,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter> implemen
         if (ListUtils.isEmpty(orderLists)) {
             mStateView.showEmpty();//显示重试的布局
         }
+        baseQuickAdapter.disableLoadMoreIfNotFullPage(recyclerView_list);
     }
 
     /**StateView的根布局，默认是整个界面，如果需要变换可以重写此方法*/

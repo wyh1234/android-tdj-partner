@@ -31,12 +31,13 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class StatisticsListActivity extends BaseActivity {
+    @BindView(R.id.tv_title)
+     TextView tv_title;
     @BindView(R.id.wtab)
     WTabLayout wtab;
     @BindView(R.id.viewPager)
     ViewPager viewPager;
-    @BindView(R.id.tv_title)
-    TextView tv_title;
+
     @BindView(R.id.btn_back)
     ImageView btn_back;
     @BindView(R.id.search_text)
@@ -50,6 +51,7 @@ public class StatisticsListActivity extends BaseActivity {
     private Calendar selectedDate, endDate, startDate;
     private TimePickerView pvTime;
     public SeachTag seachTag=new SeachTag();
+    public String title;
     public List<String> titles = new ArrayList<>();
     @OnClick({R.id.btn_back,R.id.tv_name,R.id.tv_list_type})
     public void onClick(View view){
@@ -117,8 +119,8 @@ public class StatisticsListActivity extends BaseActivity {
                 .setDecorView(null)
                 .build();
 
-
-        tv_title.setText(getIntent().getStringExtra("title"));
+        title=getIntent().getStringExtra("title");
+        tv_title.setText(title);
 //        if (getIntent().getStringExtra("title").equals("今日统计")){
         titles.add("全部");
         titles.add("未下单数");

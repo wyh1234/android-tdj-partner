@@ -43,7 +43,7 @@
             android:layout_height="48dp">
             <TextView
                 android:id="@+id/tv_name"
-                android:text="客户名称"
+                android:text="创客名称"
                 android:textSize="14sp"
                 android:layout_centerVertical="true"
                 android:gravity="center"
@@ -55,7 +55,7 @@
             <EditText
                 android:id="@+id/search_text"
                 android:textColorHint="@color/gray_6c"
-                android:hint="请输入门店名称/手机号"
+                android:hint="请输入创客名称/手机号"
                 android:layout_width="match_parent"
                 android:layout_height="22dp"
                 android:layout_centerVertical="true"

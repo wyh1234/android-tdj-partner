@@ -5,6 +5,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -47,11 +48,14 @@ public class CommonFollowUpActivity extends BaseActivity<CommonFollowUpPresenter
     TextView tv;
     @BindView(R.id.tv1)
     TextView tv1;
-
+    @BindView(R.id.search_text)
+    EditText search_text;
     @BindView(R.id.view)
     View view2;
     @BindView(R.id.view1)
     View view1;
+    @BindView(R.id.tv_list_type)
+    TextView tv_list_type;
     @BindView(R.id.btn_back)
     ImageView btn_back;
     @BindView(R.id.swipeRefreshLayout)
@@ -65,7 +69,7 @@ public class CommonFollowUpActivity extends BaseActivity<CommonFollowUpPresenter
     private String type="followNot";
     private int customerId;
     private int pos;
-
+    private String keyword="";
     public int getPos() {
         return pos;
     }
@@ -82,7 +86,7 @@ public class CommonFollowUpActivity extends BaseActivity<CommonFollowUpPresenter
         this.customerId = customerId;
     }
 
-    @OnClick({R.id.rl_xd,R.id.rl_bf,R.id.btn_back})
+    @OnClick({R.id.rl_xd,R.id.rl_bf,R.id.btn_back,R.id.tv_list_type})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.rl_xd:
@@ -109,6 +113,11 @@ public class CommonFollowUpActivity extends BaseActivity<CommonFollowUpPresenter
                 break;
             case R.id.btn_back:
                 finish();
+                break;
+            case R.id.tv_list_type:
+                keyword=search_text.getText().toString();
+                swipeRefreshLayout.setRefreshing(true);
+                onRefresh();
                 break;
         }
     }
@@ -192,8 +201,10 @@ public class CommonFollowUpActivity extends BaseActivity<CommonFollowUpPresenter
         Map<String,Object> map=new HashMap<>();
         map.put("websiteId", UserUtils.getInstance().getLoginBean().getSite());
         map.put("type", type);
+        map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
         map.put("pn", pageNo);
         map.put("ps", 10);
+        map.put("keyword", keyword);
         mPresenter.followList(map);
 
     }
@@ -237,6 +248,7 @@ public class CommonFollowUpActivity extends BaseActivity<CommonFollowUpPresenter
         if (ListUtils.isEmpty(dropOutingList)) {
             mStateView.showEmpty();//显示重试的布局
         }
+        commonFollowUpAdapter.disableLoadMoreIfNotFullPage(recyclerView_list);
     }
 
     @Override

@@ -172,8 +172,9 @@ public class SettingPersonActivity extends BaseActivity<SettingPersonPresenter> 
     public void managerList_failed() {
         stop();
         if (ListUtils.isEmpty(data)) {
-            mStateView.showEmpty();//显示重试的布局
+            mStateView.showEmpty();
         }
+        settingPersonAdapter.disableLoadMoreIfNotFullPage(recyclerView_list);
     }
     public void managerList_Success(SettingPerson settingPerson) {
 

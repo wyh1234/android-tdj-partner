@@ -7,6 +7,8 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.tdjpartner.R;
 import com.tdjpartner.model.GoodsInfo;
 import com.tdjpartner.model.OrderList;
+import com.tdjpartner.utils.GeneralUtils;
+import com.tdjpartner.utils.StringUtils;
 import com.tdjpartner.utils.glide.ImageLoad;
 
 import java.math.BigDecimal;
@@ -46,6 +48,10 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderList.ItemsBean, Base
             baseViewHolder.setText(R.id.tv_tiltle,orderList.getExtraField().get(0).getProductPrice()+"元/"+orderList.getExtraField().get(0).getProductUnit());
 
         }
+            if (!GeneralUtils.isNullOrZeroLenght(orderList.getStatusCode())){
+                StringUtils.tvStatus(orderList.getStatusCode(),baseViewHolder.getView(R.id.tv_staste));
+            }
+
 
 
     }

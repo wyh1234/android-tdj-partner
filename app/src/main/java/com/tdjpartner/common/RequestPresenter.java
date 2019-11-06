@@ -220,6 +220,11 @@ public class RequestPresenter {
     public static Disposable  version_check(Map<String, Object> map, BaseObserver<AppVersion> callback) {
         return getApiService().version_check(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
+    public static Disposable  myTeamPartnerSelectList(Map<String, Object> map, BaseObserver<List<String>> callback) {
+        return getApiService().myTeamPartnerSelectList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+
+
     public static MultipartBody.Part getMultipartBody_part(String fileName, byte[] content) {
         // 创建 RequestBody，用于封装构建RequestBody
         RequestBody requestFile = RequestBody.create(FORM, content);

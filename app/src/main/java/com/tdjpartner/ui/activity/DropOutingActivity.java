@@ -218,6 +218,6 @@ public class DropOutingActivity extends BaseActivity<DropOutingPresenter>  imple
             //如果一开始进入没有数据
             mStateView.showEmpty();//显示重试的布局
         }
-
+        dropOutingAdapter.disableLoadMoreIfNotFullPage(recyclerView_list);
     }
 }

@@ -43,6 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
+                android:id="@+id/tv_staste"
                 android:text="交易成功"
                 android:textSize="@dimen/sp_14"
                 android:textColor="@color/view_bg1"

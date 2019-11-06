@@ -82,6 +82,13 @@ public class PartnerCheckDetailsActivity extends BaseActivity<PartnerCheckDetail
                 map.put("verifyRemark",partnerCheckAdapter.data.get(data.size()-1).getVerifyRemark());
 //                map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
                 map.put("userId", partnerCheckAdapter.data.get(data.size()-1).getUserId());
+                if (!partnerCheckAdapter.data.get(data.size()-1).isF()){
+                    if (GeneralUtils.isNullOrZeroLenght(partnerCheckAdapter.data.get(data.size()-1).getVerifyRemark().trim())){
+                        GeneralUtils.showToastshort("请填写驳回原因");
+                        return;
+                    }
+
+                }
                 mPresenter.clickVerify(map);
                 break;
             case R.id.btn_back:

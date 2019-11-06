@@ -51,7 +51,7 @@ public class MyBankActivity extends BaseActivity {
     }
     @Subscribe( threadMode = ThreadMode.MAIN)
     public void onEvent(Bank bankName) {
-        tv_accountno.setText(bankName.getBankName().substring(bankName.getBankName().length()-4,bankName.getBankName().length()));
+        tv_accountno.setText(bankName.getAccountNo().substring(bankName.getAccountNo().length()-4,bankName.getAccountNo().length()));
 
     }
     @Override

@@ -36,6 +36,7 @@ public class TeamMemberActivity extends BaseActivity<TeamMemberPresenter> implem
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
     private List<MyTeam.ObjBean> data=new ArrayList<>();
+    private List<String> stringList=new ArrayList<>();
     @BindView(R.id.btn_back)
     ImageView btn_back;
     @BindView(R.id.tv_name)
@@ -70,7 +71,7 @@ public class TeamMemberActivity extends BaseActivity<TeamMemberPresenter> implem
                     }
                     teamMemberPopuWindow.showPopupWindow(rl_seach);
                 }else {
-                    teamMemberPopuWindow = new TeamMemberPopuWindow(this);
+                    teamMemberPopuWindow = new TeamMemberPopuWindow(this,stringList);
                     teamMemberPopuWindow.setDismissWhenTouchOutside(false);
                     teamMemberPopuWindow.setInterceptTouchEvent(false);
                     teamMemberPopuWindow.showPopupWindow(rl_seach);
@@ -91,6 +92,9 @@ public class TeamMemberActivity extends BaseActivity<TeamMemberPresenter> implem
 
     @Override
     protected void initData() {
+        Map<String,Object> map=new HashMap<>();
+        map.put("userId", Integer.parseInt(getIntent().getStringExtra("userId")));
+        mPresenter.myTeamPartnerSelectList(map);
         refreshLayout.setRefreshing(true);
         onRefresh();
 
@@ -143,8 +147,9 @@ public class TeamMemberActivity extends BaseActivity<TeamMemberPresenter> implem
     }
 
     @Override
-    public void onOk(int type) {
-        setType(type);
+    public void onOk(String str) {
+        setType(Integer.parseInt(str.split(",")[0]));
+        tv_name.setText(str.split(",")[1]);
         teamMemberPopuWindow.dismiss();
         refreshLayout.setRefreshing(true);
         onRefresh();
@@ -193,6 +198,7 @@ public class TeamMemberActivity extends BaseActivity<TeamMemberPresenter> implem
         if (ListUtils.isEmpty(data)) {
             mStateView.showEmpty();//显示重试的布局
         }
+        teamMemberAdapter.disableLoadMoreIfNotFullPage(recyclerView_list);
     }
 
     @Override
@@ -200,6 +206,14 @@ public class TeamMemberActivity extends BaseActivity<TeamMemberPresenter> implem
         Intent intent=new Intent(this,HomePageActivity.class);
         intent.putExtra("userId",data.get(i).getPartnerId()+"");
         startActivity(intent);
+
+    }
+
+    public void myTeamPartnerSelectList_Success(List<String> stringLists) {
+        if (!ListUtils.isEmpty(stringLists)){
+            stringList.addAll(stringLists);
+        }
+
 
     }
 }

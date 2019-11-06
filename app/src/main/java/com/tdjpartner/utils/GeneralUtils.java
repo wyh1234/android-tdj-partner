@@ -4,14 +4,20 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,6 +36,7 @@ import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -260,10 +267,9 @@ public class GeneralUtils {
             public void accept(Boolean aBoolean) throws Exception {
                 if (aBoolean) {
                     //从相册中选择图片 此处使用知乎开源库Matisse
-                    Matisse.from(activity)
-                            .choose(MimeType.ofImage())
+                    Matisse.from(activity).choose(MimeType.ofImage())
                             .theme(R.style.Matisse_Dracula)
-                            .countable(true)//true:选中后显示数字;false:选中后显示对号
+                            .countable(false)//true:选中后显示数字;false:选中后显示对号
                             .maxSelectable(1)
                             .capture(true)
                             .captureStrategy(new CaptureStrategy(true, "com.tdjpartner.fileProvider")) //是否拍照功能，并设置拍照后图片的保存路径; FILE_PATH = 你项目的包名.fileprovider,必须配置不然会抛异常
@@ -279,6 +285,20 @@ public class GeneralUtils {
             }
         });
 
+    }
+
+    public static void action_call(RxPermissions rxPermissions,String data,Context context){
+        rxPermissions.request(Manifest.permission.CALL_PHONE).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) throws Exception {
+                if (aBoolean) {
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    Uri datas = Uri.parse("tel:" + data);
+                    intent.setData(datas);
+                    context.startActivity(intent);
+                }
+            }
+        });
     }
 
 

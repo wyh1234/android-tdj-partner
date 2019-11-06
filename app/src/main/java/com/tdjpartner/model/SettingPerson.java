@@ -133,6 +133,15 @@ public class SettingPerson implements Serializable {
             private Object lat;
             private Object lon;
             private Object headUrl;
+            private int monthAfterSaleTimes;
+
+            public int getMonthAfterSaleTimes() {
+                return monthAfterSaleTimes;
+            }
+
+            public void setMonthAfterSaleTimes(int monthAfterSaleTimes) {
+                this.monthAfterSaleTimes = monthAfterSaleTimes;
+            }
 
             public int getCustomerId() {
                 return customerId;

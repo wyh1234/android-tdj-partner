@@ -7,6 +7,7 @@ import com.tdjpartner.model.MyTeam;
 import com.tdjpartner.mvp.model.Model;
 import com.tdjpartner.ui.activity.TeamMemberActivity;
 
+import java.util.List;
 import java.util.Map;
 
 public class TeamMemberPresenter  extends BasePresenter<Model, TeamMemberActivity> {
@@ -19,6 +20,21 @@ public class TeamMemberPresenter  extends BasePresenter<Model, TeamMemberActivit
             @Override
             protected void onSuccess(MyTeam myTeam) {
                 getIView().myTeamPartnerList_Success(myTeam);
+            }
+
+            @Override
+            protected void onFailed(Throwable e) {
+                getIView().myTeamPartnerList_failed();
+            }
+        }));
+
+    }
+    public void myTeamPartnerSelectList(Map<String,Object> map){
+        getIView().addSubscribe(RequestPresenter.myTeamPartnerSelectList(map, new BaseObserver<List<String>>(getIView().getContext(), false) {
+            @Override
+            protected void onSuccess(List<String> stringList) {
+                getIView().myTeamPartnerSelectList_Success(stringList);
+
             }
 
             @Override

@@ -5,9 +5,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.adapter.HistoryInfoAdapter;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.StoreInfoAdapter;
@@ -16,6 +18,7 @@ import com.tdjpartner.model.ClientDetails;
 import com.tdjpartner.model.ClientDetailsStoreInfo;
 import com.tdjpartner.model.HistoryInfo;
 import com.tdjpartner.mvp.presenter.ClientDetailsPresenter;
+import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.glide.ImageLoad;
 import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.widget.CustomLinearLayout;
@@ -55,12 +58,14 @@ public class ClientDetailsActivity extends BaseActivity<ClientDetailsPresenter> 
     TextView tv_s_address;
     @BindView(R.id.iv_heard)
     ImageView iv_heard;
+    @BindView(R.id.rl_call)
+    RelativeLayout rl_call;
     private List<ClientDetailsStoreInfo> storeInfoList=new ArrayList<>();
     private List<HistoryInfo> historyInfoList=new ArrayList<>();
     private StoreInfoAdapter storeInfoAdapter;
     private HistoryInfoAdapter historyInfoAdapter;
     private ClientDetails clientDetails;
-
+    private RxPermissions rxPermissions;
     public ClientDetails getClientDetails() {
         return clientDetails;
     }
@@ -69,7 +74,7 @@ public class ClientDetailsActivity extends BaseActivity<ClientDetailsPresenter> 
         this.clientDetails = clientDetails;
     }
 
-    @OnClick({R.id.btn_back,R.id.btn})
+    @OnClick({R.id.btn_back,R.id.btn,R.id.rl_call,R.id.tv_s_phone})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.btn_back:
@@ -80,6 +85,17 @@ public class ClientDetailsActivity extends BaseActivity<ClientDetailsPresenter> 
                 intent.putExtra("clientDetails",getClientDetails());
                 startActivity(intent);
 
+                break;
+            case R.id.rl_call:
+                if (getClientDetails()!=null){
+                    GeneralUtils.action_call(rxPermissions,getClientDetails().getMobile(),getContext());
+                }
+
+                break;
+            case R.id.tv_s_phone:
+                if (getClientDetails()!=null){
+                    GeneralUtils.action_call(rxPermissions,getClientDetails().getReceiveMobile(),getContext());
+                }
                 break;
         }
     }
@@ -99,7 +115,7 @@ public class ClientDetailsActivity extends BaseActivity<ClientDetailsPresenter> 
     @Override
     protected void initView() {
         Eyes.translucentStatusBar(this,true);
-
+        rxPermissions = new RxPermissions(this);
         CustomLinearLayout customLinearLayout=  new CustomLinearLayout(getContext(), LinearLayoutManager.VERTICAL, false);
         customLinearLayout.setScrollEnabled(false);
         ScrollLinearLayoutManager layout = new ScrollLinearLayoutManager(getContext(), 4);
@@ -133,6 +149,7 @@ public class ClientDetailsActivity extends BaseActivity<ClientDetailsPresenter> 
 
         }else if (i==2){
             Intent intent=new Intent(this,DiscountCouponActivity.class);
+            intent.putExtra("buyId",getClientDetails().getCustomerId()+"");
             startActivity(intent);
 
         }else {
@@ -156,23 +173,23 @@ public class ClientDetailsActivity extends BaseActivity<ClientDetailsPresenter> 
         tv_s_address.setText(clientDetails.getAddress());
         ClientDetailsStoreInfo clientDetailsStoreInfo=new ClientDetailsStoreInfo();
         clientDetailsStoreInfo.setTitle("当月下单总额");
-        clientDetailsStoreInfo.setTotal(clientDetails.getMonthAmount());
+        clientDetailsStoreInfo.setTotal(clientDetails.getMonthAmount().toString());
         clientDetailsStoreInfo.setRes(R.mipmap.clientdetails);
         ClientDetailsStoreInfo clientDetailsStoreInfo1=new ClientDetailsStoreInfo();
         clientDetailsStoreInfo1.setTitle("当月下单总数");
-        clientDetailsStoreInfo1.setTotal(clientDetails.getMonthTimes());
+        clientDetailsStoreInfo1.setTotal(clientDetails.getMonthTimes()+"");
         clientDetailsStoreInfo1.setRes(R.mipmap.clientdetails_one);
         ClientDetailsStoreInfo clientDetailsStoreInfo2=new ClientDetailsStoreInfo();
         clientDetailsStoreInfo2.setTitle("售后退换货");
-        clientDetailsStoreInfo2.setTotal(clientDetails.getAfterSaleTimes());
+        clientDetailsStoreInfo2.setTotal(clientDetails.getAfterSaleTimes().toString());
         clientDetailsStoreInfo2.setRes(R.mipmap.clientdetails_two);
         ClientDetailsStoreInfo clientDetailsStoreInfo3=new ClientDetailsStoreInfo();
         clientDetailsStoreInfo3.setTitle("距上次下单");
-        clientDetailsStoreInfo3.setTotal(clientDetails.getNotOrderDays());
+        clientDetailsStoreInfo3.setTotal(clientDetails.getNotOrderDays().toString());
         clientDetailsStoreInfo3.setRes(R.mipmap.clientdetails_three);
         ClientDetailsStoreInfo clientDetailsStoreInfo4=new ClientDetailsStoreInfo();
         clientDetailsStoreInfo4.setTitle("距上次拜访");
-        clientDetailsStoreInfo4.setTotal(clientDetails.getNoCallDay());
+        clientDetailsStoreInfo4.setTotal(clientDetails.getNoCallDay().toString());
         clientDetailsStoreInfo4.setRes(R.mipmap.clientdetails_four);
 
         storeInfoList.add(clientDetailsStoreInfo);

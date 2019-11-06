@@ -104,8 +104,7 @@ public class GoodsAndStoreFragment extends BaseFrgment<GoodsAndStorePresenter> i
         map.put("pn",pn);
         map.put("ps",10);
         map.put("site", UserUtils.getInstance().getLoginBean().getSite());
-//        map.put("personId", goodsAndStoreActivity.customerId);
-        map.put("personId", 45);
+        map.put("personId", goodsAndStoreActivity.customerId);
 
         if (index==0){
             map.put("type", 2);

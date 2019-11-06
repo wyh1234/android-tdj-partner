@@ -29,7 +29,7 @@ public class AppAplication extends Application {
         UMConfigure.init(this,"5db927390cafb2661b00069b"
                 ,"umeng",UMConfigure.DEVICE_TYPE_PHONE,"");
         UMConfigure.setLogEnabled(true);
-        PlatformConfig.setWeixin("wxf1c361fc73d52a29", "58faa8bcfd0184cd54e661a65b07debd");
+        PlatformConfig.setWeixin("wxf2a72e872e154fd3", "d4d60cdb8106906a4572c30f55e5c186");
         PlatformConfig.setQQZone("1109665317", "KkdvL0CH53fsPSLb");
 
     }

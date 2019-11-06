@@ -1,5 +1,6 @@
 package com.tdjpartner.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ import com.tdjpartner.base.BaseFrgment;
 import com.tdjpartner.model.DiscountCoupon;
 import com.tdjpartner.mvp.presenter.DiscountCouponPresenter;
 import com.tdjpartner.mvp.presenter.IPresenter;
+import com.tdjpartner.ui.activity.DiscountCouponActivity;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
 import com.tdjpartner.utils.cache.UserUtils;
@@ -35,6 +37,7 @@ public class DiscountCouponFragment extends BaseFrgment<DiscountCouponPresenter>
     private int index=0;
     private List<DiscountCoupon.ItemsBean> discountCouponArrayList=new ArrayList<>();
     private DiscountCouponAdapter discountCouponAdapter;
+    private DiscountCouponActivity activity;
 
     //status：0未使用，1已使用，2已过期，
     public static DiscountCouponFragment newInstance(int str) {
@@ -55,6 +58,13 @@ public class DiscountCouponFragment extends BaseFrgment<DiscountCouponPresenter>
         recyclerView_list.setAdapter(discountCouponAdapter);
 
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        activity=(DiscountCouponActivity)context;
+    }
+
     @Override
     public void onUserVisible() {
         super.onUserVisible();//可见时
@@ -89,7 +99,7 @@ public class DiscountCouponFragment extends BaseFrgment<DiscountCouponPresenter>
     }
     protected  void getData(int pn){
         Map<String,Object> map=new HashMap<>();
-        map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
+        map.put("userId", activity.customerId);
         map.put("userType",0);
         map.put("status",index);
         map.put("pn",pn);

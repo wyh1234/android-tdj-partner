@@ -39,11 +39,20 @@ public class ClientInfo {
     private Object todayAmount;
     private Object averageAmount;
     private Object monthTimes;
+    private int monthAfterSaleTimes;
     private int notOrderDays;
     private Object notCallDays;
     private String lat;
     private String lon;
     private int userType;
+
+    public int getMonthAfterSaleTimes() {
+        return monthAfterSaleTimes;
+    }
+
+    public void setMonthAfterSaleTimes(int monthAfterSaleTimes) {
+        this.monthAfterSaleTimes = monthAfterSaleTimes;
+    }
 
     public int getUserType() {
         return userType;

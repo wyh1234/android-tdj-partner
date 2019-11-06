@@ -159,7 +159,7 @@ public class EarningsHistoryFragment extends BaseFrgment<EarningsHistoryPresente
             }
         }
         tv_money.setText(earningsHistory.getObj().getMoney()+"");
-        tv_money_f.setText("-"+earningsHistory.getObj().getSubMoney()+"");
+        tv_money_f.setText(earningsHistory.getObj().getSubMoney()+"");
         tv_orderMoney.setText("+"+earningsHistory.getObj().getOrderMoney()+"");
         earningsHistoryList.addAll(earningsHistory.getObj().getList());
         earningsHistoryAdapter.setNewData(earningsHistoryList);

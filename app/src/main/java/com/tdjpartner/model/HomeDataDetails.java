@@ -38,7 +38,16 @@ public class HomeDataDetails {
 
         private int notOrderCustomerNum;
         private int orderCustomerNum;
+        private int totalCustomerNum;
         private List<ListBean> list;
+
+        public int getTotalCustomerNum() {
+            return totalCustomerNum;
+        }
+
+        public void setTotalCustomerNum(int totalCustomerNum) {
+            this.totalCustomerNum = totalCustomerNum;
+        }
 
         public int getNotOrderCustomerNum() {
             return notOrderCustomerNum;
@@ -122,7 +131,7 @@ public class HomeDataDetails {
             private String name;
             private String address;
             private String boss;
-            private Object mobile;
+            private String mobile;
             private Object partnerName;
             private Object followTime;
             private Object websiteId;
@@ -176,7 +185,7 @@ public class HomeDataDetails {
             }
 
             public Integer getAuth() {
-                return auth;
+                return auth==null?0:auth;
             }
 
             public void setAuth(Integer auth) {
@@ -207,11 +216,11 @@ public class HomeDataDetails {
                 this.boss = boss;
             }
 
-            public Object getMobile() {
+            public String getMobile() {
                 return mobile;
             }
 
-            public void setMobile(Object mobile) {
+            public void setMobile(String mobile) {
                 this.mobile = mobile;
             }
 

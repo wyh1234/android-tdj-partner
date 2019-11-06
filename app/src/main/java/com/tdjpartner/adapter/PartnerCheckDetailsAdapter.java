@@ -38,7 +38,7 @@ public class PartnerCheckDetailsAdapter extends BaseQuickAdapter<PartnerCheckDet
             baseViewHolder.setGone(R.id.tv_name,true);
         }else {
             if (partnerCheckDetails.getVerifyStatus()!=0){
-                baseViewHolder.setText(R.id.tv_time,"申请日期："+partnerCheckDetails.getCreateTime());
+                baseViewHolder.setText(R.id.tv_time,"审核日期："+partnerCheckDetails.getCreateTime());
                 baseViewHolder.setText(R.id.tv_name,partnerCheckDetails.getNickName()+"\t"+partnerCheckDetails.getPhone()+"\t"+"提交申请");
                 baseViewHolder.setGone(R.id.tv_time,true);
                 baseViewHolder.setGone(R.id.tv_name,true);

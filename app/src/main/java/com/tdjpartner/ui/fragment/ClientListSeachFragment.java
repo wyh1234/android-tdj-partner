@@ -93,7 +93,10 @@ public class ClientListSeachFragment extends BaseFrgment<ClientListSeachPresente
     public void eventCode(SeachTag seachTag) {
         setSeachTag(seachTag);
         refreshLayout.autoRefresh();
-
+        if (!ListUtils.isEmpty(data)) {
+            data.clear();
+            clientListSeachAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -206,5 +209,7 @@ public class ClientListSeachFragment extends BaseFrgment<ClientListSeachPresente
             //如果一开始进入没有数据
             mStateView.showEmpty();//显示重试的布局
         }
+        clientListSeachAdapter.disableLoadMoreIfNotFullPage(recyclerView_list);
     }
+
 }

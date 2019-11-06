@@ -3,7 +3,7 @@ package com.tdjpartner.model;
 public class ClientDetailsStoreInfo {
     private int res;
     private String title;
-    private Integer total;
+    private String total;
 
     public int getRes() {
         return res;
@@ -21,11 +21,11 @@ public class ClientDetailsStoreInfo {
         this.title = title;
     }
 
-    public Integer getTotal() {
+    public String getTotal() {
         return total;
     }
 
-    public void setTotal(Integer total) {
+    public void setTotal(String total) {
         this.total = total;
     }
 }

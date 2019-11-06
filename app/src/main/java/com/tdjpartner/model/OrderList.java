@@ -71,8 +71,17 @@ public class OrderList {
         private String customerLogo;
         private int orderId;
         private BigDecimal actualTotalCost;
+        private String statusCode;
         private List<CartGoodsBean> extraField;
         private String orderNo;
+
+        public String getStatusCode() {
+            return statusCode;
+        }
+
+        public void setStatusCode(String statusCode) {
+            this.statusCode = statusCode;
+        }
 
         public String getCustomerLogo() {
             return customerLogo;

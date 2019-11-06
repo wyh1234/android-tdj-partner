@@ -50,7 +50,7 @@ public class InvitationActivity extends BaseActivity<InvitationPresenter>  {
                     @Override
                     public void accept(Boolean b) throws Exception {
                         if (b){
-                            new ShareUtils(InvitationActivity.this).shareWeb("https://m.51taodj.com/tdjh5/new/register/registerPage?verifyCode="+UserUtils.getInstance().getLoginBean().getVerifyCode(), "淘大集创客", "");
+                            new ShareUtils(InvitationActivity.this).shareWeb("https://m.51taodj.com/tdjh5/new/register/registerPage?verifyCode="+UserUtils.getInstance().getLoginBean().getVerifyCode(), "淘大集-专业酒店食材供应链平台", "淘大集食材覆盖：新鲜蔬菜、禽肉蛋类、米面粮油、调料、水果等。食材相对市场价低20%~50%，更省钱省心省力。专业配送和服务团队。");
                         }else {
                             GeneralUtils.showToastshort("请允许淘大集读取存储卡");
                         }

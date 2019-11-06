@@ -28,10 +28,12 @@ public class SettingPersonAdapter extends BaseQuickAdapter<SettingPerson.ObjBean
         }
 
         baseViewHolder.setText(R.id.tv_regionCollNo,dropOuting.getRegionCollNo());
+
         baseViewHolder.setText(R.id.tv_num,dropOuting.getTodayAmount()+"");
         baseViewHolder.setText(R.id.tv_num1,dropOuting.getAverageAmount()+"");
         baseViewHolder.setText(R.id.tv_num2,dropOuting.getMonthTimes()+"");
-        baseViewHolder.setText(R.id.tv_num3,dropOuting.getNotCallDays()+"");
+        baseViewHolder.setText(R.id.tv_num3,dropOuting.getMonthAfterSaleTimes()+"");
+
         baseViewHolder.setText(R.id.tv_username,dropOuting.getBoss());
         baseViewHolder.setText(R.id.tv_address,dropOuting.getAddress());
 

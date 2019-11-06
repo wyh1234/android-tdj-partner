@@ -29,12 +29,12 @@ public class TeamPreviewPopuWindow extends BasePopupWindow implements BaseQuickA
 
     @Override
     public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-        listener.onOk(((MyTeam.ObjBean)baseQuickAdapter.getData().get(i)).getPartnerId());
+        listener.onOk(((MyTeam.ObjBean)baseQuickAdapter.getData().get(i)).getPartnerId(),((MyTeam.ObjBean)baseQuickAdapter.getData().get(i)).getGradeName()+"-"+((MyTeam.ObjBean)baseQuickAdapter.getData().get(i)).getNickName());
 
     }
 
     public interface TeamPreviewPopuWindowListener {
-        void onOk(int type);
+        void onOk(int type,String str);
     }
     public TeamPreviewPopuWindow(Context context,List<MyTeam.ObjBean> data) {
         super(context);

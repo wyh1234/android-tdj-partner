@@ -35,6 +35,7 @@ public class DiscountCouponActivity extends BaseActivity<DiscountCouponActivityP
     TextView tv_title;
     @BindView(R.id.btn_back)
     ImageView btn_back;
+    public String customerId;
     @OnClick({R.id.btn_back})
     public void onClick(View view){
         switch (view.getId()){
@@ -58,8 +59,9 @@ public class DiscountCouponActivity extends BaseActivity<DiscountCouponActivityP
     protected void initView() {
         Eyes.translucentStatusBar(this,true);
         tv_title.setText("使用优惠券");
+        customerId=getIntent().getStringExtra("buyId");
         Map<String,Object> map=new HashMap<>();
-        map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
+        map.put("userId", customerId);
         map.put("userType", 0);
         map.put("site", UserUtils.getInstance().getLoginBean().getSite());
         mPresenter.coupons_statistics(map);

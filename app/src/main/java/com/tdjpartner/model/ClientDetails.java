@@ -1,6 +1,7 @@
 package com.tdjpartner.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 public class ClientDetails implements Serializable {
 
@@ -50,11 +51,11 @@ public class ClientDetails implements Serializable {
     private Object customerLineCode;
     private double todayAmount;
     private double averageAmount;
-    private int monthTimes;
+    private Integer monthTimes;
     private Integer notOrderDays;
     private Object notCallDays;
     private Object userType;
-    private Integer monthAmount;
+    private BigDecimal monthAmount;
     private Integer afterSaleTimes;
     private Integer noCallDay;
     private String receiveName;
@@ -209,16 +210,16 @@ public class ClientDetails implements Serializable {
         this.averageAmount = averageAmount;
     }
 
-    public int getMonthTimes() {
-        return monthTimes;
+    public Integer getMonthTimes() {
+        return monthTimes==null?0:monthTimes;
     }
 
-    public void setMonthTimes(int monthTimes) {
+    public void setMonthTimes(Integer monthTimes) {
         this.monthTimes = monthTimes;
     }
 
     public Integer getNotOrderDays() {
-        return notOrderDays;
+        return notOrderDays==null?0:notOrderDays;
     }
 
     public void setNotOrderDays(Integer notOrderDays) {
@@ -241,16 +242,16 @@ public class ClientDetails implements Serializable {
         this.userType = userType;
     }
 
-    public Integer getMonthAmount() {
-        return monthAmount;
+    public BigDecimal getMonthAmount() {
+        return monthAmount==null? BigDecimal.valueOf(0) :monthAmount;
     }
 
-    public void setMonthAmount(Integer monthAmount) {
+    public void setMonthAmount(BigDecimal monthAmount) {
         this.monthAmount = monthAmount;
     }
 
     public Integer getAfterSaleTimes() {
-        return afterSaleTimes;
+        return afterSaleTimes==null?0:afterSaleTimes;
     }
 
     public void setAfterSaleTimes(Integer afterSaleTimes) {
@@ -258,7 +259,7 @@ public class ClientDetails implements Serializable {
     }
 
     public Integer getNoCallDay() {
-        return noCallDay;
+        return noCallDay==null?0:noCallDay;
     }
 
     public void setNoCallDay(Integer noCallDay) {

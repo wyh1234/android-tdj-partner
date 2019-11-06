@@ -1,8 +1,11 @@
 package com.tdjpartner.ui.fragment;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -14,6 +17,7 @@ import android.view.View;
 import com.apkfuns.logutils.LogUtils;
 import com.bigkoo.pickerview.TimePickerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.ClientListAdapter;
 import com.tdjpartner.adapter.HomeDataDetailsAdapter;
@@ -27,6 +31,12 @@ import com.tdjpartner.ui.activity.ClientDetailsActivity;
 import com.tdjpartner.ui.activity.statistics.StatisticsListActivity;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
+import com.tdjpartner.utils.glide.GifSizeFilter;
+import com.tdjpartner.utils.glide.MyGlideEngine;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.filter.Filter;
+import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -38,22 +48,22 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-
+import io.reactivex.functions.Consumer;
 
 
 public class StatisticsFragment extends BaseFrgment<StatisticsFragmentPresenter>  implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener
-,BaseQuickAdapter.OnItemClickListener{
+,BaseQuickAdapter.OnItemClickListener,BaseQuickAdapter.OnItemChildClickListener{
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout refreshLayout;
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
     private int index=0;
     public int pageNo = 1;//翻页计数器
-    private BaseQuickAdapter baseQuickAdapter;
+    private HomeDataDetailsAdapter baseQuickAdapter;
     private List<HomeDataDetails.ObjBean.ListBean> data=new ArrayList<>();
-    private String title;
-    private StatisticsListActivity statisticsListActivity;
 
+    private StatisticsListActivity statisticsListActivity;
+    private RxPermissions rxPermissions;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -71,6 +81,7 @@ public class StatisticsFragment extends BaseFrgment<StatisticsFragmentPresenter>
     }
     @Override
     protected void initView(View view) {
+        rxPermissions = new RxPermissions(getActivity());
         refreshLayout.setOnRefreshListener(this);
         refreshLayout.setColorSchemeResources(R.color.bbl_ff0000);
         LinearLayoutManager layout = new LinearLayoutManager(getContext(),
@@ -80,7 +91,7 @@ public class StatisticsFragment extends BaseFrgment<StatisticsFragmentPresenter>
         recyclerView_list.setAdapter(baseQuickAdapter);
         baseQuickAdapter.setOnLoadMoreListener(this,recyclerView_list);
         baseQuickAdapter.setOnItemClickListener(this);
-
+        baseQuickAdapter.setOnItemChildClickListener(this);
 
     }
 
@@ -93,9 +104,7 @@ public class StatisticsFragment extends BaseFrgment<StatisticsFragmentPresenter>
     public void onUserVisible() {
         super.onUserVisible();//可见时
         index=getArguments().getInt("intent");
-        title=getArguments().getString("title");
         LogUtils.e(index);
-        LogUtils.e(title);
         refreshLayout.setRefreshing(true);
         onRefresh();
     }
@@ -115,16 +124,8 @@ public class StatisticsFragment extends BaseFrgment<StatisticsFragmentPresenter>
     protected  void getData(int pn){
         Map<String,Object> map=new HashMap<>();
         map.put("userId",statisticsListActivity.seachTag.getUserId());
-     /*   if (title.equals("今日统计")){
-            map.put("monthTime","");
-            map.put("dayDate",statisticsListActivity.dayDate);
-        }else if (title.equals("月统计")){
-            map.put("monthTime",statisticsListActivity.monthTime);
-            map.put("dayDate","");
-        }else {*/
             map.put("monthTime",statisticsListActivity.seachTag.getMonthTime());
             map.put("dayDate",statisticsListActivity.seachTag.getDayDate());
-//        }
           map.put("userType",index);
         map.put("pn",pn);
         map.put("ps",10);
@@ -139,6 +140,10 @@ public class StatisticsFragment extends BaseFrgment<StatisticsFragmentPresenter>
     public void eventCode(SeachTag seachTag) {
         refreshLayout.setRefreshing(true);
         onRefresh();
+        if (!ListUtils.isEmpty(data)) {
+            data.clear();
+            baseQuickAdapter.notifyDataSetChanged();
+        }
 
     }
     @Override
@@ -155,6 +160,7 @@ public class StatisticsFragment extends BaseFrgment<StatisticsFragmentPresenter>
     public void onRefresh() {
         pageNo=1;
         getData(pageNo);
+
     }
 
     public void stop() {
@@ -181,8 +187,10 @@ public class StatisticsFragment extends BaseFrgment<StatisticsFragmentPresenter>
     }
 
     public void homeDataDetails_Success(HomeDataDetails homeDataDetails) {
+        LogUtils.e(statisticsListActivity.title);
+        baseQuickAdapter.setTitle(statisticsListActivity.title);
         statisticsListActivity.titles.clear();
-        statisticsListActivity.titles.add("全部");
+        statisticsListActivity.titles.add("全部"+(homeDataDetails.getObj().getTotalCustomerNum()==0?"":homeDataDetails.getObj().getTotalCustomerNum()));
         statisticsListActivity.titles.add("未下单"+(homeDataDetails.getObj().getNotOrderCustomerNum()==0?"":homeDataDetails.getObj().getNotOrderCustomerNum()));
         statisticsListActivity.titles.add("已下单"+(homeDataDetails.getObj().getOrderCustomerNum()==0?"":homeDataDetails.getObj().getOrderCustomerNum()));
         statisticsListActivity.adatper.notifyDataSetChanged();
@@ -198,6 +206,7 @@ public class StatisticsFragment extends BaseFrgment<StatisticsFragmentPresenter>
         if (ListUtils.isEmpty(data)) {
             if (ListUtils.isEmpty(homeDataDetails.getObj().getList())) {
                 //获取不到数据,显示空布局
+
                 mStateView.showEmpty();
                 return;
             }
@@ -223,6 +232,7 @@ public class StatisticsFragment extends BaseFrgment<StatisticsFragmentPresenter>
             //如果一开始进入没有数据
             mStateView.showEmpty();//显示重试的布局
         }
+        baseQuickAdapter.disableLoadMoreIfNotFullPage(recyclerView_list);
     }
 
     @Override
@@ -230,5 +240,16 @@ public class StatisticsFragment extends BaseFrgment<StatisticsFragmentPresenter>
         Intent intent=new Intent(getContext(), ClientDetailsActivity.class);
         intent.putExtra("customerId",data.get(i).getCustomerId()+"");
         startActivity(intent);
+    }
+
+    @Override
+    public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+        if (data.get(i).getMobile()!=null){
+            GeneralUtils.action_call(rxPermissions,data.get(i).getMobile(),getContext());
+
+        }else {
+            GeneralUtils.showToastshort("电话号码不存在");
+        }
+
     }
 }

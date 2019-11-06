@@ -314,12 +314,13 @@ public class TeamPreviewActivity extends BaseActivity<TeamPreviewPresenter> impl
 
 
     @Override
-    public void onOk(int userId) {
+    public void onOk(int userId,String str) {
         LogUtils.e(userId);
+        tv_right.setText(str);
         setUserId(userId);
         teamOverView_month();
         teamOverView_all();
-        myTeamPartnerList();
+        teamOverView_day();
         teamPreviewPopuWindow.dismiss();
 
 

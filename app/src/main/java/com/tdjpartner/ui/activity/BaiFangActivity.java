@@ -2,6 +2,11 @@ package com.tdjpartner.ui.activity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +25,7 @@ import com.tdjpartner.model.ClientDetails;
 import com.tdjpartner.model.LocationBean;
 import com.tdjpartner.mvp.presenter.BaiFangPresenter;
 import com.tdjpartner.mvp.presenter.IPresenter;
+import com.tdjpartner.utils.CameraUtils;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.LocationUtils;
 import com.tdjpartner.utils.cache.UserUtils;
@@ -31,12 +37,18 @@ import com.zhihu.matisse.Matisse;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
+
+import static com.tdjpartner.utils.CameraUtils.CROP_REQUEST_CODE;
+import static com.tdjpartner.utils.CameraUtils.REQUEST_PERMISSION_CAMERA;
+import static com.tdjpartner.utils.CameraUtils.captureFile;
+import static com.tdjpartner.utils.CameraUtils.cropFile;
 
 public class BaiFangActivity extends BaseActivity<BaiFangPresenter>  {
     @BindView(R.id.rl_dk)
@@ -151,7 +163,9 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter>  {
 
                 break;
             case R.id.iv_upload:
-                GeneralUtils.getImage(rxPermissions,this);
+
+                    CameraUtils.getImageCamera(rxPermissions,this);
+//                GeneralUtils.getImage(rxPermissions,this);
 
                 break;
         }
@@ -231,33 +245,9 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter>  {
     public void call_insert_Success() {
         GeneralUtils.showToastshort("提交成功");
         finish();
-
-/*        if (followUpPopuWindow!=null){
-            if (followUpPopuWindow.isShowing()){
-                return;
-            }
-            followUpPopuWindow.showPopupWindow();
-        }else {
-
-            followUpPopuWindow = new FollowUpPopuWindow(this,"BAIFANG");
-            followUpPopuWindow.setDismissWhenTouchOutside(false);
-            followUpPopuWindow.setInterceptTouchEvent(false);
-            followUpPopuWindow.setPopupWindowFullScreen(true);//铺满
-            followUpPopuWindow.setFollowUpListener(this);
-            followUpPopuWindow.showPopupWindow();
-        }*/
     }
 
-/*    @Override
-    public void onCancel() {
-        followUpPopuWindow.dismiss();
-    }
-
-    @Override
-    public void onOk() {
-        finish();
-
-    }*/
+/*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -266,6 +256,29 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter>  {
             Log.e("OnActivityResult ", String.valueOf(Matisse.obtainPathResult(data).get(0)));
             mPresenter.imageUpload(Matisse.obtainPathResult(data).get(0));
         }
+    }
+*/
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_PERMISSION_CAMERA:
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        Uri contentUri = FileProvider.getUriForFile(this, getPackageName()+".fileProvider", captureFile);
+                        CameraUtils.cropPhoto(contentUri,this);
+                    } else {
+                        CameraUtils. cropPhoto(Uri.fromFile(captureFile),this);
+                    }
+                    break;
+                case CROP_REQUEST_CODE:
+                    mPresenter.imageUpload(cropFile.getAbsolutePath());
+                    break;
+                default:
+                    break;
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public void getImage_Success(String data) {

@@ -121,7 +121,7 @@ public class BindingBankActivity extends BaseActivity<BindingBankPresenter> {
 
     public void addBankAccountSuccess(Bank bank) {
         GeneralUtils.showToastshort("绑定银行卡成功");
-        if (getIntent().getStringExtra("mybank")!=null){
+        if (getIntent().getSerializableExtra("mybank")!=null){
             EventBus.getDefault().post(bank);
         }
 

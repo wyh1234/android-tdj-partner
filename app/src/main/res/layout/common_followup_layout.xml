@@ -7,6 +7,8 @@
     android:background="@color/gray_f2"
     android:layout_height="match_parent">
     <RelativeLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:background="@mipmap/home_bg"
         android:layout_width="match_parent"
         android:layout_height="154dp"
@@ -51,10 +53,10 @@
                 android:paddingRight="12dp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />
-            <TextView
+            <EditText
                 android:id="@+id/search_text"
                 android:textColorHint="@color/gray_6c"
-                android:text="请输入门店名称/手机号"
+                android:hint="请输入门店名称/手机号"
                 android:layout_width="match_parent"
                 android:layout_height="22dp"
                 android:layout_centerVertical="true"

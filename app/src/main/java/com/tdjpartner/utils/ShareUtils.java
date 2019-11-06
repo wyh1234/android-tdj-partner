@@ -24,7 +24,7 @@ public class ShareUtils {
     }
 
     public void shareWeb(String url, String title, String description) {
-        shareWeb(R.mipmap.icon, url, title, description);
+        shareWeb("http://tsp-img.oss-cn-hangzhou.aliyuncs.com/1911011712068dd632a3.png", url, title, description);
     }
 
     /**

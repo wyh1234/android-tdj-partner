@@ -530,6 +530,15 @@ public interface ApiService {
     Observable<BaseResponse<AppVersion>> version_check(@Body  RequestBody body);
 
 
+    /*
+     *.
+     *
+     *
+     * */
+    @Headers({"url_type:xuming"})
+    @POST("tdj-report/report/teamOverView/myTeamPartnerSelectList")
+    Observable<BaseResponse<List<String>>> myTeamPartnerSelectList(@Body  RequestBody body);
+
 
 
 }
