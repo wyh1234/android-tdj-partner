@@ -132,7 +132,7 @@ public class HomeDataDetails {
             private String address;
             private String boss;
             private String mobile;
-            private Object partnerName;
+            private String partnerName;
             private Object followTime;
             private Object websiteId;
             private String regionCollNo;
@@ -224,11 +224,11 @@ public class HomeDataDetails {
                 this.mobile = mobile;
             }
 
-            public Object getPartnerName() {
-                return partnerName;
+            public String getPartnerName() {
+                return partnerName==null?"无":partnerName;
             }
 
-            public void setPartnerName(Object partnerName) {
+            public void setPartnerName(String partnerName) {
                 this.partnerName = partnerName;
             }
 
