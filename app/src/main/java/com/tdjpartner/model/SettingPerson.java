@@ -107,7 +107,7 @@ public class SettingPerson implements Serializable {
             private String address;
             private String boss;
             private String mobile;
-            private Object partnerName;
+            private String partnerName;
             private Object followTime;
             private int websiteId;
             private String regionCollNo;
@@ -134,6 +134,24 @@ public class SettingPerson implements Serializable {
             private Object lon;
             private Object headUrl;
             private int monthAfterSaleTimes;
+            private int todayTimes;
+            private int todayAfterSaleTimes;
+
+            public int getTodayTimes() {
+                return todayTimes;
+            }
+
+            public void setTodayTimes(int todayTimes) {
+                this.todayTimes = todayTimes;
+            }
+
+            public int getTodayAfterSaleTimes() {
+                return todayAfterSaleTimes;
+            }
+
+            public void setTodayAfterSaleTimes(int todayAfterSaleTimes) {
+                this.todayAfterSaleTimes = todayAfterSaleTimes;
+            }
 
             public int getMonthAfterSaleTimes() {
                 return monthAfterSaleTimes;
@@ -191,11 +209,11 @@ public class SettingPerson implements Serializable {
                 this.mobile = mobile;
             }
 
-            public Object getPartnerName() {
+            public String getPartnerName() {
                 return partnerName;
             }
 
-            public void setPartnerName(Object partnerName) {
+            public void setPartnerName(String partnerName) {
                 this.partnerName = partnerName;
             }
 

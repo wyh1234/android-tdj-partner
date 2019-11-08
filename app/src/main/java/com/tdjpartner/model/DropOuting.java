@@ -118,9 +118,27 @@ public class DropOuting {
         private Object customerLineCode;
         private BigDecimal todayAmount;
         private BigDecimal averageAmount;
+        private int todayTimes;
+        private int todayAfterSaleTimes;
         private int monthTimes;
         private Integer notOrderDays;
         private Integer notCallDays;
+
+        public int getTodayTimes() {
+            return todayTimes;
+        }
+
+        public void setTodayTimes(int todayTimes) {
+            this.todayTimes = todayTimes;
+        }
+
+        public int getTodayAfterSaleTimes() {
+            return todayAfterSaleTimes;
+        }
+
+        public void setTodayAfterSaleTimes(int todayAfterSaleTimes) {
+            this.todayAfterSaleTimes = todayAfterSaleTimes;
+        }
 
         public int getCustomerId() {
             return customerId;

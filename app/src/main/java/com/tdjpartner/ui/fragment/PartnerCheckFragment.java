@@ -88,6 +88,7 @@ public class PartnerCheckFragment extends BaseFrgment<PartnerCheckPresenter>  im
     public void onUserVisible() {
         super.onUserVisible();//可见时
         index=getArguments().getInt("intent");
+        stop();
 
         refreshLayout.autoRefresh();
     }
@@ -159,6 +160,11 @@ public class PartnerCheckFragment extends BaseFrgment<PartnerCheckPresenter>  im
         LogUtils.i(refreshLayout.isRefreshing());
         if (refreshLayout.isRefreshing()) {
             refreshLayout.finishRefresh();
+            if (!ListUtils.isEmpty(data)) {
+                data.clear();
+                partnerCheckAdapter.notifyDataSetChanged();
+            }
+
         }
         if (refreshLayout.isEnableLoadmore()) {
             refreshLayout.finishLoadmore();
@@ -168,11 +174,7 @@ public class PartnerCheckFragment extends BaseFrgment<PartnerCheckPresenter>  im
 
     public void verifyList_Success(PartnerCheck partnerCheckList) {
 
-        if (refreshLayout.isRefreshing()){
-            if (!ListUtils.isEmpty(data)) {
-                data.clear();
-            }
-        }
+
         stop();
 
         if (ListUtils.isEmpty(data)) {

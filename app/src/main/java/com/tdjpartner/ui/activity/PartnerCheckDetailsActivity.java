@@ -177,6 +177,8 @@ public class PartnerCheckDetailsActivity extends BaseActivity<PartnerCheckDetail
                 }else {
                     ll.setVisibility(View.GONE);
                 }
+            }else {
+                ll.setVisibility(View.GONE);
             }
         }else {
             ll.setVisibility(View.GONE);
@@ -184,7 +186,7 @@ public class PartnerCheckDetailsActivity extends BaseActivity<PartnerCheckDetail
 
 
 
-        tv_leaderName.setText(partnerCheckDetails.getUserApply().get(0).getEnterpriseCode()+"\t\t\t\t负责人："+partnerCheckDetails.getUserApply().get(0).getNickName()+"("+
+        tv_leaderName.setText(partnerCheckDetails.getUserApply().get(0).getEnterpriseCode()+"\t\t\t\t负责人："+partnerCheckDetails.getUserApply().get(0).getPhone()+"("+
                 "主账号"+")");
         tv_createdAt.setText("入驻日期："+partnerCheckDetails.getUserApply().get(0).getCreatedAt());
         ImageLoad.loadImageViewLoding(partnerCheckDetails.getUserApply().get(0).getImageUrl(),tv_imageUrl,R.mipmap.yingyezhao_bg);
@@ -222,7 +224,7 @@ public class PartnerCheckDetailsActivity extends BaseActivity<PartnerCheckDetail
         map.put("loginId",UserUtils.getInstance().getLoginBean().getEntityId());
         map.put("id",getIntent().getStringExtra("id"));
 //        map.put("id",21);
-        map.put("verifyStatus","");
+//        map.put("verifyStatus","");
         mPresenter.verifyDetail(map);
         partnerCheckDetailsPopu.dismiss();
     }

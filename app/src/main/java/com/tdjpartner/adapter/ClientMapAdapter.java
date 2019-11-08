@@ -33,7 +33,7 @@ public class ClientMapAdapter extends BaseQuickAdapter<ClientInfo, BaseViewHolde
         baseViewHolder.setText(R.id.tv_regionCollNo,clientMapInfo.getRegionCollNo());
         baseViewHolder.setText(R.id.tv_address,clientMapInfo.getAddress());
         baseViewHolder.setText(R.id.tv_boss,clientMapInfo.getBoss());
-        baseViewHolder.setText(R.id.tv_num,baseViewHolder.getAdapterPosition()+"");
+        baseViewHolder.setText(R.id.tv_num,(baseViewHolder.getAdapterPosition()+1)+"");
 
 
     }

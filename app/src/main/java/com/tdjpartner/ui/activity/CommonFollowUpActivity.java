@@ -279,6 +279,7 @@ public class CommonFollowUpActivity extends BaseActivity<CommonFollowUpPresenter
 
     @Override
     public void onOk() {
+        followUpPopuWindow.dismiss();
         Map<String,Object> map=new HashMap<>();
         map.put("customerId", getCustomerId());
         map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
@@ -292,7 +293,6 @@ public class CommonFollowUpActivity extends BaseActivity<CommonFollowUpPresenter
 
     public void internationalWatersSuccess() {
         commonFollowUpAdapter.remove(getPos());
-        followUpPopuWindow.dismiss();
 
     }
 }

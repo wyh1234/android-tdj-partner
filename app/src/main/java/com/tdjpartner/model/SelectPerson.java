@@ -53,6 +53,7 @@ public class SelectPerson {
     private int id;
     private int userId;
     private int parentId;
+    private String gradeName;
     private Object withdrawalAmount;
     private Object surplusAmount;
     private Object frostAmount;
@@ -72,8 +73,15 @@ public class SelectPerson {
     private Object isAuth;
     private int isFullTime;
     private String verifyCode;
+        public String getGradeName() {
+            return gradeName;
+        }
 
-    public boolean isF() {
+        public void setGradeName(String gradeName) {
+            this.gradeName = gradeName;
+        }
+
+        public boolean isF() {
         return f;
     }
 

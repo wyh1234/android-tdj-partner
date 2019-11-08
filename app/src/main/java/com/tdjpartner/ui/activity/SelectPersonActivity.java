@@ -51,6 +51,7 @@ public class SelectPersonActivity extends BaseActivity<SelectPersonActivityPrese
     TextView tv_list_type;
     private String verifyCode;
     private String keyword="";
+    private int userID;
     private SettingPerson.ObjBean.ListBean listBean;
     @OnClick({R.id.btn_back,R.id.tv_list_type})
     public void onClick(View view){
@@ -102,7 +103,7 @@ public class SelectPersonActivity extends BaseActivity<SelectPersonActivityPrese
         Map<String,Object> map=new HashMap<>();
         map.put("websiteId", UserUtils.getInstance().getLoginBean().getSite());
         map.put("pn", pn);
-        map.put("ps", 10);
+        map.put("ps", 30);
         map.put("keyword", keyword);
 
         mPresenter.userRelations_managerList(map);
@@ -146,12 +147,18 @@ public class SelectPersonActivity extends BaseActivity<SelectPersonActivityPrese
             selectPopuWindow.setSelectPopuWindowListener(this);
         }
         verifyCode=selectPersonList.get(i).getVerifyCode();
+        userID=selectPersonList.get(i).getUserId();
     }
 
 
     public void stop() {
         if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
             swipeRefreshLayout.setRefreshing(false);
+            if (!ListUtils.isEmpty(selectPersonList)) {
+                selectPersonList.clear();
+                settingPersonAdapter.notifyDataSetChanged();
+            }
+
         }
         if (settingPersonAdapter.isLoadMoreEnable()){
             settingPersonAdapter.loadMoreComplete();
@@ -167,11 +174,6 @@ public class SelectPersonActivity extends BaseActivity<SelectPersonActivityPrese
     }
 
     public void userRelations_managerList_Success(SelectPerson selectPerson) {
-        if (swipeRefreshLayout.isRefreshing()){
-            if (!ListUtils.isEmpty(selectPersonList)) {
-                selectPersonList.clear();
-            }
-        }
         stop();
         if (ListUtils.isEmpty(selectPersonList)) {
             if (ListUtils.isEmpty(selectPerson.getObj())) {
@@ -212,7 +214,7 @@ public class SelectPersonActivity extends BaseActivity<SelectPersonActivityPrese
     public void onOk() {
         Map<String,Object> map=new HashMap<>();
         map.put("verifyCode",verifyCode);
-        map.put("userId",UserUtils.getInstance().getLoginBean().getEntityId());
+        map.put("userId",listBean.getCustomerId());
         mPresenter.userRelations_setManager(map);
 
 

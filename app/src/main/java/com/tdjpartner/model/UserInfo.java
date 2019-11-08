@@ -1,5 +1,7 @@
 package com.tdjpartner.model;
 
+import java.math.BigDecimal;
+
 public class UserInfo  {
     private String username;;
     private String realname;
@@ -8,10 +10,9 @@ public class UserInfo  {
     private String headUrl;//淘大集用户图像
     private int loginUserId;//第一次登陆ID
     private String alias;  //昵称
-    private int empRole;//所属门店角色
     private int site;
     private Integer grade;//用户级别1经理2主管3业务员(创客)
-    private Long surplusAmount 	;//总提成收益
+    private BigDecimal surplusAmount 	;//总提成收益
     private String idCard 	;//非空，已实名
     private String avatarUrl 	;//自定义创客图片
     private Long pmCount 	;//未读消息数
@@ -60,11 +61,11 @@ public class UserInfo  {
         this.grade = grade;
     }
 
-    public Long getSurplusAmount() {
+    public BigDecimal getSurplusAmount() {
         return surplusAmount;
     }
 
-    public void setSurplusAmount(Long surplusAmount) {
+    public void setSurplusAmount(BigDecimal surplusAmount) {
         this.surplusAmount = surplusAmount;
     }
 
@@ -156,11 +157,4 @@ public class UserInfo  {
         this.alias = alias;
     }
 
-    public int getEmpRole() {
-        return empRole;
-    }
-
-    public void setEmpRole(int empRole) {
-        this.empRole = empRole;
-    }
 }

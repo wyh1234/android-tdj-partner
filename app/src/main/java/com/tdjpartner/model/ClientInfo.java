@@ -45,6 +45,24 @@ public class ClientInfo {
     private String lat;
     private String lon;
     private int userType;
+    private int todayTimes;
+    private int todayAfterSaleTimes;
+
+    public int getTodayTimes() {
+        return todayTimes;
+    }
+
+    public void setTodayTimes(int todayTimes) {
+        this.todayTimes = todayTimes;
+    }
+
+    public int getTodayAfterSaleTimes() {
+        return todayAfterSaleTimes;
+    }
+
+    public void setTodayAfterSaleTimes(int todayAfterSaleTimes) {
+        this.todayAfterSaleTimes = todayAfterSaleTimes;
+    }
 
     public int getMonthAfterSaleTimes() {
         return monthAfterSaleTimes;

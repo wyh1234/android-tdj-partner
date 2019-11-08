@@ -132,6 +132,10 @@ public class GoodsAndStoreFragment extends BaseFrgment<GoodsAndStorePresenter> i
         LogUtils.i(refreshLayout.isRefreshing());
         if (refreshLayout.isRefreshing()) {
             refreshLayout.finishRefresh();
+            if (!ListUtils.isEmpty(goodsAndStoreArrayList)) {
+                goodsAndStoreArrayList.clear();
+                messageListAdapter.notifyDataSetChanged();
+            }
         }
         if (refreshLayout.isEnableLoadmore()) {
             refreshLayout.finishLoadmore();
@@ -140,11 +144,6 @@ public class GoodsAndStoreFragment extends BaseFrgment<GoodsAndStorePresenter> i
 
     public void collect_products_Success(StoreInfo storeInfo,GoodsInfo goodsInfo) {
 
-        if (refreshLayout.isRefreshing()){
-            if (!ListUtils.isEmpty(goodsAndStoreArrayList)) {
-                goodsAndStoreArrayList.clear();
-            }
-        }
         stop();
         if (index==0){
             if (ListUtils.isEmpty(goodsAndStoreArrayList)) {

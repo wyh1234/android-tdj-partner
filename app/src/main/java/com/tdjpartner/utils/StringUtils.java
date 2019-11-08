@@ -38,6 +38,9 @@ public class StringUtils {
             case  "trade_closed":
                 textView.setText("已关闭");
                 break;
+            case "trade_canceled":
+                textView.setText("已取消");
+                break;
         }
 
     }

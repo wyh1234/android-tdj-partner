@@ -73,85 +73,22 @@ public class GoodsInfo  extends Message{
          * foregift : -1
          */
 
-        private String description;
-        private int specialId;
-        private String bannerImage;
-        private String credentialsImage;
-        private int allowPurchase;
         private String storeName;
-        private String categories;
         private String packageName;
-        private int specialPrice;
-        private int monthSaleNumbers;
         private Object isF;
-        private int productType;
         private String image;
-        private int storeType;
         private String nickName;
-        private int isP;
-        private int authStatus;
-        private int storeStation;
-        private String catalogCategoryName;
         private int entityId;
         private long updateTime;
-        private int commodityId;
-        private int store;
-        private int saleNum;
-        private int alreadyPurchase;
-        private String verifyInfo;
-        private String realName;
         private String unit;
         private long createTime;
         private String phone;
-        private String productCriteria;
-        private int minPrice;
+        private BigDecimal minPrice;
         private String name;
         private BigDecimal maxPrice;
-        private String categoryId;
         private int status;
-        private int foregift;
         private List<SpecsBean> specs;
-        private List<String> gallery;
 
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
-        public int getSpecialId() {
-            return specialId;
-        }
-
-        public void setSpecialId(int specialId) {
-            this.specialId = specialId;
-        }
-
-        public String getBannerImage() {
-            return bannerImage;
-        }
-
-        public void setBannerImage(String bannerImage) {
-            this.bannerImage = bannerImage;
-        }
-
-        public String getCredentialsImage() {
-            return credentialsImage;
-        }
-
-        public void setCredentialsImage(String credentialsImage) {
-            this.credentialsImage = credentialsImage;
-        }
-
-        public int getAllowPurchase() {
-            return allowPurchase;
-        }
-
-        public void setAllowPurchase(int allowPurchase) {
-            this.allowPurchase = allowPurchase;
-        }
 
         public String getStoreName() {
             return storeName;
@@ -161,13 +98,6 @@ public class GoodsInfo  extends Message{
             this.storeName = storeName;
         }
 
-        public String getCategories() {
-            return categories;
-        }
-
-        public void setCategories(String categories) {
-            this.categories = categories;
-        }
 
         public String getPackageName() {
             return packageName;
@@ -177,21 +107,9 @@ public class GoodsInfo  extends Message{
             this.packageName = packageName;
         }
 
-        public int getSpecialPrice() {
-            return specialPrice;
-        }
 
-        public void setSpecialPrice(int specialPrice) {
-            this.specialPrice = specialPrice;
-        }
 
-        public int getMonthSaleNumbers() {
-            return monthSaleNumbers;
-        }
 
-        public void setMonthSaleNumbers(int monthSaleNumbers) {
-            this.monthSaleNumbers = monthSaleNumbers;
-        }
 
         public Object getIsF() {
             return isF;
@@ -201,13 +119,7 @@ public class GoodsInfo  extends Message{
             this.isF = isF;
         }
 
-        public int getProductType() {
-            return productType;
-        }
 
-        public void setProductType(int productType) {
-            this.productType = productType;
-        }
 
         public String getImage() {
             return image;
@@ -217,13 +129,7 @@ public class GoodsInfo  extends Message{
             this.image = image;
         }
 
-        public int getStoreType() {
-            return storeType;
-        }
 
-        public void setStoreType(int storeType) {
-            this.storeType = storeType;
-        }
 
         public String getNickName() {
             return nickName;
@@ -233,37 +139,12 @@ public class GoodsInfo  extends Message{
             this.nickName = nickName;
         }
 
-        public int getIsP() {
-            return isP;
-        }
 
-        public void setIsP(int isP) {
-            this.isP = isP;
-        }
 
-        public int getAuthStatus() {
-            return authStatus;
-        }
 
-        public void setAuthStatus(int authStatus) {
-            this.authStatus = authStatus;
-        }
 
-        public int getStoreStation() {
-            return storeStation;
-        }
 
-        public void setStoreStation(int storeStation) {
-            this.storeStation = storeStation;
-        }
 
-        public String getCatalogCategoryName() {
-            return catalogCategoryName;
-        }
-
-        public void setCatalogCategoryName(String catalogCategoryName) {
-            this.catalogCategoryName = catalogCategoryName;
-        }
 
         public int getEntityId() {
             return entityId;
@@ -281,53 +162,6 @@ public class GoodsInfo  extends Message{
             this.updateTime = updateTime;
         }
 
-        public int getCommodityId() {
-            return commodityId;
-        }
-
-        public void setCommodityId(int commodityId) {
-            this.commodityId = commodityId;
-        }
-
-        public int getStore() {
-            return store;
-        }
-
-        public void setStore(int store) {
-            this.store = store;
-        }
-
-        public int getSaleNum() {
-            return saleNum;
-        }
-
-        public void setSaleNum(int saleNum) {
-            this.saleNum = saleNum;
-        }
-
-        public int getAlreadyPurchase() {
-            return alreadyPurchase;
-        }
-
-        public void setAlreadyPurchase(int alreadyPurchase) {
-            this.alreadyPurchase = alreadyPurchase;
-        }
-
-        public String getVerifyInfo() {
-            return verifyInfo;
-        }
-
-        public void setVerifyInfo(String verifyInfo) {
-            this.verifyInfo = verifyInfo;
-        }
-
-        public String getRealName() {
-            return realName;
-        }
-
-        public void setRealName(String realName) {
-            this.realName = realName;
-        }
 
         public String getUnit() {
             return unit;
@@ -353,19 +187,12 @@ public class GoodsInfo  extends Message{
             this.phone = phone;
         }
 
-        public String getProductCriteria() {
-            return productCriteria;
-        }
 
-        public void setProductCriteria(String productCriteria) {
-            this.productCriteria = productCriteria;
-        }
-
-        public int getMinPrice() {
+        public BigDecimal getMinPrice() {
             return minPrice;
         }
 
-        public void setMinPrice(int minPrice) {
+        public void setMinPrice(BigDecimal minPrice) {
             this.minPrice = minPrice;
         }
 
@@ -385,13 +212,6 @@ public class GoodsInfo  extends Message{
             this.maxPrice = maxPrice;
         }
 
-        public String getCategoryId() {
-            return categoryId;
-        }
-
-        public void setCategoryId(String categoryId) {
-            this.categoryId = categoryId;
-        }
 
         public int getStatus() {
             return status;
@@ -401,13 +221,6 @@ public class GoodsInfo  extends Message{
             this.status = status;
         }
 
-        public int getForegift() {
-            return foregift;
-        }
-
-        public void setForegift(int foregift) {
-            this.foregift = foregift;
-        }
 
         public List<SpecsBean> getSpecs() {
             return specs;
@@ -417,13 +230,6 @@ public class GoodsInfo  extends Message{
             this.specs = specs;
         }
 
-        public List<String> getGallery() {
-            return gallery;
-        }
-
-        public void setGallery(List<String> gallery) {
-            this.gallery = gallery;
-        }
 
         public static class SpecsBean {
             /**
@@ -443,52 +249,15 @@ public class GoodsInfo  extends Message{
              * level2Unit : 斤
              */
 
-            private int specId;
-            private int productId;
-            private int salesNumber;
-            private double avgPrice;
             private int level3Value;
             private String level3Unit;
             private double level2Value;
-            private String level1Unit;
             private int levelType;
-            private int price;
-            private int siteId;
-            private String avgUnit;
-            private int stock;
             private String level2Unit;
 
-            public int getSpecId() {
-                return specId;
-            }
 
-            public void setSpecId(int specId) {
-                this.specId = specId;
-            }
 
-            public int getProductId() {
-                return productId;
-            }
 
-            public void setProductId(int productId) {
-                this.productId = productId;
-            }
-
-            public int getSalesNumber() {
-                return salesNumber;
-            }
-
-            public void setSalesNumber(int salesNumber) {
-                this.salesNumber = salesNumber;
-            }
-
-            public double getAvgPrice() {
-                return avgPrice;
-            }
-
-            public void setAvgPrice(double avgPrice) {
-                this.avgPrice = avgPrice;
-            }
 
             public int getLevel3Value() {
                 return level3Value;
@@ -514,13 +283,6 @@ public class GoodsInfo  extends Message{
                 this.level2Value = level2Value;
             }
 
-            public String getLevel1Unit() {
-                return level1Unit;
-            }
-
-            public void setLevel1Unit(String level1Unit) {
-                this.level1Unit = level1Unit;
-            }
 
             public int getLevelType() {
                 return levelType;
@@ -530,37 +292,9 @@ public class GoodsInfo  extends Message{
                 this.levelType = levelType;
             }
 
-            public int getPrice() {
-                return price;
-            }
 
-            public void setPrice(int price) {
-                this.price = price;
-            }
 
-            public int getSiteId() {
-                return siteId;
-            }
 
-            public void setSiteId(int siteId) {
-                this.siteId = siteId;
-            }
-
-            public String getAvgUnit() {
-                return avgUnit;
-            }
-
-            public void setAvgUnit(String avgUnit) {
-                this.avgUnit = avgUnit;
-            }
-
-            public int getStock() {
-                return stock;
-            }
-
-            public void setStock(int stock) {
-                this.stock = stock;
-            }
 
             public String getLevel2Unit() {
                 return level2Unit;

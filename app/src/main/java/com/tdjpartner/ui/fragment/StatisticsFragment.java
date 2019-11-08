@@ -105,6 +105,7 @@ public class StatisticsFragment extends BaseFrgment<StatisticsFragmentPresenter>
         super.onUserVisible();//可见时
         index=getArguments().getInt("intent");
         LogUtils.e(index);
+
         refreshLayout.setRefreshing(true);
         onRefresh();
     }
@@ -166,6 +167,10 @@ public class StatisticsFragment extends BaseFrgment<StatisticsFragmentPresenter>
     public void stop() {
         if (refreshLayout != null && refreshLayout.isRefreshing()) {
             refreshLayout.setRefreshing(false);
+            if (!ListUtils.isEmpty(data)) {
+                data.clear();
+                baseQuickAdapter.notifyDataSetChanged();
+            }
 
         }
         if (baseQuickAdapter.isLoadMoreEnable()){
@@ -195,11 +200,7 @@ public class StatisticsFragment extends BaseFrgment<StatisticsFragmentPresenter>
         statisticsListActivity.titles.add("已下单"+(homeDataDetails.getObj().getOrderCustomerNum()==0?"":homeDataDetails.getObj().getOrderCustomerNum()));
         statisticsListActivity.adatper.notifyDataSetChanged();
 
-        if (refreshLayout.isRefreshing()){
-            if (!ListUtils.isEmpty(data)) {
-                data.clear();
-            }
-        }
+
         stop();
 
 

@@ -122,9 +122,13 @@ public class BaiFangHistoryFragment extends BaseFrgment<BaiFangHistoryPresenter>
 
 
     public void stop() {
-        LogUtils.i(refreshLayout.isRefreshing());
         if (refreshLayout.isRefreshing()) {
             refreshLayout.finishRefresh();
+            if (!ListUtils.isEmpty(baiFangHistoryList)) {
+                baiFangHistoryList.clear();
+                baiFangHistoryAdapter.notifyDataSetChanged();
+            }
+
         }
         if (refreshLayout.isEnableLoadmore()) {
             refreshLayout.finishLoadmore();
@@ -133,12 +137,6 @@ public class BaiFangHistoryFragment extends BaseFrgment<BaiFangHistoryPresenter>
 
 
     public void call_list_Success(BaiFangHistory baiFangHistory) {
-
-        if (refreshLayout.isRefreshing()){
-            if (!ListUtils.isEmpty(baiFangHistoryList)) {
-                baiFangHistoryList.clear();
-            }
-        }
         stop();
         if (ListUtils.isEmpty(baiFangHistoryList)) {
             if (ListUtils.isEmpty(baiFangHistory.getObj())) {

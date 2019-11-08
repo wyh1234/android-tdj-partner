@@ -35,18 +35,32 @@ public class ClientListAdapter extends BaseQuickAdapter<ClientInfo, BaseViewHold
         }
 
         baseViewHolder.setText(R.id.tv_regionCollNo,clientInfo.getRegionCollNo());
-        baseViewHolder.setText(R.id.tv_num,clientInfo.getTodayAmount()+"");
-        baseViewHolder.setText(R.id.tv_num1,clientInfo.getAverageAmount()+"");
-        baseViewHolder.setText(R.id.tv_num2,clientInfo.getMonthTimes()+"");
-        baseViewHolder.setText(R.id.tv_num3,clientInfo.getMonthAfterSaleTimes()+"");
+        if (index==2){
+            baseViewHolder.setText(R.id.tv_num,"**");
+            baseViewHolder.setText(R.id.tv_num1,"**");
+        }else {
+            baseViewHolder.setText(R.id.tv_num,clientInfo.getTodayAmount()+"");
+            baseViewHolder.setText(R.id.tv_num1,clientInfo.getAverageAmount()+"");
+        }
+
+        baseViewHolder.setText(R.id.tv_num2,clientInfo.getTodayTimes()+"");
+        baseViewHolder.setText(R.id.tv_num3,clientInfo.getTodayAfterSaleTimes()+"");
 
         baseViewHolder.setText(R.id.tv_username,clientInfo.getBoss());
+
         baseViewHolder.setText(R.id.tv_address,clientInfo.getAddress());
+        baseViewHolder.setText(R.id.tv_address1,clientInfo.getAddress());
         baseViewHolder.addOnClickListener(R.id.rl_call);
         if (index==1){
             baseViewHolder.setGone(R.id.tv_gj_status,true);
+            baseViewHolder.setGone(R.id.tv_boss,false);
+            baseViewHolder.setGone(R.id.tv_address,true);
+            baseViewHolder.setGone(R.id.tv_address1,false);
         }else {
+            baseViewHolder.setGone(R.id.tv_address,false);
+            baseViewHolder.setGone(R.id.tv_address1,true);
             baseViewHolder.setGone(R.id.tv_gj_status,false);
+            baseViewHolder.setGone(R.id.tv_boss,true);
         }
         baseViewHolder.addOnClickListener(R.id.tv_gj_status);
     }

@@ -119,7 +119,10 @@ public class ClientListFragment extends BaseFrgment<ClientListPresenter>  implem
         super.onUserVisible();//可见时
         LogUtils.e("2222222");
         index=getArguments().getInt("intent");
-        stop();
+        if (compositeDisposable != null) {
+            compositeDisposable.clear();
+        }
+
         refreshLayout.autoRefresh();
 
     }
@@ -127,7 +130,6 @@ public class ClientListFragment extends BaseFrgment<ClientListPresenter>  implem
     @Subscribe
     public void eventCode(LocationBean locationBean) {
         if (locationBean.getTag().contains("LOCATION")){
-            LogUtils.e(locationBean);
             Map<String,Object> map=new HashMap<>();
             map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
             map.put("userType",index+1);
@@ -172,7 +174,8 @@ public class ClientListFragment extends BaseFrgment<ClientListPresenter>  implem
         rxPermissions.request( Manifest.permission.ACCESS_COARSE_LOCATION).subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean b) throws Exception {
-                aBoolean=b;
+                aBoolean=b
+                ;
                 if (b){
                     LocationUtils.getInstance().startLocalService("LOCATION");
                 }else {
@@ -196,13 +199,14 @@ public class ClientListFragment extends BaseFrgment<ClientListPresenter>  implem
 
 
     public void stop() {
-        LogUtils.i(refreshLayout.isRefreshing());
         if (refreshLayout.isRefreshing()) {
             refreshLayout.finishRefresh();
+            if (!ListUtils.isEmpty(data)) {
+                data.clear();
+                LogUtils.e(index);
+                clientListAdapter.notifyDataSetChanged();
+            }
         }
-     /*   if (refreshLayout.isEnableLoadmore()) {
-            refreshLayout.finishLoadmore();
-        }*/
     }
 
 
@@ -227,9 +231,7 @@ public class ClientListFragment extends BaseFrgment<ClientListPresenter>  implem
 
     public void hotelMap_Success(List<ClientInfo> clientInfoList) {
         stop();
-            if (!ListUtils.isEmpty(data)) {
-                data.clear();
-            }
+
 
         if (ListUtils.isEmpty(data)) {
             if (ListUtils.isEmpty(clientInfoList)) {
@@ -251,6 +253,7 @@ public class ClientListFragment extends BaseFrgment<ClientListPresenter>  implem
         LogUtils.e(data.get(i).getName());
         if (view.getId()==R.id.tv_gj_status){
             setCustomerId(data.get(i).getCustomerId());
+
      /*       if (followUpPopuWindow!=null){
                 if (followUpPopuWindow.isShowing()){
                     return;

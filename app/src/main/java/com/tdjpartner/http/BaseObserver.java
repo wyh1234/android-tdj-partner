@@ -150,7 +150,6 @@ public abstract class BaseObserver<T> extends ResourceObserver<T> {
 
 
         }else {
-            LogUtils.e(t);
 //            onSuccess((BaseResponse<T>) t);
             onSuccess(t);
         }

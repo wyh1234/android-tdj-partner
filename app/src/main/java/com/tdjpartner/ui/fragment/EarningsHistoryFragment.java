@@ -125,6 +125,10 @@ public class EarningsHistoryFragment extends BaseFrgment<EarningsHistoryPresente
         LogUtils.i(refreshLayout.isRefreshing());
         if (refreshLayout.isRefreshing()) {
             refreshLayout.finishRefresh();
+            if (!ListUtils.isEmpty(earningsHistoryList)) {
+                earningsHistoryList.clear();
+                earningsHistoryAdapter.notifyDataSetChanged();
+            }
         }
         if (refreshLayout.isEnableLoadmore()) {
             refreshLayout.finishLoadmore();
@@ -133,11 +137,7 @@ public class EarningsHistoryFragment extends BaseFrgment<EarningsHistoryPresente
 
     public void earning_info_Success(EarningsHistory earningsHistory) {
 
-        if (refreshLayout.isRefreshing()){
-            if (!ListUtils.isEmpty(earningsHistoryList)) {
-                earningsHistoryList.clear();
-            }
-        }
+
         stop();
         if (ListUtils.isEmpty(earningsHistoryList)) {
             if (ListUtils.isEmpty(earningsHistory.getObj().getList())) {

@@ -46,7 +46,7 @@ public class HomeDataDetailsAdapter extends BaseQuickAdapter<HomeDataDetails.Obj
         }
 
         baseViewHolder.setText(R.id.tv_username,objBean.getBoss());
-        baseViewHolder.setText(R.id.tv_address,objBean.getAddress());
+        baseViewHolder.setText(R.id.tv_address1,objBean.getAddress());
         if (title.equals("所有统计")){
             baseViewHolder.setText(R.id.tv1,"总下单金额");
             baseViewHolder.setText(R.id.tv2,"总客均价");
@@ -56,12 +56,12 @@ public class HomeDataDetailsAdapter extends BaseQuickAdapter<HomeDataDetails.Obj
         }else if (title.equals("月统计")){
             baseViewHolder.setText(R.id.tv1,"当月下单额");
             baseViewHolder.setText(R.id.tv2,"当月客均价");
-            baseViewHolder.setText(R.id.tv2,"当月频次");
+            baseViewHolder.setText(R.id.tv3,"当月频次");
             baseViewHolder.setText(R.id.tv4,"退款次数");
         }else {
             baseViewHolder.setText(R.id.tv1,"今日下单额");
             baseViewHolder.setText(R.id.tv2,"今日客均价");
-            baseViewHolder.setText(R.id.tv2,"下单次数");
+            baseViewHolder.setText(R.id.tv3,"下单次数");
             baseViewHolder.setText(R.id.tv4,"退款次数");
         }
     }

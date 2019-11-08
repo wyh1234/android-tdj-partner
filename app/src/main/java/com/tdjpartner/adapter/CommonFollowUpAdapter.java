@@ -20,7 +20,8 @@ public class CommonFollowUpAdapter extends BaseQuickAdapter<DropOuting.ObjBean, 
         baseViewHolder.addOnClickListener(R.id.tv_gj_status);
 
         baseViewHolder.setText(R.id.tv_name,dropOuting.getName());
-        baseViewHolder.setText(R.id.tv_boss,"负责人:"+dropOuting.getPartnerName());
+        baseViewHolder.setGone(R.id.tv_boss,false
+        );
         if (dropOuting.getAuth()==0){
             baseViewHolder.setImageResource(R.id.iv_stastu,R.mipmap.weirenzheng);
         }else {//已认证
@@ -41,8 +42,8 @@ public class CommonFollowUpAdapter extends BaseQuickAdapter<DropOuting.ObjBean, 
 
         baseViewHolder.setText(R.id.tv_num,dropOuting.getTodayAmount()+"");
         baseViewHolder.setText(R.id.tv_num1,dropOuting.getAverageAmount()+"");
-        baseViewHolder.setText(R.id.tv_num2,dropOuting.getMonthTimes()+"");
-        baseViewHolder.setText(R.id.tv_num3,dropOuting.getNotCallDays()+"");
+        baseViewHolder.setText(R.id.tv_num2,dropOuting.getTodayTimes()+"");
+        baseViewHolder.setText(R.id.tv_num3,dropOuting.getTodayAfterSaleTimes()+"");
         baseViewHolder.setText(R.id.tv_username,dropOuting.getBoss());
         baseViewHolder.setText(R.id.tv_address,dropOuting.getAddress());
         baseViewHolder.addOnClickListener(R.id.rl_call);

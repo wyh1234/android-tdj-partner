@@ -90,11 +90,11 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
                 break;
             case R.id.rl_right:
                 f=true;
-                pvTime.show();
+                setTime(f);
                 break;
             case R.id.rl_rights:
                 f=false;
-                pvTime.show();
+                setTime(f);
                 break;
         }
     }
@@ -109,6 +109,15 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
         endDate = Calendar.getInstance();
 //        endDate.set(2029, 11, 28);
         endDate.set(endDate.get(Calendar.YEAR),  (endDate.get(Calendar.MONTH)),endDate.get(Calendar.DAY_OF_MONTH));
+
+        if (UserUtils.getInstance().getLoginBean().getGrade()!=3){
+            rl_team.setVisibility(View.VISIBLE);
+        }else {
+            rl_team.setVisibility(View.GONE);
+        }
+
+    }
+    public void setTime(boolean type){
         pvTime = new TimePickerView.Builder(getContext(), new TimePickerView.OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
@@ -124,21 +133,17 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
                 getData(homeFilter);
             }
         }) //年月日时分秒 的显示与否，不设置则默认全部显示
-                .setType(new boolean[]{true, true, true, false, false, false})
-                .setLabel("年", "月", "日", "", "", "")
+                .setType(new boolean[]{true, true, type, false, false, false})
+                .setLabel("年", "月",  type?"日":"", "", "", "")
                 .isCenterLabel(true)
+                .setLineSpacingMultiplier(1.8f)
                 .setDividerColor(Color.DKGRAY)
                 .setContentSize(16)
                 .setDate(selectedDate)
                 .setRangDate(startDate, endDate)
                 .setDecorView(null)
                 .build();
-        if (UserUtils.getInstance().getLoginBean().getGrade()!=3){
-            rl_team.setVisibility(View.VISIBLE);
-        }else {
-            rl_team.setVisibility(View.GONE);
-        }
-
+        pvTime.show();
     }
 
 
@@ -277,11 +282,20 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
                 Intent intent=new Intent(getContext(), CommonFollowUpActivity.class);
                 startActivity(intent);
             }else if (pos==2){
-                Intent intent=new Intent(getContext(), PartnerCheckActivity.class);
-                startActivity(intent);
+                if (UserUtils.getInstance().getLoginBean().getGrade()!=3){
+                    Intent intent=new Intent(getContext(), PartnerCheckActivity.class);
+                    startActivity(intent);
+                }else {
+                    GeneralUtils.showToastshort("该功能无权操作");
+                }
+
             }else {
-                Intent intent=new Intent(getContext(), SettingPersonActivity.class);
-                startActivity(intent);
+                if (UserUtils.getInstance().getLoginBean().getGrade()!=3){
+                    Intent intent=new Intent(getContext(), SettingPersonActivity.class);
+                    startActivity(intent);
+                }else {
+                    GeneralUtils.showToastshort("该功能无权操作");
+                }
 
             }
 

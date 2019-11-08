@@ -144,11 +144,11 @@ public class ClientListSeachFragment extends BaseFrgment<ClientListSeachPresente
     private void getData(int pn) {
         if (seachTag!=null){
             Map<String,Object> map=new HashMap<>();
-            map.put("userId",21);
+            map.put("userId",UserUtils.getInstance().getLoginBean().getEntityId());
             map.put("userType",index+1);
             map.put("websiteId", UserUtils.getInstance().getLoginBean().getSite());
             map.put("pn", pn);
-            map.put("ps", 10);
+            map.put("ps", 30);
             map.put("keyword",seachTag.getTag());
             mPresenter.customer_hotelMap(map);
 

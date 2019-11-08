@@ -705,8 +705,8 @@ public class HomeData  {
         private Integer monthRegisterNum;
         private Object monthActiveNum;
         private Integer monthCallNum;
-        private Integer lastMonthAvgActiveNum;
-        private Integer monthAvgActiveNum;
+        private Float lastMonthAvgActiveNum;
+        private Float monthAvgActiveNum;
         private Integer firstOrderNum;
         private Object lastMonthFirstOrderNum;
         private Integer monthFirstOrderNum;
@@ -1035,19 +1035,19 @@ public class HomeData  {
             this.monthCallNum = monthCallNum;
         }
 
-        public Integer getLastMonthAvgActiveNum() {
-            return lastMonthAvgActiveNum==null?0:lastMonthAvgActiveNum;
+        public Float getLastMonthAvgActiveNum() {
+            return lastMonthAvgActiveNum==null? 0 :lastMonthAvgActiveNum;
         }
 
-        public void setLastMonthAvgActiveNum(Integer lastMonthAvgActiveNum) {
+        public void setLastMonthAvgActiveNum(Float lastMonthAvgActiveNum) {
             this.lastMonthAvgActiveNum = lastMonthAvgActiveNum;
         }
 
-        public Integer getMonthAvgActiveNum() {
+        public Float getMonthAvgActiveNum() {
             return monthAvgActiveNum==null?0:monthAvgActiveNum;
         }
 
-        public void setMonthAvgActiveNum(Integer monthAvgActiveNum) {
+        public void setMonthAvgActiveNum(Float monthAvgActiveNum) {
             this.monthAvgActiveNum = monthAvgActiveNum;
         }
 

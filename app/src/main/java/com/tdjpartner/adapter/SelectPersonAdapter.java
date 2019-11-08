@@ -19,5 +19,6 @@ public class SelectPersonAdapter extends BaseQuickAdapter<SelectPerson.ObjBean, 
         baseViewHolder.getView(R.id.iv).setSelected(selectPerson.isF());
         baseViewHolder.setText(R.id.tv_nickName_phone_isFullTime,
                 selectPerson.getNickName()+"\t\t"+selectPerson.getPhone()+"\t\t"+(selectPerson.getIsFullTime()==0?"兼职":"市场全职"));
+        baseViewHolder.setText(R.id.tv_gradeName,selectPerson.getGradeName());
     }
 }

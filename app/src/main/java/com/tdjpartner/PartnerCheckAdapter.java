@@ -18,8 +18,8 @@ public class PartnerCheckAdapter extends BaseQuickAdapter<PartnerCheck.ObjBean, 
 
     @Override
     protected void convert(BaseViewHolder baseViewHolder, PartnerCheck.ObjBean partnerCheck) {
-        baseViewHolder.setText(R.id.tv_leaderName,"负责人："+partnerCheck.getLeaderName()+"(主账号)");
-        baseViewHolder.setText(R.id.tv_enterpriseCode,partnerCheck.getEnterpriseCode());
+        baseViewHolder.setText(R.id.tv_leaderName,"负责人："+partnerCheck.getLeaderName());
+        baseViewHolder.setText(R.id.tv_enterpriseCode,partnerCheck.getEnterpriseCode()+"(主账号)");
         baseViewHolder.setText(R.id.tv_nickNameAndPhone,partnerCheck.getNickName()+"\t"+partnerCheck.getPhone());
         baseViewHolder.setText(R.id.tv_createdAt,partnerCheck.getCreateTime());
         baseViewHolder.setText(R.id.tv_address,partnerCheck.getEnterpriseMsg());

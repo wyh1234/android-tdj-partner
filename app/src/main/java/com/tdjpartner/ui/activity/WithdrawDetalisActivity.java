@@ -136,6 +136,10 @@ public class WithdrawDetalisActivity extends BaseActivity<WithdrawDetalisPresent
         LogUtils.i(refreshLayout.isRefreshing());
         if (refreshLayout.isRefreshing()) {
             refreshLayout.finishRefresh();
+            if (!ListUtils.isEmpty(withdrawDetalisList)) {
+                withdrawDetalisList.clear();
+                withdrawDetalisAdapter.notifyDataSetChanged();
+            }
         }
         if (refreshLayout.isEnableLoadmore()) {
             refreshLayout.finishLoadmore();
@@ -144,11 +148,6 @@ public class WithdrawDetalisActivity extends BaseActivity<WithdrawDetalisPresent
 
     public void getWithdrawDetailsSuccess(WithdrawDetalis  withdrawDetalis) {
 
-        if (refreshLayout.isRefreshing()){
-            if (!ListUtils.isEmpty(withdrawDetalisList)) {
-                withdrawDetalisList.clear();
-            }
-        }
         stop();
         if (ListUtils.isEmpty(withdrawDetalisList)) {
             if (ListUtils.isEmpty(withdrawDetalis.getObj())) {

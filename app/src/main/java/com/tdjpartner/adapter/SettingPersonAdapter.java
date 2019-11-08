@@ -7,6 +7,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.tdjpartner.R;
 import com.tdjpartner.model.DropOuting;
 import com.tdjpartner.model.SettingPerson;
+import com.tdjpartner.utils.GeneralUtils;
 
 import java.util.List;
 
@@ -17,10 +18,10 @@ public class SettingPersonAdapter extends BaseQuickAdapter<SettingPerson.ObjBean
 
     @Override
     protected void convert(BaseViewHolder baseViewHolder, SettingPerson.ObjBean.ListBean dropOuting) {
-//        baseViewHolder.addOnClickListener(R.id.tv_gj_status);
+        baseViewHolder.addOnClickListener(R.id.tv_gj_status);
 
         baseViewHolder.setText(R.id.tv_name,dropOuting.getName());
-        baseViewHolder.setText(R.id.tv_boss,"负责人:"+dropOuting.getPartnerName());
+        baseViewHolder.setText(R.id.tv_boss,"负责人:"+(GeneralUtils.isNullOrZeroLenght(dropOuting.getPartnerName())?"无":dropOuting.getPartnerName()));
         if (dropOuting.getAuth()==0){
             baseViewHolder.setImageResource(R.id.iv_stastu,R.mipmap.weirenzheng);
         }else {//已认证
@@ -31,8 +32,8 @@ public class SettingPersonAdapter extends BaseQuickAdapter<SettingPerson.ObjBean
 
         baseViewHolder.setText(R.id.tv_num,dropOuting.getTodayAmount()+"");
         baseViewHolder.setText(R.id.tv_num1,dropOuting.getAverageAmount()+"");
-        baseViewHolder.setText(R.id.tv_num2,dropOuting.getMonthTimes()+"");
-        baseViewHolder.setText(R.id.tv_num3,dropOuting.getMonthAfterSaleTimes()+"");
+        baseViewHolder.setText(R.id.tv_num2,dropOuting.getTodayTimes()+"");
+        baseViewHolder.setText(R.id.tv_num3,dropOuting.getTodayAfterSaleTimes()+"");
 
         baseViewHolder.setText(R.id.tv_username,dropOuting.getBoss());
         baseViewHolder.setText(R.id.tv_address,dropOuting.getAddress());

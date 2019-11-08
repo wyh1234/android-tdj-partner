@@ -118,6 +118,10 @@ public class DiscountCouponFragment extends BaseFrgment<DiscountCouponPresenter>
         LogUtils.i(refreshLayout.isRefreshing());
         if (refreshLayout.isRefreshing()) {
             refreshLayout.finishRefresh();
+            if (!ListUtils.isEmpty(discountCouponArrayList)) {
+                discountCouponArrayList.clear();
+                discountCouponAdapter.notifyDataSetChanged();
+            }
         }
         if (refreshLayout.isEnableLoadmore()) {
             refreshLayout.finishLoadmore();
@@ -126,12 +130,6 @@ public class DiscountCouponFragment extends BaseFrgment<DiscountCouponPresenter>
 
     public void coupons_findByUser_Success(DiscountCoupon discountCoupon) {
         discountCouponAdapter.setMindex(index);
-
-        if (refreshLayout.isRefreshing()){
-            if (!ListUtils.isEmpty(discountCouponArrayList)) {
-                discountCouponArrayList.clear();
-            }
-        }
         stop();
         if (ListUtils.isEmpty(discountCouponArrayList)) {
             if (ListUtils.isEmpty(discountCoupon.getObj())) {

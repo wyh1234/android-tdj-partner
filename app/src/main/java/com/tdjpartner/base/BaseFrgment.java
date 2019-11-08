@@ -29,7 +29,7 @@ import io.reactivex.disposables.Disposable;
 public abstract class BaseFrgment<P extends IPresenter> extends LazyLoadFragment implements IView {
     protected View view;
     protected P mPresenter;
-    private CompositeDisposable compositeDisposable;
+    public CompositeDisposable compositeDisposable;
     protected Activity mActivity;
     protected StateView mStateView;//用于显示加载中、网络异常，空布局、内容布局
     @Override

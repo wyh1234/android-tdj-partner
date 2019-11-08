@@ -33,7 +33,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class SettingPersonActivity extends BaseActivity<SettingPersonPresenter>  implements SwipeRefreshLayout.OnRefreshListener,
-        BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemClickListener{
+        BaseQuickAdapter.RequestLoadMoreListener, BaseQuickAdapter.OnItemClickListener,BaseQuickAdapter.OnItemChildClickListener{
     @BindView(R.id.rl_xd)
     RelativeLayout rl_xd;
     @BindView(R.id.rl_bf)
@@ -87,9 +87,10 @@ public class SettingPersonActivity extends BaseActivity<SettingPersonPresenter> 
                 tv1.setTextColor(GeneralUtils.getColor(this,R.color.view_bg1));
                 view2.setVisibility(View.GONE);
                 view1.setVisibility(View.VISIBLE);
+                type=2;
                 swipeRefreshLayout.setRefreshing(true);
                 onRefresh();
-                type=2;
+
                 break;
             case R.id.btn_back:
                 finish();
@@ -122,6 +123,7 @@ public class SettingPersonActivity extends BaseActivity<SettingPersonPresenter> 
         recyclerView_list.setLayoutManager(layout);
         settingPersonAdapter=new SettingPersonAdapter(R.layout.setting_person_item_layout,data);
         settingPersonAdapter.setOnItemClickListener(this);
+        settingPersonAdapter.setOnItemChildClickListener(this);
         recyclerView_list.setAdapter(settingPersonAdapter);
         settingPersonAdapter.setOnLoadMoreListener(this,recyclerView_list);
         swipeRefreshLayout.setRefreshing(true);
@@ -156,7 +158,10 @@ public class SettingPersonActivity extends BaseActivity<SettingPersonPresenter> 
     public void stop() {
         if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
             swipeRefreshLayout.setRefreshing(false);
-
+            if (!ListUtils.isEmpty(data)) {
+                data.clear();
+                settingPersonAdapter.notifyDataSetChanged();
+            }
         }
         if (settingPersonAdapter.isLoadMoreEnable()){
             settingPersonAdapter.loadMoreComplete();
@@ -182,12 +187,6 @@ public class SettingPersonActivity extends BaseActivity<SettingPersonPresenter> 
         tv_num.setText(settingPerson.getObj().getNewCustomerNum()+"");
         tv_num1.setText(settingPerson.getObj().getOldCustomerNum()+"");
         settingPersonAdapter.setType(type);
-        if (swipeRefreshLayout.isRefreshing()){
-            if (!ListUtils.isEmpty(data)) {
-                data.clear();
-                settingPersonAdapter.notifyDataSetChanged();
-            }
-        }
         stop();
 
         if (ListUtils.isEmpty(data)) {
@@ -213,6 +212,13 @@ public class SettingPersonActivity extends BaseActivity<SettingPersonPresenter> 
 
     @Override
     public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+        Intent intent=new Intent(getContext(), ClientDetailsActivity.class);
+        intent.putExtra("customerId",data.get(i).getCustomerId()+"");
+        startActivity(intent);
+    }
+
+    @Override
+    public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
         Intent intent=new Intent(this,SelectPersonActivity.class);
         intent.putExtra("ListBean",data.get(i));
         startActivity(intent);

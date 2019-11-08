@@ -65,46 +65,13 @@ public class StoreInfo extends Message{
          * favoriteCount : 95
          */
 
-        private int isRecommend;
         private String code;
-        private int orderNumber;
-        private String bannerImgUrl;
-        private String storeStatusRemark;
-        private int groupId;
-        private String siteName;
-        private int isActive;
-        private int storeStatus;
-        private int isAuth;
-        private int stationId;
-        private int storeType;
-        private String closeStoreDatetime;
-        private String marketNo;
-        private String contactName;
-        private int authStatus;
-        private String mainCommodity;
-        private int isCommission;
-        private int productNumber;
-        private int store;
-        private int limitType;
         private String logoImageUrl;
-        private String closeStoreEndDatetime;
-        private String marketName;
         private int site;
         private double storeScore;
         private long createTime;
         private String name;
-        private double realStoreScore;
-        private String contactPhone;
         private int favoriteCount;
-        private List<ItemsBean> items;
-
-        public int getIsRecommend() {
-            return isRecommend;
-        }
-
-        public void setIsRecommend(int isRecommend) {
-            this.isRecommend = isRecommend;
-        }
 
         public String getCode() {
             return code;
@@ -114,157 +81,6 @@ public class StoreInfo extends Message{
             this.code = code;
         }
 
-        public int getOrderNumber() {
-            return orderNumber;
-        }
-
-        public void setOrderNumber(int orderNumber) {
-            this.orderNumber = orderNumber;
-        }
-
-        public String getBannerImgUrl() {
-            return bannerImgUrl;
-        }
-
-        public void setBannerImgUrl(String bannerImgUrl) {
-            this.bannerImgUrl = bannerImgUrl;
-        }
-
-        public String getStoreStatusRemark() {
-            return storeStatusRemark;
-        }
-
-        public void setStoreStatusRemark(String storeStatusRemark) {
-            this.storeStatusRemark = storeStatusRemark;
-        }
-
-        public int getGroupId() {
-            return groupId;
-        }
-
-        public void setGroupId(int groupId) {
-            this.groupId = groupId;
-        }
-
-        public String getSiteName() {
-            return siteName;
-        }
-
-        public void setSiteName(String siteName) {
-            this.siteName = siteName;
-        }
-
-        public int getIsActive() {
-            return isActive;
-        }
-
-        public void setIsActive(int isActive) {
-            this.isActive = isActive;
-        }
-
-        public int getStoreStatus() {
-            return storeStatus;
-        }
-
-        public void setStoreStatus(int storeStatus) {
-            this.storeStatus = storeStatus;
-        }
-
-        public int getIsAuth() {
-            return isAuth;
-        }
-
-        public void setIsAuth(int isAuth) {
-            this.isAuth = isAuth;
-        }
-
-        public int getStationId() {
-            return stationId;
-        }
-
-        public void setStationId(int stationId) {
-            this.stationId = stationId;
-        }
-
-        public int getStoreType() {
-            return storeType;
-        }
-
-        public void setStoreType(int storeType) {
-            this.storeType = storeType;
-        }
-
-        public String getCloseStoreDatetime() {
-            return closeStoreDatetime;
-        }
-
-        public void setCloseStoreDatetime(String closeStoreDatetime) {
-            this.closeStoreDatetime = closeStoreDatetime;
-        }
-
-        public String getMarketNo() {
-            return marketNo;
-        }
-
-        public void setMarketNo(String marketNo) {
-            this.marketNo = marketNo;
-        }
-
-        public String getContactName() {
-            return contactName;
-        }
-
-        public void setContactName(String contactName) {
-            this.contactName = contactName;
-        }
-
-        public int getAuthStatus() {
-            return authStatus;
-        }
-
-        public void setAuthStatus(int authStatus) {
-            this.authStatus = authStatus;
-        }
-
-        public String getMainCommodity() {
-            return mainCommodity;
-        }
-
-        public void setMainCommodity(String mainCommodity) {
-            this.mainCommodity = mainCommodity;
-        }
-
-        public int getIsCommission() {
-            return isCommission;
-        }
-
-        public void setIsCommission(int isCommission) {
-            this.isCommission = isCommission;
-        }
-
-        public int getProductNumber() {
-            return productNumber;
-        }
-
-        public void setProductNumber(int productNumber) {
-            this.productNumber = productNumber;
-        }
-
-        public int getStore() {
-            return store;
-        }
-
-        public void setStore(int store) {
-            this.store = store;
-        }
-
-        public int getLimitType() {
-            return limitType;
-        }
-
-        public void setLimitType(int limitType) {
-            this.limitType = limitType;
-        }
 
         public String getLogoImageUrl() {
             return logoImageUrl;
@@ -274,21 +90,6 @@ public class StoreInfo extends Message{
             this.logoImageUrl = logoImageUrl;
         }
 
-        public String getCloseStoreEndDatetime() {
-            return closeStoreEndDatetime;
-        }
-
-        public void setCloseStoreEndDatetime(String closeStoreEndDatetime) {
-            this.closeStoreEndDatetime = closeStoreEndDatetime;
-        }
-
-        public String getMarketName() {
-            return marketName;
-        }
-
-        public void setMarketName(String marketName) {
-            this.marketName = marketName;
-        }
 
         public int getSite() {
             return site;
@@ -322,21 +123,7 @@ public class StoreInfo extends Message{
             this.name = name;
         }
 
-        public double getRealStoreScore() {
-            return realStoreScore;
-        }
 
-        public void setRealStoreScore(double realStoreScore) {
-            this.realStoreScore = realStoreScore;
-        }
-
-        public String getContactPhone() {
-            return contactPhone;
-        }
-
-        public void setContactPhone(String contactPhone) {
-            this.contactPhone = contactPhone;
-        }
 
         public int getFavoriteCount() {
             return favoriteCount;
@@ -346,13 +133,6 @@ public class StoreInfo extends Message{
             this.favoriteCount = favoriteCount;
         }
 
-        public List<ItemsBean> getItems() {
-            return items;
-        }
-
-        public void setItems(List<ItemsBean> items) {
-            this.items = items;
-        }
 
         public static class ItemsBean {
             /**
@@ -397,101 +177,16 @@ public class StoreInfo extends Message{
              * foregift : -1
              */
 
-            private String description;
-            private int specialId;
-            private String bannerImage;
-            private String credentialsImage;
-            private int allowPurchase;
-            private String storeName;
-            private String categories;
             private String packageName;
-            private int specialPrice;
-            private int monthSaleNumbers;
             private Object isF;
-            private int productType;
-            private String image;
-            private int storeType;
             private String nickName;
-            private int isP;
-            private int authStatus;
-            private int storeStation;
-            private String catalogCategoryName;
             private int entityId;
             private long updateTime;
-            private int commodityId;
-            private int store;
-            private int saleNum;
-            private int alreadyPurchase;
-            private String verifyInfo;
-            private String realName;
-            private String unit;
             private long createTime;
             private String phone;
-            private String productCriteria;
-            private BigDecimal minPrice;
             private String name;
-            private int maxPrice;
-            private String categoryId;
             private int status;
-            private int foregift;
-            private List<SpecsBean> specs;
-            private List<String> gallery;
 
-            public String getDescription() {
-                return description;
-            }
-
-            public void setDescription(String description) {
-                this.description = description;
-            }
-
-            public int getSpecialId() {
-                return specialId;
-            }
-
-            public void setSpecialId(int specialId) {
-                this.specialId = specialId;
-            }
-
-            public String getBannerImage() {
-                return bannerImage;
-            }
-
-            public void setBannerImage(String bannerImage) {
-                this.bannerImage = bannerImage;
-            }
-
-            public String getCredentialsImage() {
-                return credentialsImage;
-            }
-
-            public void setCredentialsImage(String credentialsImage) {
-                this.credentialsImage = credentialsImage;
-            }
-
-            public int getAllowPurchase() {
-                return allowPurchase;
-            }
-
-            public void setAllowPurchase(int allowPurchase) {
-                this.allowPurchase = allowPurchase;
-            }
-
-            public String getStoreName() {
-                return storeName;
-            }
-
-            public void setStoreName(String storeName) {
-                this.storeName = storeName;
-            }
-
-            public String getCategories() {
-                return categories;
-            }
-
-            public void setCategories(String categories) {
-                this.categories = categories;
-            }
 
             public String getPackageName() {
                 return packageName;
@@ -501,21 +196,7 @@ public class StoreInfo extends Message{
                 this.packageName = packageName;
             }
 
-            public int getSpecialPrice() {
-                return specialPrice;
-            }
 
-            public void setSpecialPrice(int specialPrice) {
-                this.specialPrice = specialPrice;
-            }
-
-            public int getMonthSaleNumbers() {
-                return monthSaleNumbers;
-            }
-
-            public void setMonthSaleNumbers(int monthSaleNumbers) {
-                this.monthSaleNumbers = monthSaleNumbers;
-            }
 
             public Object getIsF() {
                 return isF;
@@ -525,29 +206,7 @@ public class StoreInfo extends Message{
                 this.isF = isF;
             }
 
-            public int getProductType() {
-                return productType;
-            }
 
-            public void setProductType(int productType) {
-                this.productType = productType;
-            }
-
-            public String getImage() {
-                return image;
-            }
-
-            public void setImage(String image) {
-                this.image = image;
-            }
-
-            public int getStoreType() {
-                return storeType;
-            }
-
-            public void setStoreType(int storeType) {
-                this.storeType = storeType;
-            }
 
             public String getNickName() {
                 return nickName;
@@ -557,37 +216,7 @@ public class StoreInfo extends Message{
                 this.nickName = nickName;
             }
 
-            public int getIsP() {
-                return isP;
-            }
 
-            public void setIsP(int isP) {
-                this.isP = isP;
-            }
-
-            public int getAuthStatus() {
-                return authStatus;
-            }
-
-            public void setAuthStatus(int authStatus) {
-                this.authStatus = authStatus;
-            }
-
-            public int getStoreStation() {
-                return storeStation;
-            }
-
-            public void setStoreStation(int storeStation) {
-                this.storeStation = storeStation;
-            }
-
-            public String getCatalogCategoryName() {
-                return catalogCategoryName;
-            }
-
-            public void setCatalogCategoryName(String catalogCategoryName) {
-                this.catalogCategoryName = catalogCategoryName;
-            }
 
             public int getEntityId() {
                 return entityId;
@@ -605,61 +234,8 @@ public class StoreInfo extends Message{
                 this.updateTime = updateTime;
             }
 
-            public int getCommodityId() {
-                return commodityId;
-            }
 
-            public void setCommodityId(int commodityId) {
-                this.commodityId = commodityId;
-            }
 
-            public int getStore() {
-                return store;
-            }
-
-            public void setStore(int store) {
-                this.store = store;
-            }
-
-            public int getSaleNum() {
-                return saleNum;
-            }
-
-            public void setSaleNum(int saleNum) {
-                this.saleNum = saleNum;
-            }
-
-            public int getAlreadyPurchase() {
-                return alreadyPurchase;
-            }
-
-            public void setAlreadyPurchase(int alreadyPurchase) {
-                this.alreadyPurchase = alreadyPurchase;
-            }
-
-            public String getVerifyInfo() {
-                return verifyInfo;
-            }
-
-            public void setVerifyInfo(String verifyInfo) {
-                this.verifyInfo = verifyInfo;
-            }
-
-            public String getRealName() {
-                return realName;
-            }
-
-            public void setRealName(String realName) {
-                this.realName = realName;
-            }
-
-            public String getUnit() {
-                return unit;
-            }
-
-            public void setUnit(String unit) {
-                this.unit = unit;
-            }
 
             public long getCreateTime() {
                 return createTime;
@@ -677,21 +253,6 @@ public class StoreInfo extends Message{
                 this.phone = phone;
             }
 
-            public String getProductCriteria() {
-                return productCriteria;
-            }
-
-            public void setProductCriteria(String productCriteria) {
-                this.productCriteria = productCriteria;
-            }
-
-            public BigDecimal getMinPrice() {
-                return minPrice;
-            }
-
-            public void setMinPrice(BigDecimal minPrice) {
-                this.minPrice = minPrice;
-            }
 
             public String getName() {
                 return name;
@@ -701,21 +262,7 @@ public class StoreInfo extends Message{
                 this.name = name;
             }
 
-            public int getMaxPrice() {
-                return maxPrice;
-            }
 
-            public void setMaxPrice(int maxPrice) {
-                this.maxPrice = maxPrice;
-            }
-
-            public String getCategoryId() {
-                return categoryId;
-            }
-
-            public void setCategoryId(String categoryId) {
-                this.categoryId = categoryId;
-            }
 
             public int getStatus() {
                 return status;
@@ -725,175 +272,8 @@ public class StoreInfo extends Message{
                 this.status = status;
             }
 
-            public int getForegift() {
-                return foregift;
-            }
 
-            public void setForegift(int foregift) {
-                this.foregift = foregift;
-            }
 
-            public List<SpecsBean> getSpecs() {
-                return specs;
-            }
-
-            public void setSpecs(List<SpecsBean> specs) {
-                this.specs = specs;
-            }
-
-            public List<String> getGallery() {
-                return gallery;
-            }
-
-            public void setGallery(List<String> gallery) {
-                this.gallery = gallery;
-            }
-
-            public static class SpecsBean {
-                /**
-                 * specId : 102403
-                 * productId : 56225
-                 * salesNumber : 0
-                 * avgPrice : 1850
-                 * level3Value : 0
-                 * level3Unit :
-                 * level2Value : 0
-                 * level1Unit : 斤
-                 * levelType : 1
-                 * price : 1850
-                 * siteId : 3
-                 * avgUnit : 斤
-                 * stock : 1
-                 * level2Unit :
-                 */
-
-                private int specId;
-                private int productId;
-                private int salesNumber;
-                private BigDecimal avgPrice;
-                private int level3Value;
-                private String level3Unit;
-                private int level2Value;
-                private String level1Unit;
-                private int levelType;
-                private BigDecimal price;
-                private int siteId;
-                private String avgUnit;
-                private int stock;
-                private String level2Unit;
-
-                public int getSpecId() {
-                    return specId;
-                }
-
-                public void setSpecId(int specId) {
-                    this.specId = specId;
-                }
-
-                public int getProductId() {
-                    return productId;
-                }
-
-                public void setProductId(int productId) {
-                    this.productId = productId;
-                }
-
-                public int getSalesNumber() {
-                    return salesNumber;
-                }
-
-                public void setSalesNumber(int salesNumber) {
-                    this.salesNumber = salesNumber;
-                }
-
-                public BigDecimal getAvgPrice() {
-                    return avgPrice;
-                }
-
-                public void setAvgPrice(BigDecimal avgPrice) {
-                    this.avgPrice = avgPrice;
-                }
-
-                public int getLevel3Value() {
-                    return level3Value;
-                }
-
-                public void setLevel3Value(int level3Value) {
-                    this.level3Value = level3Value;
-                }
-
-                public String getLevel3Unit() {
-                    return level3Unit;
-                }
-
-                public void setLevel3Unit(String level3Unit) {
-                    this.level3Unit = level3Unit;
-                }
-
-                public int getLevel2Value() {
-                    return level2Value;
-                }
-
-                public void setLevel2Value(int level2Value) {
-                    this.level2Value = level2Value;
-                }
-
-                public String getLevel1Unit() {
-                    return level1Unit;
-                }
-
-                public void setLevel1Unit(String level1Unit) {
-                    this.level1Unit = level1Unit;
-                }
-
-                public int getLevelType() {
-                    return levelType;
-                }
-
-                public void setLevelType(int levelType) {
-                    this.levelType = levelType;
-                }
-
-                public BigDecimal getPrice() {
-                    return price;
-                }
-
-                public void setPrice(BigDecimal price) {
-                    this.price = price;
-                }
-
-                public int getSiteId() {
-                    return siteId;
-                }
-
-                public void setSiteId(int siteId) {
-                    this.siteId = siteId;
-                }
-
-                public String getAvgUnit() {
-                    return avgUnit;
-                }
-
-                public void setAvgUnit(String avgUnit) {
-                    this.avgUnit = avgUnit;
-                }
-
-                public int getStock() {
-                    return stock;
-                }
-
-                public void setStock(int stock) {
-                    this.stock = stock;
-                }
-
-                public String getLevel2Unit() {
-                    return level2Unit;
-                }
-
-                public void setLevel2Unit(String level2Unit) {
-                    this.level2Unit = level2Unit;
-                }
-            }
         }
     }
 }
