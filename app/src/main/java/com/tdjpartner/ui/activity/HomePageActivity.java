@@ -250,7 +250,7 @@ public class HomePageActivity extends BaseActivity<HomePagePresenter> implements
         if (!ListUtils.isEmpty(addList)) {
             addList.clear();
         }
-        StatisticalData statisticalData=new StatisticalData("注册总数",homeData.getAllData().getCountCustomer().toString());
+        StatisticalData statisticalData=new StatisticalData("客户总数",homeData.getAllData().getCountCustomer().toString());
         StatisticalData statisticalData1=new StatisticalData("下单客户数",homeData.getAllData().getOrderCustomer().toString());
         StatisticalData statisticalData2=new StatisticalData("未下单数",homeData.getAllData().getNotOrderCustomer().toString());
         StatisticalData statisticalData3=new StatisticalData("待审核数",homeData.getAllData().getNoVerifyNum().toString());

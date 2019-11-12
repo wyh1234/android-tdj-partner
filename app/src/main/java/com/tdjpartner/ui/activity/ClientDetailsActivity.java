@@ -56,6 +56,8 @@ public class ClientDetailsActivity extends BaseActivity<ClientDetailsPresenter> 
     TextView tv_s_phone;
     @BindView(R.id.tv_s_address)
     TextView tv_s_address;
+    @BindView(R.id.tv_heard)
+    TextView tv_heard;
     @BindView(R.id.iv_heard)
     ImageView iv_heard;
     @BindView(R.id.rl_call)
@@ -163,7 +165,11 @@ public class ClientDetailsActivity extends BaseActivity<ClientDetailsPresenter> 
 
     public void client_details_Success(ClientDetails clientDetails) {
         setClientDetails(clientDetails);
-        ImageLoad.loadImageViewLoding(clientDetails.getHeadUrl(),iv_heard,R.mipmap.xingxiangzhao_bg);
+        if (!GeneralUtils.isNullOrZeroLenght(clientDetails.getHeadUrl())){
+            ImageLoad.loadImageViewLoding(clientDetails.getHeadUrl(),iv_heard,R.mipmap.xingxiangzhao_bg);
+            tv_heard.setVisibility(View.GONE);
+        }
+
         tv_name.setText(clientDetails.getName());
         tv_username.setText(clientDetails.getBoss()+":"+clientDetails.getMobile());
         tv_num.setText(clientDetails.getRegionCollNo());

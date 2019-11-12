@@ -52,10 +52,12 @@
                 android:layout_width="61dp"
                 android:layout_height="61dp"
                 android:scaleType="centerCrop"
+                android:src="@mipmap/xingxiangzhao_bg"
                 android:layout_centerHorizontal="true"
                 />
 
             <TextView
+                android:id="@+id/tv_heard"
                 android:layout_width="61dp"
                 android:layout_height="61dp"
                 android:layout_centerHorizontal="true"

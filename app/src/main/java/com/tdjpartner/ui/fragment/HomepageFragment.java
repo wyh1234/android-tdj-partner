@@ -166,7 +166,6 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
         attention_recyclerView=  footView.findViewById(R.id.attention_recyclerView);
         register_recyclerView=  footView.findViewById(R.id.register_recyclerView);
         order_recyclerView=  footView.findViewById(R.id.order_recyclerView);
-//        tv_bottom=  footView.findViewById(R.id.tv_bottom);
 
         tv_today.setText( GeneralUtils.getCurrDay());
         tv_month.setText( GeneralUtils.getCurrMonth());
@@ -276,25 +275,39 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
                 startActivity(intent);
         }else if (baseQuickAdapter instanceof AttentionDataAdapter){
             if (pos==0){
-                Intent intent=new Intent(getContext(), DropOutingActivity.class);
-                startActivity(intent);
+                if (UserUtils.getInstance().getLoginBean().getGrade()==1||UserUtils.getInstance().getLoginBean().getGrade()==5||UserUtils.getInstance().getLoginBean().getGrade()==4){
+                    GeneralUtils.showToastshort("该功能无权操作");
+
+                }else {
+                    Intent intent=new Intent(getContext(), DropOutingActivity.class);
+                    startActivity(intent);
+                }
+
             }else if (pos==1){
-                Intent intent=new Intent(getContext(), CommonFollowUpActivity.class);
-                startActivity(intent);
+                if (UserUtils.getInstance().getLoginBean().getGrade()==1||UserUtils.getInstance().getLoginBean().getGrade()==5||UserUtils.getInstance().getLoginBean().getGrade()==4){
+                    GeneralUtils.showToastshort("该功能无权操作");
+                }else {
+                    Intent intent=new Intent(getContext(), CommonFollowUpActivity.class);
+                    startActivity(intent);
+                }
+
             }else if (pos==2){
-                if (UserUtils.getInstance().getLoginBean().getGrade()!=3){
+                if (UserUtils.getInstance().getLoginBean().getGrade()==3){
+                    GeneralUtils.showToastshort("该功能无权操作");
+                }else {
                     Intent intent=new Intent(getContext(), PartnerCheckActivity.class);
                     startActivity(intent);
-                }else {
-                    GeneralUtils.showToastshort("该功能无权操作");
+
                 }
 
             }else {
-                if (UserUtils.getInstance().getLoginBean().getGrade()!=3){
-                    Intent intent=new Intent(getContext(), SettingPersonActivity.class);
-                    startActivity(intent);
-                }else {
+                if (UserUtils.getInstance().getLoginBean().getGrade()==3){
                     GeneralUtils.showToastshort("该功能无权操作");
+                }else {
+                    Intent intent=new Intent(getContext(), SettingPersonActivity.class);
+
+                    startActivity(intent);
+
                 }
 
             }

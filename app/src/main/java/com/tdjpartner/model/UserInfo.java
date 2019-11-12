@@ -20,6 +20,15 @@ public class UserInfo  {
     private String cardUrlPositive;//身份证正面
     private String cardUrlNegative;//身份证反面
     private String verifyCode;;
+    private String gradeName;
+
+    public String getGradeName() {
+        return gradeName;
+    }
+
+    public void setGradeName(String gradeName) {
+        this.gradeName = gradeName;
+    }
 
     public String getVerifyCode() {
         return verifyCode;
@@ -54,7 +63,7 @@ public class UserInfo  {
     }
 
     public Integer getGrade() {
-        return grade;
+        return grade==null?0:grade;
     }
 
     public void setGrade(Integer grade) {

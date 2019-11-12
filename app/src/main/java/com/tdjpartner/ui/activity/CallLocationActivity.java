@@ -332,7 +332,10 @@ public class CallLocationActivity extends BaseActivity  implements LocationSourc
                     default:
                         break;
                 }
+                if (screenMarker!=null){
                     screenMarker.showInfoWindow();//设置气泡
+                }
+
             }
         }
     }

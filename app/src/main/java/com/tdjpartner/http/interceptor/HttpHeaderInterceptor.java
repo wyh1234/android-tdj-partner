@@ -85,7 +85,7 @@ public class HttpHeaderInterceptor implements Interceptor {
             }else if ("weather".equals(headerValue)) {
                 newBaseUrl = HttpUrl.parse(PublicCache.getROOT_URL().get(0));
             }else if ("xuming".equals(headerValue)){
-                newBaseUrl = HttpUrl.parse(PublicCache.getROOT_URL().get(3));
+                newBaseUrl = HttpUrl.parse(PublicCache.getROOT_URL().get(2));
             }else {
                 newBaseUrl = oldHttpUrl;
             }

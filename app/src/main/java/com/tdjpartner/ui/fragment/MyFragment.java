@@ -132,6 +132,7 @@ public class MyFragment extends BaseFrgment<MyFragmentPresneter> implements Swip
     protected void onFragmentFirstVisible() {
         super.onFragmentFirstVisible();
         LogUtils.e("我的");
+
         swipeRefreshLayout.setRefreshing(true);
         onRefresh();
     }
@@ -139,18 +140,8 @@ public class MyFragment extends BaseFrgment<MyFragmentPresneter> implements Swip
     public void setMyData(){
         LogUtils.e((UserUtils.getInstance().getLoginBean()));
         if (UserUtils.getInstance().getLoginBean()!=null){
-            if (UserUtils.getInstance().getLoginBean().getGrade()!=null){
-                if (UserUtils.getInstance().getLoginBean().getGrade()==1){
-                    tv_name.setText("市场经理");
-                }else if (UserUtils.getInstance().getLoginBean().getGrade()==2){
-                    tv_name.setText("市场主管");
-                }else if (UserUtils.getInstance().getLoginBean().getGrade()==3){
-                    tv_name.setText("市场专员");
-                }else if (UserUtils.getInstance().getLoginBean().getGrade()==4){
-                    tv_name.setText("城市总监");
-                }else if (UserUtils.getInstance().getLoginBean().getGrade()==5){
-                    tv_name.setText("市场总监");
-                }
+            if (UserUtils.getInstance().getLoginBean().getGradeName()!=null){
+                tv_name.setText(UserUtils.getInstance().getLoginBean().getGradeName());
             }
 
             tv_phone.setText(UserUtils.getInstance().getLoginBean().getPhoneNumber().substring(0,3)+"****"+UserUtils.getInstance().getLoginBean().getPhoneNumber()
