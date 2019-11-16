@@ -121,22 +121,9 @@ public class StatisticsListActivity extends BaseActivity {
 
         title=getIntent().getStringExtra("title");
         tv_title.setText(title);
-//        if (getIntent().getStringExtra("title").equals("今日统计")){
         titles.add("全部");
         titles.add("未下单数");
         titles.add("已下单数");
-//        }
-   /*     else if (getIntent().getStringExtra("title").equals("月统计")){
-            titles.add("注册数");
-            titles.add("平均日活量");
-            titles.add("已下单金额");
-        }else if (getIntent().getStringExtra("title").equals("所有统计")){
-            titles.add("总注册数");
-            titles.add("下单客户数量");
-            titles.add("未下单客户数量");
-            tv_name.setVisibility(View.GONE);
-            rl_seach.setPadding(54,0,0,0);
-        }*/
         wtab.setxTabDisplayNum(titles.size());
         adatper = new FragmentStatisticsAdapter(this.getSupportFragmentManager(), titles, getIntent().getStringExtra("title"));
         viewPager.setAdapter(adatper);
@@ -155,8 +142,6 @@ public class StatisticsListActivity extends BaseActivity {
         }else {
             tv_name.setPadding(15,0,15,0);
             tv_name.setVisibility(View.INVISIBLE);
-//            tv_name.setText((Calendar.getInstance().get(Calendar.YEAR)+"-"+
-//                    (Calendar.getInstance().get(Calendar.MONTH)+1)+"-"+(Calendar.getInstance().get(Calendar.DAY_OF_MONTH))).substring(5,7)+"月");
 
         }
     }

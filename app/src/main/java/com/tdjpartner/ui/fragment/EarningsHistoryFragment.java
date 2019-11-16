@@ -97,7 +97,7 @@ public class EarningsHistoryFragment extends BaseFrgment<EarningsHistoryPresente
     protected  void getData(int pn){
         Map<String,Object> map=new HashMap<>();
         map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
-        map.put("ps", 10);
+        map.put("ps", 15);
         if (index==0){
             map.put("timeType","today");
         }else if (index==1){

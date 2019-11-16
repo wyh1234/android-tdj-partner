@@ -270,6 +270,7 @@ public class ClientMapFragment extends BaseFrgment<ClientMapPresenter> implement
         }else if (clientInfo.getUserType()==3){
             imageView.setImageResource(R.mipmap.jiudianthree_bg);
         }else {
+
             imageView.setImageResource(R.mipmap.huangse);
         }
 

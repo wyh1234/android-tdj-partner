@@ -91,7 +91,7 @@ public class InvitationHistoryActivity extends BaseActivity<InvitationHistoryPre
     protected  void getData(int pn){
         Map<String,Object> map=new HashMap<>();
         map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
-        map.put("ps", 10);
+        map.put("ps", 30);
         map.put("pn", pn);
         mPresenter.myCustomerList(map);
 
@@ -111,6 +111,7 @@ public class InvitationHistoryActivity extends BaseActivity<InvitationHistoryPre
             refreshLayout.finishLoadmore();
         }
     }
+
 
     public void myCustomerListSuccess(InvitationHistory invitationHistory) {
         if (refreshLayout.isRefreshing()){
