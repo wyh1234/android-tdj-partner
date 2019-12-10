@@ -25,7 +25,7 @@ public class ClientFragment  extends BaseFrgment {
     }
 
     @Override
-    protected void onFragmentFirstVisible() {
+    protected void onFragmentFirstVisible() {//第一次可见，不会加载onUserVisible()
         super.onFragmentFirstVisible();
         checkClientFragment(new ClientFragmentType(listdata));
 
@@ -37,13 +37,13 @@ public class ClientFragment  extends BaseFrgment {
 
 
     @Override
-    public void onUserVisible() {
+    public void onUserVisible() {//再次可见，不会加载initData
         super.onUserVisible();
+        LogUtils.e(111);
 
     }
 
     public void checkClientFragment(ClientFragmentType clientFragmentType) {
-        LogUtils.e(clientFragmentType);
         FragmentTransaction fa = getChildFragmentManager().beginTransaction();
         List<Fragment> list = getChildFrament();
         if (clientFragmentType.getType().equals("list")){

@@ -102,7 +102,6 @@ public class ClientListFragment extends BaseFrgment<ClientListPresenter>  implem
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        LogUtils.e("onAttach");
         registerEventBus(this);
     }
 

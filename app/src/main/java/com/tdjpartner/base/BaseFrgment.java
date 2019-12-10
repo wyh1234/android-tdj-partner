@@ -26,7 +26,7 @@ import io.reactivex.disposables.Disposable;
  * Created by wanyh on 2017/9/11.
  */
 
-public abstract class BaseFrgment<P extends IPresenter> extends LazyLoadFragment implements IView {
+public abstract class BaseFrgment<P extends IPresenter> extends LazyLoadFragment implements IView {//应该继承CustomerFragment
     protected View view;
     protected P mPresenter;
     public CompositeDisposable compositeDisposable;
@@ -127,7 +127,6 @@ public abstract class BaseFrgment<P extends IPresenter> extends LazyLoadFragment
     public void registerEventBus(Object subscribe) {
         if (!isEventBusRegisted(subscribe)) {
             EventBus.getDefault().register(subscribe);
-            LogUtils.e(subscribe+"");
         }
     }
     public void unregisterEventBus(Object subscribe) {

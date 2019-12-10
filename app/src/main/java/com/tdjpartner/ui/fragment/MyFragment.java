@@ -49,6 +49,7 @@ import java.util.Map;
 import butterknife.BindView;
 
 import static android.app.Activity.RESULT_OK;
+import static com.umeng.socialize.utils.ContextUtil.getContext;
 
 public class MyFragment extends BaseFrgment<MyFragmentPresneter> implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.OnItemClickListener , View.OnClickListener
 ,SetHeadImagePopu.SetHeadImageListener{
@@ -127,7 +128,12 @@ public class MyFragment extends BaseFrgment<MyFragmentPresneter> implements Swip
 
 
     }
+    @Override
+    public void onUserVisible() {//再次可见，不会加载initData
+        super.onUserVisible();
+        LogUtils.e(222);
 
+    }
     @Override
     protected void onFragmentFirstVisible() {
         super.onFragmentFirstVisible();
