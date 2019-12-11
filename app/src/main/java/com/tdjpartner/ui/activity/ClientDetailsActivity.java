@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.adapter.HistoryInfoAdapter;
 import com.tdjpartner.R;
@@ -59,7 +60,7 @@ public class ClientDetailsActivity extends BaseActivity<ClientDetailsPresenter> 
     @BindView(R.id.tv_heard)
     TextView tv_heard;
     @BindView(R.id.iv_heard)
-    ImageView iv_heard;
+    RoundedImageView iv_heard;
     @BindView(R.id.rl_call)
     RelativeLayout rl_call;
     private List<ClientDetailsStoreInfo> storeInfoList=new ArrayList<>();
