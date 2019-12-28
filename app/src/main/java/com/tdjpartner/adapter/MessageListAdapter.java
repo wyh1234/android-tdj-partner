@@ -51,6 +51,8 @@ public class MessageListAdapter  extends MultipleItemRvAdapter<Message, BaseView
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
+//        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 6);//布局应该这样写
+//        mRecyclerView.setLayoutManager(gridLayoutManager);
         RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
         if (manager instanceof GridLayoutManager) {
             final GridLayoutManager gridManager = ((GridLayoutManager) manager);
@@ -59,11 +61,11 @@ public class MessageListAdapter  extends MultipleItemRvAdapter<Message, BaseView
                 public int getSpanSize(int position) {
                  Message message=  getData().get(position);
                    if (message instanceof StatisticalData){
-                        return ((StatisticalData) message).getType();
+                        return 3;//代表两列数据
                     }else if (message instanceof AttentionData){
-                        return 4;
+                        return 6;//一列数据
                     }
-                    return 1;
+                    return 0;
 
                 }
             });
@@ -71,6 +73,7 @@ public class MessageListAdapter  extends MultipleItemRvAdapter<Message, BaseView
 
 
     }
+
 
     @Override
     public void registerItemProvider() {
