@@ -301,7 +301,7 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
                 }
 
             }else {
-                if (UserUtils.getInstance().getLoginBean().getGrade()==3){
+                if (UserUtils.getInstance().getLoginBean().getGrade()==3||UserUtils.getInstance().getLoginBean().getGrade()==2){
                     GeneralUtils.showToastshort("该功能无权操作");
                 }else {
                     Intent intent=new Intent(getContext(), SettingPersonActivity.class);
