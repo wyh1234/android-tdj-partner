@@ -103,11 +103,11 @@
                 android:layout_height="1dp"/>
 
             <TextView
+                android:id="@+id/tv_site"
                 android:layout_width="match_parent"
                 android:gravity="center_vertical"
                 android:textColor="@color/black_63"
                 android:textSize="12sp"
-                android:text="武汉"
                 android:layout_height="37dp">
             </TextView>
             <View

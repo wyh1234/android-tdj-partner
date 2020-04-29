@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 public class PublicCache {
-
     //域名
     public static final String http_type = "real";
 //    public static final String http_type = "test";

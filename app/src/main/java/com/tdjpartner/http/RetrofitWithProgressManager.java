@@ -96,4 +96,33 @@ public class RetrofitWithProgressManager {
         }
 
     }
+   /* public void download(View view) {//下载，要implements RetrofitDownloadListener
+        addSubscribe(RetrofitWithProgressManager
+
+                .getInstance(this)
+                .creat(ApiService.class)
+                .downLoad("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1529672863611&di=e9f66a3571b06f405c6f99d0df55b954&imgtype=0&src=http%3A%2F%2Fimg.fashionmoon.com%2Fuploadfile%2F2014%2F0628%2F20140628060940275.jpg")
+                .subscribeOn(Schedulers.io())
+                .map(ResponseBody::byteStream)
+                .observeOn(Schedulers.computation())
+                .doOnNext(inputStream -> {
+
+
+
+
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new BaseObserver<InputStream>(this) {
+
+                    @Override
+                    protected void onSuccess(InputStream inputStream) {
+                        ThreadPoolManager.getInstance().submit(() -> {
+                            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                            runOnUiThread(() -> iv.setImageBitmap(bitmap));
+                        });
+                    }
+                })
+        );
+
+    }*/
 }

@@ -62,6 +62,8 @@ public class AddBaifangActivity extends BaseActivity<AddBaifangPresenter> implem
     TextView tv_username;
     @BindView(R.id.tv_callMobile)
     TextView tv_callMobile;
+    @BindView(R.id.tv_site)
+    TextView tv_site;
     private int type;
     private String path;
     private String time;
@@ -238,6 +240,7 @@ public class AddBaifangActivity extends BaseActivity<AddBaifangPresenter> implem
 
         tv_username.setText(UserUtils.getInstance().getLoginBean().getRealname());
         tv_callMobile.setText(UserUtils.getInstance().getLoginBean().getPhoneNumber());
+        tv_site.setText(UserUtils.getInstance().getLoginBean().getSiteName());
     }
 
     @Override
