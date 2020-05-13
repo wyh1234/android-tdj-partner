@@ -5,6 +5,8 @@ package com.tdjpartner.http.interceptor;
  */
 
 import com.apkfuns.logutils.LogUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.tdjpartner.utils.GeneralUtils;
 
 import java.io.IOException;
@@ -14,7 +16,9 @@ import java.util.Map;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
+import okhttp3.MediaType;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -27,7 +31,6 @@ public class CommonParamsInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
-        Request.Builder heard = request.newBuilder();
         Request newRequest = null;
         if (request.method().equals("GET")) {
 
@@ -35,10 +38,9 @@ public class CommonParamsInterceptor implements Interceptor {
                 for (String s : getSpParams().keySet()) {
                     builder.setEncodedQueryParameter(s, getSpParams().get(s));
                 }
-            newRequest = heard.method(request.method(), request.body()).url(builder.build()).build();
-//            newRequest = request.newBuilder().url(builder.build()).build();
+            newRequest = request.newBuilder().url(builder.build()).build();
             return chain.proceed(newRequest);
-        } else if (request.method().equals("POST")&& request.body() instanceof FormBody) {
+        } else if (request.method().equals("POST")&& request.body() instanceof FormBody) {//表单请求
                 FormBody.Builder bodyBuilder = new FormBody.Builder();
                 FormBody formBody = (FormBody) request.body();
                 for (int i = 0; i < formBody.size(); i++) {
@@ -47,15 +49,23 @@ public class CommonParamsInterceptor implements Interceptor {
                 for (String s : getSpParams().keySet()) {
                 bodyBuilder.addEncoded(s, getSpParams().get(s));
               }
-            newRequest = heard.method(request.method(), bodyBuilder.build()).build();
-//            newRequest = request.newBuilder().post(bodyBuilder.build()).build();
+            newRequest = request.newBuilder().post(bodyBuilder.build()).build();
+            return chain.proceed(newRequest);
+        }else if (request.method().equals("POST")&& request.body() instanceof PostJsonBody){//json请求
+            Gson gson=   new Gson();
+            String content = ((PostJsonBody) request.body()).getContent();
+            HashMap<String, Object> hashMap = gson.fromJson(content, new TypeToken<HashMap<String, Object>>(){}.getType());
+            for (String s : getSpParams().keySet()) {
+                hashMap.put(s, getSpParams().get(s));
+            }
+            newRequest= request.newBuilder().post( RequestBody.create(MediaType.parse("application/json; charset=utf-8"), gson.toJson(hashMap))).build();
             return chain.proceed(newRequest);
         }
         return chain.proceed(request);
 
     }
 
-    public Map<String, String> getSpParams(){
+    public Map<String, String> getSpParams(){//公共请求参数
         Map<String, String> params=new HashMap<>();
         params.put("versionType","Android");
         params.put("versionCode", String.valueOf(GeneralUtils.getVersionCode()));

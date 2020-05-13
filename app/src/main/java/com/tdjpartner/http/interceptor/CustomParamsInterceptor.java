@@ -14,7 +14,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * post方式json请求，公共参数
+ * FormBody post方式json请求，公共参数
  * Created by Administrator on 2018/3/24.
  */
 

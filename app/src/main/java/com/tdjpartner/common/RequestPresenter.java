@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.tdjpartner.http.BaseObserver;
 import com.tdjpartner.http.RetrofitServiceManager;
 import com.tdjpartner.http.RxUtils;
+import com.tdjpartner.http.interceptor.PostJsonBody;
 import com.tdjpartner.model.AppVersion;
 import com.tdjpartner.model.BaiFangHistory;
 import com.tdjpartner.model.Bank;
@@ -231,12 +232,14 @@ public class RequestPresenter {
         return MultipartBody.Part.createFormData("image", fileName, requestFile);
     }
 
+//    public static RequestBody  jsonData(Map<String ,Object> map){//
+//        map.put("versionType", "Android");
+//        map.put("versionCode", String.valueOf(GeneralUtils.getVersionCode()));
+//        map.put("versionName",GeneralUtils.getVersionName());
+//        map.put("uniqueId",GeneralUtils.getAndroidId());
+//        return RequestBody.create(JSON, new Gson().toJson(map));
+//    }
     public static RequestBody  jsonData(Map<String ,Object> map){
-        map.put("versionType", "Android");
-        map.put("versionCode", String.valueOf(GeneralUtils.getVersionCode()));
-        map.put("versionName",GeneralUtils.getVersionName());
-        map.put("uniqueId",GeneralUtils.getAndroidId());
-        return RequestBody.create(JSON, new Gson().toJson(map));
+        return PostJsonBody.create(new Gson().toJson(map));
     }
-
 }
