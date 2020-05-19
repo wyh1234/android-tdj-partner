@@ -33,7 +33,6 @@ public class CommonParamsInterceptor implements Interceptor {
         Request request = chain.request();
         Request newRequest = null;
         if (request.method().equals("GET")) {
-
             HttpUrl.Builder builder = request.url().newBuilder();
                 for (String s : getSpParams().keySet()) {
                     builder.setEncodedQueryParameter(s, getSpParams().get(s));
@@ -54,7 +53,7 @@ public class CommonParamsInterceptor implements Interceptor {
         }else if (request.method().equals("POST")&& request.body() instanceof PostJsonBody){//json请求
             Gson gson=   new Gson();
             String content = ((PostJsonBody) request.body()).getContent();
-            HashMap<String, Object> hashMap = gson.fromJson(content, new TypeToken<HashMap<String, Object>>(){}.getType());
+            HashMap<String, Object> hashMap = JsonHelper.parseJSONString(content);
             for (String s : getSpParams().keySet()) {
                 hashMap.put(s, getSpParams().get(s));
             }
