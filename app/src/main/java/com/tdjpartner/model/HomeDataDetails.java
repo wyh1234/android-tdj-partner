@@ -39,7 +39,25 @@ public class HomeDataDetails {
         private int notOrderCustomerNum;
         private int orderCustomerNum;
         private int totalCustomerNum;
+        private int dayRegisterTimes;
+        private int callNum;
         private List<ListBean> list;
+
+        public int getDayRegisterTimes() {
+            return dayRegisterTimes;
+        }
+
+        public void setDayRegisterTimes(int dayRegisterTimes) {
+            this.dayRegisterTimes = dayRegisterTimes;
+        }
+
+        public int getCallNum() {
+            return callNum;
+        }
+
+        public void setCallNum(int callNum) {
+            this.callNum = callNum;
+        }
 
         public int getTotalCustomerNum() {
             return totalCustomerNum;

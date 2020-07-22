@@ -122,8 +122,10 @@ public class StatisticsListActivity extends BaseActivity {
         title=getIntent().getStringExtra("title");
         tv_title.setText(title);
         titles.add("全部");
-        titles.add("未下单数");
-        titles.add("已下单数");
+        titles.add("未下单");
+        titles.add("已下单");
+        titles.add("注册");
+        titles.add("拜访");
         wtab.setxTabDisplayNum(titles.size());
         adatper = new FragmentStatisticsAdapter(this.getSupportFragmentManager(), titles, getIntent().getStringExtra("title"));
         viewPager.setAdapter(adatper);

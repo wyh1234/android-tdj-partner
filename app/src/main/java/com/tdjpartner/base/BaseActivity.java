@@ -113,6 +113,7 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
         return this;
     }
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -129,12 +130,23 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
 //        }
         ActivityManager.removeActivity(this);
     }
-
+    /**
+     * 保存RxJava绑定关系
+     */
     public void addSubscribe(Disposable disposable) {
         if (compositeDisposable == null) {
             compositeDisposable = new CompositeDisposable();
         }
         compositeDisposable.add(disposable);
+    }
+
+    /**
+     * 取消单个RxJava绑定
+     */
+    public void removeDisposable(Disposable disposable) {
+        if (!compositeDisposable.isDisposed()) {
+            compositeDisposable.remove(disposable);
+        }
     }
     /**
      * 统一退出控制

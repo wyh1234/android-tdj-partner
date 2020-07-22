@@ -198,6 +198,8 @@ public class StatisticsFragment extends BaseFrgment<StatisticsFragmentPresenter>
         statisticsListActivity.titles.add("全部"+(homeDataDetails.getObj().getTotalCustomerNum()==0?"":homeDataDetails.getObj().getTotalCustomerNum()));
         statisticsListActivity.titles.add("未下单"+(homeDataDetails.getObj().getNotOrderCustomerNum()==0?"":homeDataDetails.getObj().getNotOrderCustomerNum()));
         statisticsListActivity.titles.add("已下单"+(homeDataDetails.getObj().getOrderCustomerNum()==0?"":homeDataDetails.getObj().getOrderCustomerNum()));
+        statisticsListActivity.titles.add("注册"+(homeDataDetails.getObj().getDayRegisterTimes()==0?"":homeDataDetails.getObj().getDayRegisterTimes()));
+        statisticsListActivity.titles.add("拜访"+(homeDataDetails.getObj().getCallNum()==0?"":homeDataDetails.getObj().getCallNum()));
         statisticsListActivity.adatper.notifyDataSetChanged();
 
 

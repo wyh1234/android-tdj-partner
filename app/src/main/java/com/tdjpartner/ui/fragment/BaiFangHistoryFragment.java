@@ -112,6 +112,7 @@ public class BaiFangHistoryFragment extends BaseFrgment<BaiFangHistoryPresenter>
 
         map.put("pn",pn);
         map.put("ps",10);
+        
         mPresenter.call_list(map);
 
     }
