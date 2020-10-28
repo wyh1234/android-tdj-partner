@@ -53,7 +53,6 @@ import okhttp3.RequestBody;
 import static okhttp3.MultipartBody.FORM;
 
 public class RequestPresenter {
-    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     public static ApiService getApiService(){
        return RetrofitServiceManager.getInstance().creat(ApiService.class);
     }

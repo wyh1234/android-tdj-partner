@@ -1,5 +1,7 @@
 package com.tdjpartner.http;
 
+import retrofit2.HttpException;
+
 /**
  *
  * @author Administrator

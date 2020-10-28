@@ -22,9 +22,7 @@ import java.util.Locale;
 
 
 /**
- * @author ChayChan
  * @description: 底部tab条目
- * @date 2017/6/23  9:14
  */
 
 public class BottomBarItem extends LinearLayout {
