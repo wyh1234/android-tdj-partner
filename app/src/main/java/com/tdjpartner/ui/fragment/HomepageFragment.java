@@ -12,30 +12,24 @@ import android.widget.TextView;
 import com.apkfuns.logutils.LogUtils;
 import com.bigkoo.pickerview.TimePickerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.tdjpartner.adapter.HomepageAdapter;
 import com.tdjpartner.R;
-import com.tdjpartner.adapter.home.AllDataAdapter;
-import com.tdjpartner.adapter.home.AttentionDataAdapter;
+import com.tdjpartner.adapter.TeamPreviewAdapter;
+import com.tdjpartner.adapter.TeamPreviewAllAdapter;
+import com.tdjpartner.adapter.TeamPreviewMothAdapter;
 import com.tdjpartner.adapter.home.HomeOrderTimesAdapter;
 import com.tdjpartner.adapter.home.HomeRegisterTimesAdapter;
-import com.tdjpartner.adapter.home.MonthDataAdapter;
-import com.tdjpartner.adapter.home.TodyDataAdapter;
 import com.tdjpartner.base.BaseFrgment;
 import com.tdjpartner.model.HomeData;
 import com.tdjpartner.model.HomeFilter;
-import com.tdjpartner.model.StatisticalData;
+import com.tdjpartner.model.TeamOverView;
 import com.tdjpartner.mvp.presenter.HomepageFragmentPresenter;
-import com.tdjpartner.ui.activity.CommonFollowUpActivity;
-import com.tdjpartner.ui.activity.DropOutingActivity;
-import com.tdjpartner.ui.activity.PartnerCheckActivity;
-import com.tdjpartner.ui.activity.SettingPersonActivity;
+import com.tdjpartner.ui.activity.TeamMemberActivity;
 import com.tdjpartner.ui.activity.TeamPreviewActivity;
-import com.tdjpartner.ui.activity.statistics.StatisticsListActivity;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
 import com.tdjpartner.utils.ViewUrils;
 import com.tdjpartner.utils.cache.UserUtils;
-import com.tdjpartner.widget.ScrollLinearLayoutManager;
+import com.tdjpartner.widget.CustomLinearLayout;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -48,7 +42,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> implements SwipeRefreshLayout.OnRefreshListener
-    ,BaseQuickAdapter.OnItemClickListener, View.OnClickListener {
+    , View.OnClickListener, BaseQuickAdapter.OnItemChildClickListener {
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.rv_recyclerView)
@@ -59,42 +53,31 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
     TextView tv_username;
     @BindView(R.id.tv_time)
     TextView tv_time;
-    private RecyclerView today_recyclerView, month_recyclerView, all_recyclerView, attention_recyclerView, register_recyclerView, order_recyclerView;
-//    private TextView tv_bottom;
-    private List<StatisticalData> todayList = new ArrayList<>();
-    private List<StatisticalData> monthList = new ArrayList<>();
-    private List<StatisticalData> addList = new ArrayList<>();
-    private List<HomeData.PartnerApproachDataBean> attentionDataList = new ArrayList<>();
+    @BindView(R.id.tv_heard)
+    TextView tv_heard;
+    private RecyclerView  month_recyclerView, all_recyclerView, register_recyclerView, order_recyclerView;
+    private TeamPreviewAdapter teamPreviewAdapter;
+    private TeamPreviewMothAdapter teamPreviewAdapter1;
+    private TeamPreviewAllAdapter teamPreviewAdapter2;
     private List<HomeData.RegisterTimesTopBean> registerlist = new ArrayList<>();
     private List<HomeData.OrdersTimesTopBean> orderList = new ArrayList<>();
-    private TodyDataAdapter todyDataAdapter;
-    private HomepageAdapter homepageAdapter;
-    private MonthDataAdapter monthDataAdapter;
-    private AllDataAdapter allDataAdapter;
-    private AttentionDataAdapter attentionDataAdapter;
     private HomeOrderTimesAdapter homeOrderTimesAdapter;
     private HomeRegisterTimesAdapter homeRegisterTimesAdapter;
-    private RelativeLayout rl_right, rl_rights;
-    private Calendar selectedDate, endDate, startDate;
     private TimePickerView pvTime;
-    private TextView tv_today, tv_month;
-    private boolean f;
     private  HomeFilter homeFilter=new HomeFilter();
+    private String startTime="";
+    private List<TeamOverView> data=new ArrayList<>();//今日
+    private List<TeamOverView> data1=new ArrayList<>();//当月
+    private List<TeamOverView> data2=new ArrayList<>();//所有
+
+    private Calendar selectedDate, endDate, startDate;
     @OnClick({R.id.rl_team})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_team:
-                Intent intent = new Intent(getContext(), TeamPreviewActivity.class);
-                intent.putExtra("userId",UserUtils.getInstance().getLoginBean().getEntityId()+"");
+                Intent intent = new Intent(getContext(), TeamMemberActivity.class);
+                intent.putExtra("userId", UserUtils.getInstance().getLoginBean().getEntityId() + "");
                 startActivity(intent);
-                break;
-            case R.id.rl_right:
-                f=true;
-                setTime(f);
-                break;
-            case R.id.rl_rights:
-                f=false;
-                setTime(f);
                 break;
         }
     }
@@ -103,12 +86,8 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
     protected void initView(View view) {
         swipeRefreshLayout.setColorSchemeResources(R.color.bbl_ff0000);
         swipeRefreshLayout.setOnRefreshListener(this);
-        selectedDate=Calendar.getInstance();
-        startDate = Calendar.getInstance();
-        startDate.set(startDate.get(Calendar.YEAR),  (startDate.get(Calendar.MONTH)-6),startDate.get(Calendar.DAY_OF_MONTH));
-        endDate = Calendar.getInstance();
-//        endDate.set(2029, 11, 28);
-        endDate.set(endDate.get(Calendar.YEAR),  (endDate.get(Calendar.MONTH)),endDate.get(Calendar.DAY_OF_MONTH));
+
+
 
         if (UserUtils.getInstance().getLoginBean().getGrade()!=3){
             rl_team.setVisibility(View.VISIBLE);
@@ -116,89 +95,56 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
             rl_team.setVisibility(View.GONE);
         }
 
-    }
-    public void setTime(boolean type){
-        pvTime = new TimePickerView.Builder(getContext(), new TimePickerView.OnTimeSelectListener() {
-            @Override
-            public void onTimeSelect(Date date, View v) {
-                if (f){
-                    homeFilter.setDayDate(GeneralUtils.getTimeFilter(date));
-                    tv_today.setText(GeneralUtils.getTimes(date));
 
-                }else {
-                    homeFilter.setMonthTime(GeneralUtils.getTimeFilter(date));
-                    tv_month.setText(GeneralUtils.getTime(date));
-                }
-                swipeRefreshLayout.setRefreshing(true);
-                getData(homeFilter);
-            }
-        }) //年月日时分秒 的显示与否，不设置则默认全部显示
-                .setType(new boolean[]{true, true, type, false, false, false})
-                .setLabel("年", "月",  type?"日":"", "", "", "")
-                .isCenterLabel(true)
-                .setLineSpacingMultiplier(1.8f)
-                .setDividerColor(Color.DKGRAY)
-                .setContentSize(16)
-                .setDate(selectedDate)
-                .setRangDate(startDate, endDate)
-                .setDecorView(null)
-                .build();
-        pvTime.show();
+        selectedDate= Calendar.getInstance();
+        startDate = Calendar.getInstance();
+        startDate.set(startDate.get(Calendar.YEAR),  (startDate.get(Calendar.MONTH)-6),startDate.get(Calendar.DAY_OF_MONTH));
+        endDate = Calendar.getInstance();
+        endDate.set(endDate.get(Calendar.YEAR),  (endDate.get(Calendar.MONTH)),endDate.get(Calendar.DAY_OF_MONTH));
     }
 
 
     @Override
     protected void loadData() {
+
         rv_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        homepageAdapter = new HomepageAdapter(R.layout.homepage_item_layout);
-        rv_recyclerView.setAdapter(homepageAdapter);
-        View footView = ViewUrils.getFragmentView(rv_recyclerView, R.layout.homepage_foot_layout);
-        homepageAdapter.addFooterView(footView);
-        rl_rights=footView.findViewById(R.id.rl_rights);
-        tv_today=footView.findViewById(R.id.tv_today);
-        tv_month=footView.findViewById(R.id.tv_month);
-        rl_rights.setOnClickListener(this);
-         rl_right=footView.findViewById(R.id.rl_right);
-        rl_right.setOnClickListener(this);
-        today_recyclerView=  footView.findViewById(R.id.today_recyclerView);
-        month_recyclerView=  footView.findViewById(R.id.month_recyclerView);
-        all_recyclerView=  footView.findViewById(R.id.all_recyclerView);
-        attention_recyclerView=  footView.findViewById(R.id.attention_recyclerView);
+        CustomLinearLayout layout1 = new CustomLinearLayout(getContext(),
+                CustomLinearLayout.VERTICAL, false);
+        layout1.setScrollEnabled(false);
+        CustomLinearLayout layout2 = new CustomLinearLayout(getContext(),
+                CustomLinearLayout.VERTICAL, false);
+        layout2.setScrollEnabled(false);
+        teamPreviewAdapter=new TeamPreviewAdapter(R.layout.teampreview_item_layout,data);
+        rv_recyclerView.setAdapter(teamPreviewAdapter);
+        View footView = ViewUrils.getFragmentView(rv_recyclerView, R.layout.homepage_new_foot_layout);
+        teamPreviewAdapter.addFooterView(footView);
+
+
+        month_recyclerView=  footView.findViewById(R.id.recyclerView_month_list);
+        all_recyclerView=  footView.findViewById(R.id.recyclerView_all_list);
+
+
+
+        month_recyclerView.setLayoutManager(layout1);
+        all_recyclerView.setLayoutManager(layout2);
+
+
+
+
+
+        teamPreviewAdapter1=new TeamPreviewMothAdapter(R.layout.teampreview_item_layout,data1);
+        month_recyclerView.setAdapter(teamPreviewAdapter1);
+
+        teamPreviewAdapter2=new TeamPreviewAllAdapter(R.layout.teampreview_item_layout,data2);
+        all_recyclerView.setAdapter(teamPreviewAdapter2);
+
+
         register_recyclerView=  footView.findViewById(R.id.register_recyclerView);
         order_recyclerView=  footView.findViewById(R.id.order_recyclerView);
 
-        tv_today.setText( GeneralUtils.getCurrDay());
-        tv_month.setText( GeneralUtils.getCurrMonth());
         tv_username.setText("你好,"+UserUtils.getInstance().getLoginBean().getRealname()+"!");
         tv_time.setText( GeneralUtils.getCurrDay()+"\t\t"+GeneralUtils.getWeekDay(System.currentTimeMillis()));
-
-
-        //今日统计；
-        ScrollLinearLayoutManager layoutManager=   new ScrollLinearLayoutManager(getActivity(), 5);
-        today_recyclerView.setLayoutManager(layoutManager);
-        todyDataAdapter = new TodyDataAdapter(R.layout.tody_data_item,todayList);
-        todyDataAdapter.setOnItemClickListener(this);
-        today_recyclerView.setAdapter(todyDataAdapter);
-
-        //当月统计；
-        ScrollLinearLayoutManager layoutManager1=   new ScrollLinearLayoutManager(getActivity(), 3);
-        month_recyclerView.setLayoutManager(layoutManager1);
-        monthDataAdapter = new MonthDataAdapter(R.layout.month_data_item,monthList);
-        monthDataAdapter.setOnItemClickListener(this);
-        month_recyclerView.setAdapter(monthDataAdapter);
-
-        //所有统计；
-        ScrollLinearLayoutManager layoutManager2=   new ScrollLinearLayoutManager(getActivity(), 4);
-        all_recyclerView.setLayoutManager(layoutManager2);
-        allDataAdapter = new AllDataAdapter(R.layout.tody_data_item,addList);
-        allDataAdapter.setOnItemClickListener(this);
-        all_recyclerView.setAdapter(allDataAdapter);
-        //关注；
-        ScrollLinearLayoutManager layoutManager3=   new ScrollLinearLayoutManager(getActivity(), 4);
-        attention_recyclerView.setLayoutManager(layoutManager3);
-        attentionDataAdapter = new AttentionDataAdapter(R.layout.attention_data_item,attentionDataList);
-        attention_recyclerView.setAdapter(attentionDataAdapter);
-        attentionDataAdapter.setOnItemClickListener(this);
+        tv_heard.setText("当前成员");
         //新注册；
         register_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         homeRegisterTimesAdapter = new HomeRegisterTimesAdapter(R.layout.ranking_item_layout,registerlist);
@@ -214,6 +160,27 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
 
     }
 
+
+    public void teamOverView_day(){
+        Map<String,Object> map=new HashMap<>();
+        map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
+        map.put("startTime", startTime);
+        map.put("flag", "all");
+        mPresenter.teamOverView_day(map);//今日；
+    }
+    public void teamOverView_month(){
+        Map<String,Object> map=new HashMap<>();
+        map.put("userId",UserUtils.getInstance().getLoginBean().getEntityId());
+        map.put("startTime", startTime);
+        map.put("flag", "all");
+        mPresenter.teamOverView_month(map);//今月；
+    }
+    public void teamOverView_all(){
+        Map<String,Object> map=new HashMap<>();
+        map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
+        mPresenter.teamOverView_all(map);//今月；
+        LogUtils.e(map);
+    }
     @Override
     protected HomepageFragmentPresenter loadPresenter() {
         return new HomepageFragmentPresenter();
@@ -227,6 +194,9 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
     @Override
     public void onRefresh() {
         getData(homeFilter);
+        teamOverView_day();
+        teamOverView_month();
+        teamOverView_all();
     }
 
     public void getData(HomeFilter homeFilter){
@@ -250,86 +220,9 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
     }
 
 
-    @Override
-    public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int pos) {
-        if (baseQuickAdapter instanceof TodyDataAdapter){
-                Intent intent=new Intent(getContext(), StatisticsListActivity.class);
-                intent.putExtra("title","今日统计");
-                 intent.putExtra("userId",UserUtils.getInstance().getLoginBean().getEntityId()+"");
-                intent.putExtra("dayDate",GeneralUtils.isNullOrZeroLenght(homeFilter.getDayDate())?GeneralUtils.getCurr()
-                        :homeFilter.getDayDate());
-                startActivity(intent);
-//            }
-        }else if (baseQuickAdapter instanceof MonthDataAdapter){
-                Intent intent=new Intent(getContext(), StatisticsListActivity.class);
-                intent.putExtra("title","月统计");
-                 intent.putExtra("userId",UserUtils.getInstance().getLoginBean().getEntityId()+"");
-                intent.putExtra("monthTime",GeneralUtils.isNullOrZeroLenght(homeFilter.getMonthTime())?GeneralUtils.getCurr()
-                        :homeFilter.getMonthTime());
-                startActivity(intent);
-
-        }else if (baseQuickAdapter instanceof AllDataAdapter){
-                Intent intent=new Intent(getContext(), StatisticsListActivity.class);
-                intent.putExtra("userId",UserUtils.getInstance().getLoginBean().getEntityId()+"");
-                intent.putExtra("title","所有统计");
-                startActivity(intent);
-        }else if (baseQuickAdapter instanceof AttentionDataAdapter){
-            if (pos==0){
-                if (UserUtils.getInstance().getLoginBean().getGrade()==1||UserUtils.getInstance().getLoginBean().getGrade()==5||UserUtils.getInstance().getLoginBean().getGrade()==4){
-                    GeneralUtils.showToastshort("该功能无权操作");
-
-                }else {
-                    Intent intent=new Intent(getContext(), DropOutingActivity.class);
-                    startActivity(intent);
-                }
-
-            }else if (pos==1){
-                if (UserUtils.getInstance().getLoginBean().getGrade()==1||UserUtils.getInstance().getLoginBean().getGrade()==5||UserUtils.getInstance().getLoginBean().getGrade()==4){
-                    GeneralUtils.showToastshort("该功能无权操作");
-                }else {
-                    Intent intent=new Intent(getContext(), CommonFollowUpActivity.class);
-                    startActivity(intent);
-                }
-
-            }else if (pos==2){
-                if (UserUtils.getInstance().getLoginBean().getGrade()==3){
-                    GeneralUtils.showToastshort("该功能无权操作");
-                }else {
-                    Intent intent=new Intent(getContext(), PartnerCheckActivity.class);
-                    startActivity(intent);
-
-                }
-
-            }else {
-                if (UserUtils.getInstance().getLoginBean().getGrade()==3||UserUtils.getInstance().getLoginBean().getGrade()==2){
-                    GeneralUtils.showToastshort("该功能无权操作");
-                }else {
-                    Intent intent=new Intent(getContext(), SettingPersonActivity.class);
-
-                    startActivity(intent);
-
-                }
-
-            }
-
-        }
-
-    }
 
     public void homeData_Success(HomeData homeData) {
         stop();
-            if (!ListUtils.isEmpty(todayList)) {
-                todayList.clear();
-            }
-            if (!ListUtils.isEmpty(monthList)) {
-                monthList.clear();
-            }
-            if (!ListUtils.isEmpty(addList)) {
-                addList.clear();
-            }
-            if (!ListUtils.isEmpty(attentionDataList)) {
-                attentionDataList.clear();
-            }
             if (!ListUtils.isEmpty(registerlist)) {
                 registerlist.clear();
             }
@@ -337,46 +230,6 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
                 orderList.clear();
             }
 
-        StatisticalData statisticalData=new StatisticalData("客户总数",homeData.getAllData().getCountCustomer().toString());
-        StatisticalData statisticalData1=new StatisticalData("下单客户数",homeData.getAllData().getOrderCustomer().toString());
-        StatisticalData statisticalData2=new StatisticalData("未下单数",homeData.getAllData().getNotOrderCustomer().toString());
-        StatisticalData statisticalData3=new StatisticalData("待审核数",homeData.getAllData().getNoVerifyNum().toString());
-        addList.add(statisticalData);
-        addList.add(statisticalData1);
-        addList.add(statisticalData2);
-        addList.add(statisticalData3);
-        allDataAdapter.setNewData(addList);
-
-
-        StatisticalData statisticalTodayData=new StatisticalData("注册数",homeData.getTodayData().getDayRegisterTimes().toString());
-        StatisticalData statisticalTodayData1=new StatisticalData("新下单数",homeData.getTodayData().getFirstOrderNum().toString());
-        StatisticalData statisticalTodayData2=new StatisticalData("日活数",homeData.getTodayData().getActiveNum().toString());
-        StatisticalData statisticalTodayData3=new StatisticalData("下单金额",homeData.getTodayData().getTodayAmount().toString());
-        StatisticalData statisticalTodayData4=new StatisticalData("拜访数",homeData.getTodayData().getCallNum().toString());
-        todayList.add(statisticalTodayData);
-        todayList.add(statisticalTodayData1);
-        todayList.add(statisticalTodayData2);
-        todayList.add(statisticalTodayData3);
-        todayList.add(statisticalTodayData4);
-        todyDataAdapter.setNewData(todayList);
-
-        StatisticalData statisticalMonthData=new StatisticalData("注册总数",homeData.getMonthData().getMonthRegisterNum().toString());
-        StatisticalData statisticalMonthData1=new StatisticalData("月平均日活量",homeData.getMonthData().getMonthAvgActiveNum().toString());
-        StatisticalData statisticalMonthData2=new StatisticalData("下单金额",homeData.getMonthData().getMonthAmount().toString());
-        StatisticalData statisticalMonthData3=new StatisticalData("新增平均日活",homeData.getMonthData().getLastMonthAvgActiveNum().toString());
-        StatisticalData statisticalMonthData4=new StatisticalData("新增下单数",homeData.getMonthData().getMonthFirstOrderNum().toString());
-        StatisticalData statisticalMonthData5=new StatisticalData("总拜访数",homeData.getMonthData().getMonthCallNum().toString());
-        monthList.add(statisticalMonthData);
-        monthList.add(statisticalMonthData1);
-        monthList.add(statisticalMonthData2);
-        monthList.add(statisticalMonthData3);
-        monthList.add(statisticalMonthData4);
-        monthList.add(statisticalMonthData5);
-        monthDataAdapter.setNewData(monthList);
-
-
-        attentionDataList.addAll(homeData.getPartnerApproachData());
-        attentionDataAdapter.setNewData(attentionDataList);
 
         registerlist.addAll(homeData.getRegisterTimesTop());
         homeRegisterTimesAdapter.setNewData(registerlist);
@@ -389,7 +242,83 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
 
     }
 
+    public void teamOverView_day_Success(TeamOverView teamOverView) {
+        if (!ListUtils.isEmpty(data)) {
+            data.clear();
+        }
+
+
+        data.add(teamOverView);
+        if (!GeneralUtils.isNullOrZeroLenght(startTime)){
+            data.get(0).setDate(startTime.substring(5,10).replace("-","月")+"日");
+            LogUtils.e(startTime.substring(5,10).replace("-","月")+"日");
+        }
+
+        teamPreviewAdapter.notifyDataSetChanged();
+
+
+    }
+    public void teamOverView_month_Success(TeamOverView teamOverView) {
+        if (!ListUtils.isEmpty(data1)) {
+            data1.clear();
+        }
+        data1.add(teamOverView);
+        if (!GeneralUtils.isNullOrZeroLenght(startTime)){
+            data1.get(0).setDate(startTime.substring(5,7)+"月");
+            LogUtils.e(startTime.substring(5,7)+"月");
+        }
+        teamPreviewAdapter1.setNewData(data1);
+    }
+    public void teamOverView_all_Success(TeamOverView teamOverView) {
+        if (!ListUtils.isEmpty(data2)) {
+            data2.clear();
+        }
+        data2.add(teamOverView);
+        teamPreviewAdapter2.setNewData(data2);
+    }
+
     public void homeData_failed() {
         stop();
     }
+
+    @Override
+    public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+        if (view.getId()==R.id.rl_right){
+            if (baseQuickAdapter instanceof TeamPreviewAdapter){
+                setTime(1);
+            }else if (baseQuickAdapter instanceof TeamPreviewMothAdapter){
+                setTime(2);
+            }
+        }
+    }
+
+    public void setTime(int type){
+        pvTime = new TimePickerView.Builder(getContext(), new TimePickerView.OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {
+                startTime=GeneralUtils.getTimeFilter(date);
+                if (type==1){
+                    teamOverView_day();
+
+                }else {
+                    teamOverView_month();
+                }
+
+            }
+        }) //年月日时分秒 的显示与否，不设置则默认全部显示
+                .setType(new boolean[]{true, true, type==1, false, false, false})
+                .setLabel("年", "月", type==1?"日":"", "", "", "")
+                .isCenterLabel(true)
+                .setLineSpacingMultiplier(1.8f)
+                .setDividerColor(Color.DKGRAY)
+                .setContentSize(16)
+                .setDate(selectedDate)
+                .setRangDate(startDate, endDate)
+                .setDecorView(null)
+                .build();
+        pvTime.show();
+
+
+    }
+
 }

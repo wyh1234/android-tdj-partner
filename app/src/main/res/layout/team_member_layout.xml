@@ -44,9 +44,7 @@
             android:layout_height="match_parent">
             <TextView
                 android:id="@+id/tv_name"
-                android:text="市场专员"
                 android:textSize="14sp"
-                android:drawableRight="@mipmap/xialabai_bg"
                 android:drawablePadding="5dp"
                 android:layout_centerVertical="true"
                 android:gravity="center"

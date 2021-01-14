@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView_month_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView_all_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
+
+
+    <LinearLayout
+        android:id="@+id/ll_one"
+        android:background="@drawable/client_item_sahp"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="6dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_left"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:src="@mipmap/newzhuce_bg"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_regiset_ranking"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/iv_left"
+                android:layout_marginLeft="6dp"
+                android:text="新注册排行榜TOP3"
+                android:textSize="16sp"
+                android:textColor="@color/black_63"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/register_recyclerView"
+            android:layout_marginTop="@dimen/sp_12"
+            android:background="@drawable/home_item_shap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_two"
+        android:background="@drawable/client_item_sahp"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="6dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_xiadan"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:src="@mipmap/xiadan_bg"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_order_ranking"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/iv_xiadan"
+                android:layout_marginLeft="6dp"
+                android:text="新下单排行TOP3"
+                android:textSize="16sp"
+                android:textColor="@color/black_63"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/order_recyclerView"
+            android:layout_marginTop="@dimen/sp_12"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </LinearLayout>
+    <View
+        android:layout_marginLeft="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"/>
+</LinearLayout>

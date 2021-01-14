@@ -15,6 +15,7 @@ import com.tdjpartner.model.ClientInfo;
 import com.tdjpartner.model.ClientSeachInfo;
 import com.tdjpartner.model.CouponsStatistics;
 import com.tdjpartner.model.DiscountCoupon;
+import com.tdjpartner.model.DistinctList;
 import com.tdjpartner.model.DropOuting;
 import com.tdjpartner.model.EarningsHistory;
 import com.tdjpartner.model.GoodsInfo;
@@ -216,12 +217,18 @@ public class RequestPresenter {
     public static Disposable  myTeamPartnerList(Map<String, Object> map, BaseObserver<MyTeam> callback) {
         return getApiService().myTeamPartnerList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
+    public static Disposable  memberList(Map<String, Object> map, BaseObserver<MyTeam> callback) {
+        return getApiService().memberList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
 
     public static Disposable  version_check(Map<String, Object> map, BaseObserver<AppVersion> callback) {
         return getApiService().version_check(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
     public static Disposable  myTeamPartnerSelectList(Map<String, Object> map, BaseObserver<List<String>> callback) {
         return getApiService().myTeamPartnerSelectList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  distinctList(Map<String, Object> map, BaseObserver<DistinctList> callback) {
+        return getApiService().distinctList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
 
 

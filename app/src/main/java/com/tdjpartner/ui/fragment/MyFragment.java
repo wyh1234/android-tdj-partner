@@ -27,6 +27,7 @@ import com.tdjpartner.mvp.presenter.MyFragmentPresneter;
 import com.tdjpartner.ui.activity.AddBaifangActivity;
 import com.tdjpartner.ui.activity.EarningsActivity;
 import com.tdjpartner.ui.activity.EarningsHistoryActivity;
+import com.tdjpartner.ui.activity.MenberPaifangHistoryActivity;
 import com.tdjpartner.ui.activity.MessageActivity;
 import com.tdjpartner.ui.activity.RealNameAuthenticationActivity;
 import com.tdjpartner.ui.activity.SettingActivity;
@@ -102,7 +103,12 @@ public class MyFragment extends BaseFrgment<MyFragmentPresneter> implements Swip
         rxPermissions = new RxPermissions(getActivity());
         swipeRefreshLayout.setColorSchemeResources(R.color.bbl_ff0000);
         swipeRefreshLayout.setOnRefreshListener(this);
-        list.add(new MyFragmentBottom("新增拜访",false));
+        if (UserUtils.getInstance().getLoginBean().getGrade()!=3){
+            list.add(new MyFragmentBottom("专员拜访记录",false));
+        }else {
+            list.add(new MyFragmentBottom("拜访记录",false));
+        }
+
         list.add(new MyFragmentBottom("实名认证",false));
         list.add(new MyFragmentBottom("去赚钱",false));
         list.add(new MyFragmentBottom("设置",false));
@@ -220,8 +226,12 @@ public class MyFragment extends BaseFrgment<MyFragmentPresneter> implements Swip
             Intent intent=new Intent(getContext(), SettingActivity.class);
             startActivity(intent);
         }else if (i==0){
-            Intent intent=new Intent(getContext(), AddBaifangActivity.class);
-            startActivity(intent);
+            if (UserUtils.getInstance().getLoginBean().getGrade()==3){
+                Intent intent=new Intent(getContext(), MenberPaifangHistoryActivity.class);
+                startActivity(intent);
+
+            }
+
 
         }else if (i==2){
             Intent intent=new Intent(getContext(), ToMakeMoneyActivity.class);

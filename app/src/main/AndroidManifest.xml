@@ -91,6 +91,10 @@
             android:name=".ui.activity.CommonFollowUpActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.activity.MenberPaifangHistoryActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".ui.activity.PartnerCheckActivity"
             android:screenOrientation="portrait" />
         <activity

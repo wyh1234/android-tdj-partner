@@ -12,6 +12,7 @@ import com.tdjpartner.model.ClientInfo;
 import com.tdjpartner.model.ClientSeachInfo;
 import com.tdjpartner.model.CouponsStatistics;
 import com.tdjpartner.model.DiscountCoupon;
+import com.tdjpartner.model.DistinctList;
 import com.tdjpartner.model.DropOuting;
 import com.tdjpartner.model.EarningsHistory;
 import com.tdjpartner.model.GoodsInfo;
@@ -520,6 +521,9 @@ public interface ApiService {
     Observable<BaseResponse<MyTeam>> myTeamPartnerList(@Body  RequestBody body);
 
 
+    @Headers({"url_type:xuming"})
+    @POST("tdj-report/report/teamOverView/memberList")
+    Observable<BaseResponse<MyTeam>> memberList(@Body  RequestBody body);
     /*
      *.
      *
@@ -539,6 +543,15 @@ public interface ApiService {
     @POST("tdj-report/report/teamOverView/myTeamPartnerSelectList")
     Observable<BaseResponse<List<String>>> myTeamPartnerSelectList(@Body  RequestBody body);
 
+
+    /*
+     *.
+     *
+     *
+     * */
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/call/distinctList")
+    Observable<BaseResponse<DistinctList>> distinctList(@Body  RequestBody body);
 
 
 }

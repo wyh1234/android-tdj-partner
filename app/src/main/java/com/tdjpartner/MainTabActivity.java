@@ -17,12 +17,14 @@ import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.mvp.presenter.MainTabPresenter;
 import com.tdjpartner.ui.fragment.ClientFragment;
 import com.tdjpartner.ui.fragment.HomepageFragment;
+import com.tdjpartner.ui.fragment.MenberHomepageFragment;
 import com.tdjpartner.ui.fragment.MyFragment;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.appupdate.ApkUtil;
 import com.tdjpartner.utils.appupdate.DownloadManager;
 import com.tdjpartner.utils.appupdate.OnDownloadListener;
 import com.tdjpartner.utils.appupdate.UpdateConfiguration;
+import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.widget.bottombar.BottomBarItem;
 import com.tdjpartner.widget.bottombar.BottomBarLayout;
@@ -61,8 +63,13 @@ public class MainTabActivity extends BaseActivity<MainTabPresenter> implements O
 
     @Override
     protected void initData() {
-        mFragmentList = new ArrayList<>(5);
-        mFragmentList.add(new HomepageFragment());
+        mFragmentList = new ArrayList<>();
+        if (UserUtils.getInstance().getLoginBean().getGrade() != 3) {
+            mFragmentList.add(new HomepageFragment());
+        }else {
+            mFragmentList.add(new MenberHomepageFragment());
+        }
+
         mFragmentList.add(new ClientFragment());
         mFragmentList.add(new MyFragment());
         mainTabAdapter=new MainTabAdapter(mFragmentList,getSupportFragmentManager());

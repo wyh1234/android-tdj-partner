@@ -15,8 +15,8 @@ public class TeamMemberPresenter  extends BasePresenter<Model, TeamMemberActivit
     public Model loadModel() {
         return null;
     }
-    public void myTeamPartnerList(Map<String,Object> map){
-        getIView().addSubscribe(RequestPresenter.myTeamPartnerList(map, new BaseObserver<MyTeam>(getIView().getContext(), true) {
+    public void memberList(Map<String,Object> map){
+        getIView().addSubscribe(RequestPresenter.memberList(map, new BaseObserver<MyTeam>(getIView().getContext(), true) {
             @Override
             protected void onSuccess(MyTeam myTeam) {
                 getIView().myTeamPartnerList_Success(myTeam);
@@ -29,7 +29,7 @@ public class TeamMemberPresenter  extends BasePresenter<Model, TeamMemberActivit
         }));
 
     }
-    public void myTeamPartnerSelectList(Map<String,Object> map){
+/*    public void myTeamPartnerSelectList(Map<String,Object> map){
         getIView().addSubscribe(RequestPresenter.myTeamPartnerSelectList(map, new BaseObserver<List<String>>(getIView().getContext(), false) {
             @Override
             protected void onSuccess(List<String> stringList) {
@@ -43,6 +43,6 @@ public class TeamMemberPresenter  extends BasePresenter<Model, TeamMemberActivit
             }
         }));
 
-    }
+    }*/
 
 }
