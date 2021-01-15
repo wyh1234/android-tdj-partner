@@ -1,10 +1,13 @@
 package com.tdjpartner.ui.activity;
 
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tdjpartner.R;
@@ -15,6 +18,7 @@ import com.tdjpartner.model.OrderDetail;
 import com.tdjpartner.model.OrderList;
 import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.mvp.presenter.OrderDetailsPresenter;
+import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.statusbar.Eyes;
 
@@ -53,13 +57,23 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter> {
     TextView tv;
     @BindView(R.id.tv_data)
     TextView tv_data;
+    @BindView(R.id.tv_copy)
+    TextView tv_copy;
+
     private BaseQuickAdapter baseQuickAdapter;
     private List<OrderDetail.ItemsBean> orderLists=new ArrayList<>();
-    @OnClick({R.id.btn_back})
+    private String orderNo;
+    @OnClick({R.id.btn_back,R.id.tv_copy})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.btn_back:
                 finish();
+                break;
+            case R.id.tv_copy:
+
+                ClipboardManager  cmb = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                cmb.setText(orderNo); //将内容放入粘贴管理器,在别的地方长按选择"粘贴"即可
+                GeneralUtils.showToastshort("复制成功");
                 break;
         }
     }
@@ -98,6 +112,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter> {
         if (orderList!=null){
             tv_mTextViewFuKuan.setText("实付款：￥"+orderList.getActualTotalCost());
             tv_time.setText("下单时间："+orderList.getCreateTime());
+            orderNo=orderList.getOrderNo();
             tv_order_no.setText("订单编号："+orderList.getOrderNo());
             tv_cash_pledge_sum.setText("+￥" + String.valueOf(orderList.getOrderForegift()) + "元");
             tv_cash_coupon_used_mon.setText("+￥" + orderList.getTotalFreight() .toString()+ "元");
