@@ -6,6 +6,7 @@ import com.tdjpartner.http.BaseObserver;
 import com.tdjpartner.http.RetrofitServiceManager;
 import com.tdjpartner.http.RxUtils;
 import com.tdjpartner.http.interceptor.PostJsonBody;
+import com.tdjpartner.model.AfterSales;
 import com.tdjpartner.model.AppVersion;
 import com.tdjpartner.model.BaiFangHistory;
 import com.tdjpartner.model.Bank;
@@ -14,6 +15,7 @@ import com.tdjpartner.model.ClientDetails;
 import com.tdjpartner.model.ClientInfo;
 import com.tdjpartner.model.ClientSeachInfo;
 import com.tdjpartner.model.CouponsStatistics;
+import com.tdjpartner.model.DeleteSalesAppByEntityId;
 import com.tdjpartner.model.DiscountCoupon;
 import com.tdjpartner.model.DistinctList;
 import com.tdjpartner.model.DropOuting;
@@ -26,12 +28,16 @@ import com.tdjpartner.model.IntegralShop;
 import com.tdjpartner.model.InvitationHistory;
 import com.tdjpartner.model.MyCountMoney;
 import com.tdjpartner.model.MyTeam;
+import com.tdjpartner.model.NewMyTeam;
 import com.tdjpartner.model.OrderDetail;
 import com.tdjpartner.model.OrderList;
+import com.tdjpartner.model.PageByCSIdList;
+import com.tdjpartner.model.ParentList;
 import com.tdjpartner.model.PartnerCheck;
 import com.tdjpartner.model.PartnerCheckDetails;
 import com.tdjpartner.model.PartnerMessageInfo;
 import com.tdjpartner.model.PartnerMessageItemInfo;
+import com.tdjpartner.model.RefundDetail;
 import com.tdjpartner.model.RentingInfos;
 import com.tdjpartner.model.SelectPerson;
 import com.tdjpartner.model.SettingPerson;
@@ -99,6 +105,25 @@ public class RequestPresenter {
         return getApiService().imageUpload(getMultipartBody_part(fileName, imageByte)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(baseObserver);
 
     }
+    public static Disposable afterSalesApplication(Map<String, Object> params, BaseObserver<AfterSales> baseObserver) {
+        return getApiService().afterSalesApplication(params).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(baseObserver);
+
+    }
+    public static Disposable after_details_order(int orderItemId, BaseObserver<RefundDetail> baseObserver) {
+        return getApiService().after_details_order(orderItemId,UserUtils.getInstance().getLoginBean().getSite()).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(baseObserver);
+
+    }
+    public static Disposable deleteSalesAppByEntityId(int entityId,int orderId,int orderItemId, BaseObserver<DeleteSalesAppByEntityId> baseObserver) {
+        return getApiService().deleteSalesAppByEntityId(UserUtils.getInstance().getLoginBean().getSite(), entityId,orderId,orderItemId).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(baseObserver);
+
+    }
+    public  static Disposable findPageByCSIdList(int pn,int id,String startTime,String endTime,BaseObserver<PageByCSIdList> baseObserver){
+        return getApiService().findPageByCSIdList(UserUtils.getInstance().getLoginBean().getSite(),0,
+                id,pn,10,startTime,endTime)
+                .compose(RxUtils.rxSchedulerHelper()).
+                        compose(RxUtils.handleResult()).subscribeWith(baseObserver);
+    }
+
     public  static Disposable addUserCard(Map<String, Object> map,BaseObserver<Integer> baseObserver){
         return getApiService().addUserCard(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(baseObserver);
     }
@@ -217,8 +242,11 @@ public class RequestPresenter {
     public static Disposable  myTeamPartnerList(Map<String, Object> map, BaseObserver<MyTeam> callback) {
         return getApiService().myTeamPartnerList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
-    public static Disposable  memberList(Map<String, Object> map, BaseObserver<MyTeam> callback) {
+    public static Disposable  memberList(Map<String, Object> map, BaseObserver<List<NewMyTeam>> callback) {
         return getApiService().memberList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable  teamCity(Map<String, Object> map, BaseObserver<List<NewMyTeam>> callback) {
+        return getApiService().teamCity(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
 
     public static Disposable  version_check(Map<String, Object> map, BaseObserver<AppVersion> callback) {
@@ -230,7 +258,9 @@ public class RequestPresenter {
     public static Disposable  distinctList(Map<String, Object> map, BaseObserver<DistinctList> callback) {
         return getApiService().distinctList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
-
+    public static Disposable  parentList(Map<String, Object> map, BaseObserver<ParentList> callback) {
+        return getApiService().parentList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
 
     public static MultipartBody.Part getMultipartBody_part(String fileName, byte[] content) {
         // 创建 RequestBody，用于封装构建RequestBody

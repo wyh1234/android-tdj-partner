@@ -25,6 +25,7 @@ import com.tdjpartner.model.UserInfo;
 import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.mvp.presenter.MyFragmentPresneter;
 import com.tdjpartner.ui.activity.AddBaifangActivity;
+import com.tdjpartner.ui.activity.AdministrationPaifangHistoryActivity;
 import com.tdjpartner.ui.activity.EarningsActivity;
 import com.tdjpartner.ui.activity.EarningsHistoryActivity;
 import com.tdjpartner.ui.activity.MenberPaifangHistoryActivity;
@@ -228,6 +229,10 @@ public class MyFragment extends BaseFrgment<MyFragmentPresneter> implements Swip
         }else if (i==0){
             if (UserUtils.getInstance().getLoginBean().getGrade()==3){
                 Intent intent=new Intent(getContext(), MenberPaifangHistoryActivity.class);
+                startActivity(intent);
+
+            }else {
+                Intent intent=new Intent(getContext(), AdministrationPaifangHistoryActivity.class);
                 startActivity(intent);
 
             }

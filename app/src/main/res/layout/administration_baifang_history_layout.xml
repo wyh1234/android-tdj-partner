@@ -41,12 +41,12 @@
         android:id="@+id/recyclerView_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <View
+ <!--   <View
         android:layout_width="match_parent"
         android:background="#F3F3F3"
         android:layout_height="@dimen/dp_10"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView_list1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"/>-->
 </LinearLayout>

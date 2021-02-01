@@ -5,16 +5,19 @@ import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.TimePickerView;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.MenberPaifangHistoryAdapter;
 import com.tdjpartner.base.BaseActivity;
 import com.tdjpartner.model.DistinctList;
 import com.tdjpartner.mvp.presenter.MenberPaifangHistoryPresenter;
+import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.statusbar.Eyes;
 
@@ -27,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class MenberPaifangHistoryActivity extends BaseActivity<MenberPaifangHistoryPresenter> {
     @BindView(R.id.recyclerView_list)
@@ -47,20 +51,39 @@ public class MenberPaifangHistoryActivity extends BaseActivity<MenberPaifangHist
     RelativeLayout rl;
     @BindView(R.id.btn_back)
     ImageView btn_back;
+    @BindView(R.id.btn)
+    Button btn;
     private List<DistinctList.ListBean> list=new ArrayList<>();
     private MenberPaifangHistoryAdapter menberPaifangHistoryAdapter;
     private int callId;
     private Map<String,Object> hashmap;
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     private TimePickerView pvTime;
+    private RxPermissions rxPermissions;
     @Override
     protected MenberPaifangHistoryPresenter loadPresenter() {
         return new MenberPaifangHistoryPresenter();
     }
+    @OnClick({R.id.btn})
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.btn:
+                GeneralUtils.action_call(rxPermissions,getIntent().getStringExtra("Phone"),this);
+                break;
+        }
 
+
+    }
     @Override
     protected void initData() {
-        callId=UserUtils.getInstance().getLoginBean().getEntityId();
+        if (getIntent().getIntExtra("User_id",0)>0){
+            callId=getIntent().getIntExtra("User_id",0);
+            btn.setVisibility(View.VISIBLE);
+        }else {
+            callId=UserUtils.getInstance().getLoginBean().getEntityId();
+            btn.setVisibility(View.GONE);
+        }
+
          hashmap=new HashMap<>();
         clearList();
 
@@ -76,6 +99,7 @@ public class MenberPaifangHistoryActivity extends BaseActivity<MenberPaifangHist
     @Override
     protected void initView() {
         Eyes.translucentStatusBar(this,true);
+        rxPermissions = new RxPermissions(this);
         LinearLayoutManager layout = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
         recyclerView_list.setLayoutManager(layout);

@@ -4,22 +4,27 @@ import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.apkfuns.logutils.LogUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.TeamMemberAdapter;
+import com.tdjpartner.adapter.TeamMemberHorizontalAdapter;
 import com.tdjpartner.base.BaseActivity;
 import com.tdjpartner.model.MyTeam;
+import com.tdjpartner.model.NewMyTeam;
 import com.tdjpartner.mvp.presenter.TeamMemberPresenter;
+import com.tdjpartner.ui.fragment.HomepageFragment;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
 import com.tdjpartner.utils.cache.UserUtils;
-import com.tdjpartner.utils.popuwindow.TeamMemberPopuWindow;
 import com.tdjpartner.utils.statusbar.Eyes;
 
 import java.util.ArrayList;
@@ -37,8 +42,13 @@ public class TeamMemberActivity extends BaseActivity<TeamMemberPresenter> implem
     SwipeRefreshLayout refreshLayout;
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
-    private List<MyTeam.ObjBean> data=new ArrayList<>();
-    private List<String> stringList=new ArrayList<>();
+    @BindView(R.id.recyclerView_horizontal)
+    RecyclerView recyclerView_horizontal;
+
+    private List<NewMyTeam> data=new ArrayList<>();
+    private List<String> horizontal_data=new ArrayList<>();
+    private List<String> horizontal_data_temp=new ArrayList<>();
+    private Map<String,List<NewMyTeam>> myTeamMap=new HashMap<>();
     @BindView(R.id.btn_back)
     ImageView btn_back;
     @BindView(R.id.rl_seach)
@@ -47,8 +57,8 @@ public class TeamMemberActivity extends BaseActivity<TeamMemberPresenter> implem
     TextView tv_list_type;
     @BindView(R.id.search_text)
     EditText search_text;
-    private TeamMemberPopuWindow teamMemberPopuWindow;
-    private int grade,userId;
+    private TeamMemberHorizontalAdapter teamMemberHorizontalAdapter;
+
 
     @OnClick({R.id.btn_back,R.id.tv_list_type})
     public void onClick(View view){
@@ -57,6 +67,10 @@ public class TeamMemberActivity extends BaseActivity<TeamMemberPresenter> implem
                 finish();
                 break;
             case R.id.tv_list_type:
+                if (GeneralUtils.isNullOrZeroLenght(search_text.getText().toString().trim())){
+                    return;
+                }
+                recyclerView_horizontal.setVisibility(View.GONE);
                 refreshLayout.setRefreshing(true);
                 onRefresh();
                 break;
@@ -85,8 +99,35 @@ public class TeamMemberActivity extends BaseActivity<TeamMemberPresenter> implem
         teamMemberAdapter=new TeamMemberAdapter(R.layout.team_member_item,data);
         recyclerView_list.setAdapter(teamMemberAdapter);
         teamMemberAdapter.setOnItemClickListener(this);
-        grade=UserUtils.getInstance().getLoginBean().getGrade();
-        userId=UserUtils.getInstance().getLoginBean().getEntityId();
+
+        LinearLayoutManager layout_horizontal = new LinearLayoutManager(getContext(),
+                LinearLayoutManager.HORIZONTAL, false);
+
+
+        horizontal_data.add("战区");
+        recyclerView_horizontal.setLayoutManager(layout_horizontal);
+        teamMemberHorizontalAdapter=new TeamMemberHorizontalAdapter(R.layout.horizontal_team_item,horizontal_data);
+        recyclerView_horizontal.setAdapter(teamMemberHorizontalAdapter);
+        teamMemberHorizontalAdapter.setOnItemClickListener(this);
+        search_text.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                refreshLayout.setRefreshing(true);
+                onRefresh();
+
+            }
+        });
+
     }
 
     @Override
@@ -100,11 +141,15 @@ public class TeamMemberActivity extends BaseActivity<TeamMemberPresenter> implem
     }
 
     public void getData(){
+        if (GeneralUtils.isNullOrZeroLenght(search_text.getText().toString().trim())){
+            recyclerView_horizontal.setVisibility(View.VISIBLE);
+        }else {
+            recyclerView_horizontal.setVisibility(View.GONE);
+        }
         Map<String,Object> map=new HashMap<>();
         map.put("userId", Integer.parseInt(getIntent().getStringExtra("userId")));
         map.put("websiteId",UserUtils.getInstance().getLoginBean().getSite());
         map.put("keyword", GeneralUtils.isNullOrZeroLenght(search_text.getText().toString().trim())?"":search_text.getText().toString().trim());
-        map.put("grade",grade);
 
         mPresenter.memberList(map);
     }
@@ -115,7 +160,8 @@ public class TeamMemberActivity extends BaseActivity<TeamMemberPresenter> implem
     }
 
 
-    public void myTeamPartnerList_Success(MyTeam myTeam) {
+    public void myTeamPartnerList_Success(List<NewMyTeam> myTeam) {
+
         if (refreshLayout.isRefreshing()){
             if (!ListUtils.isEmpty(data)) {
                 data.clear();
@@ -123,7 +169,7 @@ public class TeamMemberActivity extends BaseActivity<TeamMemberPresenter> implem
         }
         stop();
         if (ListUtils.isEmpty(data)) {
-            if (ListUtils.isEmpty(myTeam.getObj())) {
+            if (ListUtils.isEmpty(myTeam)) {
                 //获取不到数据,显示空布局
                 mStateView.showEmpty();
                 return;
@@ -131,9 +177,8 @@ public class TeamMemberActivity extends BaseActivity<TeamMemberPresenter> implem
             mStateView.showContent();//显示内容
         }
 
-        data.addAll(myTeam.getObj());
+        data.addAll(myTeam);
         teamMemberAdapter.setNewData(data);
-        teamMemberAdapter.disableLoadMoreIfNotFullPage(recyclerView_list);//数据项个数未满一屏幕,则不开启load more,add数据后设置
 
     }
 
@@ -146,14 +191,66 @@ public class TeamMemberActivity extends BaseActivity<TeamMemberPresenter> implem
         if (ListUtils.isEmpty(data)) {
             mStateView.showEmpty();//显示重试的布局
         }
-        teamMemberAdapter.disableLoadMoreIfNotFullPage(recyclerView_list);
+
     }
 
     @Override
     public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-        Intent intent=new Intent(this,HomePageActivity.class);
-        intent.putExtra("userId",data.get(i).getPartnerId()+"");
-        startActivity(intent);
+
+        if (baseQuickAdapter instanceof TeamMemberAdapter){
+            List<NewMyTeam> myTeam= baseQuickAdapter.getData();
+            if (myTeam.get(i).getChildPartnerTree()!=null){
+                teamMemberAdapter.setNewData(myTeam.get(i).getChildPartnerTree());
+                horizontal_data.add(myTeam.get(i).getGradeName());
+                myTeamMap.put(myTeam.get(i).getGradeName(),myTeam.get(i).getChildPartnerTree());
+                teamMemberHorizontalAdapter.setNewData(horizontal_data);
+            }else {
+                if (myTeam.get(i).getGrade()==3){
+                    Intent intent=new Intent(this,MenberHomepageActivity.class);
+                    intent.putExtra("userId",myTeam.get(i).getPartnerId()+"");
+                    startActivity(intent);
+                }else {
+
+                }
+
+            }
+
+            if(recyclerView_horizontal.getVisibility()==View.GONE){
+                Intent show=new Intent(this, HomePageActivity.class);
+                show.putExtra("userId",myTeam.get(i).getPartnerId()+"");
+                startActivity(show);
+
+            }
+        }else {
+
+
+            if (i!=horizontal_data.size()-1){
+                if (horizontal_data_temp.size()>0){
+                    horizontal_data_temp.clear();
+                }
+                for (int k = 0;k<=i;k++){
+                    horizontal_data_temp.add(horizontal_data.get(k));
+                }
+                horizontal_data.clear();
+                horizontal_data.addAll(horizontal_data_temp);
+                teamMemberHorizontalAdapter.setNewData(horizontal_data);
+                if (i==0){
+                    teamMemberAdapter.setNewData(data);
+
+                }else {
+                    teamMemberAdapter.setNewData(myTeamMap.get(horizontal_data.get(i)));
+                }
+
+
+
+
+            }else {
+                teamMemberAdapter.setNewData(data);
+            }
+
+        }
+
+
 
     }
 

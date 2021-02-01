@@ -2,6 +2,7 @@ package com.tdjpartner.common;
 
 
 import com.tdjpartner.http.BaseResponse;
+import com.tdjpartner.model.AfterSales;
 import com.tdjpartner.model.AppVersion;
 import com.tdjpartner.model.BaiFangHistory;
 import com.tdjpartner.model.Bank;
@@ -11,6 +12,7 @@ import com.tdjpartner.model.ClientDetails;
 import com.tdjpartner.model.ClientInfo;
 import com.tdjpartner.model.ClientSeachInfo;
 import com.tdjpartner.model.CouponsStatistics;
+import com.tdjpartner.model.DeleteSalesAppByEntityId;
 import com.tdjpartner.model.DiscountCoupon;
 import com.tdjpartner.model.DistinctList;
 import com.tdjpartner.model.DropOuting;
@@ -23,12 +25,16 @@ import com.tdjpartner.model.IntegralShop;
 import com.tdjpartner.model.InvitationHistory;
 import com.tdjpartner.model.MyCountMoney;
 import com.tdjpartner.model.MyTeam;
+import com.tdjpartner.model.NewMyTeam;
 import com.tdjpartner.model.OrderDetail;
 import com.tdjpartner.model.OrderList;
+import com.tdjpartner.model.PageByCSIdList;
+import com.tdjpartner.model.ParentList;
 import com.tdjpartner.model.PartnerCheck;
 import com.tdjpartner.model.PartnerCheckDetails;
 import com.tdjpartner.model.PartnerMessageInfo;
 import com.tdjpartner.model.PartnerMessageItemInfo;
+import com.tdjpartner.model.RefundDetail;
 import com.tdjpartner.model.RentingInfos;
 import com.tdjpartner.model.SelectPerson;
 import com.tdjpartner.model.SettingPerson;
@@ -156,6 +162,14 @@ public interface ApiService {
     @POST("image/uploadImgUrl")
     Observable<BaseResponse<String>>  imageUpload(@Part MultipartBody.Part part);
 
+
+    //发送短信
+    @Headers({"url_type:weather"})
+    @FormUrlEncoded
+    @POST("afterSalesApplication/create")
+    Observable<BaseResponse<AfterSales>> afterSalesApplication(@FieldMap Map<String, Object> params);
+
+
     /*
      *实名认证
      *
@@ -224,6 +238,22 @@ public interface ApiService {
     @Headers({"url_type:weather"})
     @GET("customer/refreshInfo")
     Observable<BaseResponse<UserInfo>>  customer_refreshInfo(@Query("site") int site, @Query("flag") int flag, @Query("entityId") int entityId, @Query("loginUserId") int loginUserId, @Query("uniqueId") String uniqueId);
+
+    @Headers({"url_type:weather"})
+    @GET("customer/refreshInfo")
+    Observable<BaseResponse<PageByCSIdList>>  findPageByCSIdList(@Query("site") int site, @Query("type") int type,
+                                                                 @Query("id") int id,
+                                                                 @Query("pn") int pn,
+                                                                 @Query("ps") int ps,@Query("startTime") String startTime,
+                                                                 @Query("endTime") String endTime);
+
+
+
+    @Headers({"url_type:weather"})
+    @POST("afterSalesApplication/deleteSalesAppByEntityId")
+    Observable<BaseResponse<DeleteSalesAppByEntityId>> deleteSalesAppByEntityId(@Field("site") int site,
+                                                                                @Field("entityId") int entityId, @Field("orderId") int orderId,
+                                                                                @Field("orderItemId") int orderItemId);
 
 
     @Headers({"url_type:weather"})
@@ -522,8 +552,15 @@ public interface ApiService {
 
 
     @Headers({"url_type:xuming"})
-    @POST("tdj-report/report/teamOverView/memberList")
-    Observable<BaseResponse<MyTeam>> memberList(@Body  RequestBody body);
+    @POST("tdj-report/report/teamOverView/memberListAndroid")
+    Observable<BaseResponse<List<NewMyTeam>>> memberList(@Body  RequestBody body);
+
+
+    @Headers({"url_type:xuming"})
+    @POST("tdj-report/report/teamOverView/teamCity")
+    Observable<BaseResponse<List<NewMyTeam>>> teamCity(@Body  RequestBody body);
+
+
     /*
      *.
      *
@@ -553,5 +590,15 @@ public interface ApiService {
     @POST("tdj-partner/partner/call/distinctList")
     Observable<BaseResponse<DistinctList>> distinctList(@Body  RequestBody body);
 
+    /*
+     *.
+     *
+     *
+     * */
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/call/parentList")
+    Observable<BaseResponse<ParentList>> parentList(@Body  RequestBody body);
 
+    @GET("afterSalesApplication/findAfterSalesAppyDetailByItemId/{orderItemId}")
+    Observable<BaseResponse<RefundDetail> >after_details_order(@Path("orderItemId") int orderItemId, @Query("site") int site);
 }

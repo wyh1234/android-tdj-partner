@@ -1,6 +1,7 @@
 package com.tdjpartner.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +23,8 @@ import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
 import com.tdjpartner.utils.cache.UserUtils;
+import com.tdjpartner.utils.popuwindow.DayPopuWindow;
+import com.tdjpartner.utils.popuwindow.ProblemTypePopuWindow;
 import com.tdjpartner.utils.statusbar.Eyes;
 
 import java.util.ArrayList;
@@ -33,7 +36,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class DropOutingActivity extends BaseActivity<DropOutingPresenter>  implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener
-,BaseQuickAdapter.OnItemClickListener,BaseQuickAdapter.OnItemChildClickListener{
+,BaseQuickAdapter.OnItemClickListener,BaseQuickAdapter.OnItemChildClickListener,DayPopuWindow.DayPopuWindowListener{
     @BindView(R.id.rl_xd)
     RelativeLayout rl_xd;
     @BindView(R.id.rl_bf)
@@ -52,6 +55,8 @@ public class DropOutingActivity extends BaseActivity<DropOutingPresenter>  imple
     View view2;
     @BindView(R.id.view1)
     View view1;
+    @BindView(R.id.tv_day)
+    TextView tv_day;
 
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -61,9 +66,13 @@ public class DropOutingActivity extends BaseActivity<DropOutingPresenter>  imple
     private List<DropOuting.ObjBean> dropOutingList=new ArrayList<>();
     @BindView(R.id.btn_back)
     ImageView btn_back;
+    @BindView(R.id.tv_count)
+    TextView tv_count;
     public int pageNo = 1;//翻页计数器
     private String type="order";
-    @OnClick({R.id.rl_xd,R.id.rl_bf,R.id.btn_back})
+    private int day;
+    private DayPopuWindow dayPopuWindow;
+    @OnClick({R.id.rl_xd,R.id.rl_bf,R.id.btn_back,R.id.tv_day})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.rl_xd:
@@ -90,6 +99,19 @@ public class DropOutingActivity extends BaseActivity<DropOutingPresenter>  imple
                 break;
             case R.id.btn_back:
                 finish();
+                break;
+            case R.id.tv_day:
+                if (dayPopuWindow!=null){
+                    if (dayPopuWindow.isShowing()){
+                        return;
+                    }
+                    dayPopuWindow.showPopupWindow();
+                }else {
+                    dayPopuWindow = new DayPopuWindow(this);
+                    dayPopuWindow.setPopupWindowFullScreen(true);//铺满
+                    dayPopuWindow.setDayPopuWindowListener(this);
+                    dayPopuWindow.showPopupWindow();
+                }
                 break;
         }
     }
@@ -137,6 +159,11 @@ public class DropOutingActivity extends BaseActivity<DropOutingPresenter>  imple
         map.put("type", type);
         map.put("pn", pageNo);
         map.put("ps", 10);
+        if (day>0){
+            map.put("orderDayTime", day);
+        }
+
+
         mPresenter.downList(map);
 
     }
@@ -171,6 +198,13 @@ public class DropOutingActivity extends BaseActivity<DropOutingPresenter>  imple
     public void downListSuccess(DropOuting dropOuting) {
         tv_num.setText(dropOuting.getObj().getOrderNum()+"");
         tv_num1.setText(dropOuting.getObj().getCallNum()+"");
+        if (day>0){
+            tv_count.setVisibility(View.VISIBLE);
+            tv_count.setText("满足该条件有"+dropOuting.getTotal()+"家");
+
+        }else {
+            tv_count.setVisibility(View.GONE);
+        }
         dropOutingAdapter.setType(type);
         if (swipeRefreshLayout.isRefreshing()){
             if (!ListUtils.isEmpty(dropOutingList)) {
@@ -198,6 +232,7 @@ public class DropOutingActivity extends BaseActivity<DropOutingPresenter>  imple
         dropOutingList.addAll(dropOuting.getObj().getList());
         dropOutingAdapter.setNewData(dropOutingList);
         dropOutingAdapter.disableLoadMoreIfNotFullPage(recyclerView_list);//数据项个数未满一屏幕,则不开启load more,add数据后设置
+
     }
 
     @Override
@@ -219,5 +254,15 @@ public class DropOutingActivity extends BaseActivity<DropOutingPresenter>  imple
             mStateView.showEmpty();//显示重试的布局
         }
         dropOutingAdapter.disableLoadMoreIfNotFullPage(recyclerView_list);
+    }
+
+    @Override
+    public void onOk(int s) {
+        day=s;
+        tv_day.setBackgroundResource(R.drawable.selector_gra);
+        tv_day.setTextColor(Color.parseColor("#666666"));
+        tv_day.setText("按第"+s+"天筛选");
+        swipeRefreshLayout.setRefreshing(true);
+        onRefresh();
     }
 }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?><!--根布局，常用作蒙层（就是变暗的背景）-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#8f000000"
+    >
+    <!--播放动画的内容，可以认为是popup的主要内容布局-->
+        <RelativeLayout
+            android:id="@+id/popup_anima"
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="50dp"
+            android:background="@drawable/client_item_sahp"
+            android:layout_height="wrap_content">
+            <com.tdjpartner.widget.view.ScrollPickerView
+                android:id="@+id/day"
+                android:layout_centerHorizontal="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+              />
+
+
+            <LinearLayout
+                android:layout_below="@+id/day"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/bt_cancel"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:layout_height="50dp"
+                    android:text="取消"
+                    android:textSize="18sp" />
+                <Button
+                    android:id="@+id/bt_ok"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:textColor="#FF6633"
+                    android:text="确定"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+</RelativeLayout>

@@ -17,7 +17,6 @@ public class StoreInfoAdapter extends BaseQuickAdapter<ClientDetailsStoreInfo, B
 
     @Override
     protected void convert(BaseViewHolder baseViewHolder, ClientDetailsStoreInfo storeInfo) {
-        baseViewHolder.setImageResource(R.id.iv,storeInfo.getRes());
         baseViewHolder.setText(R.id.tv_tilte,storeInfo.getTitle());
         if (storeInfo.getTotal()!=null){
             baseViewHolder.setText(R.id.tv_total,String.valueOf(storeInfo.getTotal()));

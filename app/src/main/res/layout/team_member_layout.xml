@@ -94,14 +94,22 @@
             android:layout_width="match_parent"
             android:orientation="vertical"
             android:layout_height="match_parent">
-
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView_horizontal"
+                android:layout_width="match_parent"
+                android:background="@drawable/client_item_one_sahp"
+                android:layout_height="wrap_content"/>
+            <View
+                android:background="@color/gray_f2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView_list"
-                android:layout_marginTop="@dimen/dp_10"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
             </android.support.v7.widget.RecyclerView>
+
         </LinearLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

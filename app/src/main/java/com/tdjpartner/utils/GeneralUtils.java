@@ -37,9 +37,11 @@ import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.io.File;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,6 +49,7 @@ import io.reactivex.functions.Consumer;
 
 public class GeneralUtils {
     public static final int REQUEST_CODE_CHOOSE_GRIDE = 23;
+    private  static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");;
     /**
      * <手机号码判断>
      *
@@ -248,6 +251,24 @@ public class GeneralUtils {
         }
 
     }
+    public static boolean selectedDate(String date,String date1) throws ParseException {//可根据需要自行截取数据显示
+        Date date2 = format.parse(date);
+        Date date3 = format.parse(date1);
+        if (date2.before(date3)){
+          return true;
+        }else {
+            return false;
+        }
+
+    }
+
+    public static Calendar selectedDates(String date) throws ParseException {//可根据需要自行截取数据显示
+        Date date2 = format.parse(date);
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTime(date2);
+            return calendar;
+
+    }
 
 
     /**
@@ -340,4 +361,125 @@ public class GeneralUtils {
         return Week;
 
     }
+
+    /**
+     * dateString  可以是常用的日期类型
+     *
+     * @param dateString
+     * @return
+     */
+    public static long dateStringToLong(String dateString) {
+        return dateStringToLong(dateString, concludeDateFormat(dateString));
+    }
+
+    public static long dateStringToLong(String dateString, SimpleDateFormat format) {
+        dateString = dateString.replaceAll("\\s+", " ");
+        Date date = null; // 定义时间类型
+        try {
+            date = format.parse(dateString); // 将字符型转换成日期型
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return date == null ? 0 : date.getTime(); // 返回毫秒数
+    }
+    /**
+     * 日期中必须包含 有是年开头，否则为null
+     *
+     * @param dateString
+     * @return
+     */
+    public static SimpleDateFormat concludeDateFormat(String... dateString) {
+        return getSimpleDateFormat(concludeDateFormatString(dateString));
+    }
+    //获取SimpleDateFormat
+    public static SimpleDateFormat getSimpleDateFormat(String format) {
+        return new SimpleDateFormat(format, Locale.UK);
+    }
+    public static String concludeDateFormatString(String... dateString) {
+        String format = "";
+        String date = dateString.length == 0 ? "" : dateString[0];
+
+        //多个空格合并
+        date = date.replaceAll("\\s+", " ");
+
+//        if (!"".equals(date)) {
+        if (date != null && date.length() > 0) {
+            if (date.contains("年")) {
+                format = "yyyy年";
+            }
+
+            if (date.contains("月")) {
+                format += "MM月";
+                if (!format.contains("年")) return null;
+            }
+
+            if (date.contains("日")) {
+                format += "dd日";
+            } else if (format.length() > 0) {
+                if (date.length() == 10) format += "dd";
+                else if (date.length() > 10) format += "dd ";
+            }
+
+            String spec = "";
+            //1970-01-01 15:30:00
+            if (date.contains("-")) {
+                spec = "-";
+            }
+            //1970/01/01 15:30:00
+            else if (date.contains("/")) {
+                spec = "/";
+            }
+            //1970.01.01 15:30:00
+            else if (date.contains(".")) {
+                spec = ".";
+            }
+
+            if (!"".equals(spec)) {
+                int start = date.indexOf(spec);
+                int end = date.lastIndexOf(spec);
+
+                //只有一个分割符  1970-11  或11-14
+                if (end - start == 0) {
+                    //1970-11
+                    if (start == 4) {
+                        format = "yyyy" + spec + "MM";
+                    }
+                    //11-14
+                    else if (start == 2) {
+                        format = "MM" + spec + "dd";
+                    }
+                } else {
+                    format = "yyyy" + spec + "MM" + spec + "dd";
+                }
+            }
+            //format 和 spec同时为空 19901114
+            else if ("".equals(format)) {
+                format = "yyyyMMdd";
+            }
+
+
+            //时间判断
+            if (date.contains(":")) {
+                int start = date.indexOf(":");
+                int end = date.lastIndexOf(":");
+                int count = end - start;
+
+
+                switch (count) {
+                    case 0://13:58
+                        format += "HH:mm";
+                        break;
+                    case 3://13:58:23
+                        format += "HH:mm:ss";
+                        break;
+                    case 6://13:58:23:978
+                        format += "HH:mm:ss:SSS";
+                        break;
+                }
+            }
+        } else format = "yyyy-MM-dd HH:mm:ss";
+
+        return format;
+    }
+
 }

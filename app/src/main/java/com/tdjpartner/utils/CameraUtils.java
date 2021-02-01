@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -18,6 +21,8 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import io.reactivex.functions.Consumer;
 
@@ -62,7 +67,33 @@ public class CameraUtils {
             }
         });
     }
-
+    /**
+     * 添加时间水印
+     * @param mBitmap
+     * @return mNewBitmap
+     */
+    public  static  Bitmap AddTimeWatermark(Bitmap mBitmap) {
+        //获取原始图片与水印图片的宽与高
+        int mBitmapWidth = mBitmap.getWidth();
+        int mBitmapHeight = mBitmap.getHeight();
+        //定义底片 大小 将mBitmap填充
+        Bitmap mNewBitmap = Bitmap.createBitmap(mBitmapWidth, mBitmapHeight, Bitmap.Config.ARGB_8888);
+        Canvas mCanvas = new Canvas(mNewBitmap);
+        //向位图中开始画入MBitmap原始图片
+        mCanvas.drawBitmap(mBitmap,0,0,null);
+        //添加文字
+        Paint mPaint = new Paint();
+        String mFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss EEEE").format(new Date());
+        //String mFormat = TingUtils.getTime()+"\n"+" 纬度:"+GpsService.latitude+"  经度:"+GpsService.longitude;
+        mPaint.setColor(Color.RED);
+        mPaint.setTextSize(30);
+        //水印的位置坐标
+        mCanvas.drawText(mFormat, (mBitmapWidth * 1) / 10,(mBitmapHeight*14)/15,mPaint);
+//        mCanvas.save(Canvas.ALL_SAVE_FLAG);
+        mCanvas.save();
+        mCanvas.restore();
+        return mNewBitmap;
+    }
     /**
      * 裁剪图片
      */
@@ -84,18 +115,20 @@ public class CameraUtils {
         activity.startActivityForResult(intent, CROP_REQUEST_CODE);
     }
 
-    public String saveImage(String path) {
+    public static  String saveImage(String path) {
         // ivAvatar.setImageBitmap(BitmapFactory.decodeFile(cropFile.getAbsolutePath()));
         if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             return null;
         }
+       File file = new File(rootFile," time.jpg") ;
         Bitmap bitmap = BitmapFactory.decodeFile(path);
+        Bitmap newbm=AddTimeWatermark(bitmap);
         try {
-            FileOutputStream fos = new FileOutputStream(cropFile);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            FileOutputStream fos = new FileOutputStream(file);
+            newbm.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             fos.flush();
             fos.close();
-            return cropFile.getAbsolutePath();
+            return file .getAbsolutePath();
         } catch (IOException e) {
             e.printStackTrace();
         }

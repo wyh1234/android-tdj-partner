@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout android:layout_width="match_parent"
-    android:layout_height="78dp"
+    android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        android:id="@+id/tv_order_no"
+        android:layout_width="wrap_content"
+        android:textColor="#666666"
+        android:textSize="11sp"
+        android:padding="5dp"
+        android:layout_marginBottom="@dimen/dp_4"
+        android:background="@drawable/order_details_item_shap"
+        android:layout_height="wrap_content"/>
+
+<RelativeLayout
+    android:layout_below="@+id/tv_order_no"
+    android:layout_width="match_parent"
+    android:layout_marginBottom="@dimen/dp_10"
+    android:layout_height="wrap_content">
     <ImageView
+
         android:id="@+id/iv1"
         android:layout_width="54dp"
         android:src="@mipmap/goodsimage"
@@ -55,4 +71,15 @@
             android:textColor="@color/view_bg1"
             android:layout_height="match_parent" />
     </LinearLayout>
+</RelativeLayout>
+    <TextView
+        android:id="@+id/tv_after"
+        android:layout_width="66dp"
+        android:gravity="center"
+        android:background="@drawable/time_shap"
+        android:textSize="10sp"
+        android:layout_marginRight="@dimen/sp_12"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_height="23dp"/>
 </RelativeLayout>

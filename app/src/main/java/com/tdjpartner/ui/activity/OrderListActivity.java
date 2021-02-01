@@ -1,14 +1,17 @@
 package com.tdjpartner.ui.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.apkfuns.logutils.LogUtils;
+import com.bigkoo.pickerview.TimePickerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.ClientListAdapter;
@@ -24,7 +27,10 @@ import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.widget.CustomLinearLayout;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,17 +43,42 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter> implemen
     SwipeRefreshLayout refreshLayout;
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
+    @BindView(R.id.tv_date_start)
+    TextView tv_date_start;
+    @BindView(R.id.tv_date_end)
+    TextView tv_date_end;
+    private Calendar startDate,endDate,selectedDates;
+    private TimePickerView pvTime;
+
     public int pageNo = 1;//翻页计数器
     private BaseQuickAdapter baseQuickAdapter;
     private List<OrderList.ItemsBean> orderLists=new ArrayList<>();
     @BindView(R.id.btn_back)
     ImageView btn_back;
-    @OnClick({R.id.btn_back})
-    public void onClick(View view){
+    @OnClick({R.id.btn_back,R.id.tv_date_start,R.id.tv_date_end})
+    public void onClick(View view)  {
         switch (view.getId()){
             case R.id.btn_back:
                 finish();
                 break;
+            case R.id.tv_date_start:
+
+                try {
+                    selectedDates=GeneralUtils.selectedDates(tv_date_start.getText().toString());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                setTime(tv_date_start,1);
+                break;
+            case R.id.tv_date_end:
+                try {
+                    selectedDates=GeneralUtils.selectedDates(tv_date_end.getText().toString());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                setTime(tv_date_end,2);
+               break;
         }
     }
     @Override
@@ -74,7 +105,59 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter> implemen
         baseQuickAdapter.setOnLoadMoreListener(this,recyclerView_list);
         baseQuickAdapter.setOnItemClickListener(this);
         refreshLayout.setRefreshing(true);
+
+        startDate=Calendar.getInstance();
+        tv_date_end.setText(startDate.get(Calendar.YEAR)+"-"+startDate.get(Calendar.MONTH)+1+"-"+startDate.get(Calendar.DAY_OF_MONTH));
+        tv_date_start.setText(startDate.get(Calendar.YEAR)+"-"+startDate.get(Calendar.MONTH)+1+"-"+(startDate.get(Calendar.DAY_OF_MONTH)-7));
+
+        startDate.set(startDate.get(Calendar.YEAR),  (startDate.get(Calendar.MONTH)-1),startDate.get(Calendar.DAY_OF_MONTH));
+        endDate = Calendar.getInstance();
+        endDate.set(endDate.get(Calendar.YEAR),  (endDate.get(Calendar.MONTH)),endDate.get(Calendar.DAY_OF_MONTH));
         onRefresh();
+    }
+
+    public void setTime(TextView tv,int type){
+        pvTime = new TimePickerView.Builder(getContext(), new TimePickerView.OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {
+                try {
+                    if (type==1){
+
+                        if (!GeneralUtils.selectedDate(GeneralUtils.getTimeFilter(date),tv_date_end.getText().toString())){
+                            GeneralUtils.showToastshort("开始时间要小于结束时间，请重新选择");
+                            return;
+                        }
+
+                    }else {
+                        if (!GeneralUtils.selectedDate(tv_date_start.getText().toString(),GeneralUtils.getTimeFilter(date))){
+                            GeneralUtils.showToastshort("结束时间要大于开始时间，请重新选择");
+                            return;
+                        }
+                    }
+
+                    tv.setText(GeneralUtils.getTimeFilter(date));
+                    refreshLayout.setRefreshing(true);
+                    onRefresh();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }) //年月日时分秒 的显示与否，不设置则默认全部显示
+                .setType(new boolean[]{true, true, true, false, false, false})
+                .setLabel("年", "月", "日", "", "", "")
+                .isCenterLabel(true)
+                .setLineSpacingMultiplier(1.8f)
+                .setDividerColor(Color.DKGRAY)
+                .setContentSize(16)
+                .setDate(selectedDates)
+                .setRangDate(startDate, endDate)
+                .setDecorView(null)
+                .build();
+        pvTime.show();
+
+
     }
 
     @Override
@@ -107,6 +190,8 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter> implemen
         map.put("customerId",Integer.parseInt(getIntent().getStringExtra("buyId")));
 //        map.put("customerId",45);
         map.put("ps",10);
+        map.put("createAtStart",tv_date_start.getText().toString().trim());
+        map.put("createAtEnd",tv_date_end.getText().toString().trim());
         map.put("site", UserUtils.getInstance().getLoginBean().getSite());
         mPresenter.order_pageList(map);
 
@@ -126,6 +211,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter> implemen
     public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
         Intent intent=new Intent(this,OrderDetailsActivity.class);
         intent.putExtra("orderNO",orderLists.get(i).getOrderNo());
+        intent.putExtra("buyId",getIntent().getStringExtra("buyId"));
         startActivity(intent);
 
     }
@@ -156,7 +242,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter> implemen
             }
         orderLists.addAll(orderList.getObj());
         baseQuickAdapter.setNewData(orderLists);
-        baseQuickAdapter.disableLoadMoreIfNotFullPage(recyclerView_list);//
+        baseQuickAdapter.disableLoadMoreIfNotFullPage(recyclerView_list);
     }
 
     public void order_pageList_Failed() {
@@ -164,7 +250,6 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter> implemen
         if (ListUtils.isEmpty(orderLists)) {
             mStateView.showEmpty();//显示重试的布局
         }
-        baseQuickAdapter.disableLoadMoreIfNotFullPage(recyclerView_list);
     }
 
     /**StateView的根布局，默认是整个界面，如果需要变换可以重写此方法*/

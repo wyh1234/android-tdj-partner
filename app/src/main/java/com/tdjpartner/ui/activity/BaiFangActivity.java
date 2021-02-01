@@ -2,6 +2,8 @@ package com.tdjpartner.ui.activity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -270,9 +272,11 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter>  {
                     } else {
                         CameraUtils. cropPhoto(Uri.fromFile(captureFile),this);
                     }
+
+
                     break;
                 case CROP_REQUEST_CODE:
-                    mPresenter.imageUpload(cropFile.getAbsolutePath());
+                    mPresenter.imageUpload( CameraUtils.saveImage(cropFile.getPath()));
                     break;
                 default:
                     break;

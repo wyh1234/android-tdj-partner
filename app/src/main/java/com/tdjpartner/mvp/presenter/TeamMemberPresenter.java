@@ -4,6 +4,7 @@ import com.tdjpartner.base.BasePresenter;
 import com.tdjpartner.common.RequestPresenter;
 import com.tdjpartner.http.BaseObserver;
 import com.tdjpartner.model.MyTeam;
+import com.tdjpartner.model.NewMyTeam;
 import com.tdjpartner.mvp.model.Model;
 import com.tdjpartner.ui.activity.TeamMemberActivity;
 
@@ -16,10 +17,25 @@ public class TeamMemberPresenter  extends BasePresenter<Model, TeamMemberActivit
         return null;
     }
     public void memberList(Map<String,Object> map){
-        getIView().addSubscribe(RequestPresenter.memberList(map, new BaseObserver<MyTeam>(getIView().getContext(), true) {
+        getIView().addSubscribe(RequestPresenter.memberList(map, new BaseObserver<List<NewMyTeam>>(getIView().getContext(), true) {
             @Override
-            protected void onSuccess(MyTeam myTeam) {
+            protected void onSuccess(List<NewMyTeam> myTeam) {
                 getIView().myTeamPartnerList_Success(myTeam);
+            }
+
+            @Override
+            protected void onFailed(Throwable e) {
+                getIView().myTeamPartnerList_failed();
+            }
+        }));
+
+    }
+
+    public void teamCity(Map<String,Object> map){
+        getIView().addSubscribe(RequestPresenter.teamCity(map, new BaseObserver<List<NewMyTeam>>(getIView().getContext(), true) {
+            @Override
+            protected void onSuccess(List<NewMyTeam> myTeam) {
+//                getIView().teamCity_Success(myTeam);
             }
 
             @Override

@@ -1,6 +1,7 @@
 package com.tdjpartner.ui.activity;
 
 import android.content.Intent;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,7 @@ import com.tdjpartner.model.ClientDetailsStoreInfo;
 import com.tdjpartner.model.HistoryInfo;
 import com.tdjpartner.mvp.presenter.ClientDetailsPresenter;
 import com.tdjpartner.utils.GeneralUtils;
+import com.tdjpartner.utils.GridSpacingItemDecoration;
 import com.tdjpartner.utils.glide.ImageLoad;
 import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.widget.CustomLinearLayout;
@@ -51,16 +53,18 @@ public class ClientDetailsActivity extends BaseActivity<ClientDetailsPresenter> 
     TextView tv_num;
     @BindView(R.id.tv_time)
     TextView tv_time;
-    @BindView(R.id.tv_s_useranme)
-    TextView tv_s_useranme;
-    @BindView(R.id.tv_s_phone)
-    TextView tv_s_phone;
+    @BindView(R.id.tv_title)
+    TextView tv_title;
+/*    @BindView(R.id.tv_s_useranme)
+    TextView tv_s_useranme;*/
+/*    @BindView(R.id.tv_s_phone)
+    TextView tv_s_phone;*/
     @BindView(R.id.tv_s_address)
     TextView tv_s_address;
-    @BindView(R.id.tv_heard)
-    TextView tv_heard;
+ /*   @BindView(R.id.tv_heard)
+    TextView tv_heard;*/
     @BindView(R.id.iv_heard)
-    RoundedImageView iv_heard;
+    ImageView iv_heard;
     @BindView(R.id.rl_call)
     RelativeLayout rl_call;
     private List<ClientDetailsStoreInfo> storeInfoList=new ArrayList<>();
@@ -77,7 +81,7 @@ public class ClientDetailsActivity extends BaseActivity<ClientDetailsPresenter> 
         this.clientDetails = clientDetails;
     }
 
-    @OnClick({R.id.btn_back,R.id.btn,R.id.rl_call,R.id.tv_s_phone})
+    @OnClick({R.id.btn_back,R.id.btn,R.id.rl_call})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.btn_back:
@@ -95,11 +99,11 @@ public class ClientDetailsActivity extends BaseActivity<ClientDetailsPresenter> 
                 }
 
                 break;
-            case R.id.tv_s_phone:
+      /*      case R.id.tv_s_phone:
                 if (getClientDetails()!=null){
                     GeneralUtils.action_call(rxPermissions,getClientDetails().getReceiveMobile(),getContext());
                 }
-                break;
+                break;*/
         }
     }
     @Override
@@ -119,13 +123,15 @@ public class ClientDetailsActivity extends BaseActivity<ClientDetailsPresenter> 
     protected void initView() {
         Eyes.translucentStatusBar(this,true);
         rxPermissions = new RxPermissions(this);
-        CustomLinearLayout customLinearLayout=  new CustomLinearLayout(getContext(), LinearLayoutManager.VERTICAL, false);
-        customLinearLayout.setScrollEnabled(false);
         ScrollLinearLayoutManager layout = new ScrollLinearLayoutManager(getContext(), 4);
         layout.setScrollEnable(false);
-        store_info_list.setLayoutManager(customLinearLayout);
         history_info_list.setLayoutManager( layout);
 
+        tv_title.setText("客户详情");
+        ScrollLinearLayoutManager layout1=    new ScrollLinearLayoutManager(this,3);
+        store_info_list.setLayoutManager(layout1);
+        layout1.setScrollEnable(false);
+        store_info_list.addItemDecoration(new GridSpacingItemDecoration(3, 45,false,30));
         storeInfoAdapter=new StoreInfoAdapter(R.layout.storeinfo_item_layout,storeInfoList);
         store_info_list.setAdapter(storeInfoAdapter);
 
@@ -136,7 +142,7 @@ public class ClientDetailsActivity extends BaseActivity<ClientDetailsPresenter> 
 
     @Override
     protected int getLayoutId() {
-        return R.layout.client_details_layout;
+        return R.layout.new_client_details_layout;
     }
 
     @Override
@@ -155,28 +161,32 @@ public class ClientDetailsActivity extends BaseActivity<ClientDetailsPresenter> 
             intent.putExtra("buyId",getClientDetails().getCustomerId()+"");
             startActivity(intent);
 
-        }else {
+        }else if (i==3){
             Intent intent=new Intent(this,BaiFangHistoryActivity.class);
             intent.putExtra("buyId",getClientDetails().getCustomerId()+"");
             startActivity(intent);
 
+        }else {
+            Intent intent=new Intent(this,AdterSalesOrderListActivity.class);
+            intent.putExtra("buyId",getClientDetails().getCustomerId()+"");
+            startActivity(intent);
         }
 
     }
 
     public void client_details_Success(ClientDetails clientDetails) {
         setClientDetails(clientDetails);
-        if (!GeneralUtils.isNullOrZeroLenght(clientDetails.getHeadUrl())){
-            ImageLoad.loadImageViewLoding(clientDetails.getHeadUrl(),iv_heard,R.mipmap.xingxiangzhao_bg);
-            tv_heard.setVisibility(View.GONE);
-        }
+//        if (!GeneralUtils.isNullOrZeroLenght(clientDetails.getHeadUrl())){
+            ImageLoad.loadImageViewLoding(clientDetails.getHeadUrl(),iv_heard,R.mipmap.xxz);
+//            tv_heard.setVisibility(View.GONE);
+//        }
 
         tv_name.setText(clientDetails.getName());
         tv_username.setText(clientDetails.getBoss()+":"+clientDetails.getMobile());
         tv_num.setText(clientDetails.getRegionCollNo());
         tv_time.setText(clientDetails.getDeliveredTimeBegin()+"-"+clientDetails.getDeliveredTimeEnd());
-        tv_s_useranme.setText(clientDetails.getReceiveName());
-        tv_s_phone.setText(":"+clientDetails.getReceiveMobile());
+/*        tv_s_useranme.setText(clientDetails.getReceiveName());
+        tv_s_phone.setText(":"+clientDetails.getReceiveMobile());*/
         tv_s_address.setText(clientDetails.getAddress());
         ClientDetailsStoreInfo clientDetailsStoreInfo=new ClientDetailsStoreInfo();
         clientDetailsStoreInfo.setTitle("当月下单总额");
@@ -209,6 +219,7 @@ public class ClientDetailsActivity extends BaseActivity<ClientDetailsPresenter> 
         historyInfoList.add(new HistoryInfo("订单记录",R.mipmap.client_dd));
         historyInfoList.add(new HistoryInfo("使用券数",R.mipmap.client_q));
         historyInfoList.add(new HistoryInfo("拜访记录",R.mipmap.client_bf));
+        historyInfoList.add(new HistoryInfo("售后记录",R.mipmap.dingdanjilu));
         storeInfoAdapter.setNewData(storeInfoList);
         historyInfoAdapter.setNewData(historyInfoList);
         storeInfoAdapter.notifyDataSetChanged();

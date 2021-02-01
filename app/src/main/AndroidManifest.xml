@@ -70,8 +70,23 @@
             android:name=".ui.activity.SettingActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.activity.MenberHomepageActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".ui.activity.statistics.StatisticsListActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.AfterSalesCreateActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.AdterSalesOrderListActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.AfterSalesDetailActivity"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".ui.activity.TeamPreviewActivity"
             android:screenOrientation="portrait" />
@@ -136,6 +151,10 @@
         <activity
             android:name=".ui.activity.WithdrawActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.AdministrationPaifangHistoryActivity"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".ui.activity.AddBaifangActivity"
             android:screenOrientation="portrait" />

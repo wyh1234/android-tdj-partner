@@ -12,7 +12,7 @@
         android:layout_marginBottom="7dp"
         android:layout_height="wrap_content">
         <TextView
-            android:text="出勤专员"
+            android:id="@+id/tv_type"
             android:textColor="#131313"
             android:textSize="@dimen/sp_12"
             android:layout_width="wrap_content"
@@ -22,12 +22,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/tv_curr"
                 android:layout_width="wrap_content"
                 android:textSize="@dimen/sp_12"
                 android:textColor="#131313"
                 android:text="2/"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:id="@+id/tv_total"
                 android:layout_width="wrap_content"
                 android:textSize="@dimen/sp_12"
                 android:textColor="#666666"
@@ -43,10 +45,10 @@
         android:layout_marginRight="@dimen/sp_12"
         android:layout_height="30dp">
         <TextView
+            android:id="@+id/tv_one"
             android:layout_weight="1"
             android:textSize="@dimen/sp_12"
             android:textColor="#131313"
-            android:text="拜访转化数"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
@@ -60,7 +62,6 @@
             android:layout_weight="1"
             android:textSize="@dimen/sp_12"
             android:textColor="#131313"
-            android:text="出勤状态"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
@@ -69,7 +70,6 @@
             android:layout_weight="1"
             android:textSize="@dimen/sp_12"
             android:textColor="#131313"
-            android:text="出勤状态"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
@@ -79,10 +79,10 @@
             android:background="#D0CDCD"
             android:layout_height="@dimen/dp_10"/>
         <TextView
+            android:id="@+id/tv_two"
             android:layout_weight="1"
             android:textSize="@dimen/sp_12"
             android:textColor="#131313"
-            android:text="转化数/拜访数"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
