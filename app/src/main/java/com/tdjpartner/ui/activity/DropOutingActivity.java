@@ -28,6 +28,7 @@ import com.tdjpartner.utils.popuwindow.ProblemTypePopuWindow;
 import com.tdjpartner.utils.statusbar.Eyes;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,6 +73,7 @@ public class DropOutingActivity extends BaseActivity<DropOutingPresenter>  imple
     private String type="order";
     private int day;
     private DayPopuWindow dayPopuWindow;
+    private DropOuting mdropOuting;
     @OnClick({R.id.rl_xd,R.id.rl_bf,R.id.btn_back,R.id.tv_day})
     public void onClick(View view){
         switch (view.getId()){
@@ -83,10 +85,20 @@ public class DropOutingActivity extends BaseActivity<DropOutingPresenter>  imple
                 view2.setVisibility(View.VISIBLE);
                 view1.setVisibility(View.GONE);
                 type="order";
+                day=0;
+                tv_day.setBackgroundResource(R.drawable.selector_red);
+                tv_day.setTextColor(Color.parseColor("#ffffff"));
+                tv_day.setText("按自然天筛选");
+
+
                 swipeRefreshLayout.setRefreshing(true);
                 onRefresh();
                 break;
             case R.id.rl_bf:
+                day=0;
+                tv_day.setBackgroundResource(R.drawable.selector_red);
+                tv_day.setTextColor(Color.parseColor("#ffffff"));
+                tv_day.setText("按自然天筛选");
                 tv_num.setTextColor(GeneralUtils.getColor(this,R.color.gray_6c));
                 tv_num1.setTextColor(GeneralUtils.getColor(this,R.color.view_bg1));
                 tv.setTextColor(GeneralUtils.getColor(this,R.color.gray_6c));
@@ -101,17 +113,10 @@ public class DropOutingActivity extends BaseActivity<DropOutingPresenter>  imple
                 finish();
                 break;
             case R.id.tv_day:
-                if (dayPopuWindow!=null){
-                    if (dayPopuWindow.isShowing()){
-                        return;
-                    }
-                    dayPopuWindow.showPopupWindow();
-                }else {
-                    dayPopuWindow = new DayPopuWindow(this);
+                    dayPopuWindow = new DayPopuWindow(this,Arrays.asList(mdropOuting.getObj().getDays().split(",")),type);
                     dayPopuWindow.setPopupWindowFullScreen(true);//铺满
                     dayPopuWindow.setDayPopuWindowListener(this);
                     dayPopuWindow.showPopupWindow();
-                }
                 break;
         }
     }
@@ -196,6 +201,7 @@ public class DropOutingActivity extends BaseActivity<DropOutingPresenter>  imple
     }
 
     public void downListSuccess(DropOuting dropOuting) {
+        mdropOuting=dropOuting;
         tv_num.setText(dropOuting.getObj().getOrderNum()+"");
         tv_num1.setText(dropOuting.getObj().getCallNum()+"");
         if (day>0){

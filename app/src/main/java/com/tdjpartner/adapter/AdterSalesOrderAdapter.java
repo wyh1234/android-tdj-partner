@@ -20,10 +20,10 @@ public class AdterSalesOrderAdapter extends BaseQuickAdapter<RefundDetail, BaseV
     protected void convert(BaseViewHolder baseViewHolder, RefundDetail refundDetail) {
         baseViewHolder.setText(R.id.iv_store_name,refundDetail.getReceive_hotel_name());
         baseViewHolder.setText(R.id.tv_time,"下单时间："+refundDetail.getCreate_time());
-
+        baseViewHolder.addOnClickListener(R.id.order_ok);
         ImageLoad.loadImageViewLoding(refundDetail.getProduct_img(),baseViewHolder.getView(R.id.iv1));
         baseViewHolder.setText(R.id.tv_goods_name,refundDetail.getName());
-        baseViewHolder.setText(R.id.tv_nickname,refundDetail.getNick_name());
+        baseViewHolder.setText(R.id.tv_nickname,"("+refundDetail.getNick_name()+")");
         baseViewHolder.setText(R.id.tv_tag,refundDetail.getStore_name());
 
         if (refundDetail.getLevel_type()== 1) {

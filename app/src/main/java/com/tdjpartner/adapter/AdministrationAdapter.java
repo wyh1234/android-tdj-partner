@@ -2,6 +2,7 @@ package com.tdjpartner.adapter;
 
 import android.support.annotation.Nullable;
 
+import com.apkfuns.logutils.LogUtils;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chaychan.adapter.MultipleItemRvAdapter;
 import com.tdjpartner.adapter.provider.AdministrationHeadAdapter;
@@ -19,7 +20,14 @@ public class AdministrationAdapter extends MultipleItemRvAdapter<Message, BaseVi
 
     public static final int LIST= 0;
     public static final int HEAD = 1;
-    public static final int LIST_ONE= 2;
+    public AdministrationItemAdapter  administrationItemAdapter;
+
+    public void setUserItemSize(int userItemSize,String time) {
+        administrationItemAdapter.setTotal(userItemSize);
+        administrationItemAdapter.setTime(time);
+    }
+
+
     public AdministrationAdapter(@Nullable List<Message> data) {
         super(data);
 
@@ -42,15 +50,16 @@ public class AdministrationAdapter extends MultipleItemRvAdapter<Message, BaseVi
             return HEAD;
         }else if (message instanceof ParentList.UserListBean) {
             return LIST;
-        }else {
-            return LIST_ONE;
         }
+        return HEAD;
     }
+
+
 
     @Override
     public void registerItemProvider() {
+        administrationItemAdapter=new AdministrationItemAdapter();
         mProviderDelegate.registerProvider(new AdministrationHeadAdapter());
-        mProviderDelegate.registerProvider(new AdministrationItemAdapter());
-        mProviderDelegate.registerProvider(new AdministrationItemOneAdapter());
+        mProviderDelegate.registerProvider(administrationItemAdapter);
     }
 }

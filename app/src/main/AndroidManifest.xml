@@ -82,6 +82,9 @@
         <activity
             android:name=".ui.activity.AdterSalesOrderListActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.DirverMapActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.activity.AfterSalesDetailActivity"

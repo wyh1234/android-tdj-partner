@@ -107,12 +107,14 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter> implemen
         refreshLayout.setRefreshing(true);
 
         startDate=Calendar.getInstance();
-        tv_date_end.setText(startDate.get(Calendar.YEAR)+"-"+startDate.get(Calendar.MONTH)+1+"-"+startDate.get(Calendar.DAY_OF_MONTH));
-        tv_date_start.setText(startDate.get(Calendar.YEAR)+"-"+startDate.get(Calendar.MONTH)+1+"-"+(startDate.get(Calendar.DAY_OF_MONTH)-7));
 
-        startDate.set(startDate.get(Calendar.YEAR),  (startDate.get(Calendar.MONTH)-1),startDate.get(Calendar.DAY_OF_MONTH));
+
+        startDate.set(startDate.get(Calendar.YEAR),  (startDate.get(Calendar.MONTH))-1,((startDate.get(Calendar.DAY_OF_MONTH))));
+        tv_date_start.setText(GeneralUtils.getDateBefore(6));
+
         endDate = Calendar.getInstance();
         endDate.set(endDate.get(Calendar.YEAR),  (endDate.get(Calendar.MONTH)),endDate.get(Calendar.DAY_OF_MONTH));
+        tv_date_end.setText(GeneralUtils.getCurr());
         onRefresh();
     }
 

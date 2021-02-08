@@ -7,7 +7,7 @@
 
     <color name="bbl_999999">#999999</color>
     <color name="bbl_ff0000">#ff0000</color>
-
+    <color name="text_black">#8A000000</color>
     <color name="white">#ffffff</color>
     <color name="selector_grey">#DDDDDD</color>
     <color name="color_F3F5F4">#F3F5F4</color>

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.apkfuns.logutils.LogUtils;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.SimpleAfterSalesAdapter;
 import com.tdjpartner.adapter.SimpleAfterSalesImageAdapter;
@@ -92,7 +93,12 @@ public class AfterSalesDetailActivity extends BaseActivity<AfterSalesDetailPrese
                 finish();
                 break;
             case R.id.refund_cancel:
+                if (UserUtils.getInstance().getLoginBean().getGrade()==4||UserUtils.getInstance().getLoginBean().getGrade()==5){
+                    GeneralUtils.showToastshort("暂无操作权限");
+                    return;
+                }
                 if (refundDetail != null) {
+                    LogUtils.e(refundDetail.getEntity_id()+","+refundDetail.getOrder_id()+","+refundDetail.getOrder_item_id());
                     mPresenter.deleteSalesAppByEntityId(refundDetail.getEntity_id(),refundDetail.getOrder_id(),refundDetail.getOrder_item_id());
                 }
                 break;
@@ -253,6 +259,7 @@ public class AfterSalesDetailActivity extends BaseActivity<AfterSalesDetailPrese
 
     public void getDeleteSalesAppByEntityId_Success(DeleteSalesAppByEntityId data) {
         AfterSales afterSales=new AfterSales();
+        afterSales.setStatus(4);
         afterSales.setOrderItemId(refundDetail.getOrder_item_id());
         GeneralUtils.showToastshort("撤销成功");
         EventBus.getDefault().post(afterSales);

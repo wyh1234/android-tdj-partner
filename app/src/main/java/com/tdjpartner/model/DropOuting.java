@@ -39,7 +39,16 @@ public class DropOuting {
         private int callNum;
         private int followNum;
         private int followedNum;
+        private String days;
         private List<ObjBean> list;
+
+        public String getDays() {
+            return days;
+        }
+
+        public void setDays(String days) {
+            this.days = days;
+        }
 
         public List<ObjBean> getList() {
             return list;

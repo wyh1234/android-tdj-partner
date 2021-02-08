@@ -36,7 +36,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class TeamMemberActivity extends BaseActivity<TeamMemberPresenter> implements
-        SwipeRefreshLayout.OnRefreshListener,BaseQuickAdapter.OnItemClickListener {
+        SwipeRefreshLayout.OnRefreshListener,BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener {
     private TeamMemberAdapter teamMemberAdapter;
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout refreshLayout;
@@ -67,9 +67,9 @@ public class TeamMemberActivity extends BaseActivity<TeamMemberPresenter> implem
                 finish();
                 break;
             case R.id.tv_list_type:
-                if (GeneralUtils.isNullOrZeroLenght(search_text.getText().toString().trim())){
-                    return;
-                }
+//                if (GeneralUtils.isNullOrZeroLenght(search_text.getText().toString().trim())){
+//                    return;
+//                }
                 recyclerView_horizontal.setVisibility(View.GONE);
                 refreshLayout.setRefreshing(true);
                 onRefresh();
@@ -99,7 +99,7 @@ public class TeamMemberActivity extends BaseActivity<TeamMemberPresenter> implem
         teamMemberAdapter=new TeamMemberAdapter(R.layout.team_member_item,data);
         recyclerView_list.setAdapter(teamMemberAdapter);
         teamMemberAdapter.setOnItemClickListener(this);
-
+        teamMemberAdapter.setOnItemChildClickListener(this);
         LinearLayoutManager layout_horizontal = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.HORIZONTAL, false);
 
@@ -109,7 +109,7 @@ public class TeamMemberActivity extends BaseActivity<TeamMemberPresenter> implem
         teamMemberHorizontalAdapter=new TeamMemberHorizontalAdapter(R.layout.horizontal_team_item,horizontal_data);
         recyclerView_horizontal.setAdapter(teamMemberHorizontalAdapter);
         teamMemberHorizontalAdapter.setOnItemClickListener(this);
-        search_text.addTextChangedListener(new TextWatcher() {
+  /*      search_text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -126,7 +126,7 @@ public class TeamMemberActivity extends BaseActivity<TeamMemberPresenter> implem
                 onRefresh();
 
             }
-        });
+        });*/
 
     }
 
@@ -166,19 +166,27 @@ public class TeamMemberActivity extends BaseActivity<TeamMemberPresenter> implem
             if (!ListUtils.isEmpty(data)) {
                 data.clear();
             }
-        }
-        stop();
-        if (ListUtils.isEmpty(data)) {
-            if (ListUtils.isEmpty(myTeam)) {
-                //获取不到数据,显示空布局
-                mStateView.showEmpty();
-                return;
+            if (!ListUtils.isEmpty(horizontal_data)){
+                horizontal_data.clear();
+                horizontal_data.add("战区");
             }
-            mStateView.showContent();//显示内容
-        }
+            if (!ListUtils.isEmpty(horizontal_data_temp)){
+                horizontal_data_temp.clear();
+            }
+            if (myTeamMap.size()>0){
+                myTeamMap.clear();
+            }
+                if (ListUtils.isEmpty(myTeam)) {
+                    mStateView.showEmpty();
+                }else {
+                    mStateView.showContent();//显示内容
+                }
 
+            }
+        stop();
         data.addAll(myTeam);
         teamMemberAdapter.setNewData(data);
+        teamMemberHorizontalAdapter.setNewData(horizontal_data);
 
     }
 
@@ -196,34 +204,21 @@ public class TeamMemberActivity extends BaseActivity<TeamMemberPresenter> implem
 
     @Override
     public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-
         if (baseQuickAdapter instanceof TeamMemberAdapter){
             List<NewMyTeam> myTeam= baseQuickAdapter.getData();
-            if (myTeam.get(i).getChildPartnerTree()!=null){
-                teamMemberAdapter.setNewData(myTeam.get(i).getChildPartnerTree());
-                horizontal_data.add(myTeam.get(i).getGradeName());
-                myTeamMap.put(myTeam.get(i).getGradeName(),myTeam.get(i).getChildPartnerTree());
-                teamMemberHorizontalAdapter.setNewData(horizontal_data);
-            }else {
+            if (myTeam.get(i).getPartnerId()!=0){
                 if (myTeam.get(i).getGrade()==3){
-                    Intent intent=new Intent(this,MenberHomepageActivity.class);
+                    Intent intent=new Intent(this,HomePageActivity.class);
                     intent.putExtra("userId",myTeam.get(i).getPartnerId()+"");
                     startActivity(intent);
                 }else {
-
+                    Intent show=new Intent(this, MenberHomepageActivity.class);
+                    show.putExtra("userId",myTeam.get(i).getPartnerId());
+                    startActivity(show);
                 }
-
             }
 
-            if(recyclerView_horizontal.getVisibility()==View.GONE){
-                Intent show=new Intent(this, HomePageActivity.class);
-                show.putExtra("userId",myTeam.get(i).getPartnerId()+"");
-                startActivity(show);
-
-            }
         }else {
-
-
             if (i!=horizontal_data.size()-1){
                 if (horizontal_data_temp.size()>0){
                     horizontal_data_temp.clear();
@@ -247,11 +242,41 @@ public class TeamMemberActivity extends BaseActivity<TeamMemberPresenter> implem
             }else {
                 teamMemberAdapter.setNewData(data);
             }
-
         }
+
 
 
 
     }
 
+    @Override
+    public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+
+
+        if (baseQuickAdapter instanceof TeamMemberAdapter){
+            List<NewMyTeam> myTeam= baseQuickAdapter.getData();
+            if (myTeam.get(i).getChildPartnerTree()!=null){
+                teamMemberAdapter.setNewData(myTeam.get(i).getChildPartnerTree());
+                horizontal_data.add(myTeam.get(i).getGradeName());
+                myTeamMap.put(myTeam.get(i).getGradeName(),myTeam.get(i).getChildPartnerTree());
+                teamMemberHorizontalAdapter.setNewData(horizontal_data);
+            }
+
+            if(recyclerView_horizontal.getVisibility()==View.GONE){
+                if (myTeam.get(i).getGrade()==3){
+                    Intent intent=new Intent(this,MenberHomepageActivity.class);
+                    intent.putExtra("userId",myTeam.get(i).getPartnerId());
+                    LogUtils.e(myTeam.get(i).getPartnerId());
+                    startActivity(intent);
+                }else {
+                    Intent show=new Intent(this, HomePageActivity.class);
+                    LogUtils.e(myTeam.get(i).getPartnerId());
+                    show.putExtra("userId",myTeam.get(i).getPartnerId()+"");
+                    startActivity(show);
+                }
+
+            }
+        }
+
+    }
 }

@@ -14,6 +14,7 @@ public class ClientMapAdapter extends BaseQuickAdapter<ClientInfo, BaseViewHolde
         super(layoutResId, data);
     }
 
+
     @Override
     protected void convert(BaseViewHolder baseViewHolder, ClientInfo clientMapInfo) {
         if (clientMapInfo.getUserType()==1){

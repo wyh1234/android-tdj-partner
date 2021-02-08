@@ -23,7 +23,7 @@ public class AdministrationHeadAdapter extends BaseItemProvider<ParentList.Headi
             baseViewHolder.setText(R.id.tv_type,"出勤专员");
             baseViewHolder.setText(R.id.tv_one,"拜访转化数");
             baseViewHolder.setText(R.id.tv_head_staste,"出勤状态");
-            baseViewHolder.setVisible(R.id.tv_head_money,false);
+            baseViewHolder.setGone(R.id.tv_head_money,false);
             baseViewHolder.setText(R.id.tv_two,"转化数/拜访数");
 
         }else {
@@ -31,7 +31,7 @@ public class AdministrationHeadAdapter extends BaseItemProvider<ParentList.Headi
             baseViewHolder.setText(R.id.tv_one,"酒店名称");
             baseViewHolder.setText(R.id.tv_head_staste,"下单状态");
             baseViewHolder.setText(R.id.tv_head_money,"下单金额");
-            baseViewHolder.setVisible(R.id.tv_head_money,true);
+            baseViewHolder.setGone(R.id.tv_head_money,true);
             baseViewHolder.setText(R.id.tv_two,"专员");
 
         }

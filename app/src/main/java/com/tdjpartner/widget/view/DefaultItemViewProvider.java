@@ -6,20 +6,32 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
+import com.apkfuns.logutils.LogUtils;
 import com.tdjpartner.R;
+import com.tdjpartner.model.DayPopuWindowinfo;
 
-public class DefaultItemViewProvider implements IViewProvider<String> {
+public class DefaultItemViewProvider implements IViewProvider<DayPopuWindowinfo> {
     @Override
     public int resLayout() {
         return R.layout.scroll_picker_default_item_layout;
     }
 
     @Override
-    public void onBindView(@NonNull View view, @Nullable String text) {
+    public void onBindView(@NonNull View view, @Nullable DayPopuWindowinfo text) {
         TextView tv = view.findViewById(R.id.tv_content);
-        tv.setText(text);
-        view.setTag(text);
-        tv.setTextSize(12);
+        TextView tv1 = view.findViewById(R.id.tv);
+        if (text!=null){
+            tv.setText(text.getDay());
+            view.setTag(text.getDay());
+            tv.setTextSize(12);
+            if (text.getType().equals("call")){
+                tv1.setText("按拜访后第");
+            }else {
+                tv1.setText("按下单后第");
+            }
+        }
+
+
     }
 
     @Override

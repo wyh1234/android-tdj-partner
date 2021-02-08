@@ -107,15 +107,19 @@ public class AdterSalesOrderListActivity extends BaseActivity<AdterSalesOrderLis
         baseQuickAdapter.setOnLoadMoreListener(this,recyclerView_list);
         baseQuickAdapter.setOnItemChildClickListener(this);
 
-        refreshLayout.setRefreshing(true);
-        onRefresh();
-        startDate=Calendar.getInstance();
-        tv_date_end.setText(startDate.get(Calendar.YEAR)+"-"+startDate.get(Calendar.MONTH)+1+"-"+startDate.get(Calendar.DAY_OF_MONTH));
-        tv_date_start.setText(startDate.get(Calendar.YEAR)+"-"+startDate.get(Calendar.MONTH)+1+"-"+(startDate.get(Calendar.DAY_OF_MONTH)-7));
 
-        startDate.set(startDate.get(Calendar.YEAR),  (startDate.get(Calendar.MONTH)-1),startDate.get(Calendar.DAY_OF_MONTH));
+
+        startDate=Calendar.getInstance();
+
+
+        startDate.set(startDate.get(Calendar.YEAR),  (startDate.get(Calendar.MONTH)-1),((startDate.get(Calendar.DAY_OF_MONTH))));
+        tv_date_start.setText(GeneralUtils.getDateBefore(6));
+
         endDate = Calendar.getInstance();
         endDate.set(endDate.get(Calendar.YEAR),  (endDate.get(Calendar.MONTH)),endDate.get(Calendar.DAY_OF_MONTH));
+        tv_date_end.setText(GeneralUtils.getCurr());
+        refreshLayout.setRefreshing(true);
+        onRefresh();
 
     }
 
@@ -126,13 +130,13 @@ public class AdterSalesOrderListActivity extends BaseActivity<AdterSalesOrderLis
 
     public void pageByCSIdList_Success(PageByCSIdList pageByCSIdList) {
         if (refreshLayout.isRefreshing()){
-            if (!ListUtils.isEmpty(pageByCSIdList.getData().getItems())) {
+            if (!ListUtils.isEmpty(pageByCSIdList.getItems())) {
                 refundDetails.clear();
             }
         }
         stop();
         if (ListUtils.isEmpty(refundDetails)) {
-            if (ListUtils.isEmpty(pageByCSIdList.getData().getItems())) {
+            if (ListUtils.isEmpty(pageByCSIdList.getItems())) {
                 //获取不到数据,显示空布局
                 mStateView.showEmpty();
                 return;
@@ -140,14 +144,14 @@ public class AdterSalesOrderListActivity extends BaseActivity<AdterSalesOrderLis
             mStateView.showContent();//显示内容
         }
 
-        if (ListUtils.isEmpty(pageByCSIdList.getData().getItems())) {
+        if (ListUtils.isEmpty(pageByCSIdList.getItems())) {
             //已经获取数据
             if (pageNo!=1){
                 baseQuickAdapter.loadMoreEnd();
             }
             return;
         }
-        refundDetails.addAll(pageByCSIdList.getData().getItems());
+        refundDetails.addAll(pageByCSIdList.getItems());
         baseQuickAdapter.setNewData(refundDetails);
         baseQuickAdapter.disableLoadMoreIfNotFullPage(recyclerView_list);
 
@@ -173,6 +177,7 @@ public class AdterSalesOrderListActivity extends BaseActivity<AdterSalesOrderLis
 
                     tv.setText(GeneralUtils.getTimeFilter(date));
                     refreshLayout.setRefreshing(true);
+                    onRefresh();
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -208,7 +213,8 @@ public class AdterSalesOrderListActivity extends BaseActivity<AdterSalesOrderLis
     @Override
     public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
         Intent intent=new Intent(this,AfterSalesDetailActivity.class);
-        intent.putExtra("itemId",-1);
+        intent.putExtra("itemId",((List<RefundDetail>)baseQuickAdapter.getData()).get(i).getOrder_item_id());
+
         startActivity(intent);
 
     }

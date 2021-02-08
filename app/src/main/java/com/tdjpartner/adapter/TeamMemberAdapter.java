@@ -17,6 +17,8 @@ public class TeamMemberAdapter extends BaseQuickAdapter<NewMyTeam, BaseViewHolde
 
     @Override
     protected void convert(BaseViewHolder baseViewHolder, NewMyTeam teamMember) {
+        baseViewHolder.addOnClickListener(R.id.iv_right);
+
         if (teamMember.getGrade()!=0){
             baseViewHolder.setVisible(R.id.tv_grade_name,true);
             baseViewHolder.setVisible(R.id.tv_phone,true);
@@ -30,7 +32,7 @@ public class TeamMemberAdapter extends BaseQuickAdapter<NewMyTeam, BaseViewHolde
             }else {
                 if (teamMember.getGrade()==3){
                     baseViewHolder.setGone(R.id.tv_name,false);
-                    baseViewHolder.setVisible(R.id.iv_right,true);
+                    baseViewHolder.setVisible(R.id.iv_right,false);
                     baseViewHolder.setGone(R.id.iv_grade_name,true);
                     baseViewHolder.setBackgroundRes(R.id.iv_grade_name,R.mipmap.zhuanyuan);
 
@@ -47,13 +49,17 @@ public class TeamMemberAdapter extends BaseQuickAdapter<NewMyTeam, BaseViewHolde
             baseViewHolder.setGone(R.id.iv_grade_name,false);
             if (teamMember.getChildPartnerTree()!=null){
                 baseViewHolder.setText(R.id.tv_name,teamMember.getWebStieName()+"("+teamMember.getChildPartnerTree().size()+")");
+                baseViewHolder.setBackgroundRes(R.id.tv_name,R.drawable.bg_white_radius_6);
+                baseViewHolder.setGone(R.id.tv_name,true);
                 baseViewHolder.setGone(R.id.iv_right,true);
             }else {
                 baseViewHolder.setText(R.id.tv_name,teamMember.getWebStieName());
+                baseViewHolder.setGone(R.id.tv_name,true);
+                baseViewHolder.setBackgroundRes(R.id.tv_name,R.drawable.bg_white_radius_6);
                 baseViewHolder.setGone(R.id.iv_right,false);
 
             }
-            baseViewHolder.setBackgroundRes(R.id.tv_name,R.color.white);
+
             baseViewHolder.setGone(R.id.tv_grade_name,false);
             baseViewHolder.setGone(R.id.tv_phone,false);
         }

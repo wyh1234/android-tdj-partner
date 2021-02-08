@@ -124,8 +124,8 @@ public class RetrofitServiceManager {
         builder.addInterceptor(httpHeaderInterceptor);
 
 //        builder.addInterceptor(new TokenInterceptor());
-        builder.addInterceptor(httpCacheInterceptor);
-        builder.addNetworkInterceptor(httpCacheInterceptor);
+//        builder.addInterceptor(httpCacheInterceptor);
+//        builder.addNetworkInterceptor(httpCacheInterceptor);
         builder.cookieJar(new CookieManger(AppAplication.getAppContext()));
 //        builder.cookieJar(new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(AppAplication.getAppContext())));
         builder.addInterceptor(httpLoggingInterceptor);

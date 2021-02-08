@@ -85,11 +85,19 @@ public class DistinctList {
             private BigDecimal order_amount;
             private String call_mobile;
             private String mobile;
-            private String buy_pic;
+            private String call_pic;
             private int call_id;
             private String call_name;
             private String matters;
             private String results;
+
+            public String getCall_pic() {
+                return call_pic;
+            }
+
+            public void setCall_pic(String call_pic) {
+                this.call_pic = call_pic;
+            }
 
             public int getBuy_id() {
                 return buy_id;
@@ -155,13 +163,6 @@ public class DistinctList {
                 this.mobile = mobile;
             }
 
-            public String getBuy_pic() {
-                return buy_pic;
-            }
-
-            public void setBuy_pic(String buy_pic) {
-                this.buy_pic = buy_pic;
-            }
 
             public int getCall_id() {
                 return call_id;

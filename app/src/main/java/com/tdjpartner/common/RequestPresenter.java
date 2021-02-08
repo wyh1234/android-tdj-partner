@@ -15,9 +15,11 @@ import com.tdjpartner.model.ClientDetails;
 import com.tdjpartner.model.ClientInfo;
 import com.tdjpartner.model.ClientSeachInfo;
 import com.tdjpartner.model.CouponsStatistics;
+import com.tdjpartner.model.DegreeOfSatisfaction;
 import com.tdjpartner.model.DeleteSalesAppByEntityId;
 import com.tdjpartner.model.DiscountCoupon;
 import com.tdjpartner.model.DistinctList;
+import com.tdjpartner.model.DriverLocation;
 import com.tdjpartner.model.DropOuting;
 import com.tdjpartner.model.EarningsHistory;
 import com.tdjpartner.model.GoodsInfo;
@@ -28,6 +30,7 @@ import com.tdjpartner.model.IntegralShop;
 import com.tdjpartner.model.InvitationHistory;
 import com.tdjpartner.model.MyCountMoney;
 import com.tdjpartner.model.MyTeam;
+import com.tdjpartner.model.NewHomeData;
 import com.tdjpartner.model.NewMyTeam;
 import com.tdjpartner.model.OrderDetail;
 import com.tdjpartner.model.OrderList;
@@ -154,6 +157,13 @@ public class RequestPresenter {
     public static Disposable  followList(Map<String, Object> map, BaseObserver<DropOuting> callback) {
         return getApiService().followList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
+    public static Disposable  getDriverLocation(String orderNo, String driverTel,  int customerAddrId, BaseObserver<DriverLocation> callback) {
+        return getApiService().getDriverLocation(UserUtils.getInstance().getLoginBean().getSite(),orderNo,driverTel,customerAddrId).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable getDegreeOfSatisfaction(int driverId,String extOrderId,BaseObserver<DegreeOfSatisfaction> callback){
+        return getApiService().getDegreeOfSatisfaction(UserUtils.getInstance().getLoginBean().getSite(),driverId,extOrderId).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+
+    }
     public static Disposable  internationalWaters(Map<String, Object> map, BaseObserver<Integer> callback) {
         return getApiService().internationalWaters(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
@@ -170,6 +180,10 @@ public class RequestPresenter {
     public static Disposable  findOne(Map<String, Object> map, BaseObserver<OrderDetail> callback) {
         return getApiService().findOne(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
+    public static Disposable  isApplyAfterSales(Map<String, Object> map, BaseObserver<Boolean> callback) {
+        return getApiService().isApplyAfterSales(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+
     public static Disposable  coupons_findByUser(Map<String, Object> map, BaseObserver<DiscountCoupon> callback) {
         return getApiService().coupons_findByUser(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
@@ -236,6 +250,10 @@ public class RequestPresenter {
     public static Disposable  homeData(Map<String, Object> map, BaseObserver<HomeData> callback) {
         return getApiService().homeData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
+    public static Disposable  newhomeData(Map<String, Object> map, BaseObserver<NewHomeData> callback) {
+        return getApiService().newhomeData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+
     public static Disposable  homeDataDetails(Map<String, Object> map, BaseObserver<HomeDataDetails> callback) {
         return getApiService().homeDataDetails(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }

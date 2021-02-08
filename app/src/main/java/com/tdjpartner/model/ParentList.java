@@ -19,9 +19,18 @@ public class ParentList {
     private int customer_order_num;
     private int user_call_num;
     private int customer_num;
+    private String system_time;
     private List<CustomerListBean> customer_list;
     private List<UserListBean> user_list;
     private Headinfo headinfoList;
+
+    public String getSystem_time() {
+        return system_time;
+    }
+
+    public void setSystem_time(String system_time) {
+        this.system_time = system_time;
+    }
 
     public Headinfo getHeadinfoList() {
         return headinfoList;
@@ -186,9 +195,27 @@ public class ParentList {
         private String phone;
         private String nick_name;
         private int customer_num;
+        private int conversion_num;
         private int id;
         private int call_num;
         private boolean f;
+        private String system_time;
+
+        public int getConversion_num() {
+            return conversion_num;
+        }
+
+        public void setConversion_num(int conversion_num) {
+            this.conversion_num = conversion_num;
+        }
+
+        public String getSystem_time() {
+            return system_time;
+        }
+
+        public void setSystem_time(String system_time) {
+            this.system_time = system_time;
+        }
 
         public boolean isF() {
             return f;

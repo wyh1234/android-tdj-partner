@@ -20,8 +20,8 @@ public class HomeOrderTimesAdapter extends BaseQuickAdapter<HomeData.OrdersTimes
 //        LogUtils.e(baseViewHolder.getAdapterPosition());.
         if (rankingData!=null){
             baseViewHolder.setText(R.id.tv_name,rankingData.getPartnerName());
-            baseViewHolder.setText(R.id.tv_phone,rankingData.getMobile());
-            baseViewHolder.setText(R.id.tv_num,rankingData.getDayOrderTimes()+"家");
+            baseViewHolder.setText(R.id.tv_phone,rankingData.getDayOrderTimes()+"家");
+            baseViewHolder.setText(R.id.tv_num,rankingData.getName()+"");
         }
 
 

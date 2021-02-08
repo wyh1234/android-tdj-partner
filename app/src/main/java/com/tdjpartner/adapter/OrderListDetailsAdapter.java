@@ -28,7 +28,8 @@ public class OrderListDetailsAdapter extends BaseQuickAdapter<OrderDetail.ItemsB
         baseViewHolder.setText(R.id.tv_nickname,orderList.getNickName());
         baseViewHolder.setText(R.id.tv_tag,orderList.getStoreName());
         baseViewHolder.setText(R.id.tv_order_no,"商品编号："+orderList.getQrCodeId());
-
+        baseViewHolder.addOnClickListener(R.id.tv_copys);
+        baseViewHolder.addOnClickListener(R.id.tv_after);
         if (orderList.getLevelType()== 1) {
             baseViewHolder.setText(R.id.tv_tiltle,orderList.getPrice()+"元/"+orderList.getUnit());
         } else if (orderList.getLevelType()== 2){
@@ -46,29 +47,31 @@ public class OrderListDetailsAdapter extends BaseQuickAdapter<OrderDetail.ItemsB
         if (orderList.getStatus() == 6 ) {
             baseViewHolder.setText(R.id.tv_after, "售后中");
             baseViewHolder.setVisible(R.id.tv_after,true);
-            baseViewHolder.setBackgroundRes(R.id.tv_after,R.drawable.time_shap);
-            baseViewHolder.setTextColor(R.id.tv_after, Color.parseColor("#FF6633"));
+            baseViewHolder.setBackgroundRes(R.id.tv_after,R.drawable.time_shap_gray);
+            baseViewHolder.setTextColor(R.id.tv_after, Color.parseColor("#666666"));
 
         }else if ( orderList.getStatus() == 9){
             baseViewHolder.setText(R.id.tv_after, "售后结束");
             baseViewHolder.setVisible(R.id.tv_after,true);
+            baseViewHolder.setBackgroundRes(R.id.tv_after,R.drawable.time_shap_gray);
+            baseViewHolder.setTextColor(R.id.tv_after, Color.parseColor("#666666"));
+        }else if (orderList.getStatus() == 0||orderList.getStatus() == 1){
+            baseViewHolder.setVisible(R.id.tv_after,false);
+        }else {
+            //            if (System.currentTimeMillis() < now_12) {
+            baseViewHolder.setVisible(R.id.tv_after,true);
+            baseViewHolder.setText(R.id.tv_after, "申请售后");
             baseViewHolder.setBackgroundRes(R.id.tv_after,R.drawable.time_shap);
             baseViewHolder.setTextColor(R.id.tv_after, Color.parseColor("#FF6633"));
-        }else {
-            if (System.currentTimeMillis() < now_12) {
-                baseViewHolder.setVisible(R.id.tv_after,true);
-                baseViewHolder.setText(R.id.tv_after, "申请售后");
-                baseViewHolder.setBackgroundRes(R.id.tv_after,R.drawable.time_shap_gray);
-                baseViewHolder.setTextColor(R.id.tv_after, Color.parseColor("#666666"));
-                //如果缓存的时间和中午的时间不相等则重新
-                if (now_12_delayed != now_12) {
-                    now_12_delayed = now_12;
-                    baseViewHolder.getView(R.id.tv_after).removeCallbacks(runnable);
-                    baseViewHolder.getView(R.id.tv_after).postDelayed(runnable, now_12 - System.currentTimeMillis() + 10L);
-                }
-            }{
-                baseViewHolder.setVisible(R.id.tv_after,false);
-            }
+            //如果缓存的时间和中午的时间不相等则重新
+//                if (now_12_delayed != now_12) {
+//                    now_12_delayed = now_12;
+//                    baseViewHolder.getView(R.id.tv_after).removeCallbacks(runnable);
+//                    baseViewHolder.getView(R.id.tv_after).postDelayed(runnable, now_12 - System.currentTimeMillis() + 10L);
+//                }
+//            }{
+//                baseViewHolder.setVisible(R.id.tv_after,false);
+//            }
 
         }
 

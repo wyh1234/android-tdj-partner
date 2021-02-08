@@ -117,6 +117,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:paddingLeft="16dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:gravity="center_vertical"
             android:background="@drawable/order_item_sahp"
             android:layout_height="wrap_content">
@@ -136,22 +138,26 @@
 
                 <TextView
                     android:layout_width="wrap_content"
+                    android:textSize="11sp"
                     android:layout_height="wrap_content"
                     android:text="交易：" />
 
                 <TextView
                     android:id="@+id/count_image"
+                    android:textSize="11sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="125" />
 
                 <TextView
                     android:layout_width="wrap_content"
+                    android:textSize="11sp"
                     android:layout_height="wrap_content"
                     android:text="元" />
 
                 <TextView
                     android:id="@+id/after_sales_type"
+                    android:textSize="11sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -159,17 +165,20 @@
 
                 <TextView
                     android:id="@+id/refund_price"
+                    android:textSize="11sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0.0" />
 
                 <TextView
                     android:layout_width="wrap_content"
+                    android:textSize="11sp"
                     android:layout_height="wrap_content"
                     android:text="元" />
 
                 <TextView
                     android:id="@+id/count_sum"
+                    android:textSize="11sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -177,6 +186,7 @@
 
                 <TextView
                     android:id="@+id/unit"
+                    android:textSize="11sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
@@ -193,14 +203,13 @@
                         android:id="@+id/order_ok"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
+                        android:textSize="11sp"
+                        android:layout_marginRight="6dp"
                         android:background="@drawable/r_round_rect_solid_white"
-                        android:paddingStart="12dp"
-                        android:paddingTop="8dp"
-                        android:paddingEnd="12dp"
-                        android:paddingBottom="8dp"
+                        android:paddingStart="8dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="4dp"
                         android:text="进度查询" />
 
                 </LinearLayout>

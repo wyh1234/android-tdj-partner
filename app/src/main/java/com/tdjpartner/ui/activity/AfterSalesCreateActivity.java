@@ -128,7 +128,7 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
     private ProblemTypePopuWindow problemTypePopuWindow;
     private List<String> strings=new ArrayList<>();
     private int index;
-    @OnClick({R.id.btn_back,R.id.after_sales_type,R.id.image,R.id.image1,R.id.image2,R.id.delete_image,R.id.delete_image1,R.id.delete_image2,R.id.btn})
+    @OnClick({R.id.btn_back,R.id.after_sales_type,R.id.image,R.id.image1,R.id.image2,R.id.delete_image,R.id.delete_image1,R.id.delete_image2,R.id.btn,R.id.problem_type})
         public void onClick(View view){
             switch (view.getId()){
                 case R.id.btn_back:
@@ -238,6 +238,9 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
                 int problemType = PublicCache.getAfterSaleProblem().keyOfValue(problem_type.getText().toString());
                 map.put("applyType", applyType);
                 map.put("problemType", problemType);
+                map.put("submitterName", UserUtils.getInstance().getLoginBean().getRealname());
+                map.put("submitterTel", UserUtils.getInstance().getLoginBean().getPhoneNumber());
+
                 map.put("customerName", UserUtils.getInstance().getLoginBean().getRealname());
                 map.put("site",UserUtils.getInstance().getLoginBean().getSite());
                 mPresenter.afterSalesApplication(map);
@@ -271,6 +274,21 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
         Eyes.translucentStatusBar(this,true);
         tv_title.setText("申请售后");
         after_sales_type.setHint("请选择售后类型");
+
+
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.after_sales_create_layout;
+    }
+
+    //详情入口
+    @Subscribe(sticky = true)
+    public void onEvent(OrderDetail.ItemsBean event) {
+        orderBean = event;
+        LogUtils.e(orderBean);
+//        EventBus.getDefault().removeStickyEvent(event);
         if (orderBean != null) {
             ImageLoad.loadImageViewLoding(orderBean.getImage(),goods_image);
             goods_unit.setText(""+orderBean.getUnit());
@@ -337,9 +355,9 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
                     orderBean.getName(),orderBean.getNickName(),orderBean.getProductType(),orderBean.getProductCriteria(),orderBean.getIsP());
             goods_name.setText(sb.getCharSequence());
             String unit = "";
-                cou = orderBean.getAmount();
-                priceSum = orderBean.getTotalPrice();
-                unit = orderBean.getAvgUnit();
+            cou = orderBean.getAmount();
+            priceSum = orderBean.getTotalPrice();
+            unit = orderBean.getAvgUnit();
             if (orderBean.getLevelType() == 2) {
                 if (PublicCache.specification_unit_base.contains(unit) && orderBean.getLevel2Unit().equals(unit))
                     cou = cou.multiply(orderBean.getLevel2Value());
@@ -390,19 +408,6 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
             });
 
         }
-
-    }
-
-    @Override
-    protected int getLayoutId() {
-        return R.layout.after_sales_create_layout;
-    }
-
-    //详情入口
-    @Subscribe(sticky = true)
-    public void onEvent(OrderDetail.ItemsBean event) {
-        orderBean = event;
-        EventBus.getDefault().removeStickyEvent(event);
     }
 
     public  SpecialStringBuilder getTitleName(String name,String nickName,int productType,int productCriteria,int isP){
@@ -508,6 +513,7 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
     }
 
     public void getAfterSales_Success(AfterSales data) {
+        data.setStatus(6);
         GeneralUtils.showToastshort("售后申请已提交");//
         EventBus.getDefault().post(data);
         finish();

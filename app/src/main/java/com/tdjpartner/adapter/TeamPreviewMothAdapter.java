@@ -12,8 +12,11 @@ import java.util.Calendar;
 import java.util.List;
 
 public class TeamPreviewMothAdapter extends BaseQuickAdapter<TeamOverView, BaseViewHolder> {
+    private String tiltle;
 
-
+    public void setTiltle(String tiltle){
+        this.tiltle=tiltle;
+    }
 
     public TeamPreviewMothAdapter(int layoutResId, @Nullable List<TeamOverView> data) {
         super(layoutResId, data);
@@ -23,7 +26,7 @@ public class TeamPreviewMothAdapter extends BaseQuickAdapter<TeamOverView, BaseV
     protected void convert(BaseViewHolder baseViewHolder, TeamOverView teamPreview) {
         baseViewHolder.addOnClickListener(R.id.rl_cy);
         baseViewHolder.addOnClickListener(R.id.rl_right);
-        baseViewHolder.setText(R.id.tv_tiltle,"当月统计");
+        baseViewHolder.setText(R.id.tv_tiltle,tiltle);
         baseViewHolder.setText(R.id.tv_amountCommission,teamPreview.getAmountCommission().toString());
         baseViewHolder.setText(R.id.tv_afterSaleAmount,teamPreview.getAfterSaleAmount().toString());
         baseViewHolder.setText(R.id.tv_userNum,teamPreview.getUserNum()+"人");

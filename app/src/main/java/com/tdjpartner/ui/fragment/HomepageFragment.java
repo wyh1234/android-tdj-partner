@@ -18,9 +18,12 @@ import com.tdjpartner.adapter.TeamPreviewAllAdapter;
 import com.tdjpartner.adapter.TeamPreviewMothAdapter;
 import com.tdjpartner.adapter.home.HomeOrderTimesAdapter;
 import com.tdjpartner.adapter.home.HomeRegisterTimesAdapter;
+import com.tdjpartner.adapter.home.NewHomeOrderTimesAdapter;
+import com.tdjpartner.adapter.home.NewHomeRegisterTimesAdapter;
 import com.tdjpartner.base.BaseFrgment;
 import com.tdjpartner.model.HomeData;
 import com.tdjpartner.model.HomeFilter;
+import com.tdjpartner.model.NewHomeData;
 import com.tdjpartner.model.TeamOverView;
 import com.tdjpartner.mvp.presenter.HomepageFragmentPresenter;
 import com.tdjpartner.ui.activity.TeamMemberActivity;
@@ -59,10 +62,10 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
     private TeamPreviewAdapter teamPreviewAdapter;
     private TeamPreviewMothAdapter teamPreviewAdapter1;
     private TeamPreviewAllAdapter teamPreviewAdapter2;
-    private List<HomeData.RegisterTimesTopBean> registerlist = new ArrayList<>();
-    private List<HomeData.OrdersTimesTopBean> orderList = new ArrayList<>();
-    private HomeOrderTimesAdapter homeOrderTimesAdapter;
-    private HomeRegisterTimesAdapter homeRegisterTimesAdapter;
+    private List<NewHomeData.RegisterTimesTopListBean> registerlist = new ArrayList<>();
+    private List<NewHomeData.OrdersTimesTopList> orderList = new ArrayList<>();
+    private NewHomeOrderTimesAdapter homeOrderTimesAdapter;
+    private NewHomeRegisterTimesAdapter homeRegisterTimesAdapter;
     private TimePickerView pvTime;
     private  HomeFilter homeFilter=new HomeFilter();
     private String startTime="";
@@ -116,10 +119,11 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
         layout2.setScrollEnabled(false);
         teamPreviewAdapter=new TeamPreviewAdapter(R.layout.teampreview_item_layout,data);
         rv_recyclerView.setAdapter(teamPreviewAdapter);
+        teamPreviewAdapter.setOnItemChildClickListener(this);
         View footView = ViewUrils.getFragmentView(rv_recyclerView, R.layout.homepage_new_foot_layout);
         teamPreviewAdapter.addFooterView(footView);
 
-
+        teamPreviewAdapter.setTiltle("日统计");
         month_recyclerView=  footView.findViewById(R.id.recyclerView_month_list);
         all_recyclerView=  footView.findViewById(R.id.recyclerView_all_list);
 
@@ -134,9 +138,11 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
 
         teamPreviewAdapter1=new TeamPreviewMothAdapter(R.layout.teampreview_item_layout,data1);
         month_recyclerView.setAdapter(teamPreviewAdapter1);
-
+        teamPreviewAdapter1.setTiltle("月统计");
+        teamPreviewAdapter1.setOnItemChildClickListener(this);
         teamPreviewAdapter2=new TeamPreviewAllAdapter(R.layout.teampreview_item_layout,data2);
         all_recyclerView.setAdapter(teamPreviewAdapter2);
+        teamPreviewAdapter2.setTiltle("总统计");
 
 
         register_recyclerView=  footView.findViewById(R.id.register_recyclerView);
@@ -147,11 +153,11 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
         tv_heard.setText("当前成员");
         //新注册；
         register_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        homeRegisterTimesAdapter = new HomeRegisterTimesAdapter(R.layout.ranking_item_layout,registerlist);
+        homeRegisterTimesAdapter = new NewHomeRegisterTimesAdapter(R.layout.ranking_item_layout,registerlist);
         register_recyclerView.setAdapter(homeRegisterTimesAdapter);
         //新下单；
         order_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        homeOrderTimesAdapter = new HomeOrderTimesAdapter(R.layout.ranking_item_layout,orderList);
+        homeOrderTimesAdapter = new NewHomeOrderTimesAdapter(R.layout.ranking_item_layout,orderList);
         order_recyclerView.setAdapter(homeOrderTimesAdapter);
 
         swipeRefreshLayout.setRefreshing(true);
@@ -193,23 +199,24 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
 
     @Override
     public void onRefresh() {
-        getData(homeFilter);
+//        getData(homeFilter);
+        getData();
         teamOverView_day();
         teamOverView_month();
         teamOverView_all();
     }
 
-    public void getData(HomeFilter homeFilter){
+    public void getData(){
         LogUtils.e(homeFilter);
         Map<String,Object> map=new HashMap<>();
-        map.put("userId",UserUtils.getInstance().getLoginBean().getEntityId());
-        map.put("seatType",1);
+//        map.put("userId",UserUtils.getInstance().getLoginBean().getEntityId());
+//        map.put("seatType",1);
         map.put("websiteId", UserUtils.getInstance().getLoginBean().getSite());
-        map.put("monthTime", GeneralUtils.isNullOrZeroLenght(homeFilter.getMonthTime())?GeneralUtils.getCurr()
-                :homeFilter.getMonthTime());
-        map.put("dayDate", GeneralUtils.isNullOrZeroLenght(homeFilter.getDayDate())?GeneralUtils.getCurr()
-                :homeFilter.getDayDate());
-        mPresenter.homeData(map);
+//        map.put("monthTime", GeneralUtils.isNullOrZeroLenght(homeFilter.getMonthTime())?GeneralUtils.getCurr()
+//                :homeFilter.getMonthTime());
+//        map.put("dayDate", GeneralUtils.isNullOrZeroLenght(homeFilter.getDayDate())?GeneralUtils.getCurr()
+//                :homeFilter.getDayDate());
+        mPresenter.newhomeData(map);
 
     }
 
@@ -221,7 +228,7 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
 
 
 
-    public void homeData_Success(HomeData homeData) {
+    public void homeData_Success(NewHomeData homeData) {
         stop();
             if (!ListUtils.isEmpty(registerlist)) {
                 registerlist.clear();
@@ -231,10 +238,10 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
             }
 
 
-        registerlist.addAll(homeData.getRegisterTimesTop());
+        registerlist.addAll(homeData.getRegisterTimesTopList());
         homeRegisterTimesAdapter.setNewData(registerlist);
 
-        orderList.addAll(homeData.getOrdersTimesTop());
+        orderList.addAll(homeData.getOrdersTimesTopList());
         homeOrderTimesAdapter.setNewData(orderList);
 
 

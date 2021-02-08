@@ -232,8 +232,13 @@ public class MyFragment extends BaseFrgment<MyFragmentPresneter> implements Swip
                 startActivity(intent);
 
             }else {
-                Intent intent=new Intent(getContext(), AdministrationPaifangHistoryActivity.class);
-                startActivity(intent);
+                if (UserUtils.getInstance().getLoginBean().getGrade()==1||UserUtils.getInstance().getLoginBean().getGrade()==2){
+                    Intent intent=new Intent(getContext(), AdministrationPaifangHistoryActivity.class);
+                    startActivity(intent);
+                }else {
+                    GeneralUtils.showToastshort("暂无访问权限");
+                }
+
 
             }
 

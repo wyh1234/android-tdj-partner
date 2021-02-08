@@ -58,6 +58,7 @@
             android:layout_marginTop="7dp"
             android:textColor="#999999"
             android:text="拜访酒店数"
+            android:textSize="12sp"
             android:layout_height="wrap_content"/>
     </RelativeLayout>
         <View
@@ -84,6 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_marginTop="7dp"
                 android:textColor="#999999"
+                android:textSize="12sp"
                 android:text="拜访转化数"
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
@@ -111,9 +113,14 @@
                 android:layout_marginTop="7dp"
                 android:textColor="#999999"
                 android:text="下单总金额（元）"
+                android:textSize="12sp"
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:background="#F3F3F3"
+        android:layout_height="5dp"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView_list"

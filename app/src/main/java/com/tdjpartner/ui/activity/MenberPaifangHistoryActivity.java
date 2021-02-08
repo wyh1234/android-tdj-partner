@@ -1,6 +1,7 @@
 package com.tdjpartner.ui.activity;
 
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.TimePickerView;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.MenberPaifangHistoryAdapter;
@@ -19,20 +21,19 @@ import com.tdjpartner.model.DistinctList;
 import com.tdjpartner.mvp.presenter.MenberPaifangHistoryPresenter;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
+import com.tdjpartner.utils.popuwindow.CheckHeadImagePopuWindow;
 import com.tdjpartner.utils.statusbar.Eyes;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MenberPaifangHistoryActivity extends BaseActivity<MenberPaifangHistoryPresenter> {
+public class MenberPaifangHistoryActivity extends BaseActivity<MenberPaifangHistoryPresenter> implements BaseQuickAdapter.OnItemChildClickListener {
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
     @BindView(R.id.tv_num)
@@ -53,13 +54,14 @@ public class MenberPaifangHistoryActivity extends BaseActivity<MenberPaifangHist
     ImageView btn_back;
     @BindView(R.id.btn)
     Button btn;
-    private List<DistinctList.ListBean> list=new ArrayList<>();
     private MenberPaifangHistoryAdapter menberPaifangHistoryAdapter;
     private int callId;
     private Map<String,Object> hashmap;
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     private TimePickerView pvTime;
     private RxPermissions rxPermissions;
+    private Calendar endDate;
+    private CheckHeadImagePopuWindow checkHeadImagePopuWindow;
     @Override
     protected MenberPaifangHistoryPresenter loadPresenter() {
         return new MenberPaifangHistoryPresenter();
@@ -103,8 +105,15 @@ public class MenberPaifangHistoryActivity extends BaseActivity<MenberPaifangHist
         LinearLayoutManager layout = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
         recyclerView_list.setLayoutManager(layout);
-        menberPaifangHistoryAdapter= new MenberPaifangHistoryAdapter(R.layout.paifang_history_item,list);
-        tv_menber_name.setText("专员："+UserUtils.getInstance().getLoginBean().getRealname());
+        menberPaifangHistoryAdapter= new MenberPaifangHistoryAdapter(R.layout.paifang_history_item);
+        recyclerView_list.setAdapter(menberPaifangHistoryAdapter);
+        menberPaifangHistoryAdapter.setOnItemChildClickListener(this);
+        if (getIntent().getStringExtra("call_name")!=null){
+            tv_menber_name.setText("专员："+getIntent().getStringExtra("call_name"));
+        }else {
+            tv_menber_name.setText("专员："+UserUtils.getInstance().getLoginBean().getRealname());
+        }
+
         tv_date.setText(sdf.format(new Date()));
         tv_title.setText("拜访记录");
         btn_back.setOnClickListener(new View.OnClickListener() {
@@ -113,6 +122,9 @@ public class MenberPaifangHistoryActivity extends BaseActivity<MenberPaifangHist
                 finish();
             }
         });
+
+        endDate = Calendar.getInstance();
+        endDate.set(endDate.get(Calendar.YEAR),  (endDate.get(Calendar.MONTH)),endDate.get(Calendar.DAY_OF_MONTH));
         tv_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,6 +140,7 @@ public class MenberPaifangHistoryActivity extends BaseActivity<MenberPaifangHist
                         .isCenterLabel(true)
                         .setDividerColor(Color.DKGRAY)
                         .setContentSize(16)
+                        .setRangDate(null , endDate)
                         .setDecorView(null)
                         .build();
                 pvTime.show();
@@ -143,25 +156,32 @@ public class MenberPaifangHistoryActivity extends BaseActivity<MenberPaifangHist
 
     public void getDistinctList(DistinctList distinctList){
         tv_num.setText(distinctList.getCall_num()+"");
-
         tv_num1.setText(distinctList.getConversion_num()+"");
         tv_num2.setText(distinctList.getOrder_total_money().toString());
-        if (list.size()>0){
-            list.clear();
-            menberPaifangHistoryAdapter.notifyDataSetChanged();
-        }
         if (distinctList.getList().size()>0){
             rl.setVisibility(View.GONE);
-            list.addAll(distinctList.getList());
-            menberPaifangHistoryAdapter.notifyDataSetChanged();
-
         }else {
             rl.setVisibility(View.VISIBLE);
         }
-
+        menberPaifangHistoryAdapter.setTime(tv_date.getText().toString());
+        menberPaifangHistoryAdapter.setNewData(distinctList.getList());
 
     }
 
 
+    @Override
+    public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+        if (view.getId()==R.id.iv){
 
+                checkHeadImagePopuWindow = new CheckHeadImagePopuWindow(this,((DistinctList.ListBean)baseQuickAdapter.getData().get(i)).getCall_pic());
+                checkHeadImagePopuWindow.setDismissWhenTouchOutside(false);
+                checkHeadImagePopuWindow.setInterceptTouchEvent(false);
+                checkHeadImagePopuWindow.setPopupWindowFullScreen(true);//铺满
+                checkHeadImagePopuWindow.showPopupWindow();
+        }else   if (view.getId()==R.id.tv_notification){
+            GeneralUtils.action_call(rxPermissions,((DistinctList.ListBean)baseQuickAdapter.getData().get(i)).getMobile(),this);
+
+        }
+
+    }
 }

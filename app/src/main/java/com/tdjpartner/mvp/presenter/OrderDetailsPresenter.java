@@ -30,4 +30,21 @@ public class OrderDetailsPresenter extends BasePresenter<Model, OrderDetailsActi
         }));
 
     }
+    public void isApplyAfterSales(Map<String, Object> map) {
+        getIView().addSubscribe(RequestPresenter.isApplyAfterSales(map, new BaseObserver<Boolean>(getIView().getContext(), true) {
+            @Override
+            protected void onSuccess(Boolean b) {
+                getIView().isApplyAfterSales_Success(b);
+
+
+            }
+
+            @Override
+            protected void onFailed(Throwable e) {
+            }
+        }));
+
+    }
+
+
 }

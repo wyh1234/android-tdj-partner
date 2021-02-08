@@ -18,6 +18,7 @@ import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.text.format.DateUtils;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,6 +26,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.apkfuns.logutils.LogUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.AppAplication;
 import com.tdjpartner.R;
@@ -231,6 +233,20 @@ public class GeneralUtils {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.format(date);
     }
+    /**
+     * 得到几天前的时间
+     * @param
+     * @param day
+     * @return
+     */
+    public static String getDateBefore(int day){
+        Calendar now =Calendar.getInstance();
+        now.setTime(new Date());
+        now.set(Calendar.DATE,now.get(Calendar.DATE)-day);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(now.getTime());
+    }
+
     public static String getCurrMonth() {//可根据需要自行截取数据显示
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat format = new SimpleDateFormat("MM月");

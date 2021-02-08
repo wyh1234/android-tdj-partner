@@ -199,9 +199,11 @@ public class HomePageActivity extends BaseActivity<HomePagePresenter> implements
         map.put("userId",Integer.parseInt(getIntent().getStringExtra("userId")));
         map.put("seatType",2);
         map.put("websiteId", UserUtils.getInstance().getLoginBean().getSite());
-        map.put("monthTime", GeneralUtils.isNullOrZeroLenght(homeFilter.getMonthTime())?Calendar.getInstance().get(Calendar.YEAR)+"-"+(Calendar.getInstance().get(Calendar.MONTH)+1)+"-"+(Calendar.getInstance().get(Calendar.DAY_OF_MONTH))
+        map.put("monthTime", GeneralUtils.isNullOrZeroLenght(homeFilter.getMonthTime())?
+                GeneralUtils.getCurr()
                 :homeFilter.getMonthTime());
-        map.put("dayDate", GeneralUtils.isNullOrZeroLenght(homeFilter.getDayDate())?Calendar.getInstance().get(Calendar.YEAR)+"-"+(Calendar.getInstance().get(Calendar.MONTH)+1)+"-"+(Calendar.getInstance().get(Calendar.DAY_OF_MONTH))
+        map.put("dayDate", GeneralUtils.isNullOrZeroLenght(homeFilter.getDayDate())?
+             GeneralUtils.getCurr()
                 :homeFilter.getDayDate());
         mPresenter.homeData(map);
 
@@ -212,22 +214,25 @@ public class HomePageActivity extends BaseActivity<HomePagePresenter> implements
         if (baseQuickAdapter instanceof TodyDataAdapter){
             Intent intent=new Intent(getContext(), StatisticsListActivity.class);
             intent.putExtra("title","今日统计");
-            intent.putExtra("userId",UserUtils.getInstance().getLoginBean().getEntityId()+"");
-            intent.putExtra("dayDate",GeneralUtils.isNullOrZeroLenght(homeFilter.getDayDate())?Calendar.getInstance().get(Calendar.YEAR)+"-"+(Calendar.getInstance().get(Calendar.MONTH)+1)+"-"+(Calendar.getInstance().get(Calendar.DAY_OF_MONTH))
-                    :homeFilter.getDayDate());
+            intent.putExtra("userId",getIntent().getStringExtra("userId"));
+            intent.putExtra("dayDate",
+                    GeneralUtils.isNullOrZeroLenght(homeFilter.getDayDate())?GeneralUtils.getCurr():homeFilter.getDayDate());
             startActivity(intent);
+            LogUtils.e(  GeneralUtils.isNullOrZeroLenght(homeFilter.getDayDate())? GeneralUtils.getCurr()
+                    :homeFilter.getDayDate());
 //            }
         }else if (baseQuickAdapter instanceof MonthDataAdapter){
             Intent intent=new Intent(getContext(), StatisticsListActivity.class);
             intent.putExtra("title","月统计");
-            intent.putExtra("userId",UserUtils.getInstance().getLoginBean().getEntityId()+"");
-            intent.putExtra("monthTime",GeneralUtils.isNullOrZeroLenght(homeFilter.getMonthTime())?Calendar.getInstance().get(Calendar.YEAR)+"-"+(Calendar.getInstance().get(Calendar.MONTH)+1)+"-"+(Calendar.getInstance().get(Calendar.DAY_OF_MONTH))
+            intent.putExtra("userId",getIntent().getStringExtra("userId"));
+            intent.putExtra("monthTime",GeneralUtils.isNullOrZeroLenght(homeFilter.getMonthTime())?
+                    GeneralUtils.getCurr()
                     :homeFilter.getMonthTime());
             startActivity(intent);
 
         }else if (baseQuickAdapter instanceof AllDataAdapter){
             Intent intent=new Intent(getContext(), StatisticsListActivity.class);
-            intent.putExtra("userId",UserUtils.getInstance().getLoginBean().getEntityId()+"");
+            intent.putExtra("userId",getIntent().getStringExtra("userId"));
             intent.putExtra("title","所有统计");
             startActivity(intent);
         }

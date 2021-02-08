@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:layout_height="wrap_content">
     <LinearLayout
+        android:id="@+id/ll_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     <TextView
@@ -13,6 +14,7 @@
         android:layout_width="match_parent"
         android:paddingLeft="20dp"
         android:paddingTop="@dimen/dp_10"
+
         android:paddingBottom="5dp"
         android:gravity="center_vertical"
         android:textSize="@dimen/sp_12"
@@ -32,12 +34,12 @@
         <TextView
             android:id="@+id/tv_money"
             android:layout_weight="1"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:gravity="center"
             android:paddingTop="@dimen/dp_10"
             android:paddingBottom="5dp"
             android:text="1000"
-            android:visibility="gone"
             android:textSize="@dimen/sp_12"
             android:textColor="#666666"
             android:layout_height="wrap_content"/>
@@ -63,7 +65,16 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_right"
+                android:layout_width="60dp"
+                android:gravity="center"
+                android:text="0"
+                android:visibility="gone"
+                android:textSize="@dimen/sp_12"
+                android:layout_height="wrap_content"/>
         <TextView
+            android:id="@+id/tv_cq"
             android:layout_width="60dp"
             android:gravity="center"
             android:text="通知出勤"
@@ -74,6 +85,7 @@
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/ll_bottom"
         android:paddingTop="15dp"
         android:paddingBottom="13dp"

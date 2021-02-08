@@ -11,6 +11,11 @@ import java.util.Calendar;
 import java.util.List;
 
 public class TeamPreviewAllAdapter extends BaseQuickAdapter<TeamOverView, BaseViewHolder> {
+    private String tiltle;
+
+    public void setTiltle(String tiltle){
+        this.tiltle=tiltle;
+    }
 
 
 
@@ -22,7 +27,7 @@ public class TeamPreviewAllAdapter extends BaseQuickAdapter<TeamOverView, BaseVi
     protected void convert(BaseViewHolder baseViewHolder, TeamOverView teamPreview) {
         baseViewHolder.addOnClickListener(R.id.rl_cy);
         baseViewHolder.setGone(R.id.ll_bottom,false);
-        baseViewHolder.setText(R.id.tv_tiltle,"所有统计");
+        baseViewHolder.setText(R.id.tv_tiltle,tiltle);
         baseViewHolder.setGone(R.id.tv_today,false);
 
         baseViewHolder.setText(R.id.tv_amountCommission,teamPreview.getAmountCommission().toString());

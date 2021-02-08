@@ -1163,7 +1163,7 @@ public class HomeData  {
 
         private Object customerId;
         private Object auth;
-        private Object name;
+        private String name;
         private Object address;
         private Object boss;
         private String mobile;
@@ -1227,11 +1227,11 @@ public class HomeData  {
             this.auth = auth;
         }
 
-        public Object getName() {
+        public String getName() {
             return name;
         }
 
-        public void setName(Object name) {
+        public void setName(String name) {
             this.name = name;
         }
 

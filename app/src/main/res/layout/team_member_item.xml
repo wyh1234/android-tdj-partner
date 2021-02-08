@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:paddingLeft="11dp"
-        android:paddingRight="11dp"
+
         android:layout_height="51dp">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -57,9 +57,11 @@
                 android:id="@+id/iv_right"
                 android:layout_width="wrap_content"
                 android:src="@mipmap/right_bg"
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:layout_height="wrap_content"/>
+                android:layout_height="match_parent"/>
 
         </RelativeLayout>
 

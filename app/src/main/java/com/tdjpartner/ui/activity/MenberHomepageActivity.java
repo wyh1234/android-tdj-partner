@@ -81,7 +81,7 @@ public class MenberHomepageActivity extends BaseActivity<MenberHomepageActivityP
 
     public void teamOverView_day() {
         Map<String, Object> map = new HashMap<>();
-        map.put("userId",getIntent().getStringExtra("userId"));
+        map.put("userId",getIntent().getIntExtra("userId",0));
         map.put("startTime", startTime);
         map.put("flag", "all");
         mPresenter.teamOverView_day(map);//今日；
@@ -89,7 +89,7 @@ public class MenberHomepageActivity extends BaseActivity<MenberHomepageActivityP
 
     public void teamOverView_month() {
         Map<String, Object> map = new HashMap<>();
-        map.put("userId", getIntent().getStringExtra("userId"));
+        map.put("userId",getIntent().getIntExtra("userId",0));
         map.put("startTime", startTime);
         map.put("flag", "all");
         mPresenter.teamOverView_month(map);//今月；
@@ -97,7 +97,7 @@ public class MenberHomepageActivity extends BaseActivity<MenberHomepageActivityP
 
     public void teamOverView_all() {
         Map<String, Object> map = new HashMap<>();
-        map.put("userId", getIntent().getStringExtra("userId"));
+        map.put("userId",getIntent().getIntExtra("userId",0));
         mPresenter.teamOverView_all(map);//今月；
         LogUtils.e(map);
     }
@@ -143,6 +143,7 @@ public class MenberHomepageActivity extends BaseActivity<MenberHomepageActivityP
             layout2.setScrollEnabled(false);
             teamPreviewAdapter = new TeamPreviewAdapter(R.layout.teampreview_item_layout, data);
             rv_recyclerView.setAdapter(teamPreviewAdapter);
+            teamPreviewAdapter.setTiltle("日统计");
             View footView = ViewUrils.getFragmentView(rv_recyclerView, R.layout.homepage_new_foot_layout);
             teamPreviewAdapter.addFooterView(footView);
 
@@ -157,10 +158,11 @@ public class MenberHomepageActivity extends BaseActivity<MenberHomepageActivityP
 
             teamPreviewAdapter1 = new TeamPreviewMothAdapter(R.layout.teampreview_item_layout, data1);
             month_recyclerView.setAdapter(teamPreviewAdapter1);
+            teamPreviewAdapter1.setTiltle("月统计");
 
             teamPreviewAdapter2 = new TeamPreviewAllAdapter(R.layout.teampreview_item_layout, data2);
             all_recyclerView.setAdapter(teamPreviewAdapter2);
-
+            teamPreviewAdapter2.setTiltle("总统计");
 
 
 
@@ -201,7 +203,7 @@ public class MenberHomepageActivity extends BaseActivity<MenberHomepageActivityP
         }
 
         teamPreviewAdapter.notifyDataSetChanged();
-
+        stop();
 
     }
 
@@ -215,6 +217,7 @@ public class MenberHomepageActivity extends BaseActivity<MenberHomepageActivityP
             LogUtils.e(startTime.substring(5, 7) + "月");
         }
         teamPreviewAdapter1.setNewData(data1);
+        stop();
     }
 
     public void teamOverView_all_Success(TeamOverView teamOverView) {
@@ -223,6 +226,7 @@ public class MenberHomepageActivity extends BaseActivity<MenberHomepageActivityP
         }
         data2.add(teamOverView);
         teamPreviewAdapter2.setNewData(data2);
+        stop();
     }
 
     public void homeData_failed() {

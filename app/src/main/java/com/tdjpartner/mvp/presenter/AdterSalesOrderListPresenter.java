@@ -1,11 +1,9 @@
 package com.tdjpartner.mvp.presenter;
 
-import android.widget.ScrollView;
 
 import com.tdjpartner.base.BasePresenter;
 import com.tdjpartner.common.RequestPresenter;
 import com.tdjpartner.http.BaseObserver;
-import com.tdjpartner.model.OrderList;
 import com.tdjpartner.model.PageByCSIdList;
 import com.tdjpartner.mvp.model.Model;
 import com.tdjpartner.ui.activity.AdterSalesOrderListActivity;

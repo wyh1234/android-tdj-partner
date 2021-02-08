@@ -550,6 +550,8 @@ public class OrderDetail  implements Serializable {
         private String driverTel;
         private String driverName;
         private int driverId;
+        private String customerMobile;
+
 
         public int getDriverId() {
             return driverId;
@@ -574,6 +576,14 @@ public class OrderDetail  implements Serializable {
         private int currentNum; // 未退/处理中/已退/已支付 押金数量
 
         private int currentStatus;  //当前押金列表请求状态  0-未退，1-处理中，2-已退，3-已支付
+
+        public String getCustomerMobile() {
+            return customerMobile;
+        }
+
+        public void setCustomerMobile(String customerMobile) {
+            this.customerMobile = customerMobile;
+        }
 
         public String getRemark() {
             return remark;

@@ -20,10 +20,10 @@ public class HomeRegisterTimesAdapter  extends BaseQuickAdapter<HomeData.Registe
         if (rankingData!=null){
 
         baseViewHolder.setText(R.id.tv_name,rankingData.getPartnerName());
-        baseViewHolder.setText(R.id.tv_phone,rankingData.getMobile());
+        baseViewHolder.setText(R.id.tv_phone,rankingData.getDayRegisterTimes()+"家");
 
 
-        baseViewHolder.setText(R.id.tv_num,rankingData.getDayRegisterTimes()+"家");
+        baseViewHolder.setText(R.id.tv_num,rankingData.getName());
         }
 
     }

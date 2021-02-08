@@ -4,6 +4,7 @@ import com.tdjpartner.common.RequestPresenter;
 import com.tdjpartner.http.BaseObserver;
 import com.tdjpartner.http.BaseResponse;
 import com.tdjpartner.model.HomeData;
+import com.tdjpartner.model.NewHomeData;
 import com.tdjpartner.model.PartnerMessageInfo;
 import com.tdjpartner.model.RentingInfos;
 import com.tdjpartner.model.TeamOverView;
@@ -25,10 +26,26 @@ public class HomepageFragmentPresenter extends BasePresenter<Model, HomepageFrag
         return null;
     }
 
-    public void homeData(Map<String,Object> map){
-        getIView().addSubscribe(RequestPresenter.homeData(map, new BaseObserver<HomeData>(getIView().getContext(), false) {
+//    public void homeData(Map<String,Object> map){
+//        getIView().addSubscribe(RequestPresenter.homeData(map, new BaseObserver<HomeData>(getIView().getContext(), false) {
+//            @Override
+//            protected void onSuccess(HomeData homeData) {
+//                getIView().homeData_Success(homeData);
+//
+//            }
+//
+//            @Override
+//            protected void onFailed(Throwable e) {
+//                getIView().homeData_failed();
+//
+//            }
+//        }));
+//
+//    }
+    public void newhomeData(Map<String,Object> map){
+        getIView().addSubscribe(RequestPresenter.newhomeData(map, new BaseObserver<NewHomeData>(getIView().getContext(), false) {
             @Override
-            protected void onSuccess(HomeData homeData) {
+            protected void onSuccess(NewHomeData homeData) {
                 getIView().homeData_Success(homeData);
 
             }

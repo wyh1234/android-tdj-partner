@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,7 +23,10 @@ import com.tdjpartner.model.HistoryInfo;
 import com.tdjpartner.mvp.presenter.ClientDetailsPresenter;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.GridSpacingItemDecoration;
+import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.glide.ImageLoad;
+import com.tdjpartner.utils.popuwindow.CheckHeadImagePopuWindow;
+import com.tdjpartner.utils.popuwindow.PartnerCheckDetailsPopu;
 import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.widget.CustomLinearLayout;
 import com.tdjpartner.widget.MyRecyclerView;
@@ -55,6 +59,8 @@ public class ClientDetailsActivity extends BaseActivity<ClientDetailsPresenter> 
     TextView tv_time;
     @BindView(R.id.tv_title)
     TextView tv_title;
+    @BindView(R.id.ll)
+    LinearLayout ll;
 /*    @BindView(R.id.tv_s_useranme)
     TextView tv_s_useranme;*/
 /*    @BindView(R.id.tv_s_phone)
@@ -73,6 +79,7 @@ public class ClientDetailsActivity extends BaseActivity<ClientDetailsPresenter> 
     private HistoryInfoAdapter historyInfoAdapter;
     private ClientDetails clientDetails;
     private RxPermissions rxPermissions;
+    private CheckHeadImagePopuWindow checkHeadImagePopuWindow;
     public ClientDetails getClientDetails() {
         return clientDetails;
     }
@@ -81,7 +88,7 @@ public class ClientDetailsActivity extends BaseActivity<ClientDetailsPresenter> 
         this.clientDetails = clientDetails;
     }
 
-    @OnClick({R.id.btn_back,R.id.btn,R.id.rl_call})
+    @OnClick({R.id.btn_back,R.id.btn,R.id.rl_call, R.id.iv_heard})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.btn_back:
@@ -99,6 +106,21 @@ public class ClientDetailsActivity extends BaseActivity<ClientDetailsPresenter> 
                 }
 
                 break;
+            case R.id.iv_heard:
+                    if (checkHeadImagePopuWindow!=null){
+                        if (checkHeadImagePopuWindow.isShowing()){
+                            return;
+                        }
+                        checkHeadImagePopuWindow.showPopupWindow();
+                    }else {
+
+                        checkHeadImagePopuWindow = new CheckHeadImagePopuWindow(this,clientDetails.getHeadUrl());
+                        checkHeadImagePopuWindow.setDismissWhenTouchOutside(false);
+                        checkHeadImagePopuWindow.setInterceptTouchEvent(false);
+                        checkHeadImagePopuWindow.setPopupWindowFullScreen(true);//铺满
+                        checkHeadImagePopuWindow.showPopupWindow();
+                    }
+                    break;
       /*      case R.id.tv_s_phone:
                 if (getClientDetails()!=null){
                     GeneralUtils.action_call(rxPermissions,getClientDetails().getReceiveMobile(),getContext());
@@ -138,6 +160,11 @@ public class ClientDetailsActivity extends BaseActivity<ClientDetailsPresenter> 
         historyInfoAdapter=new HistoryInfoAdapter(R.layout.hisroryinfo_item_layout,historyInfoList);
         historyInfoAdapter.setOnItemClickListener(this);
         history_info_list.setAdapter(historyInfoAdapter);
+        if (UserUtils.getInstance().getLoginBean().getGrade()==3){
+            ll.setVisibility(View.VISIBLE);
+        }else {
+            ll.setVisibility(View.GONE);
+        }
     }
 
     @Override
