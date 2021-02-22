@@ -20,31 +20,31 @@ import java.util.TimerTask;
 
 public class SplashActivity extends AppCompatActivity {
     public Timer timer = new Timer();
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);//解决启动白频；
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        Eyes.translucentStatusBar(this,true);
+        Eyes.translucentStatusBar(this, true);
 
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                if (DataUtils.getInstance().getFirstStartup()){
-                    if (UserUtils.getInstance().getLoginBean() !=null){
-
-                        Intent intent=new Intent(SplashActivity.this,MainTabActivity.class);
+                if (DataUtils.getInstance().getFirstStartup()) {//后续登录
+                    if (UserUtils.getInstance().getLoginBean() != null) {//首页
+                        Intent intent = new Intent(SplashActivity.this, MainTabActivity.class);
                         startActivity(intent);
                         finish();
 
-                    }else {
-                        Intent intent=new Intent(SplashActivity.this, LoginActivity.class);
+                    } else {//登录
+                        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                         startActivity(intent);
                         finish();
 
                     }
-                }else {
-                    Intent intent=new Intent(SplashActivity.this,PageGuideActivity.class);
+                } else {//首次登陆显示广告屏
+                    Intent intent = new Intent(SplashActivity.this, PageGuideActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -54,7 +54,6 @@ public class SplashActivity extends AppCompatActivity {
         };
         timer.schedule(task, 3 * 1000 + 200);
     }
-
 
 
 }
