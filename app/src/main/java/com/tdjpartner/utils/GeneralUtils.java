@@ -278,6 +278,17 @@ public class GeneralUtils {
 
     }
 
+    public static boolean dateRange(String date,String date1) throws ParseException {//可根据需要自行截取数据显示
+        Date date2 = format.parse(date);
+        Date date3 = format.parse(date1);
+        System.out.println("date2 = " + date2);
+        System.out.println("date3 = " + date3);
+        int days = (int) ((date2.getTime() - date3.getTime()) / (1000*3600*24));
+        System.out.println("days = " + days);
+
+        return days < 93;
+    }
+
     public static Calendar selectedDates(String date) throws ParseException {//可根据需要自行截取数据显示
         Date date2 = format.parse(date);
         Calendar calendar=Calendar.getInstance();

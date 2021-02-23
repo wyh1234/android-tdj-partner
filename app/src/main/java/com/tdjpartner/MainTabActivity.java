@@ -89,12 +89,6 @@ public class MainTabActivity extends BaseActivity<MainTabPresenter> implements O
         });
 
 //        mBottomBarLayout.setUnread(0, 20);//设置第一个页签的未读数为20
-
-
-
-
-
-
     }
 
     @Override

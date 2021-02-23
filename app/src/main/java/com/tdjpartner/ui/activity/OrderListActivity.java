@@ -129,13 +129,18 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter> implemen
                             GeneralUtils.showToastshort("开始时间要小于结束时间，请重新选择");
                             return;
                         }
-
                     }else {
                         if (!GeneralUtils.selectedDate(tv_date_start.getText().toString(),GeneralUtils.getTimeFilter(date))){
                             GeneralUtils.showToastshort("结束时间要大于开始时间，请重新选择");
                             return;
                         }
                     }
+
+                    if (!GeneralUtils.dateRange(GeneralUtils.getTimeFilter(date),tv_date_end.getText().toString())){
+                        GeneralUtils.showToastshort("时间跨度不能大于3个月，请重新选择");
+                        return;
+                    }
+
 
                     tv.setText(GeneralUtils.getTimeFilter(date));
                     refreshLayout.setRefreshing(true);
@@ -154,7 +159,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter> implemen
                 .setDividerColor(Color.DKGRAY)
                 .setContentSize(16)
                 .setDate(selectedDates)
-                .setRangDate(startDate, endDate)
+//                .setRangDate(startDate, endDate)
                 .setDecorView(null)
                 .build();
         pvTime.show();
