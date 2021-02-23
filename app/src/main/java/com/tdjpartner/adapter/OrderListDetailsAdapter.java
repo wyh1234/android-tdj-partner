@@ -17,8 +17,10 @@ import java.util.List;
 public class OrderListDetailsAdapter extends BaseQuickAdapter<OrderDetail.ItemsBean, BaseViewHolder> {
     private long now_12;//中午12点的时间
     private long now_12_delayed = 0;//缓存的时间
-    public OrderListDetailsAdapter(int layoutResId, @Nullable List<OrderDetail.ItemsBean> data) {
+    private String statusCode = "";//缓存的时间
+    public OrderListDetailsAdapter(int layoutResId, @Nullable List<OrderDetail.ItemsBean> data, String statusCode) {
         super(layoutResId, data);
+        this.statusCode = statusCode;
     }
 
     @Override
@@ -55,7 +57,7 @@ public class OrderListDetailsAdapter extends BaseQuickAdapter<OrderDetail.ItemsB
             baseViewHolder.setVisible(R.id.tv_after,true);
             baseViewHolder.setBackgroundRes(R.id.tv_after,R.drawable.time_shap_gray);
             baseViewHolder.setTextColor(R.id.tv_after, Color.parseColor("#666666"));
-        }else if (orderList.getStatus() == 0||orderList.getStatus() == 1){
+        }else if (orderList.getStatus() == 0||orderList.getStatus() == 1 || statusCode.equals("wait_seller_send_goods")){
             baseViewHolder.setVisible(R.id.tv_after,false);
         }else {
             //            if (System.currentTimeMillis() < now_12) {

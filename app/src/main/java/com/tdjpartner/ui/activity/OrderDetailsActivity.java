@@ -119,7 +119,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter> im
         LinearLayoutManager layout = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layout);
-        baseQuickAdapter=new OrderListDetailsAdapter(R.layout.order_details_item,orderLists);
+        baseQuickAdapter=new OrderListDetailsAdapter(R.layout.order_details_item,orderLists, getIntent().getStringExtra("statusCode"));
         baseQuickAdapter.setOnItemChildClickListener(this);
         recyclerView.setAdapter(baseQuickAdapter);
 

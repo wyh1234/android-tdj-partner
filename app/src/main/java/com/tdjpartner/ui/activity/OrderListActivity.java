@@ -212,6 +212,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter> implemen
     @Override
     public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
         Intent intent=new Intent(this,OrderDetailsActivity.class);
+        intent.putExtra("statusCode",orderLists.get(i).getStatusCode());
         intent.putExtra("orderNO",orderLists.get(i).getOrderNo());
         intent.putExtra("buyId",getIntent().getStringExtra("buyId"));
         startActivity(intent);
