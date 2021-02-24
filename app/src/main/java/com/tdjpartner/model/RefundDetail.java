@@ -117,6 +117,75 @@ public class RefundDetail {
     private BigDecimal packageFee = BigDecimal.ZERO;//订购或未退押金金额
     private String shipping_line_code;
 
+    @Override
+    public String toString() {
+        return "RefundDetail{" +
+                "entity_id=" + entity_id +
+                ", create_time='" + create_time + '\'' +
+                ", province=" + province +
+                ", city=" + city +
+                ", after_sales_no='" + after_sales_no + '\'' +
+                ", store_id=" + store_id +
+                ", supplier_name='" + supplier_name + '\'' +
+                ", supplier_tel='" + supplier_tel + '\'' +
+                ", store_name='" + store_name + '\'' +
+                ", customer_id=" + customer_id +
+                ", customer_name='" + customer_name + '\'' +
+                ", hotel_name='" + hotel_name + '\'' +
+                ", customer_tel='" + customer_tel + '\'' +
+                ", customer_address='" + customer_address + '\'' +
+                ", order_id=" + order_id +
+                ", order_item_id=" + order_item_id +
+                ", sku='" + sku + '\'' +
+                ", unit='" + unit + '\'' +
+                ", name='" + name + '\'' +
+                ", nick_name='" + nick_name + '\'' +
+                ", price=" + price +
+                ", total_price=" + total_price +
+                ", amount=" + amount +
+                ", original_price=" + original_price +
+                ", original_amount=" + original_amount +
+                ", original_total_price=" + original_total_price +
+                ", problem_description='" + problem_description + '\'' +
+                ", certificate_photos='" + certificate_photos + '\'' +
+                ", apply_type=" + apply_type +
+                ", status=" + status +
+                ", out_trade_no='" + out_trade_no + '\'' +
+                ", product_img='" + product_img + '\'' +
+                ", order_no='" + order_no + '\'' +
+                ", create_order_time='" + create_order_time + '\'' +
+                ", required_delivery_time='" + required_delivery_time + '\'' +
+                ", order_pay_time='" + order_pay_time + '\'' +
+                ", customer_img=" + customer_img +
+                ", store_img=" + store_img +
+                ", items=" + items +
+                ", isUseCoupon=" + isUseCoupon +
+                ", receive_hotel_name='" + receive_hotel_name + '\'' +
+                ", avg_unit='" + avg_unit + '\'' +
+                ", avg_price=" + avg_price +
+                ", discount_avg_price=" + discount_avg_price +
+                ", level_2_value=" + level_2_value +
+                ", level_2_unit='" + level_2_unit + '\'' +
+                ", level_3_value=" + level_3_value +
+                ", level_3_unit='" + level_3_unit + '\'' +
+                ", level_type=" + level_type +
+                ", pro_remark='" + pro_remark + '\'' +
+                ", problem_type=" + problem_type +
+                ", qr_code_id='" + qr_code_id + '\'' +
+                ", discount_total_price=" + discount_total_price +
+                ", remark='" + remark + '\'' +
+                ", problem_info=" + problem_info +
+                ", packageName='" + packageName + '\'' +
+                ", foregift=" + foregift +
+                ", orderForegift=" + orderForegift +
+                ", isForegift=" + isForegift +
+                ", packageStatus=" + packageStatus +
+                ", packageNum=" + packageNum +
+                ", packageFee=" + packageFee +
+                ", shipping_line_code='" + shipping_line_code + '\'' +
+                '}';
+    }
+
     public String getShipping_line_code() {
         return shipping_line_code;
     }

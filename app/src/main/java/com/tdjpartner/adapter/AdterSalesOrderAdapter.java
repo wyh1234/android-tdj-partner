@@ -63,6 +63,7 @@ public class AdterSalesOrderAdapter extends BaseQuickAdapter<RefundDetail, BaseV
         baseViewHolder.setText(R.id.count_image,refundDetail.getOriginal_total_price()+"");
         baseViewHolder.setText(R.id.refund_price,refundDetail.getTotal_price()+"");
         baseViewHolder.setText(R.id.count_sum,refundDetail.getAmount()+"");
+        baseViewHolder.setText(R.id.unit,refundDetail.getAvg_unit());
 
     }
 }

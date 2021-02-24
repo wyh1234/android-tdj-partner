@@ -283,7 +283,7 @@ public class GeneralUtils {
         Date date3 = format.parse(date1);
         System.out.println("date2 = " + date2);
         System.out.println("date3 = " + date3);
-        int days = (int) ((date2.getTime() - date3.getTime()) / (1000*3600*24));
+        int days = (int) ((date3.getTime() - date2.getTime()) / (1000*3600*24));
         System.out.println("days = " + days);
 
         return days < 93;

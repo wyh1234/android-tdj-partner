@@ -175,6 +175,11 @@ public class AdterSalesOrderListActivity extends BaseActivity<AdterSalesOrderLis
                         }
                     }
 
+                    if (!GeneralUtils.dateRange(GeneralUtils.getTimeFilter(date),tv_date_end.getText().toString())){
+                        GeneralUtils.showToastshort("时间跨度不能大于3个月，请重新选择");
+                        return;
+                    }
+
                     tv.setText(GeneralUtils.getTimeFilter(date));
                     refreshLayout.setRefreshing(true);
                     onRefresh();
@@ -192,7 +197,7 @@ public class AdterSalesOrderListActivity extends BaseActivity<AdterSalesOrderLis
                 .setDividerColor(Color.DKGRAY)
                 .setContentSize(16)
                 .setDate(selectedDates)
-                .setRangDate(startDate, endDate)
+//                .setRangDate(startDate, endDate)
                 .setDecorView(null)
                 .build();
         pvTime.show();
