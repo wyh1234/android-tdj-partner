@@ -65,9 +65,9 @@ public class MainTabActivity extends BaseActivity<MainTabPresenter> implements O
     protected void initData() {
         mFragmentList = new ArrayList<>();
         if (UserUtils.getInstance().getLoginBean().getGrade() != 3) {
-            mFragmentList.add(new HomepageFragment());
+            mFragmentList.add(new HomepageFragment());//非创客
         }else {
-            mFragmentList.add(new MenberHomepageFragment());
+            mFragmentList.add(new MenberHomepageFragment());//创客
         }
 
         mFragmentList.add(new ClientFragment());
@@ -81,10 +81,7 @@ public class MainTabActivity extends BaseActivity<MainTabPresenter> implements O
             public void onItemSelected(final BottomBarItem bottomBarItem, int previousPosition, final int currentPosition) {
                 Log.i("MainActivity", "position: " + currentPosition);
                 setStatusBarColor(currentPosition);
-                if (currentPosition == 0) {
-
-                }
-
+                if (currentPosition == 0) {}
             }
         });
 

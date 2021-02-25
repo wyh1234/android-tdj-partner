@@ -224,6 +224,10 @@ public class GeneralUtils {
         SimpleDateFormat format = new SimpleDateFormat("MM月");
         return format.format(date);
     }
+    public static String getMonthFilter(Date date) {//可根据需要自行截取数据显示
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
+        return format.format(date);
+    }
     public static String getTimeFilter(Date date) {//可根据需要自行截取数据显示
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.format(date);

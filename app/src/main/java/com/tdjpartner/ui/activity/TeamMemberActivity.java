@@ -219,6 +219,8 @@ public class TeamMemberActivity extends BaseActivity<TeamMemberPresenter> implem
             }
 
         }else {
+            System.out.println("i = " + i);
+            System.out.println(horizontal_data.size()+ "|" + horizontal_data);
             if (i!=horizontal_data.size()-1){
                 if (horizontal_data_temp.size()>0){
                     horizontal_data_temp.clear();

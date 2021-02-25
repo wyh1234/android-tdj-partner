@@ -30,8 +30,7 @@ public class PageGuideActivity extends BaseActivity {
 
 
     //导航页图片资源
-    public int[] guides = new int[] { R.mipmap.guide1,
-            R.mipmap.guide2, R.mipmap.guide3, R.mipmap.guide4};
+    public int[] guides = new int[] { R.mipmap.guide1, R.mipmap.guide2, R.mipmap.guide3, R.mipmap.guide4};
     @Override
     protected IPresenter loadPresenter() {
         return null;

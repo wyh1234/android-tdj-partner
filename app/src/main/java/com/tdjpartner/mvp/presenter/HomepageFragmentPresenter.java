@@ -42,10 +42,13 @@ public class HomepageFragmentPresenter extends BasePresenter<Model, HomepageFrag
 //        }));
 //
 //    }
+
     public void newhomeData(Map<String,Object> map){
         getIView().addSubscribe(RequestPresenter.newhomeData(map, new BaseObserver<NewHomeData>(getIView().getContext(), false) {
             @Override
             protected void onSuccess(NewHomeData homeData) {
+                System.out.println("~~" + getClass().getSimpleName() + ".onSuccess~~");
+                System.out.println("homeData = " + homeData);
                 getIView().homeData_Success(homeData);
 
             }

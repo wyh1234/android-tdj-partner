@@ -90,6 +90,15 @@ public class DistinctList {
             private String call_name;
             private String matters;
             private String results;
+            private String user_name;
+
+            public void setUser_name(String user_name) {
+                this.user_name = user_name;
+            }
+
+            public String getUser_name() {
+                return user_name;
+            }
 
             public String getCall_pic() {
                 return call_pic;

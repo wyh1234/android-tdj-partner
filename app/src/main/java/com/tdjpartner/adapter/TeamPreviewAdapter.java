@@ -30,7 +30,10 @@ public class TeamPreviewAdapter extends BaseQuickAdapter<TeamOverView, BaseViewH
         baseViewHolder.addOnClickListener(R.id.rl_cy);
         baseViewHolder.addOnClickListener(R.id.rl_right);
         baseViewHolder.setText(R.id.tv_tiltle,tiltle);
-        baseViewHolder.setText(R.id.tv_amountCommission,teamPreview.getAmountCommission().toString());
+
+//        baseViewHolder.setText(R.id.tv_amountCommission,teamPreview.getAmountCommission().toString());
+        baseViewHolder.setText(R.id.tv_amountCommission,String.format("%.2f", Double.valueOf(teamPreview.getAmountCommission().toString())));
+
         baseViewHolder.setText(R.id.tv_afterSaleAmount,teamPreview.getAfterSaleAmount().toString());
         baseViewHolder.setText(R.id.tv_userNum,teamPreview.getUserNum()+"人");
         baseViewHolder.setText(R.id.tv_activeNum,teamPreview.getActiveNum()+"家");

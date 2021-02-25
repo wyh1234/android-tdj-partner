@@ -174,9 +174,9 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
             case R.id.image1:
                 index=2;
                 GeneralUtils.getImage(new RxPermissions(this),this);
-                index=3;
                 break;
             case R.id.image2:
+                index=3;
                 GeneralUtils.getImage(new RxPermissions(this),this);
                 break;
             case R.id.delete_image:

@@ -31,7 +31,11 @@ public class MenberPaifangHistoryAdapter extends BaseQuickAdapter<DistinctList.L
         ImageLoad.loadImageView(baseViewHolder.getView(R.id.iv).getContext(),listBean.getCall_pic(),baseViewHolder.getView(R.id.iv));
         baseViewHolder.addOnClickListener(R.id.iv);
         baseViewHolder.addOnClickListener(R.id.tv_notification);
-        baseViewHolder.setText(R.id.tv_call_name,"("+listBean.getCall_name()+")"+listBean.getMobile());
+
+//        baseViewHolder.setText(R.id.tv_call_name,"("+listBean.getCall_name()+")"+listBean.getMobile());
+        baseViewHolder.setText(R.id.tv_call_name,"("+listBean.getUser_name()+")"+listBean.getMobile());
+
+
         if (listBean.getOrder_status()==0){//未下单
             baseViewHolder.getView(R.id.ll).setVisibility(View.INVISIBLE);
             baseViewHolder.setText(R.id.tv_is_order,"未下单");
