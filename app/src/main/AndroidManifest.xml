@@ -251,7 +251,8 @@
         </provider>
         <service android:name=".utils.appupdate.DownloadService" />
         <service android:name="com.amap.api.location.APSService"></service>
-        <meta-data android:name="com.amap.api.v2.apikey" android:value="7c04ca757bd4549a996205f8497c6ea2"/>
+<!--        <meta-data android:name="com.amap.api.v2.apikey" android:value="7c04ca757bd4549a996205f8497c6ea2"/>-->
+        <meta-data android:name="com.amap.api.v2.apikey" android:value="b9a4c6a74c20fbae38fa31ff7b6b0758"/>
     </application>
 
 </manifest>

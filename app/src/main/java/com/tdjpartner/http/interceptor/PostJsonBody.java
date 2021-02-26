@@ -8,9 +8,12 @@ import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.internal.Util;
 import okio.BufferedSink;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 public class PostJsonBody extends RequestBody{
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    private static final Charset charset = Util.UTF_8;
+    private static final Charset charset = UTF_8;
     private String content;
 
     public PostJsonBody(String content) {

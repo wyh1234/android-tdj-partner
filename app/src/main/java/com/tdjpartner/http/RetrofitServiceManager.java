@@ -2,7 +2,6 @@ package com.tdjpartner.http;
 
 import android.os.Environment;
 
-import com.ihsanbal.logging.LoggingInterceptor;
 import com.tdjpartner.AppAplication;
 import com.tdjpartner.common.PublicCache;
 import com.tdjpartner.http.cookie.CookieManger;
@@ -17,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -105,12 +105,12 @@ public class RetrofitServiceManager {
     private void addInterceptor(OkHttpClient.Builder builder) {
         // 添加日志拦截器，非debug模式不打印任何日志
         //打印网络请求日志
-        LoggingInterceptor httpLoggingInterceptor = new LoggingInterceptor.Builder().loggable(true)
-//                    .setLevel(Level.BASIC)
-//                    .log(Platform.INFO)
-                .request("reader")
-//                    .response("reader")
-                .build();
+//        LoggingInterceptor httpLoggingInterceptor = new LoggingInterceptor.Builder().loggable(true)
+////                    .setLevel(Level.BASIC)
+////                    .log(Platform.INFO)
+//                .request("reader")
+////                    .response("reader")
+//                .build();
 
         RetrofitDownloadInterceptor retrofitDownloadInterceptor = new RetrofitDownloadInterceptor(retrofitDownloadListener);
 
@@ -128,7 +128,8 @@ public class RetrofitServiceManager {
 //        builder.addNetworkInterceptor(httpCacheInterceptor);
         builder.cookieJar(new CookieManger(AppAplication.getAppContext()));
 //        builder.cookieJar(new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(AppAplication.getAppContext())));
-        builder.addInterceptor(httpLoggingInterceptor);
+//        builder.addInterceptor(httpLoggingInterceptor);
+        builder.addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
         builder.cache(new Cache(new File(Environment.getExternalStorageDirectory() + "/RxJavaDemo"), 1024 * 1024 * 10));
 
     }
