@@ -95,14 +95,14 @@ public class DirverMapActivity extends BaseActivity<DirverMapPresenter>implement
         super.onCreate(savedInstanceState);
         initMap(savedInstanceState);
 
-                        RxPermissions rxPermissions = new RxPermissions(this);
-                rxPermissions.request(ACCESS_COARSE_LOCATION, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE)
-                        .subscribe(b -> {
-                            if (!b) {
-                                GeneralUtils.showToastshort("请开启定位权限和存储权限!");
-                                finish();
-                            }
-                        });
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions.request(ACCESS_COARSE_LOCATION, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE)
+                .subscribe(b -> {
+                    if (!b) {
+                        GeneralUtils.showToastshort("请开启定位权限和存储权限!");
+                        finish();
+                    }
+                });
 
 
         routeSearch = new RouteSearch(this);
