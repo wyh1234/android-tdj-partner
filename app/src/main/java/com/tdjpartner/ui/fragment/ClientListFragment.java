@@ -173,8 +173,7 @@ public class ClientListFragment extends BaseFrgment<ClientListPresenter>  implem
         rxPermissions.request( Manifest.permission.ACCESS_COARSE_LOCATION).subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean b) throws Exception {
-                aBoolean=b
-                ;
+                aBoolean=b;
                 if (b){
                     LocationUtils.getInstance().startLocalService("LOCATION");
                 }else {

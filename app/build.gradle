@@ -7,7 +7,7 @@ android {
         minSdkVersion 24
         targetSdkVersion 29
         versionCode 2
-        versionName '2.0'
+        versionName '2.1'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters "armeabi", "armeabi-v7a", "x86", "mips","x86_64","mips64","arm64-v8a"
@@ -50,6 +50,7 @@ android {
 //            资源文件对齐
             zipAlignEnabled true
             signingConfig signingConfigs.release
+            debuggable true
         }
     }
     lintOptions {
