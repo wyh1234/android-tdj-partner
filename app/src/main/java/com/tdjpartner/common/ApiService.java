@@ -167,10 +167,9 @@ public interface ApiService {
 
 
     //发送短信
-    @Headers({"url_type:weather"})
-    @FormUrlEncoded
-    @POST("afterSalesApplication/create")
-    Observable<BaseResponse<AfterSales>> afterSalesApplication(@FieldMap Map<String, Object> params);
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/afterSalesApplication/create")
+    Observable<BaseResponse<AfterSales>> afterSalesApplication(@Body RequestBody requestBody);
 
 
     /*

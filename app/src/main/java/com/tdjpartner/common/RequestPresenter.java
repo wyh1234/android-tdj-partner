@@ -109,7 +109,7 @@ public class RequestPresenter {
 
     }
     public static Disposable afterSalesApplication(Map<String, Object> params, BaseObserver<AfterSales> baseObserver) {
-        return getApiService().afterSalesApplication(params).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(baseObserver);
+        return getApiService().afterSalesApplication(jsonData(params)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(baseObserver);
 
     }
     public static Disposable after_details_order(int orderItemId, BaseObserver<RefundDetail> baseObserver) {
