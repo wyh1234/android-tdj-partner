@@ -17,6 +17,7 @@ import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.mvp.presenter.MainTabPresenter;
 import com.tdjpartner.ui.fragment.ClientFragment;
 import com.tdjpartner.ui.fragment.HomepageFragment;
+import com.tdjpartner.ui.fragment.IronIndexFragment;
 import com.tdjpartner.ui.fragment.MenberHomepageFragment;
 import com.tdjpartner.ui.fragment.MyFragment;
 import com.tdjpartner.utils.GeneralUtils;
@@ -65,7 +66,8 @@ public class MainTabActivity extends BaseActivity<MainTabPresenter> implements O
     protected void initData() {
         mFragmentList = new ArrayList<>();
         if (UserUtils.getInstance().getLoginBean().getGrade() != 3) {
-            mFragmentList.add(new HomepageFragment());//非创客
+//            mFragmentList.add(new HomepageFragment());//非创客
+            mFragmentList.add(new IronIndexFragment());//铁军
         }else {
             mFragmentList.add(new MenberHomepageFragment());//创客
         }

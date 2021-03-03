@@ -52,7 +52,8 @@ public class SplashActivity extends AppCompatActivity {
 
             }
         };
-        timer.schedule(task, 3 * 1000 + 200);
+//        timer.schedule(task, 3 * 1000 + 200);
+        timer.schedule(task, 0 * 1000 + 200);
     }
 
 
