@@ -61,7 +61,6 @@ public class ClientFragment  extends BaseFrgment {
                     if (clientNewFragment == null) clientNewFragment = new ClientNewFragment();
                     fa.add(R.id.fm_fragment, clientNewFragment, listdata);
                     fa.commit();
-
                 }
             }
 
@@ -78,7 +77,6 @@ public class ClientFragment  extends BaseFrgment {
                 }
 
             }
-
     }
 
     @Override

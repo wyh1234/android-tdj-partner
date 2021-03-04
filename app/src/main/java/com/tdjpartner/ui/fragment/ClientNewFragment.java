@@ -45,7 +45,7 @@ public class ClientNewFragment extends BaseFrgment {
         switch (view.getId()){
             case R.id.tv_list_type:
 
-                rxPermissions.request( Manifest.permission.ACCESS_COARSE_LOCATION).subscribe(new Consumer<Boolean>() {
+                rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION).subscribe(new Consumer<Boolean>() {
                     @Override
                     public void accept(Boolean b) throws Exception {
                         if (b){
@@ -54,10 +54,8 @@ public class ClientNewFragment extends BaseFrgment {
                         }else {
                             GeneralUtils.showToastshort("请开启位置信息");
                         }
-
                     }
                 });
-
                 break;
             case R.id.search_text:
                 Intent intent=new Intent(getContext(), ClientListSeachActivity.class);

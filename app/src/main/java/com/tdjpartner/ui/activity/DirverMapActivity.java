@@ -1,7 +1,6 @@
 package com.tdjpartner.ui.activity;
 
-import android.content.ClipboardManager;
-import android.content.Context;
+import android.Manifest;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -43,9 +42,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static com.amap.api.services.route.RouteSearch.DRIVING_SINGLE_DEFAULT;
 
 
@@ -96,7 +92,8 @@ public class DirverMapActivity extends BaseActivity<DirverMapPresenter>implement
         initMap(savedInstanceState);
 
         RxPermissions rxPermissions = new RxPermissions(this);
-        rxPermissions.request(ACCESS_COARSE_LOCATION, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE)
+        rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .subscribe(b -> {
                     if (!b) {
                         GeneralUtils.showToastshort("请开启定位权限和存储权限!");

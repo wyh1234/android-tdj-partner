@@ -170,7 +170,7 @@ public class ClientListFragment extends BaseFrgment<ClientListPresenter>  implem
         getData();
     }
     protected  void getData(){
-        rxPermissions.request( Manifest.permission.ACCESS_COARSE_LOCATION).subscribe(new Consumer<Boolean>() {
+        rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION).subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean b) throws Exception {
                 aBoolean=b;

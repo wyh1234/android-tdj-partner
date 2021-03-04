@@ -10,8 +10,8 @@ import java.util.Map;
 
 public class PublicCache {
     //域名
-//    public static final String http_type = "real";
-    public static final String http_type = "test";
+    public static final String http_type = "real";
+//    public static final String http_type = "test";
 //    public static final String http_type = "model";
 public static final String specification_unit_base = "个双卷斤张天小时";//和斤一样处理的单位
     private static Map<String, List<String>> ROOT_HTTP_URL;

@@ -196,7 +196,7 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter>  {
     }
 
     public void  location(){
-        rxPermissions.request( Manifest.permission.ACCESS_COARSE_LOCATION).subscribe(new Consumer<Boolean>() {
+        rxPermissions.request( Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION).subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean b) throws Exception {
                 f=b;
@@ -210,7 +210,6 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter>  {
                     iv.setImageResource(R.mipmap.gantanhao);
 
                 }
-
             }
         });
     }

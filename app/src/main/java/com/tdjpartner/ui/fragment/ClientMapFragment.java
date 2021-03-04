@@ -118,21 +118,6 @@ public class ClientMapFragment extends BaseFrgment<ClientMapPresenter> implement
     @Override
     public void onUserVisible() {
         super.onUserVisible();
-    /*    rxPermissions.request( Manifest.permission.ACCESS_COARSE_LOCATION).subscribe(new Consumer<Boolean>() {
-            @Override
-            public void accept(Boolean b) throws Exception {
-                aBoolean=b;
-                if (b){
-                    if (getLocationBean()==null){
-                        LocationUtils.getInstance().startLocalService("MAP");
-                    }
-
-                }
-
-            }
-        });*/
-
-
     }
 
     @Override
