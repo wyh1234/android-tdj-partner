@@ -65,12 +65,12 @@ public class MainTabActivity extends BaseActivity<MainTabPresenter> implements O
     @Override
     protected void initData() {
         mFragmentList = new ArrayList<>();
-        if (UserUtils.getInstance().getLoginBean().getGrade() != 3) {
+        mFragmentList.add(new IronIndexFragment());//铁军
+//        if (UserUtils.getInstance().getLoginBean().getGrade() != 3) {
 //            mFragmentList.add(new HomepageFragment());//非创客
-            mFragmentList.add(new IronIndexFragment());//铁军
-        }else {
-            mFragmentList.add(new MenberHomepageFragment());//创客
-        }
+//        }else {
+//            mFragmentList.add(new MenberHomepageFragment());//创客
+//        }
 
         mFragmentList.add(new ClientFragment());
         mFragmentList.add(new MyFragment());
