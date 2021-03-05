@@ -37,7 +37,7 @@ public class CameraUtils {
     public static final String PIC_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/TakePhotoPic";
     //拍照
     public static void getImageCamera(RxPermissions rxPermissions, Activity context){
-        rxPermissions.request(android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.READ_PHONE_STATE, android.Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
+        rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_PHONE_STATE, android.Manifest.permission.CAMERA).subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean aBoolean) throws Exception {
                 if (aBoolean) {

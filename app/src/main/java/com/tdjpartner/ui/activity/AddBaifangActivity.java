@@ -2,26 +2,26 @@ package com.tdjpartner.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.util.Log;
+import android.net.Uri;
+import android.os.Build;
+import android.support.v4.content.FileProvider;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.apkfuns.logutils.LogUtils;
 import com.bigkoo.pickerview.TimePickerView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
 import com.tdjpartner.base.BaseActivity;
 import com.tdjpartner.mvp.presenter.AddBaifangPresenter;
-import com.tdjpartner.mvp.presenter.IPresenter;
+import com.tdjpartner.utils.CameraUtils;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.glide.ImageLoad;
 import com.tdjpartner.utils.popuwindow.FollowUpPopuWindow;
 import com.tdjpartner.utils.popuwindow.SelTypePopuWindow;
 import com.tdjpartner.utils.statusbar.Eyes;
-import com.zhihu.matisse.Matisse;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -32,7 +32,12 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class AddBaifangActivity extends BaseActivity<AddBaifangPresenter> implements SelTypePopuWindow.SelTypePopuWindowListener,FollowUpPopuWindow.FollowUpListener{
+import static com.tdjpartner.utils.CameraUtils.CROP_REQUEST_CODE;
+import static com.tdjpartner.utils.CameraUtils.REQUEST_PERMISSION_CAMERA;
+import static com.tdjpartner.utils.CameraUtils.captureFile;
+import static com.tdjpartner.utils.CameraUtils.cropFile;
+
+public class AddBaifangActivity extends BaseActivity<AddBaifangPresenter> implements SelTypePopuWindow.SelTypePopuWindowListener, FollowUpPopuWindow.FollowUpListener {
     @BindView(R.id.btn_back)
     ImageView btn_back;
     @BindView(R.id.rl_sel_time)
@@ -93,75 +98,76 @@ public class AddBaifangActivity extends BaseActivity<AddBaifangPresenter> implem
     }
 
     private TimePickerView pvTime;
-    private   Calendar selectedDate,endDate,startDate;
+    private Calendar selectedDate, endDate, startDate;
     private SelTypePopuWindow selTypePopuWindow;
     private FollowUpPopuWindow followUpPopuWindow;
-    @OnClick({R.id.btn_back,R.id.btn,R.id.rl_sel_time,R.id.rl_type,R.id.iv_upload})
-    public void onClick(View view){
-        switch (view.getId()){
+
+    @OnClick({R.id.btn_back, R.id.btn, R.id.rl_sel_time, R.id.rl_type, R.id.iv_upload})
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.btn_back:
                 finish();
                 break;
             case R.id.btn:
-                if (GeneralUtils.isNullOrZeroLenght(ed_storeName.getText().toString())){
+                if (GeneralUtils.isNullOrZeroLenght(ed_storeName.getText().toString())) {
                     GeneralUtils.showToastshort("请输入拜访门店名称");
                     return;
                 }
-                if (GeneralUtils.isNullOrZeroLenght(ed_byCallName.getText().toString())){
+                if (GeneralUtils.isNullOrZeroLenght(ed_byCallName.getText().toString())) {
                     GeneralUtils.showToastshort("请输入被拜访人名称");
                     return;
                 }
-                if (GeneralUtils.isNullOrZeroLenght(ed_byCallMobile.getText().toString())){
+                if (GeneralUtils.isNullOrZeroLenght(ed_byCallMobile.getText().toString())) {
                     GeneralUtils.showToastshort("请输入被拜访人手机号");
                     return;
                 }
 
-                if (GeneralUtils.isNullOrZeroLenght(ed_storeAddress.getText().toString())){
+                if (GeneralUtils.isNullOrZeroLenght(ed_storeAddress.getText().toString())) {
                     GeneralUtils.showToastshort("请输入门店详细地址");
                     return;
                 }
-                if (GeneralUtils.isNullOrZeroLenght(tv_time.getText().toString())){
+                if (GeneralUtils.isNullOrZeroLenght(tv_time.getText().toString())) {
                     GeneralUtils.showToastshort("请选择拜访时间");
                     return;
                 }
-                if (GeneralUtils.isNullOrZeroLenght(tv_callType.getText().toString())){
+                if (GeneralUtils.isNullOrZeroLenght(tv_callType.getText().toString())) {
                     GeneralUtils.showToastshort("请选择拜访类型");
                     return;
                 }
-                if (GeneralUtils.isNullOrZeroLenght(ed_matters.getText().toString())){
+                if (GeneralUtils.isNullOrZeroLenght(ed_matters.getText().toString())) {
                     GeneralUtils.showToastshort("请输入主要事宜");
                     return;
                 }
-                if (GeneralUtils.isNullOrZeroLenght(ed_results.getText().toString())){
+                if (GeneralUtils.isNullOrZeroLenght(ed_results.getText().toString())) {
                     GeneralUtils.showToastshort("请输入拜访结果");
                     return;
                 }
-                if (GeneralUtils.isNullOrZeroLenght(tv_time.getText().toString())){
+                if (GeneralUtils.isNullOrZeroLenght(tv_time.getText().toString())) {
                     GeneralUtils.showToastshort("请选择拜访时间");
                     return;
                 }
-                if (GeneralUtils.isNullOrZeroLenght(tv_callType.getText().toString())){
+                if (GeneralUtils.isNullOrZeroLenght(tv_callType.getText().toString())) {
                     GeneralUtils.showToastshort("选择拜访类型");
                     return;
                 }
-                if (GeneralUtils.isNullOrZeroLenght(getPath())){
+                if (GeneralUtils.isNullOrZeroLenght(getPath())) {
                     GeneralUtils.showToastshort("请上传拜访图片");
                     return;
                 }
-                Map<String,Object> map=new HashMap<>();
-                map.put("city",UserUtils.getInstance().getLoginBean().getSite());
-                map.put("callId",UserUtils.getInstance().getLoginBean().getEntityId());
-                map.put("callName",UserUtils.getInstance().getLoginBean().getRealname());
-                map.put("callMobile",UserUtils.getInstance().getLoginBean().getPhoneNumber());
-                map.put("storeName",ed_storeName.getText().toString());
-                map.put("byCallName",ed_byCallName.getText().toString());
-                map.put("byCallMobile",ed_byCallMobile.getText().toString());
-                map.put("storeAddress",ed_storeAddress.getText().toString());
-                map.put("callDate",getTime());
-                map.put("callType",getType());
-                map.put("callPic",getPath());
-                map.put("matters",ed_matters.getText().toString());
-                map.put("results",ed_results.getText().toString());
+                Map<String, Object> map = new HashMap<>();
+                map.put("city", UserUtils.getInstance().getLoginBean().getSite());
+                map.put("callId", UserUtils.getInstance().getLoginBean().getEntityId());
+                map.put("callName", UserUtils.getInstance().getLoginBean().getRealname());
+                map.put("callMobile", UserUtils.getInstance().getLoginBean().getPhoneNumber());
+                map.put("storeName", ed_storeName.getText().toString());
+                map.put("byCallName", ed_byCallName.getText().toString());
+                map.put("byCallMobile", ed_byCallMobile.getText().toString());
+                map.put("storeAddress", ed_storeAddress.getText().toString());
+                map.put("callDate", getTime());
+                map.put("callType", getType());
+                map.put("callPic", getPath());
+                map.put("matters", ed_matters.getText().toString());
+                map.put("results", ed_results.getText().toString());
                 mPresenter.worship(map);
 
 
@@ -173,12 +179,12 @@ public class AddBaifangActivity extends BaseActivity<AddBaifangPresenter> implem
                 break;
             case R.id.rl_type:
 
-                if (selTypePopuWindow!=null){
-                    if (selTypePopuWindow.isShowing()){
+                if (selTypePopuWindow != null) {
+                    if (selTypePopuWindow.isShowing()) {
                         return;
                     }
                     selTypePopuWindow.showPopupWindow();
-                }else {
+                } else {
 
                     selTypePopuWindow = new SelTypePopuWindow(this);
                     selTypePopuWindow.setDismissWhenTouchOutside(false);
@@ -189,7 +195,7 @@ public class AddBaifangActivity extends BaseActivity<AddBaifangPresenter> implem
                 }
                 break;
             case R.id.iv_upload:
-                GeneralUtils.getImage(new RxPermissions(this),this);
+                CameraUtils.getImageCamera(new RxPermissions(this), this);
                 break;
         }
 
@@ -199,10 +205,12 @@ public class AddBaifangActivity extends BaseActivity<AddBaifangPresenter> implem
         SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd hh:mm");
         return format.format(date);
     }
+
     private String getTime(Date date) {//可根据需要自行截取数据显示
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
         return format.format(date);
     }
+
     @Override
     protected AddBaifangPresenter loadPresenter() {
         return new AddBaifangPresenter();
@@ -215,13 +223,13 @@ public class AddBaifangActivity extends BaseActivity<AddBaifangPresenter> implem
 
     @Override
     protected void initView() {
-        Eyes.translucentStatusBar(this,true);
-         startDate = Calendar.getInstance();
+        Eyes.translucentStatusBar(this, true);
+        startDate = Calendar.getInstance();
         endDate = Calendar.getInstance();
-        startDate.set(startDate.get(Calendar.YEAR),  (startDate.get(Calendar.MONTH))-1,startDate.get(Calendar.DAY_OF_MONTH),startDate.get(Calendar.HOUR_OF_DAY),startDate.get(Calendar.MINUTE));
-        endDate.set(endDate.get(Calendar.YEAR),  (endDate.get(Calendar.MONTH)),endDate.get(Calendar.DAY_OF_MONTH),endDate.get(Calendar.HOUR_OF_DAY),endDate.get(Calendar.MINUTE));
+        startDate.set(startDate.get(Calendar.YEAR), (startDate.get(Calendar.MONTH)) - 1, startDate.get(Calendar.DAY_OF_MONTH), startDate.get(Calendar.HOUR_OF_DAY), startDate.get(Calendar.MINUTE));
+        endDate.set(endDate.get(Calendar.YEAR), (endDate.get(Calendar.MONTH)), endDate.get(Calendar.DAY_OF_MONTH), endDate.get(Calendar.HOUR_OF_DAY), endDate.get(Calendar.MINUTE));
 
-        pvTime=new TimePickerView.Builder(this, new TimePickerView.OnTimeSelectListener() {
+        pvTime = new TimePickerView.Builder(this, new TimePickerView.OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
                 tv_time.setText(getTimes(date));
@@ -250,7 +258,7 @@ public class AddBaifangActivity extends BaseActivity<AddBaifangPresenter> implem
 
     @Override
     public void onSelType(int type) {
-        tv_callType.setText(type==1?"未注册":"已注册");
+        tv_callType.setText(type == 1 ? "未注册" : "已注册");
         setType(type);
         selTypePopuWindow.dismiss();
 
@@ -259,33 +267,48 @@ public class AddBaifangActivity extends BaseActivity<AddBaifangPresenter> implem
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GeneralUtils.REQUEST_CODE_CHOOSE_GRIDE && resultCode == RESULT_OK) {//storage/emulated/0/Pictures/JPEG_20181011_155709.jpg
-            LogUtils.i(Matisse.obtainPathResult(data).get(0));
-            Log.e("OnActivityResult ", String.valueOf(Matisse.obtainPathResult(data).get(0)));
-            mPresenter.imageUpload(Matisse.obtainPathResult(data).get(0));
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_PERMISSION_CAMERA:
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        Uri contentUri = FileProvider.getUriForFile(this, getPackageName() + ".fileProvider", captureFile);
+                        CameraUtils.cropPhoto(contentUri, this);
+                    } else {
+                        CameraUtils.cropPhoto(Uri.fromFile(captureFile), this);
+                    }
+
+
+                    break;
+                case CROP_REQUEST_CODE:
+                    mPresenter.imageUpload(CameraUtils.saveImage(cropFile.getPath()));
+                    break;
+                default:
+                    break;
+            }
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public void getImage_Success(String data) {
         setPath(data);
-        ImageLoad.loadImageView(this,data,iv_upload);
+        ImageLoad.loadImageView(this, data, iv_upload);
     }
 
     public void worship_Success() {
-          if (followUpPopuWindow!=null){
-                    if (followUpPopuWindow.isShowing()){
-                        return;
-                    }
-                    followUpPopuWindow.showPopupWindow();
-                }else {
+        if (followUpPopuWindow != null) {
+            if (followUpPopuWindow.isShowing()) {
+                return;
+            }
+            followUpPopuWindow.showPopupWindow();
+        } else {
 
-                    followUpPopuWindow = new FollowUpPopuWindow(this,"ADDBAIFANG");
-                    followUpPopuWindow.setDismissWhenTouchOutside(false);
-                    followUpPopuWindow.setInterceptTouchEvent(false);
-                    followUpPopuWindow.setPopupWindowFullScreen(true);//铺满
-                    followUpPopuWindow.setFollowUpListener(this);
-                    followUpPopuWindow.showPopupWindow();
-                }
+            followUpPopuWindow = new FollowUpPopuWindow(this, "ADDBAIFANG");
+            followUpPopuWindow.setDismissWhenTouchOutside(false);
+            followUpPopuWindow.setInterceptTouchEvent(false);
+            followUpPopuWindow.setPopupWindowFullScreen(true);//铺满
+            followUpPopuWindow.setFollowUpListener(this);
+            followUpPopuWindow.showPopupWindow();
+        }
     }
 
     @Override

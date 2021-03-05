@@ -51,7 +51,9 @@ import io.reactivex.functions.Consumer;
 
 public class GeneralUtils {
     public static final int REQUEST_CODE_CHOOSE_GRIDE = 23;
-    private  static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");;
+    private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    ;
+
     /**
      * <手机号码判断>
      *
@@ -65,6 +67,7 @@ public class GeneralUtils {
         Matcher m = p.matcher(tel);
         return m.matches();
     }
+
     /**
      * 判断字符串是否为null或者0长度，字符串在判断长度时，先去除前后的空格,空或者0长度返回true,否则返回false
      *
@@ -88,6 +91,7 @@ public class GeneralUtils {
         }
         return versionName;
     }
+
     // 获取当前应用的版本号
     public static int getVersionCode() {
         try {
@@ -99,6 +103,7 @@ public class GeneralUtils {
         }
         return 1;
     }
+
     // 获取当前版本的版本号
     public static String getVersionName() {
         try {
@@ -110,6 +115,7 @@ public class GeneralUtils {
             return "";
         }
     }
+
     //获取androidid
     @SuppressLint("HardwareIds")
     public static String getAndroidId() {
@@ -117,7 +123,7 @@ public class GeneralUtils {
     }
 
     // 判定是否需要隐藏
-    public  static  boolean isHideInput(View v, MotionEvent ev) {
+    public static boolean isHideInput(View v, MotionEvent ev) {
         if (v != null && (v instanceof EditText)) {
             int[] l = {0, 0};
             v.getLocationInWindow(l);
@@ -130,14 +136,14 @@ public class GeneralUtils {
         }
         return false;
     }
+
     // 隐藏软键盘
     public static void hideSoftInput(IBinder token, Activity activity) {
         if (token != null) {
-            InputMethodManager manager = (InputMethodManager)activity. getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager manager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
             manager.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
-
 
 
     public static void showToastshort(String str) {
@@ -183,7 +189,6 @@ public class GeneralUtils {
     }
 
 
-
     /**
      * dip-->px
      */
@@ -208,45 +213,52 @@ public class GeneralUtils {
         final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5f);
     }
-    public static int getColor(Context context, int colorId){
+
+    public static int getColor(Context context, int colorId) {
         return ContextCompat.getColor(context, colorId);
     }
 
-    public static Drawable getDrawable(Context context, int resId){
-        return  context.getResources().getDrawable(resId);
+    public static Drawable getDrawable(Context context, int resId) {
+        return context.getResources().getDrawable(resId);
     }
 
     public static String getTimes(Date date) {//可根据需要自行截取数据显示
         SimpleDateFormat format = new SimpleDateFormat("MM月dd日");
         return format.format(date);
     }
+
     public static String getTime(Date date) {//可根据需要自行截取数据显示
         SimpleDateFormat format = new SimpleDateFormat("MM月");
         return format.format(date);
     }
+
     public static String getMonthFilter(Date date) {//可根据需要自行截取数据显示
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
         return format.format(date);
     }
+
     public static String getTimeFilter(Date date) {//可根据需要自行截取数据显示
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.format(date);
     }
+
     public static String getCurr() {//可根据需要自行截取数据显示
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.format(date);
     }
+
     /**
      * 得到几天前的时间
+     *
      * @param
      * @param day
      * @return
      */
-    public static String getDateBefore(int day){
-        Calendar now =Calendar.getInstance();
+    public static String getDateBefore(int day) {
+        Calendar now = Calendar.getInstance();
         now.setTime(new Date());
-        now.set(Calendar.DATE,now.get(Calendar.DATE)-day);
+        now.set(Calendar.DATE, now.get(Calendar.DATE) - day);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.format(now.getTime());
     }
@@ -256,11 +268,13 @@ public class GeneralUtils {
         SimpleDateFormat format = new SimpleDateFormat("MM月");
         return format.format(date);
     }
+
     public static String getCurrDay() {//可根据需要自行截取数据显示
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat format = new SimpleDateFormat("MM月dd日");
         return format.format(date);
     }
+
     //获取文件名带后缀
     public static String getFileNames(String pathandname) {
         int start = pathandname.lastIndexOf("/");
@@ -271,23 +285,24 @@ public class GeneralUtils {
         }
 
     }
-    public static boolean selectedDate(String date,String date1) throws ParseException {//可根据需要自行截取数据显示
+
+    public static boolean selectedDate(String date, String date1) throws ParseException {//可根据需要自行截取数据显示
         Date date2 = format.parse(date);
         Date date3 = format.parse(date1);
-        if (date2.before(date3)){
-          return true;
-        }else {
+        if (date2.before(date3)) {
+            return true;
+        } else {
             return false;
         }
 
     }
 
-    public static boolean dateRange(String date,String date1) throws ParseException {//可根据需要自行截取数据显示
+    public static boolean dateRange(String date, String date1) throws ParseException {//可根据需要自行截取数据显示
         Date date2 = format.parse(date);
         Date date3 = format.parse(date1);
         System.out.println("date2 = " + date2);
         System.out.println("date3 = " + date3);
-        int days = (int) ((date3.getTime() - date2.getTime()) / (1000*3600*24));
+        int days = (int) ((date3.getTime() - date2.getTime()) / (1000 * 3600 * 24));
         System.out.println("days = " + days);
 
         return days < 93;
@@ -295,9 +310,9 @@ public class GeneralUtils {
 
     public static Calendar selectedDates(String date) throws ParseException {//可根据需要自行截取数据显示
         Date date2 = format.parse(date);
-        Calendar calendar=Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         calendar.setTime(date2);
-            return calendar;
+        return calendar;
 
     }
 
@@ -305,41 +320,42 @@ public class GeneralUtils {
     /**
      * 验证输入的身份证号是否合法
      */
-    public static boolean isLegalId(String id){
-        if (id.toUpperCase().matches("(^\\d{15}$)|(^\\d{17}([0-9]|X)$)")){
+    public static boolean isLegalId(String id) {
+        if (id.toUpperCase().matches("(^\\d{15}$)|(^\\d{17}([0-9]|X)$)")) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
 
-    public static void getImage(RxPermissions rxPermissions,Activity activity){
-        rxPermissions.request(android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.READ_PHONE_STATE, android.Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
-            @Override
-            public void accept(Boolean aBoolean) throws Exception {
-                if (aBoolean) {
-                    //从相册中选择图片 此处使用知乎开源库Matisse
-                    Matisse.from(activity).choose(MimeType.ofImage())
-                            .theme(R.style.Matisse_Dracula)
-                            .countable(false)//true:选中后显示数字;false:选中后显示对号
-                            .maxSelectable(1)
-                            .capture(true)
-                            .captureStrategy(new CaptureStrategy(true, "com.tdjpartner.fileProvider")) //是否拍照功能，并设置拍照后图片的保存路径; FILE_PATH = 你项目的包名.fileprovider,必须配置不然会抛异常
-                            .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
-                            .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                            .originalEnable(true)
-                            .maxOriginalSize(10)
-                            .thumbnailScale(0.85f)
-                            .imageEngine(new MyGlideEngine())
-                            .forResult(REQUEST_CODE_CHOOSE_GRIDE);
-
-                }
-            }
-        });
+    public static void getImage(RxPermissions rxPermissions, Activity activity) {
+        rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_PHONE_STATE, android.Manifest.permission.CAMERA)
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {
+                        if (aBoolean) {
+                            //从相册中选择图片 此处使用知乎开源库Matisse
+                            Matisse.from(activity)
+                                    .choose(MimeType.ofImage())
+                                    .theme(R.style.Matisse_Dracula)
+                                    .countable(false)//true:选中后显示数字;false:选中后显示对号
+                                    .maxSelectable(1)
+                                    .capture(true)
+                                    .captureStrategy(new CaptureStrategy(true, "com.tdjpartner.fileProvider")) //是否拍照功能，并设置拍照后图片的保存路径; FILE_PATH = 你项目的包名.fileprovider,必须配置不然会抛异常
+                                    .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
+                                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                                    .originalEnable(true)
+                                    .maxOriginalSize(10)
+                                    .thumbnailScale(0.85f)
+                                    .imageEngine(new MyGlideEngine())
+                                    .forResult(REQUEST_CODE_CHOOSE_GRIDE);
+                        }
+                    }
+                });
 
     }
 
-    public static void action_call(RxPermissions rxPermissions,String data,Context context){
+    public static void action_call(RxPermissions rxPermissions, String data, Context context) {
         rxPermissions.request(Manifest.permission.CALL_PHONE).subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean aBoolean) throws Exception {
@@ -357,6 +373,7 @@ public class GeneralUtils {
     /**
      * 根据当前日期获得是星期几
      * time=yyyy-MM-dd
+     *
      * @return
      */
     public static String getWeekDay(long seconds) {
@@ -413,6 +430,7 @@ public class GeneralUtils {
         }
         return date == null ? 0 : date.getTime(); // 返回毫秒数
     }
+
     /**
      * 日期中必须包含 有是年开头，否则为null
      *
@@ -422,10 +440,12 @@ public class GeneralUtils {
     public static SimpleDateFormat concludeDateFormat(String... dateString) {
         return getSimpleDateFormat(concludeDateFormatString(dateString));
     }
+
     //获取SimpleDateFormat
     public static SimpleDateFormat getSimpleDateFormat(String format) {
         return new SimpleDateFormat(format, Locale.UK);
     }
+
     public static String concludeDateFormatString(String... dateString) {
         String format = "";
         String date = dateString.length == 0 ? "" : dateString[0];
