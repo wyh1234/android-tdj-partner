@@ -101,7 +101,7 @@ public class IronIndexFragment extends BaseFrgment<IronIndexFragmentPresenter>
         if (UserUtils.getInstance().getLoginBean().getGrade() != 3) {
             rl_team.setVisibility(View.VISIBLE);
         } else {
-            rl_team.setVisibility(View.GONE);
+//            rl_team.setVisibility(View.GONE);
         }
 
 
