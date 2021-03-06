@@ -198,28 +198,87 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="30dp"
                     android:layout_marginEnd="10dp"
+                    android:layout_marginTop="30dp"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/client_item_sahp"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                    <RelativeLayout
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"
                             android:text="排行榜"
                             android:textColor="@color/gray_66"
                             android:textSize="12sp" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingStart="10dp"
+                                android:paddingEnd="10dp"
+                                android:layout_marginTop="2dp"
+                                android:layout_marginBottom="2dp"
+                                android:text="日"
+                                android:background="@color/orage_red"
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingStart="10dp"
+                                android:paddingEnd="10dp"
+                                android:layout_marginTop="2dp"
+                                android:layout_marginBottom="2dp"
+                                android:text="月"
+                                android:textColor="@color/gray_66"
+                                android:textSize="12sp" />
+                        </LinearLayout>
 
-                    </LinearLayout>
+                    </RelativeLayout>
 
+                    <com.tdjpartner.widget.tablayout.WTabLayout
+                        android:id="@+id/wtab"
+                        android:layout_width="match_parent"
+                        android:background="@color/white"
+                        app:xTabDisplayNum="3"
+                        app:xTabIndicatorColor="@color/view_bg1"
+                        app:xTabIndicatorHeight="2dp"
+                        app:xTabIndicatorWidth="23dp"
+                        app:xTabSelectedTextColor="@color/view_bg1"
+                        app:xTabTextColor="@color/gray_66"
+                        app:xTabTextSize="14sp"
+                        android:layout_height="@dimen/dp_40" />
+<!--                    <android.support.design.widget.TabLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content">-->
+
+<!--                        <android.support.design.widget.TabItem-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="AAA" />-->
+
+<!--                        <android.support.design.widget.TabItem-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="BBB" />-->
+<!--                    </android.support.design.widget.TabLayout>-->
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/ranking_vp"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp" />
 
                 </LinearLayout>
 

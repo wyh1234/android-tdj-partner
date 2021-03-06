@@ -2,10 +2,19 @@ package com.tdjpartner.ui.fragment;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -14,6 +23,8 @@ import com.bigkoo.pickerview.TimePickerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.DayPreviewAdapter;
+import com.tdjpartner.adapter.FragmentAdapter;
+import com.tdjpartner.adapter.FragmentStatisticsAdapter;
 import com.tdjpartner.adapter.MonthPreviewAdapter;
 import com.tdjpartner.adapter.TeamPreviewAdapter;
 import com.tdjpartner.adapter.TeamPreviewAllAdapter;
@@ -31,8 +42,10 @@ import com.tdjpartner.utils.ListUtils;
 import com.tdjpartner.utils.ViewUrils;
 import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.widget.CustomLinearLayout;
+import com.tdjpartner.widget.tablayout.WTabLayout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -110,6 +123,41 @@ public class IronIndexFragment extends BaseFrgment<IronIndexFragmentPresenter>
         startDate.set(startDate.get(Calendar.YEAR), (startDate.get(Calendar.MONTH) - 6), startDate.get(Calendar.DAY_OF_MONTH));
         endDate = Calendar.getInstance();
         endDate.set(endDate.get(Calendar.YEAR), (endDate.get(Calendar.MONTH)), endDate.get(Calendar.DAY_OF_MONTH));
+
+
+
+
+        //排行榜
+        ViewPager viewPager = view.findViewById(R.id.ranking_vp);
+        viewPager.setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
+
+            List<String> titles = Arrays.asList("月日活", "月均日活", "月GMV");
+
+            @Override
+            public Fragment getItem(int i) {
+                Fragment fragment = new RankingFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", i);
+                fragment.setArguments(bundle);
+                return fragment;
+            }
+
+            @Override
+            public int getCount() {
+                return titles.size();
+            }
+
+            @Nullable
+            @Override
+            public CharSequence getPageTitle(int position) {
+                System.out.println("position = " + position);
+                return titles.get(position);
+            }
+        });
+
+        WTabLayout wtab = view.findViewById(R.id.wtab);
+        wtab.setupWithViewPager(viewPager);
+
     }
 
 
