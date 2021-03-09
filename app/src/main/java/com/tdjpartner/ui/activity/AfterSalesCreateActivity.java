@@ -1,20 +1,17 @@
 package com.tdjpartner.ui.activity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.NonNull;
+import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ImageSpan;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -41,21 +38,19 @@ import com.tdjpartner.utils.glide.ImageLoad;
 import com.tdjpartner.utils.popuwindow.AfterSalesTypePopuWindow;
 import com.tdjpartner.utils.popuwindow.ProblemTypePopuWindow;
 import com.tdjpartner.utils.statusbar.Eyes;
-import com.zhihu.matisse.Matisse;
 import com.zyinux.specialstring.relase.SpecialStringBuilder;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.tdjpartner.utils.CameraUtils.CHOOSER;
 import static com.tdjpartner.utils.CameraUtils.CROP_REQUEST_CODE;
 import static com.tdjpartner.utils.CameraUtils.REQUEST_PERMISSION_CAMERA;
 import static com.tdjpartner.utils.CameraUtils.captureFile;
@@ -185,19 +180,19 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
                 System.out.println("case R.id.image:");
                 index = 1;
                 map.put(index, "loading");
-                CameraUtils.getImageCamera(rxPermissions, this);
+                CameraUtils.chooser(rxPermissions, this);
                 break;
             case R.id.image1:
                 System.out.println("case R.id.image1:");
                 index = 2;
                 map.put(index, "loading");
-                CameraUtils.getImageCamera(rxPermissions, this);
+                CameraUtils.chooser(rxPermissions, this);
                 break;
             case R.id.image2:
                 System.out.println("case R.id.image2:");
                 index = 3;
                 map.put(index, "loading");
-                CameraUtils.getImageCamera(rxPermissions, this);
+                CameraUtils.chooser(rxPermissions, this);
                 break;
             case R.id.delete_image:
                 System.out.println("case R.id.delete_image:");
@@ -514,6 +509,8 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        System.out.println("~~" + getClass().getSimpleName() + ".onActivityResult~~");
+        System.out.println("requestCode = " + requestCode + ", resultCode = " + resultCode + ", data = " + data);
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
@@ -528,6 +525,31 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
                     break;
                 case CROP_REQUEST_CODE:
                     mPresenter.imageUpload(CameraUtils.saveImage(cropFile.getPath()));
+                    break;
+
+                case CHOOSER:
+                    String filePath = null;
+
+                    if (data != null && data.getData() != null) {
+                        System.out.println(data.getData());
+                        //获取相册文件路径
+                        String[] projection = {MediaStore.Images.Media.DATA};
+                        Cursor cursor = getContentResolver().query(data.getData(), projection, null, null, null);
+                        if (cursor != null) {
+                            cursor.moveToFirst();
+                            filePath = cursor.getString(cursor.getColumnIndex(projection[0]));
+                            cursor.close();
+                        }
+                    } else if (captureFile != null) {
+                        //获取探头拍摄文件路径
+                        filePath = captureFile.getAbsolutePath();
+                    } else {
+                        GeneralUtils.showToastshort("操作失败");
+                        return;
+                    }
+
+                    //上传服务端
+                    mPresenter.imageUpload(CameraUtils.saveImage(filePath));
                     break;
                 default:
                     break;

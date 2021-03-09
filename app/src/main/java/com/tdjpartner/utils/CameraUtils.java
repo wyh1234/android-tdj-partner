@@ -2,7 +2,6 @@ package com.tdjpartner.utils;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,7 +14,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 
-import com.apkfuns.logutils.LogUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.File;
@@ -34,9 +32,11 @@ public class CameraUtils {
     public static File cropFile;
     public static final int REQUEST_PERMISSION_CAMERA = 0x001;
     public static final int CROP_REQUEST_CODE = 0x003;
+    public static final int CHOOSER = 0x005;
     public static final String PIC_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/TakePhotoPic";
+
     //拍照
-    public static void getImageCamera(RxPermissions rxPermissions, Activity context){
+    public static void getImageCamera(RxPermissions rxPermissions, Activity context) {
         rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_PHONE_STATE, android.Manifest.permission.CAMERA).subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean aBoolean) throws Exception {
@@ -54,9 +54,7 @@ public class CameraUtils {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     //判断版本 如果在Android7.0以上,使用FileProvider获取Uri
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        intent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                        LogUtils.e(getPackageName());
-                        Uri contentUri = FileProvider.getUriForFile(context, getPackageName()+".fileProvider", captureFile);
+                        Uri contentUri = FileProvider.getUriForFile(context, getPackageName() + ".fileProvider", captureFile);
                         intent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
                     } else {
                         //否则使用Uri.fromFile(file)方法获取Uri
@@ -67,12 +65,62 @@ public class CameraUtils {
             }
         });
     }
+
+    /**
+     * 相册相机选择器
+     */
+    public static void chooser(RxPermissions rxPermissions, Activity context) {
+        rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_PHONE_STATE, android.Manifest.permission.CAMERA).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) throws Exception {
+                if (aBoolean) {
+                    //用于保存调用相机拍照后所生成的文件
+                    if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                        return;
+                    }
+                    rootFile = new File(PIC_PATH);
+                    if (!rootFile.exists()) {
+                        rootFile.mkdirs();
+                    }
+                    captureFile = new File(rootFile, "temp.jpg");
+                    //跳转到调用系统相机
+                    Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    //判断版本 如果在Android7.0以上,使用FileProvider获取Uri
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        Uri contentUri = FileProvider.getUriForFile(context, getPackageName() + ".fileProvider", captureFile);
+                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
+                    } else {
+                        //否则使用Uri.fromFile(file)方法获取Uri
+                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(captureFile));
+                    }
+
+
+                    Intent galleryIntent = new Intent(Intent.ACTION_PICK, null);
+                    galleryIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+
+
+                    Intent chooser = new Intent(Intent.ACTION_CHOOSER);
+                    chooser.putExtra(Intent.EXTRA_INTENT, galleryIntent);
+                    chooser.putExtra(Intent.EXTRA_TITLE, "请选择方式");
+                    Intent[] intentArray = {cameraIntent};
+                    chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray);
+
+                    context.startActivityForResult(chooser, CHOOSER);
+
+
+                }
+            }
+        });
+    }
+
+
     /**
      * 添加时间水印
+     *
      * @param mBitmap
      * @return mNewBitmap
      */
-    public  static  Bitmap AddTimeWatermark(Bitmap mBitmap) {
+    public static Bitmap AddTimeWatermark(Bitmap mBitmap) {
         //获取原始图片与水印图片的宽与高
         int mBitmapWidth = mBitmap.getWidth();
         int mBitmapHeight = mBitmap.getHeight();
@@ -80,7 +128,7 @@ public class CameraUtils {
         Bitmap mNewBitmap = Bitmap.createBitmap(mBitmapWidth, mBitmapHeight, Bitmap.Config.ARGB_8888);
         Canvas mCanvas = new Canvas(mNewBitmap);
         //向位图中开始画入MBitmap原始图片
-        mCanvas.drawBitmap(mBitmap,0,0,null);
+        mCanvas.drawBitmap(mBitmap, 0, 0, null);
         //添加文字
         Paint mPaint = new Paint();
         String mFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss EEEE").format(new Date());
@@ -88,16 +136,17 @@ public class CameraUtils {
         mPaint.setColor(Color.RED);
         mPaint.setTextSize(30);
         //水印的位置坐标
-        mCanvas.drawText(mFormat, (mBitmapWidth * 1) / 10,(mBitmapHeight*14)/15,mPaint);
+        mCanvas.drawText(mFormat, (mBitmapWidth * 1) / 10, (mBitmapHeight * 14) / 15, mPaint);
 //        mCanvas.save(Canvas.ALL_SAVE_FLAG);
         mCanvas.save();
         mCanvas.restore();
         return mNewBitmap;
     }
+
     /**
      * 裁剪图片
      */
-    public static  void cropPhoto(Uri uri,Activity activity) {
+    public static void cropPhoto(Uri uri, Activity activity) {
         cropFile = new File(rootFile, "temp.jpg");
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
@@ -115,20 +164,20 @@ public class CameraUtils {
         activity.startActivityForResult(intent, CROP_REQUEST_CODE);
     }
 
-    public static  String saveImage(String path) {
+    public static String saveImage(String path) {
         // ivAvatar.setImageBitmap(BitmapFactory.decodeFile(cropFile.getAbsolutePath()));
         if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             return null;
         }
-       File file = new File(rootFile," time.jpg") ;
+        File file = new File(rootFile, " time.jpg");
         Bitmap bitmap = BitmapFactory.decodeFile(path);
-        Bitmap newbm=AddTimeWatermark(bitmap);
+        Bitmap newbm = AddTimeWatermark(bitmap);
         try {
             FileOutputStream fos = new FileOutputStream(file);
             newbm.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             fos.flush();
             fos.close();
-            return file .getAbsolutePath();
+            return file.getAbsolutePath();
         } catch (IOException e) {
             e.printStackTrace();
         }
