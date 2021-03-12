@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <RelativeLayout
-                android:id="@+id/rl"
+                android:id="@+id/fl"
                 android:layout_below="@+id/iv"
                 android:layout_width="match_parent"
                 android:layout_marginTop="8dp"
@@ -55,7 +55,7 @@
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/rl_one"
-                android:layout_below="@+id/rl"
+                android:layout_below="@+id/fl"
                 android:layout_width="match_parent"
                 android:layout_height="100dp">
                 <ImageView

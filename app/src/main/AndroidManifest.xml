@@ -48,7 +48,10 @@
         android:supportsRtl="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashActivity"
+
+<!--        <activity android:name=".SplashActivity"-->
+<!--        <activity android:name=".ui.activity.IronMonthActivity"-->
+        <activity android:name=".ui.activity.IronDayActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Launcher">
             <intent-filter>
@@ -211,6 +214,16 @@
             android:name=".utils.appupdate.PermissionActivity"
             android:label=""
             android:theme="@style/DialogActivity" />
+
+
+
+<!--        <activity-->
+<!--            android:name=".ui.activity.IronM2MonthActivity"-->
+<!--            android:screenOrientation="portrait" />-->
+
+
+
+
         <!-- 腾讯X5内核初始化 -->
         <service android:name="com.tencent.smtt.export.external.DexClassLoaderProviderService"
             android:label="dexopt"

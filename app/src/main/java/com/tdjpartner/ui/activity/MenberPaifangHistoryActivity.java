@@ -1,7 +1,6 @@
 package com.tdjpartner.ui.activity;
 
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -48,7 +47,7 @@ public class MenberPaifangHistoryActivity extends BaseActivity<MenberPaifangHist
     TextView tv_date;
     @BindView(R.id.tv_title)
     TextView tv_title;
-    @BindView(R.id.rl)
+    @BindView(R.id.fl)
     RelativeLayout rl;
     @BindView(R.id.btn_back)
     ImageView btn_back;

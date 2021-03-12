@@ -53,7 +53,7 @@ public class MenberHomepageFragment extends BaseFrgment<MenberHomepageFragmentPr
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.rv_recyclerView)
     RecyclerView rv_recyclerView;
-    @BindView(R.id.rl_team)
+    @BindView(R.id.ll_team)
     RelativeLayout rl_team;
     @BindView(R.id.tv_username)
     TextView tv_username;
@@ -83,10 +83,10 @@ public class MenberHomepageFragment extends BaseFrgment<MenberHomepageFragmentPr
     private boolean f;
     private HomeFilter homeFilter = new HomeFilter();
 
-    @OnClick({R.id.rl_team})
+    @OnClick({R.id.ll_team})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.rl_team:
+            case R.id.ll_team:
                 Intent intent = new Intent(getContext(), TeamPreviewActivity.class);
                 intent.putExtra("userId", UserUtils.getInstance().getLoginBean().getEntityId() + "");
                 startActivity(intent);

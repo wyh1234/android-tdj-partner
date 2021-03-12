@@ -92,7 +92,7 @@
 
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/rl"
+            android:id="@+id/fl"
             android:layout_width="match_parent"
             android:paddingLeft="19dp"
             android:layout_height="30dp">

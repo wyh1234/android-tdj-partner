@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="24dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp">
+
+        <View android:layout_width="2dp"
+            android:layout_height="17dp"
+            android:layout_marginTop="3dp"
+            android:background="@color/view_bg1" />
+
+        <TextView
+            android:id="@+id/tv_tiltle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:text="月统计(n-1)"
+            android:textColor="@color/black_63"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_today"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="M2 >"
+            android:gravity="right"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/orage_red"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/client_item_sahp">
+
+        <LinearLayout
+            android:id="@+id/ll_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="4dp"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@mipmap/right_bg"
+                android:textColor="@color/gray_66"
+                android:textSize="12sp"
+                android:text="注册数 " />
+
+            <TextView
+                android:id="@+id/registerNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/gray_69"
+                android:textSize="12sp"
+                android:text="0" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/gray_f2" />
+
+        <LinearLayout
+            android:id="@+id/ll_open"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="4dp"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/open"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@mipmap/right_bg"
+                android:textColor="@color/gray_66"
+                android:textSize="12sp"
+                android:text="新开 " />
+
+            <TextView
+                android:id="@+id/openNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/gray_69"
+                android:textSize="12sp"
+                android:text="0" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/gray_f2" />
+
+        <LinearLayout
+            android:id="@+id/ll_vegetables"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.95"
+            android:layout_margin="4dp"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/vegetables"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@mipmap/right_bg"
+                android:textColor="@color/gray_66"
+                android:textSize="12sp"
+                android:text="新鲜蔬菜 " />
+
+            <TextView
+                android:id="@+id/vegetablesNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/gray_69"
+                android:textSize="12sp"
+                android:text="0" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/gray_f2" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="4dp"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/gmv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_66"
+                android:textSize="12sp"
+                android:text="GMV" />
+
+            <TextView
+                android:id="@+id/gmvNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/gray_69"
+                android:textSize="12sp"
+                android:text="0" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

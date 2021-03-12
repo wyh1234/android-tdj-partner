@@ -29,10 +29,8 @@ public class MonthPreviewAdapter extends BaseQuickAdapter<TeamOverView, BaseView
     @Override
     protected void convert(BaseViewHolder baseViewHolder, TeamOverView teamPreview) {
         System.out.println("baseViewHolder = " + baseViewHolder + ", teamPreview = " + teamPreview);
-//        baseViewHolder.addOnClickListener(R.id.rl_cy);
-//        baseViewHolder.addOnClickListener(R.id.rl_right);
-//        baseViewHolder.setText(R.id.tv_tiltle,tiltle);
 
+        baseViewHolder.addOnClickListener(R.id.tv_month);//增加监听子View
 
         Random random = new Random();
         baseViewHolder.setText(R.id.registerNum, String.valueOf(random.nextInt(100)));

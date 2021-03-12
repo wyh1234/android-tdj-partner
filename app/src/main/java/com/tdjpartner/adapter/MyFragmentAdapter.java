@@ -2,13 +2,10 @@ package com.tdjpartner.adapter;
 
 import android.support.annotation.Nullable;
 
-import com.apkfuns.logutils.LogUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.tdjpartner.R;
 import com.tdjpartner.model.MyFragmentBottom;
-import com.tdjpartner.utils.GeneralUtils;
-import com.tdjpartner.utils.cache.UserUtils;
 
 import java.util.List;
 
@@ -25,7 +22,7 @@ public class MyFragmentAdapter extends BaseQuickAdapter<MyFragmentBottom, BaseVi
                 baseViewHolder.setGone(R.id.tv_sm,myFragmentBottom.isF());
 
         if (baseViewHolder.getLayoutPosition()==data.size()){
-            baseViewHolder.setBackgroundRes(R.id.rl,R.drawable.home_item_shap);
+            baseViewHolder.setBackgroundRes(R.id.fl,R.drawable.home_item_shap);
             baseViewHolder.setVisible(R.id.view,false);
 
         } else {
@@ -38,7 +35,7 @@ public class MyFragmentAdapter extends BaseQuickAdapter<MyFragmentBottom, BaseVi
         }
 
         if (baseViewHolder.getLayoutPosition()==1){
-            baseViewHolder.setBackgroundRes(R.id.rl,R.drawable.hone_item_shap_one);
+            baseViewHolder.setBackgroundRes(R.id.fl,R.drawable.hone_item_shap_one);
         }
 
     }

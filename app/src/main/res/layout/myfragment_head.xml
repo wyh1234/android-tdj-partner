@@ -11,7 +11,7 @@
         android:paddingTop="20dp"
         android:layout_height="150dp">
         <RelativeLayout
-            android:id="@+id/rl"
+            android:id="@+id/fl"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:paddingRight="15dp"
@@ -38,7 +38,7 @@
             </RelativeLayout>
         </RelativeLayout>
         <RelativeLayout
-            android:layout_below="@+id/rl"
+            android:layout_below="@+id/fl"
             android:layout_width="match_parent"
             android:layout_marginLeft="11dp"
             android:layout_height="50dp">

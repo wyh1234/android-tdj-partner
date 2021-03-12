@@ -18,25 +18,20 @@ import com.tdjpartner.R;
 import com.tdjpartner.adapter.TeamPreviewAdapter;
 import com.tdjpartner.adapter.TeamPreviewAllAdapter;
 import com.tdjpartner.adapter.TeamPreviewMothAdapter;
-import com.tdjpartner.adapter.home.HomeOrderTimesAdapter;
-import com.tdjpartner.adapter.home.HomeRegisterTimesAdapter;
 import com.tdjpartner.adapter.home.NewHomeOrderTimesAdapter;
 import com.tdjpartner.adapter.home.NewHomeRegisterTimesAdapter;
 import com.tdjpartner.base.BaseFrgment;
-import com.tdjpartner.model.HomeData;
 import com.tdjpartner.model.HomeFilter;
 import com.tdjpartner.model.NewHomeData;
 import com.tdjpartner.model.TeamOverView;
 import com.tdjpartner.mvp.presenter.HomepageFragmentPresenter;
 import com.tdjpartner.ui.activity.TeamMemberActivity;
-import com.tdjpartner.ui.activity.TeamPreviewActivity;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
 import com.tdjpartner.utils.ViewUrils;
 import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.widget.CustomLinearLayout;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -53,7 +48,7 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.rv_recyclerView)
     RecyclerView rv_recyclerView;
-    @BindView(R.id.rl_team)
+    @BindView(R.id.ll_team)
     RelativeLayout rl_team;
     @BindView(R.id.tv_username)
     TextView tv_username;
@@ -78,10 +73,10 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
 
     private Calendar selectedDate, endDate, startDate;
 
-    @OnClick({R.id.rl_team})
+    @OnClick({R.id.ll_team})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.rl_team:
+            case R.id.ll_team:
                 Intent intent = new Intent(getContext(), TeamMemberActivity.class);
                 intent.putExtra("userId", UserUtils.getInstance().getLoginBean().getEntityId() + "");
                 startActivity(intent);

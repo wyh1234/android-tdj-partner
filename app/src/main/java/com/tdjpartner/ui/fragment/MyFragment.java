@@ -1,12 +1,10 @@
 package com.tdjpartner.ui.fragment;;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,12 +17,9 @@ import com.tdjpartner.R;
 import com.tdjpartner.adapter.MyFragmentAdapter;
 import com.tdjpartner.base.BaseFrgment;
 import com.tdjpartner.model.ImageUploadOk;
-import com.tdjpartner.model.LocationBean;
 import com.tdjpartner.model.MyFragmentBottom;
 import com.tdjpartner.model.UserInfo;
-import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.mvp.presenter.MyFragmentPresneter;
-import com.tdjpartner.ui.activity.AddBaifangActivity;
 import com.tdjpartner.ui.activity.AdministrationPaifangHistoryActivity;
 import com.tdjpartner.ui.activity.EarningsActivity;
 import com.tdjpartner.ui.activity.EarningsHistoryActivity;
@@ -38,7 +33,6 @@ import com.tdjpartner.utils.ViewUrils;
 import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.glide.ImageLoad;
 import com.tdjpartner.utils.popuwindow.SetHeadImagePopu;
-import com.zhihu.matisse.Matisse;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -49,9 +43,6 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-
-import static android.app.Activity.RESULT_OK;
-import static com.umeng.socialize.utils.ContextUtil.getContext;
 
 public class MyFragment extends BaseFrgment<MyFragmentPresneter> implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.OnItemClickListener , View.OnClickListener
 ,SetHeadImagePopu.SetHeadImageListener{
@@ -76,7 +67,7 @@ public class MyFragment extends BaseFrgment<MyFragmentPresneter> implements Swip
                 Intent intent1=new Intent(getContext(), EarningsHistoryActivity.class);
                 startActivity(intent1);
                 break;
-            case R.id.rl:
+            case R.id.fl:
                 Intent intent2=new Intent(getContext(), MessageActivity.class);
                 startActivity(intent2);
                 break;
@@ -126,7 +117,7 @@ public class MyFragment extends BaseFrgment<MyFragmentPresneter> implements Swip
         tv_money=view1.findViewById(R.id.tv_money);
         image.setOnClickListener(this);
         rl_more=view1.findViewById(R.id.rl_more);
-        rl=view1.findViewById(R.id.rl);
+        rl=view1.findViewById(R.id.fl);
         rl_more.setOnClickListener(this);
         rl_sy.setOnClickListener(this);
         rl.setOnClickListener(this);

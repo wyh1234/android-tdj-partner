@@ -39,21 +39,22 @@ public class IronIndexFragmentPresenter extends BasePresenter<Model, IronIndexFr
 //    }
 
     public void newhomeData(Map<String, Object> map) {
-        getIView().addSubscribe(RequestPresenter.newhomeData(map, new BaseObserver<NewHomeData>(getIView().getContext(), false) {
-            @Override
-            protected void onSuccess(NewHomeData homeData) {
-                System.out.println("~~" + getClass().getSimpleName() + ".onSuccess~~");
-                System.out.println("homeData = " + homeData);
-                getIView().homeData_Success(homeData);
+        getIView().addSubscribe(RequestPresenter
+                .newhomeData(map, new BaseObserver<NewHomeData>(getIView().getContext(), false) {
+                    @Override
+                    protected void onSuccess(NewHomeData homeData) {
+                        System.out.println("~~" + getClass().getSimpleName() + ".onSuccess~~");
+                        System.out.println("homeData = " + homeData);
+                        getIView().homeData_Success(homeData);
 
-            }
+                    }
 
-            @Override
-            protected void onFailed(Throwable e) {
-                getIView().homeData_failed();
+                    @Override
+                    protected void onFailed(Throwable e) {
+                        getIView().homeData_failed();
 
-            }
-        }));
+                    }
+                }));
 
     }
 
@@ -62,7 +63,6 @@ public class IronIndexFragmentPresenter extends BasePresenter<Model, IronIndexFr
             @Override
             protected void onSuccess(TeamOverView teamOverView) {
                 getIView().teamOverView_day_Success(teamOverView);
-
 
             }
 

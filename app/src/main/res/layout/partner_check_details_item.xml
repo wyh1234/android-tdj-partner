@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <RelativeLayout
-            android:id="@+id/rl"
+            android:id="@+id/fl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -48,7 +48,7 @@
             android:background="@drawable/ll_shap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rl"
+            android:layout_below="@+id/fl"
             android:layout_marginLeft="6dp"
             android:paddingBottom="@dimen/dp_10"
             android:paddingLeft="13dp"

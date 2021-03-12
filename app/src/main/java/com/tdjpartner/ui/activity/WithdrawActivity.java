@@ -1,6 +1,5 @@
 package com.tdjpartner.ui.activity;
 
-import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 import com.tdjpartner.R;
 import com.tdjpartner.base.BaseActivity;
 import com.tdjpartner.model.Bank;
-import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.mvp.presenter.WithdrawPresnter;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
@@ -42,9 +40,9 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresnter> {
     EditText ed_money;
     @BindView(R.id.tv1)
     TextView tv1;
-    @BindView(R.id.rl)
+    @BindView(R.id.fl)
     RelativeLayout rl;
-    @OnClick({R.id.btn_back,R.id.btn,R.id.rl})
+    @OnClick({R.id.btn_back,R.id.btn,R.id.fl})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.btn_back:
@@ -61,7 +59,7 @@ public class WithdrawActivity extends BaseActivity<WithdrawPresnter> {
                 mPresenter.cashWithdrawalFlow(map);
 
                 break;
-            case R.id.rl:
+            case R.id.fl:
                 ed_money.setText(getIntent().getStringExtra("tv_ky_money"));
                 break;
         }

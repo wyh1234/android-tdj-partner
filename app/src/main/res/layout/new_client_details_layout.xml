@@ -7,14 +7,14 @@
     android:background="@color/white"
     tools:ignore="MissingDefaultResource">
     <RelativeLayout
-        android:id="@+id/rl"
+        android:id="@+id/fl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     <include layout="@layout/toobar_layout" />
     </RelativeLayout>
     <ScrollView
         android:layout_above="@id/ll"
-        android:layout_below="@+id/rl"
+        android:layout_below="@+id/fl"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <LinearLayout

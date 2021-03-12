@@ -128,7 +128,7 @@
         android:background="#F3F3F3"
         android:layout_height="wrap_content"/>
     <RelativeLayout
-        android:id="@+id/rl"
+        android:id="@+id/fl"
         android:background="#F3F3F3"
         android:layout_width="match_parent"
         android:orientation="vertical"
