@@ -1,23 +1,14 @@
 package com.tdjpartner.base;
 
-
-
-
 import com.tdjpartner.mvp.model.IModel;
 import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.mvp.view.IView;
 
 import java.lang.ref.WeakReference;
 
-
 /**
- *
- *
- *
  * @VERSION V1.4
- *
  */
-
 public abstract class BasePresenter<M extends IModel, V extends IView> implements IPresenter {
     private WeakReference actReference;
     protected V iView;
@@ -43,12 +34,11 @@ public abstract class BasePresenter<M extends IModel, V extends IView> implement
 
     @Override
     public V getIView() {
-        if (actReference!=null){
+        if (actReference != null) {
             return (V) actReference.get();
         }
-       return (V) new WeakReference(iView).get();
+        return (V) new WeakReference(iView).get();
     }
 
     public abstract M loadModel();
-
 }

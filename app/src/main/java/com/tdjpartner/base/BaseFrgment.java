@@ -114,6 +114,7 @@ public abstract class BaseFrgment<P extends IPresenter> extends LazyLoadFragment
         }
         compositeDisposable.add(disposable);
     }
+
     protected abstract void initView(View view);
 
     protected abstract void loadData();

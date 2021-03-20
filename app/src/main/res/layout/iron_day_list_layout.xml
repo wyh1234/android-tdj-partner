@@ -121,25 +121,24 @@
                 android:layout_marginEnd="4dp"
                 android:layout_marginBottom="8dp">
 
-                <View
-                    android:layout_width="2dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="3dp"
-                    android:background="@color/view_bg1" />
-
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="8dp"
-                    android:text="其他"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/line_orange_16"
+                    android:drawablePadding="8dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
                     android:textColor="@color/black_63"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:text="其他" />
 
                 <TextView
                     android:id="@+id/tv_day_sink"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
                     android:gravity="right"
                     android:text="M1 >"
                     android:textColor="@color/orage_red"

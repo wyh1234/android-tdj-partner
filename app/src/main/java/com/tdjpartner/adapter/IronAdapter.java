@@ -61,13 +61,12 @@ public class IronAdapter extends ArrayAdapter<List<String>> {
     private final IView mIView;
     private final List<Integer> mChildIds;
 
-    public IronAdapter(@NonNull Context context, int resource, IView iView, List<Integer> childIds, View.OnClickListener onClickListener) {
+    private IronAdapter(@NonNull Context context, int resource, IView iView, List<Integer> childIds, View.OnClickListener onClickListener) {
         super(context, resource);
         mResource = resource;
         mChildIds = childIds;
         mIView = iView;
         mOnClickListener = onClickListener;
-
     }
 
     @NonNull

@@ -116,6 +116,7 @@ public class IronIndexFragment extends BaseFrgment<IronIndexFragmentPresenter>
                 intent.putExtra("userId", UserUtils.getInstance().getLoginBean().getEntityId() + "");
                 startActivity(intent);
                 break;
+
             case R.id.tv_day:
                 view.setBackgroundResource(R.color.orage_red);
                 ((TextView) view).setTextColor(Color.WHITE);

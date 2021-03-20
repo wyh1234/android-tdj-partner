@@ -2,6 +2,7 @@ package com.tdjpartner.common;
 
 
 import com.tdjpartner.http.BaseResponse;
+import com.tdjpartner.model.AfterSaleInfoData;
 import com.tdjpartner.model.AfterSales;
 import com.tdjpartner.model.AppVersion;
 import com.tdjpartner.model.BaiFangHistory;
@@ -77,9 +78,6 @@ import retrofit2.http.Url;
  */
 
 public interface ApiService {
-
-
-
 
     //缓存一个小时
     @Headers("Cache-Control: public, max-age=3600")
@@ -631,4 +629,14 @@ public interface ApiService {
     @Headers({"url_type:weather"})
     @GET("afterSalesApplication/findAfterSalesAppyDetailByItemId/{orderItemId}")
     Observable<BaseResponse<RefundDetail> >after_details_order(@Path("orderItemId") int orderItemId, @Query("site") int site);
+
+
+
+    /****************创客3.0********************/
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/afterSalesApplication/getafterSalesTask")
+    Observable<BaseResponse<AfterSaleInfoData>> getafterSalesTask(@Body RequestBody body);
+
+
+
 }
