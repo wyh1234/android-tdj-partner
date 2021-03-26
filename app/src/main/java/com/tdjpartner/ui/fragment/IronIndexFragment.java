@@ -225,7 +225,7 @@ public class IronIndexFragment extends BaseFrgment<IronIndexFragmentPresenter>
                 .setOnClickListener(this)
                 .setResource(R.layout.day_preview_item)
                 .addChildId(R.id.ll_day_register, R.id.ll_day_open, R.id.ll_day_vegetables, R.id.ll_day_gmv, R.id.ll_day_price)
-                .setIView((data, convertView) -> {
+                .setInitView((data, convertView) -> {
                     ((TextView)convertView.findViewById(R.id.registerNum)).setText(data.get(0));
                     ((TextView)convertView.findViewById(R.id.openNum)).setText(data.get(1));
                     ((TextView)convertView.findViewById(R.id.vegetablesNum)).setText(data.get(2));
@@ -247,7 +247,7 @@ public class IronIndexFragment extends BaseFrgment<IronIndexFragmentPresenter>
                 .setOnClickListener(this)
                 .setResource(R.layout.month_preview_item)
                 .addChildId(R.id.ll_month_register, R.id.ll_month_open, R.id.ll_month_vegetables, R.id.ll_month_gmv)
-                .setIView((data, convertView) -> {
+                .setInitView((data, convertView) -> {
                     ((TextView)convertView.findViewById(R.id.registerNum)).setText(data.get(0));
                     ((TextView)convertView.findViewById(R.id.openNum)).setText(data.get(1));
                     ((TextView)convertView.findViewById(R.id.vegetablesNum)).setText(data.get(2));

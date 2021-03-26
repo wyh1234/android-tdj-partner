@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.IronAdapter;
@@ -41,7 +40,7 @@ public class IronApprovalPendingFragment extends Fragment implements View.OnClic
 
         ironAdapter = new IronAdapter.Builder()
                 .setResource(R.layout.iron_approval_item)
-                .setIView((data, convertView) -> {
+                .setInitView((data, convertView) -> {
                     System.out.println("data = " + data + ", convertView = " + convertView);
 
 //                    ((TextView) convertView.findViewById(R.id.priceNum)).setText(data.get(0));

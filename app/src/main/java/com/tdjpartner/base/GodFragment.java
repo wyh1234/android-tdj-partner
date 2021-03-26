@@ -1,5 +1,6 @@
 package com.tdjpartner.base;
 
+import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,7 +16,7 @@ import com.tdjpartner.widget.ProgressDialog;
 /**
  * Created by LFM on 2021/3/20.
  */
-public abstract class GodFragment<VM extends IronViewModel> extends Fragment {
+public abstract class GodFragment<M, VM extends IronViewModel<M>> extends Fragment {
 
     private VM vm;
     private ProgressDialog mProgressDialog;
@@ -35,15 +36,15 @@ public abstract class GodFragment<VM extends IronViewModel> extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(getLayoutId(), container, false);
+        View view = inflater.inflate(getLayoutId(), container, false);
+        initView(view);
+        return view;
     }
 
-//    @Override
-//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-//
-////        showLoading();
-////        loadData();
-//    }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        loading(view);
+    }
 
     public void showLoading() {
         if (mProgressDialog == null) {
@@ -59,10 +60,25 @@ public abstract class GodFragment<VM extends IronViewModel> extends Fragment {
         }
     }
 
+    protected void loading(View view) {
+        System.out.println("~~" + getClass().getSimpleName() + ".loadData~~");
+        showLoading();
+        getVm().getData().observe(getActivity(),
+                new Observer<M>() {
+                    @Override
+                    public void onChanged(@Nullable M m) {
+                        loadedData(m);
+                        dismissLoading();
+                    }
+                });
+    }
+
     public VM getVm() {
         return vm;
     }
+
     protected abstract VM setVM();
     protected abstract int getLayoutId();
-    protected abstract void loadData();
+    protected abstract void initView(View view);
+    protected abstract void loadedData(M m);
 }

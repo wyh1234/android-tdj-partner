@@ -210,7 +210,7 @@ public class IronMonthActivity extends BaseActivity<TeamMemberPresenter> impleme
                 .addChildId(R.id.ll_month_register, R.id.ll_month_open, R.id.ll_month_vegetables, R.id.ll_month_gmv, R.id.tv_month_sink)
                 .setOnClickListener(this)
                 .setResource(R.layout.iron_month_list_member_layout)
-                .setIView((data, convertView) -> {
+                .setInitView((data, convertView) -> {
                     ((TextView)convertView.findViewById(R.id.registerNum)).setText(data.get(0));
                     ((TextView)convertView.findViewById(R.id.openNum)).setText(data.get(1));
                     ((TextView)convertView.findViewById(R.id.vegetablesNum)).setText(data.get(2));

@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -15,7 +14,6 @@ import com.tdjpartner.R;
 import com.tdjpartner.adapter.IronAdapter;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -43,7 +41,7 @@ public class IronDayListDetailFragment extends Fragment implements View.OnClickL
 
         ironAdapter = new IronAdapter.Builder()
                 .setResource(R.layout.iron_day_list_datail_item)
-                .setIView((data, convertView) -> {
+                .setInitView((data, convertView) -> {
                     System.out.println("data = " + data + ", convertView = " + convertView);
 
                     ((TextView) convertView.findViewById(R.id.priceNum)).setText(data.get(0));

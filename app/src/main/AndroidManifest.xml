@@ -50,8 +50,8 @@
         android:theme="@style/AppTheme">
 
 <!--        <activity android:name=".SplashActivity"-->
-<!--        <activity android:name=".ui.activity.IronDayActivity"-->
 <!--        <activity android:name=".ui.activity.IronMonthActivity"-->
+<!--        <activity android:name=".ui.activity.IronDayActivity"-->
 <!--        <activity android:name=".ui.activity.IronDayDetailActivity"-->
 <!--        <activity android:name=".ui.activity.IronApprovalActivity"-->
 <!--        <activity android:name=".ui.activity.IronApprovalHandleActivity"-->

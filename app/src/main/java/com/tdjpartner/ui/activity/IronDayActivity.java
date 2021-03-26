@@ -211,7 +211,7 @@ public class IronDayActivity extends BaseActivity<TeamMemberPresenter> implement
                 .addChildId(R.id.ll_day_register, R.id.ll_day_open, R.id.ll_day_vegetables, R.id.ll_day_gmv, R.id.ll_day_price, R.id.tv_day_sink)
                 .setOnClickListener(this)
                 .setResource(R.layout.iron_day_list_member_layout)
-                .setIView((data, convertView) -> {
+                .setInitView((data, convertView) -> {
                     ((TextView)convertView.findViewById(R.id.registerNum)).setText(data.get(0));
                     ((TextView)convertView.findViewById(R.id.openNum)).setText(data.get(1));
                     ((TextView)convertView.findViewById(R.id.vegetablesNum)).setText(data.get(2));

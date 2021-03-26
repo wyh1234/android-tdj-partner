@@ -7,9 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
-
-import com.tdjpartner.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +16,14 @@ import java.util.List;
  */
 public class IronAdapter extends ArrayAdapter<List<String>> {
 
-    public interface IView{
+    public interface InitView {
         void initView(List<String> data, View convertView);
     }
 
     public static final class Builder {
         private  int resource;
         private View.OnClickListener onClickListener;
-        private IView iView;
+        private InitView initView;
         private List<Integer> childIds = new ArrayList<>();
 
         public Builder setResource(int resource) {
@@ -39,8 +36,8 @@ public class IronAdapter extends ArrayAdapter<List<String>> {
             return this;
         }
 
-        public Builder setIView(IView iView) {
-            this.iView = iView;
+        public Builder setInitView(InitView initView) {
+            this.initView = initView;
             return this;
         }
 
@@ -52,30 +49,31 @@ public class IronAdapter extends ArrayAdapter<List<String>> {
         }
 
         public IronAdapter build(@NonNull Context context){
-            return new IronAdapter(context, resource, iView, childIds, onClickListener);
+            return new IronAdapter(context, resource, initView, childIds, onClickListener);
         }
     }
 
     private final int mResource;
     private final View.OnClickListener mOnClickListener;
-    private final IView mIView;
+    private final InitView mInitView;
     private final List<Integer> mChildIds;
 
-    private IronAdapter(@NonNull Context context, int resource, IView iView, List<Integer> childIds, View.OnClickListener onClickListener) {
+    private IronAdapter(@NonNull Context context, int resource, InitView initView, List<Integer> childIds, View.OnClickListener onClickListener) {
         super(context, resource);
         mResource = resource;
         mChildIds = childIds;
-        mIView = iView;
+        mInitView = initView;
         mOnClickListener = onClickListener;
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        System.out.println("~~" + getClass().getSimpleName() + ".getView~~");
 
         convertView = LayoutInflater.from(getContext()).inflate(mResource, parent, false);
 
-        if(mIView != null) mIView.initView(getItem(position), convertView);
+        if(mInitView != null) mInitView.initView(getItem(position), convertView);
 
         if (!mChildIds.isEmpty() && mOnClickListener != null) {
             for (int id : mChildIds) {
