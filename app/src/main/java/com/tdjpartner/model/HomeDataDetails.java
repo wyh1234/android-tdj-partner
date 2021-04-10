@@ -40,8 +40,44 @@ public class HomeDataDetails {
         private int orderCustomerNum;
         private int totalCustomerNum;
         private int dayRegisterTimes;
+        private int monthRegisterNum;
+        private int firstOrderNum;
+        private int activeNum;
+        private int categoryNum;
         private int callNum;
         private List<ListBean> list;
+
+        public void setMonthRegisterNum(int monthRegisterNum) {
+            this.monthRegisterNum = monthRegisterNum;
+        }
+
+        public int getMonthRegisterNum() {
+            return monthRegisterNum;
+        }
+
+        public void setFirstOrderNum(int firstOrderNum) {
+            this.firstOrderNum = firstOrderNum;
+        }
+
+        public void setActiveNum(int activeNum) {
+            this.activeNum = activeNum;
+        }
+
+        public void setCategoryNum(int categoryNum) {
+            this.categoryNum = categoryNum;
+        }
+
+        public int getFirstOrderNum() {
+            return firstOrderNum;
+        }
+
+        public int getActiveNum() {
+            return activeNum;
+        }
+
+        public int getCategoryNum() {
+            return categoryNum;
+        }
 
         public int getDayRegisterTimes() {
             return dayRegisterTimes;

@@ -26,6 +26,9 @@ import com.tdjpartner.model.HomeDataDetails;
 import com.tdjpartner.model.HomePageFuncationButton;
 import com.tdjpartner.model.IntegralShop;
 import com.tdjpartner.model.InvitationHistory;
+import com.tdjpartner.model.IronHomeData;
+import com.tdjpartner.model.IronHomeTopData;
+import com.tdjpartner.model.IronStatisticsDetails;
 import com.tdjpartner.model.MyCountMoney;
 import com.tdjpartner.model.MyTeam;
 import com.tdjpartner.model.NewHomeData;
@@ -551,12 +554,22 @@ public interface ApiService {
      * */
     @Headers({"url_type:xuming"})
     @POST("tdj-report/report/customer/homeData")
-    Observable<BaseResponse<HomeData>> homeData(@Body  RequestBody body);
+    Observable<BaseResponse<IronHomeData>> ironHomeData(@Body  RequestBody body);
 
+    @Headers({"url_type:xuming"})
+    @POST("tdj-report/report/teamOverView/homePageTop")
+    Observable<BaseResponse<IronHomeTopData>> ironHomeTopData(@Body  RequestBody body);
+
+
+
+    @Headers({"url_type:xuming"})
+    @POST("tdj-report/report/customer/homeData")
+    Observable<BaseResponse<HomeData>> homeData(@Body  RequestBody body);
 
     @Headers({"url_type:xuming"})
     @POST("tdj-report/report/teamOverView/homePageTop")
     Observable<BaseResponse<NewHomeData>> newhomeData(@Body  RequestBody body);
+
 
     /*
      *.
@@ -566,6 +579,10 @@ public interface ApiService {
     @Headers({"url_type:xuming"})
     @POST("tdj-report/report/customer/homeDataDetails")
     Observable<BaseResponse<HomeDataDetails>> homeDataDetails(@Body  RequestBody body);
+
+    @Headers({"url_type:xuming"})
+    @POST("tdj-report/report/customer/homeDataDetails")
+    Observable<BaseResponse<IronStatisticsDetails>> ironStatisticsDetails(@Body  RequestBody body);
 
     /*
      *.

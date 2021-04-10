@@ -135,7 +135,7 @@
                             android:layout_weight="1"
                             android:layout_gravity="center_vertical"
                             android:gravity="right"
-                            android:text="M2 >"
+                            android:text="Mn >"
                             android:textColor="@color/orage_red"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -171,7 +171,7 @@
                             android:gravity="center_vertical"
                             android:textColor="@color/black_63"
                             android:textSize="16sp"
-                            android:text="月统计" />
+                            android:text="月统计(n-1)" />
 
                         <TextView
                             android:id="@+id/tv_month_sink"
@@ -181,7 +181,7 @@
                             android:layout_weight="1"
                             android:layout_gravity="center_vertical"
                             android:gravity="right"
-                            android:text="M2 >"
+                            android:text="Mn >"
                             android:textColor="@color/orage_red"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -260,7 +260,8 @@
                             android:background="@drawable/bg_count_red"
                             android:gravity="center"
                             android:includeFontPadding="false"
-                            android:text="2"
+                            android:visibility="gone"
+                            android:text="0"
                             android:textColor="@color/view_bg1"
                             android:textSize="9sp" />
                     </RelativeLayout>
@@ -305,7 +306,7 @@
                             android:background="@drawable/bg_count_red"
                             android:gravity="center"
                             android:includeFontPadding="false"
-                            android:text="2"
+                            android:visibility="gone"
                             android:textColor="@color/view_bg1"
                             android:textSize="9sp" />
                     </RelativeLayout>
@@ -364,27 +365,28 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/tv_day"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginBottom="2dp"
-                        android:background="@color/orage_red"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:text="日"
-                        android:textColor="@color/white"
-                        android:textSize="12sp" />
-
-                    <TextView
                         android:id="@+id/tv_month"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:layout_marginBottom="2dp"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:background="@drawable/bg_orange_left_semi_4"
                         android:text="月"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_day"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="2dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:background="@drawable/bg_grey_right_semi_4"
+                        android:text="日"
                         android:textColor="@color/gray_66"
                         android:textSize="12sp" />
                 </LinearLayout>

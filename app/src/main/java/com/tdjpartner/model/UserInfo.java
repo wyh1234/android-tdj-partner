@@ -7,6 +7,7 @@ public class UserInfo  {
     private String realname;
     private String phoneNumber;
     private int entityId;
+    private int type;//用户类型（	1网军，2铁军）
     private String headUrl;//淘大集用户图像
     private int loginUserId;//第一次登陆ID
     private String alias;  //昵称
@@ -21,6 +22,14 @@ public class UserInfo  {
     private String cardUrlNegative;//身份证反面
     private String verifyCode;;
     private String gradeName;
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getType() {
+        return type;
+    }
 
     public String getGradeName() {
         return gradeName;

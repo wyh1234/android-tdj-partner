@@ -31,6 +31,9 @@ import com.tdjpartner.model.HomeDataDetails;
 import com.tdjpartner.model.HomePageFuncationButton;
 import com.tdjpartner.model.IntegralShop;
 import com.tdjpartner.model.InvitationHistory;
+import com.tdjpartner.model.IronHomeData;
+import com.tdjpartner.model.IronHomeTopData;
+import com.tdjpartner.model.IronStatisticsDetails;
 import com.tdjpartner.model.MyCountMoney;
 import com.tdjpartner.model.MyTeam;
 import com.tdjpartner.model.NewHomeData;
@@ -298,11 +301,19 @@ public class RequestPresenter {
     public static Disposable homeData(Map<String, Object> map, BaseObserver<HomeData> callback) {
         return getApiService().homeData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
-
+    public static Disposable ironHomeData(Map<String, Object> map, BaseObserver<IronHomeData> callback) {
+        return getApiService().ironHomeData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable ironHomeTopData(Map<String, Object> map, BaseObserver<IronHomeTopData> callback) {
+        return getApiService().ironHomeTopData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
     public static Disposable newhomeData(Map<String, Object> map, BaseObserver<NewHomeData> callback) {
         return getApiService().newhomeData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
 
+    public static Disposable ironStatisticsDetails(Map<String, Object> map, BaseObserver<IronStatisticsDetails> callback) {
+        return getApiService().ironStatisticsDetails(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
     public static Disposable homeDataDetails(Map<String, Object> map, BaseObserver<HomeDataDetails> callback) {
         return getApiService().homeDataDetails(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
