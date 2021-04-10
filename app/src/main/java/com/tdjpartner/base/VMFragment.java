@@ -1,5 +1,6 @@
 package com.tdjpartner.base;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,13 +14,18 @@ import com.tdjpartner.utils.LocationUtils;
 import com.tdjpartner.viewmodel.IronViewModel;
 import com.tdjpartner.widget.ProgressDialog;
 
+import java.util.Map;
+
 /**
  * Created by LFM on 2021/3/20.
  */
-public abstract class GodFragment<M, VM extends IronViewModel<M>> extends Fragment {
+public abstract class VMFragment<M, VM extends IronViewModel<M>> extends Fragment {
 
     private VM vm;
+
+    private Map<String, Object> args;
     private ProgressDialog mProgressDialog;
+    LiveData<M> liveData;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,14 +42,14 @@ public abstract class GodFragment<M, VM extends IronViewModel<M>> extends Fragme
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (getLayoutId() == 0) return initView(null);
         View view = inflater.inflate(getLayoutId(), container, false);
-        initView(view);
-        return view;
+        return initView(view);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        loading(view);
+        loading();
     }
 
     public void showLoading() {
@@ -60,25 +66,52 @@ public abstract class GodFragment<M, VM extends IronViewModel<M>> extends Fragme
         }
     }
 
-    protected void loading(View view) {
+    protected void loading() {
         System.out.println("~~" + getClass().getSimpleName() + ".loadData~~");
         showLoading();
-        getVm().getData().observe(getActivity(),
+
+        liveData = vm.getData(getArgs());
+        liveData.observe(getActivity(),
                 new Observer<M>() {
                     @Override
                     public void onChanged(@Nullable M m) {
                         loadedData(m);
                         dismissLoading();
+                        liveData.removeObserver(this);
                     }
                 });
+//        if (liveData == null) {
+//            liveData = vm.getData(getArgs());
+//            liveData.observe(getActivity(),
+//                    new Observer<M>() {
+//                        @Override
+//                        public void onChanged(@Nullable M m) {
+//                            loadedData(m);
+//                            dismissLoading();
+//                            liveData.removeObserver(this);
+//                        }
+//                    });
+//        } else {
+//            vm.getData(getArgs());
+//        }
     }
 
-    public VM getVm() {
-        return vm;
+    public void setArgs(Map<String, Object> args) {
+        this.args = args;
+    }
+
+    public Map<String, Object> getArgs() {
+        if (args == null) {
+            this.args = (Map<String, Object>) getArguments().getSerializable("args");
+        }
+        return args;
     }
 
     protected abstract VM setVM();
+
     protected abstract int getLayoutId();
-    protected abstract void initView(View view);
+
+    protected abstract View initView(View view);
+
     protected abstract void loadedData(M m);
 }

@@ -1,17 +1,13 @@
 package com.tdjpartner.ui.fragment;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.IronAdapter;
-import com.tdjpartner.base.GodFragment;
-import com.tdjpartner.model.AfterSaleInfo;
+import com.tdjpartner.base.VMFragment;
 import com.tdjpartner.model.AfterSaleInfoData;
 import com.tdjpartner.viewmodel.AfterSalesViewModel;
 
@@ -20,7 +16,7 @@ import java.util.Arrays;
 /**
  * Created by LFM on 2021/3/15.
  */
-public class IronSupportFragment extends GodFragment<AfterSaleInfoData, AfterSalesViewModel> implements View.OnClickListener {
+public class IronSupportVMFragment extends VMFragment<AfterSaleInfoData, AfterSalesViewModel> implements View.OnClickListener {
 
     private IronAdapter ironAdapter;
 
@@ -30,7 +26,7 @@ public class IronSupportFragment extends GodFragment<AfterSaleInfoData, AfterSal
     }
 
     @Override
-    protected void initView(View view) {
+    protected View initView(View view) {
         System.out.println("~~" + getClass().getSimpleName() + ".initView~~");
         System.out.println("view = " + view);
         ListView listView = view.findViewById(R.id.listView);
@@ -44,6 +40,7 @@ public class IronSupportFragment extends GodFragment<AfterSaleInfoData, AfterSal
 //                .setOnClickListener(this)
                 .build(getContext());
         listView.setAdapter(ironAdapter);
+        return view;
     }
 
     @Override

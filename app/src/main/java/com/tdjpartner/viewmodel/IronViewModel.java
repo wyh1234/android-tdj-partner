@@ -33,6 +33,7 @@ import java.util.Map;
 import javax.net.ssl.SSLHandshakeException;
 
 import io.reactivex.Observable;
+import io.reactivex.annotations.Nullable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import retrofit2.HttpException;
@@ -50,15 +51,15 @@ public abstract class IronViewModel<T> extends ViewModel {
         disposable.dispose();
     }
 
-    public MediatorLiveData<T> getData() {
+    public MediatorLiveData<T> getData(Map<String, Object> map) {
         if (liveData == null) {
             liveData = new MediatorLiveData<>();
-            disposable = loadData().subscribe(this::onNext, this::onError);
         }
+        disposable = loadData(map).subscribe(this::onNext, this::onError);
         return liveData;
     }
 
-    abstract Observable<T> loadData();
+    abstract Observable<T> loadData(@Nullable Map<String, Object> map);
 
     public void onNext(T t) {
         liveData.postValue(t);
@@ -68,6 +69,7 @@ public abstract class IronViewModel<T> extends ViewModel {
         LogUtils.e(e);
 
         if (e instanceof ApiException) {
+            //处理API错误
 //            LogUtils.e(((ApiException) e).getCode());
 //
 //            if (((ApiException) e).getCode() == 4 || ((ApiException) e).getCode() == 901) {

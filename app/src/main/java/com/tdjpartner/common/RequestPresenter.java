@@ -373,4 +373,7 @@ public class RequestPresenter {
         return getApiService().getafterSalesTask(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
     }
 
+    public static Observable<IronStatisticsDetails> ironStatisticsDetails(Map<String, Object> map) {
+        return getApiService().ironStatisticsDetails(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
+    }
 }

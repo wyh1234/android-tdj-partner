@@ -1,6 +1,5 @@
 package com.tdjpartner.ui.activity;
 
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -10,20 +9,16 @@ import com.bigkoo.pickerview.TimePickerView;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.FragmentStatisticsAdapter;
 import com.tdjpartner.base.BaseActivity;
-import com.tdjpartner.model.AfterSaleInfo;
-import com.tdjpartner.model.AfterSaleInfoData;
 import com.tdjpartner.model.SeachTag;
 import com.tdjpartner.mvp.presenter.IronAfterSalesPresenter;
-import com.tdjpartner.ui.fragment.IronSupportFragment;
+import com.tdjpartner.ui.fragment.IronSupportVMFragment;
 import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.widget.tablayout.WTabLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 
@@ -99,7 +94,7 @@ public class IronSupportActivity extends BaseActivity {
 
             @Override
             public Fragment getItem(int i) {
-                Fragment fragment = new IronSupportFragment();
+                Fragment fragment = new IronSupportVMFragment();
                 return fragment;
             }
 

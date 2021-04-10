@@ -211,6 +211,7 @@ public class IronStatisticsDetails {
         private int monthAfterSaleTimes;
         private int thirtyTimesNum;
         private Object createTime;
+        private int categoryNum;
 
         @Override
         public String toString() {
@@ -265,6 +266,14 @@ public class IronStatisticsDetails {
                     ", thirtyTimesNum=" + thirtyTimesNum +
                     ", createTime=" + createTime +
                     '}';
+        }
+
+        public int getCategoryNum() {
+            return categoryNum;
+        }
+
+        public void setCategoryNum(int categoryNum) {
+            this.categoryNum = categoryNum;
         }
 
         public int getCustomerId() {

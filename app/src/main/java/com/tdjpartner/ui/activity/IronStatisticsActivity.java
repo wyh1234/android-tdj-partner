@@ -1,5 +1,8 @@
 package com.tdjpartner.ui.activity;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,19 +20,20 @@ import com.bigkoo.pickerview.TimePickerView;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.FragmentStatisticsAdapter;
 import com.tdjpartner.base.BaseActivity;
-import com.tdjpartner.model.HomeDataDetails;
 import com.tdjpartner.model.IronStatisticsDetails;
 import com.tdjpartner.model.SeachTag;
 import com.tdjpartner.mvp.presenter.IronDayStatisticsPresenter;
-import com.tdjpartner.ui.fragment.IronDayListDetailFragment;
+import com.tdjpartner.ui.fragment.IronDayListDetailVMFragment;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.statusbar.Eyes;
+import com.tdjpartner.viewmodel.IronStatisticsDetailsViewModel;
 import com.tdjpartner.widget.tablayout.WTabLayout;
+import com.umeng.commonsdk.debug.D;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -61,9 +65,11 @@ public class IronStatisticsActivity extends BaseActivity<IronDayStatisticsPresen
     TextView tv_time;
     @BindView(R.id.tv_list_type)
     TextView tv_list_type;
+    boolean isFirst = true;
 
     boolean isDay;//时间类型标记
     int userType = UserUtils.getInstance().getLoginBean().getType();//用户类型
+    LiveData<IronStatisticsDetails> ironStatisticsDetailsLiveData;
 
 
     private Calendar selectedDate, endDate, startDate;
@@ -104,24 +110,43 @@ public class IronStatisticsActivity extends BaseActivity<IronDayStatisticsPresen
     @Override
     protected void initData() {
         System.out.println("~~" + getClass().getSimpleName() + ".initData~~");
-        refresh(new Date());
+
+        ironStatisticsDetailsLiveData = ViewModelProviders.of(this)
+                .get(IronStatisticsDetailsViewModel.class)
+                .getData(getArges(date, 1));
+
+        ironStatisticsDetailsLiveData.observe(this, new Observer<IronStatisticsDetails>() {
+            @Override
+            public void onChanged(@Nullable IronStatisticsDetails ironStatisticsDetails) {
+                if (userType == 2) {
+                    titles = Arrays.asList("注册数" + (isDay ? ironStatisticsDetails.getDayRegisterTimes() : ironStatisticsDetails.getMonthRegisterNum()),
+                            "新开数" + ironStatisticsDetails.getFirstOrderNum(),
+                            "新鲜蔬菜" + ironStatisticsDetails.getCategoryNum());
+                } else {
+                    titles = Arrays.asList("注册总数" + (isDay ? ironStatisticsDetails.getDayRegisterTimes() : ironStatisticsDetails.getMonthRegisterNum()),
+                            "新开总数" + ironStatisticsDetails.getFirstOrderNum(),
+                            "日活数" + ironStatisticsDetails.getActiveNum(),
+                            "拜访总数" + ironStatisticsDetails.getCallNum());
+                }
+
+                System.out.println("~~~~~~~~~~~~isFirst = " + isFirst);
+                if (isFirst) {
+                    isFirst = false;
+                    viewPager.getAdapter().notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     private void refresh(Date date) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("userId", UserUtils.getInstance().getLoginBean().getLoginUserId());
-        map.put("userId", 25716);
-        if (isDay) {
-            map.put("dayDate", GeneralUtils.getTimeFilter(date));
-        } else {
-            map.put("monthTime", GeneralUtils.getMonthFilter(date));
-        }
-        map.put("keyword", "");
-        map.put("userType", userType);
-        map.put("pn", 1);
-        map.put("ps", 999);
+        System.out.println("~~" + getClass().getSimpleName() + ".refresh~~");
 
-        mPresenter.getData(map);
+        Map<String, Object> map = getArges(date, 1);
+
+//        mPresenter.getData(map);
+        ironStatisticsDetailsLiveData = ViewModelProviders.of(this)
+                .get(IronStatisticsDetailsViewModel.class)
+                .getData(map);
     }
 
     @Override
@@ -129,6 +154,7 @@ public class IronStatisticsActivity extends BaseActivity<IronDayStatisticsPresen
         Eyes.translucentStatusBar(this, true);
 
         isDay = getIntent().getBooleanExtra("isDay", false);
+        date = new Date();
 
         selectedDate = Calendar.getInstance();
         startDate = Calendar.getInstance();
@@ -184,20 +210,35 @@ public class IronStatisticsActivity extends BaseActivity<IronDayStatisticsPresen
 
 
         viewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
-//            List<String> titles;
 
             @Override
             public Fragment getItem(int i) {
                 System.out.println("~~" + getClass().getSimpleName() + ".getItem~~");
-                Fragment fragment = new IronDayListDetailFragment();
+                System.out.println("-------------------i = " + i);
+
+                IronDayListDetailVMFragment fragment = new IronDayListDetailVMFragment();
                 Bundle bundle = new Bundle();
                 bundle.putInt("id", i);
+
+
+                System.out.println("000000000000000000" + titles.get(i));
+
+
+
+                Map<String, Object> map = getArges(date, i + 1);
+
+
+
+                bundle.putSerializable("args", (Serializable) map);
                 fragment.setArguments(bundle);
+
                 return fragment;
             }
 
             @Override
             public int getItemPosition(@NonNull Object object) {
+                System.out.println("~~" + getClass().getSimpleName() + ".getItemPosition~~");
+                System.out.println("object = " + object);
                 return POSITION_NONE;
             }
 
@@ -206,25 +247,16 @@ public class IronStatisticsActivity extends BaseActivity<IronDayStatisticsPresen
                 System.out.println("~~" + getClass().getSimpleName() + ".getCount~~");
                 if (titles == null) {
                     if (userType == 1) {
-                        titles = Arrays.asList("注册数" + 0,
-                                "新开数" + 0,
-                                "新鲜蔬菜" + 0);
+                        titles = Arrays.asList("注册数",
+                                "新开数",
+                                "新鲜蔬菜");
                     } else {
-                        titles = Arrays.asList("注册总数" + 0,
-                                "新开总数" + 0,
-                                "日活数" + 0,
-                                "拜访总数" + 0);
+                        titles = Arrays.asList("注册总数",
+                                "新开总数",
+                                "日活数",
+                                "拜访总数");
                     }
                 }
-//                if (titles == null) {
-//                    if (userType == 1) {
-//                        titles = Arrays.asList("月日活", "月均日活", "月GMV");
-//                    } else {
-//                        titles = Arrays.asList("月总GMV", "注册总数", "新开总数");
-//                    }
-//                }
-//                titles = Arrays.asList("注册数");
-
                 return titles.size();
             }
 
@@ -266,7 +298,6 @@ public class IronStatisticsActivity extends BaseActivity<IronDayStatisticsPresen
     public void success(IronStatisticsDetails ironStatisticsDetails) {
         System.out.println("~~" + getClass().getSimpleName() + ".success~~");
         System.out.println("ironStatisticsDetails = " + ironStatisticsDetails);
-        System.out.println("------------------------"+ironStatisticsDetails.getCallNum());
 
         if (userType == 2) {
             titles = Arrays.asList("注册数" + (isDay ? ironStatisticsDetails.getDayRegisterTimes() : ironStatisticsDetails.getMonthRegisterNum()),
@@ -279,10 +310,24 @@ public class IronStatisticsActivity extends BaseActivity<IronDayStatisticsPresen
                     "拜访总数" + ironStatisticsDetails.getCallNum());
         }
         viewPager.getAdapter().notifyDataSetChanged();
-
     }
 
     public void failure() {
+    }
+
+    private Map<String, Object> getArges(Date date, int i) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", UserUtils.getInstance().getLoginBean().getLoginUserId());
+        if (isDay) {
+            map.put("dayDate", GeneralUtils.getTimeFilter(date));
+        } else {
+            map.put("monthTime", GeneralUtils.getMonthFilter(date));
+        }
+        map.put("keyword", "");
+        map.put("userType", i);
+        map.put("pn", 1);
+        map.put("ps", 999);
+        return map;
     }
 
     @Override

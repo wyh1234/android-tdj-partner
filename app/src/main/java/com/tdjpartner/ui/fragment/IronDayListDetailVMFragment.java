@@ -1,11 +1,6 @@
 package com.tdjpartner.ui.fragment;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -13,10 +8,8 @@ import android.widget.TextView;
 
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.IronAdapter;
-import com.tdjpartner.base.GodFragment;
-import com.tdjpartner.model.AfterSaleInfoData;
+import com.tdjpartner.base.VMFragment;
 import com.tdjpartner.model.IronStatisticsDetails;
-import com.tdjpartner.viewmodel.AfterSalesViewModel;
 import com.tdjpartner.viewmodel.IronStatisticsDetailsViewModel;
 
 import java.util.Arrays;
@@ -25,37 +18,20 @@ import java.util.Random;
 /**
  * Created by LFM on 2021/3/15.
  */
-public class IronDayListDetailVMFragment extends GodFragment<IronStatisticsDetails, IronStatisticsDetailsViewModel> implements View.OnClickListener {
+public class IronDayListDetailVMFragment extends VMFragment<IronStatisticsDetails, IronStatisticsDetailsViewModel> implements View.OnClickListener {
 
 
     private IronAdapter ironAdapter;
 
     @Override
     protected int getLayoutId() {
-        return R.layout.iron_support_list_fragment;
+        return 0;
     }
 
     @Override
-    protected void initView(View view) {
+    protected View initView(View view) {
         System.out.println("~~" + getClass().getSimpleName() + ".initView~~");
         System.out.println("view = " + view);
-        ListView listView = view.findViewById(R.id.listView);
-        ironAdapter = new IronAdapter.Builder()
-                .setResource(R.layout.iron_support_list_item)
-                .setInitView((data, convertView) -> {
-                    ((TextView) convertView.findViewById(R.id.hotel_name)).setText(data.get(0));
-                    ((TextView) convertView.findViewById(R.id.operator_user_name)).setText(data.get(1));
-                })
-//                .addChildId(R.id.hotel_name)
-//                .setOnClickListener(this)
-                .build(getContext());
-        listView.setAdapter(ironAdapter);
-    }
-
-    @Override
-    protected void loadedData(IronStatisticsDetails ironStatisticsDetails) {
-        System.out.println("~~" + getClass().getSimpleName() + ".loadedData~~");
-        System.out.println("ironStatisticsDetails = " + ironStatisticsDetails);
 
         ListView listView = new ListView(getContext());
         listView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -82,16 +58,61 @@ public class IronDayListDetailVMFragment extends GodFragment<IronStatisticsDetai
                 .build(getContext());
         listView.setAdapter(ironAdapter);
         listView.setDivider(null);
+
+        return listView;
+    }
+
+    @Override
+    protected void loadedData(IronStatisticsDetails ironStatisticsDetails) {
+        System.out.println("~~" + getClass().getSimpleName() + ".loadedData~~");
+        System.out.println("ironStatisticsDetails = " + ironStatisticsDetails);
+
+        Random random = new Random();
+        ironAdapter.clear();
+//        for (int i = 0; i < 5; i++) {
+//            ironAdapter.add(Arrays.asList("" + random.nextInt(1000),
+//                    "" + random.nextInt(1000),
+//                    "" + random.nextInt(1000),
+//                    "华天大酒店" + random.nextInt(1000),
+//                    "负责专员:李四" + random.nextInt(1000),
+//                    "D92区72-58" + random.nextInt(1000),
+//                    "李四" + random.nextInt(1000),
+//                    "武昌徐东大街100号" + random.nextInt(1000)));
+//        }
+
+
+
+
+        for (IronStatisticsDetails.ListBean bean : ironStatisticsDetails.getList()) {
+            ironAdapter.add(Arrays.asList("" + bean.getTodayAmount(),
+                    "" + bean.getCategoryNum(),
+                    "" + bean.getFirstOrderNum(),
+                    bean.getName(),
+                    "负责专员:" + bean.getPartnerName(),
+                    bean.getRegionCollNo(),
+                    bean.getName(),
+                    bean.getAddress()));
+
+            System.out.println("bean = " + bean);
+            System.out.println(bean.getTodayAmount() + "," +
+                    bean.getCategoryNum() + "," +
+                    bean.getFirstOrderNum() + "," +
+                    bean.getName() + "," +
+                    "负责专员:" + bean.getPartnerName() + "," +
+                    bean.getRegionCollNo() + "," +
+                    bean.getName() + "," +
+                    bean.getAddress() + ",");
+        }
     }
 
 
     @Override
     protected IronStatisticsDetailsViewModel setVM() {
-        return ViewModelProviders.of(getActivity()).get(IronStatisticsDetailsViewModel.class);
+        IronStatisticsDetailsViewModel ironStatisticsDetailsViewModel = ViewModelProviders.of(getActivity()).get(IronStatisticsDetailsViewModel.class);
+        System.out.println("ironStatisticsDetailsViewModel = " + ironStatisticsDetailsViewModel);
+        return ironStatisticsDetailsViewModel;
     }
 
     @Override
-    public void onClick(View v) {
-
-    }
+    public void onClick(View v) {}
 }
