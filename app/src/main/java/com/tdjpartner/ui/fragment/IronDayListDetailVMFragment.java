@@ -20,12 +20,16 @@ import java.util.Random;
  */
 public class IronDayListDetailVMFragment extends VMFragment<IronStatisticsDetails, IronStatisticsDetailsViewModel> implements View.OnClickListener {
 
-
     private IronAdapter ironAdapter;
 
     @Override
     protected int getLayoutId() {
         return 0;
+    }
+
+    @Override
+    protected IronStatisticsDetailsViewModel setVM() {
+        return ViewModelProviders.of(this).get(IronStatisticsDetailsViewModel.class);
     }
 
     @Override
@@ -52,7 +56,6 @@ public class IronDayListDetailVMFragment extends VMFragment<IronStatisticsDetail
                     ((TextView) convertView.findViewById(R.id.tv_username)).setText(data.get(6));
                     ((TextView) convertView.findViewById(R.id.tv_address)).setText(data.get(7));
 
-
                 })
                 .setOnClickListener(this)
                 .build(getContext());
@@ -66,9 +69,12 @@ public class IronDayListDetailVMFragment extends VMFragment<IronStatisticsDetail
     protected void loadedData(IronStatisticsDetails ironStatisticsDetails) {
         System.out.println("~~" + getClass().getSimpleName() + ".loadedData~~");
         System.out.println("ironStatisticsDetails = " + ironStatisticsDetails);
+        System.out.println(ironStatisticsDetails.getList().size() + "|ironStatisticsDetails = " + ironStatisticsDetails.getList());
 
-        Random random = new Random();
         ironAdapter.clear();
+
+
+//        Random random = new Random();
 //        for (int i = 0; i < 5; i++) {
 //            ironAdapter.add(Arrays.asList("" + random.nextInt(1000),
 //                    "" + random.nextInt(1000),
@@ -79,8 +85,6 @@ public class IronDayListDetailVMFragment extends VMFragment<IronStatisticsDetail
 //                    "李四" + random.nextInt(1000),
 //                    "武昌徐东大街100号" + random.nextInt(1000)));
 //        }
-
-
 
 
         for (IronStatisticsDetails.ListBean bean : ironStatisticsDetails.getList()) {
@@ -103,14 +107,6 @@ public class IronDayListDetailVMFragment extends VMFragment<IronStatisticsDetail
                     bean.getName() + "," +
                     bean.getAddress() + ",");
         }
-    }
-
-
-    @Override
-    protected IronStatisticsDetailsViewModel setVM() {
-        IronStatisticsDetailsViewModel ironStatisticsDetailsViewModel = ViewModelProviders.of(getActivity()).get(IronStatisticsDetailsViewModel.class);
-        System.out.println("ironStatisticsDetailsViewModel = " + ironStatisticsDetailsViewModel);
-        return ironStatisticsDetailsViewModel;
     }
 
     @Override

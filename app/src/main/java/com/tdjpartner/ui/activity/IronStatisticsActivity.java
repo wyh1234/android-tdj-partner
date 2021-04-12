@@ -23,11 +23,13 @@ import com.tdjpartner.base.BaseActivity;
 import com.tdjpartner.model.IronStatisticsDetails;
 import com.tdjpartner.model.SeachTag;
 import com.tdjpartner.mvp.presenter.IronDayStatisticsPresenter;
+import com.tdjpartner.ui.fragment.IronDayListDetailFragment;
 import com.tdjpartner.ui.fragment.IronDayListDetailVMFragment;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.viewmodel.IronStatisticsDetailsViewModel;
+import com.tdjpartner.widget.ProgressDialog;
 import com.tdjpartner.widget.tablayout.WTabLayout;
 import com.umeng.commonsdk.debug.D;
 
@@ -69,8 +71,7 @@ public class IronStatisticsActivity extends BaseActivity<IronDayStatisticsPresen
 
     boolean isDay;//时间类型标记
     int userType = UserUtils.getInstance().getLoginBean().getType();//用户类型
-    LiveData<IronStatisticsDetails> ironStatisticsDetailsLiveData;
-
+    private ProgressDialog mProgressDialog;
 
     private Calendar selectedDate, endDate, startDate;
     private Date date;
@@ -110,43 +111,37 @@ public class IronStatisticsActivity extends BaseActivity<IronDayStatisticsPresen
     @Override
     protected void initData() {
         System.out.println("~~" + getClass().getSimpleName() + ".initData~~");
-
-        ironStatisticsDetailsLiveData = ViewModelProviders.of(this)
+        ViewModelProviders.of(this)
                 .get(IronStatisticsDetailsViewModel.class)
-                .getData(getArges(date, 1));
+                .getData()
+                .observe(this, new Observer<IronStatisticsDetails>() {
+                    @Override
+                    public void onChanged(@Nullable IronStatisticsDetails ironStatisticsDetails) {
+                        if (userType == 2) {
+                            titles = Arrays.asList("注册数" + (isDay ? ironStatisticsDetails.getDayRegisterTimes() : ironStatisticsDetails.getMonthRegisterNum()),
+                                    "新开数" + ironStatisticsDetails.getFirstOrderNum(),
+                                    "新鲜蔬菜" + ironStatisticsDetails.getCategoryNum());
+                        } else {
+                            titles = Arrays.asList("注册总数" + (isDay ? ironStatisticsDetails.getDayRegisterTimes() : ironStatisticsDetails.getMonthRegisterNum()),
+                                    "新开总数" + ironStatisticsDetails.getFirstOrderNum(),
+                                    "日活数" + ironStatisticsDetails.getActiveNum(),
+                                    "拜访总数" + ironStatisticsDetails.getCallNum());
+                        }
 
-        ironStatisticsDetailsLiveData.observe(this, new Observer<IronStatisticsDetails>() {
-            @Override
-            public void onChanged(@Nullable IronStatisticsDetails ironStatisticsDetails) {
-                if (userType == 2) {
-                    titles = Arrays.asList("注册数" + (isDay ? ironStatisticsDetails.getDayRegisterTimes() : ironStatisticsDetails.getMonthRegisterNum()),
-                            "新开数" + ironStatisticsDetails.getFirstOrderNum(),
-                            "新鲜蔬菜" + ironStatisticsDetails.getCategoryNum());
-                } else {
-                    titles = Arrays.asList("注册总数" + (isDay ? ironStatisticsDetails.getDayRegisterTimes() : ironStatisticsDetails.getMonthRegisterNum()),
-                            "新开总数" + ironStatisticsDetails.getFirstOrderNum(),
-                            "日活数" + ironStatisticsDetails.getActiveNum(),
-                            "拜访总数" + ironStatisticsDetails.getCallNum());
-                }
+                        viewPager.getAdapter().notifyDataSetChanged();
+                        dismissLoading();
+                    }
+                });
 
-                System.out.println("~~~~~~~~~~~~isFirst = " + isFirst);
-                if (isFirst) {
-                    isFirst = false;
-                    viewPager.getAdapter().notifyDataSetChanged();
-                }
-            }
-        });
+        refresh(new Date());
     }
 
     private void refresh(Date date) {
         System.out.println("~~" + getClass().getSimpleName() + ".refresh~~");
-
-        Map<String, Object> map = getArges(date, 1);
-
-//        mPresenter.getData(map);
-        ironStatisticsDetailsLiveData = ViewModelProviders.of(this)
+        showLoading();
+        ViewModelProviders.of(this)
                 .get(IronStatisticsDetailsViewModel.class)
-                .getData(map);
+                .loading(getArges(date, wtab.getSelectedTabPosition() + 1));
     }
 
     @Override
@@ -206,47 +201,27 @@ public class IronStatisticsActivity extends BaseActivity<IronDayStatisticsPresen
 //        wtab.setxTabDisplayNum(titles.size());
 
 
-        WTabLayout wtab = view.findViewById(R.id.wtab);
-
-
         viewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
 
             @Override
             public Fragment getItem(int i) {
-                System.out.println("~~" + getClass().getSimpleName() + ".getItem~~");
-                System.out.println("-------------------i = " + i);
-
                 IronDayListDetailVMFragment fragment = new IronDayListDetailVMFragment();
                 Bundle bundle = new Bundle();
-                bundle.putInt("id", i);
-
-
-                System.out.println("000000000000000000" + titles.get(i));
-
-
-
-                Map<String, Object> map = getArges(date, i + 1);
-
-
-
-                bundle.putSerializable("args", (Serializable) map);
+                bundle.putSerializable("args", (Serializable) getArges(date, i + 1));
                 fragment.setArguments(bundle);
-
+                fragment.setShowProgressDialog(false);
                 return fragment;
             }
 
             @Override
             public int getItemPosition(@NonNull Object object) {
-                System.out.println("~~" + getClass().getSimpleName() + ".getItemPosition~~");
-                System.out.println("object = " + object);
                 return POSITION_NONE;
             }
 
             @Override
             public int getCount() {
-                System.out.println("~~" + getClass().getSimpleName() + ".getCount~~");
                 if (titles == null) {
-                    if (userType == 1) {
+                    if (userType == 2) {
                         titles = Arrays.asList("注册数",
                                 "新开数",
                                 "新鲜蔬菜");
@@ -333,5 +308,17 @@ public class IronStatisticsActivity extends BaseActivity<IronDayStatisticsPresen
     @Override
     protected int getLayoutId() {
         return R.layout.iron_statistics_activity;
+    }
+
+    public void showLoading() {
+        if (mProgressDialog == null) mProgressDialog = ProgressDialog.createDialog(getContext());
+            mProgressDialog.setMessage("加载中...");
+            mProgressDialog.show();
+    }
+
+    public void dismissLoading() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+        }
     }
 }

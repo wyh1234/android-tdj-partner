@@ -1,6 +1,5 @@
 package com.tdjpartner.base;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -25,7 +24,7 @@ public abstract class VMFragment<M, VM extends IronViewModel<M>> extends Fragmen
 
     private Map<String, Object> args;
     private ProgressDialog mProgressDialog;
-    LiveData<M> liveData;
+    private boolean isShowProgressDialog = true;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,51 +48,36 @@ public abstract class VMFragment<M, VM extends IronViewModel<M>> extends Fragmen
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        loading();
-    }
-
-    public void showLoading() {
-        if (mProgressDialog == null) {
-            mProgressDialog = ProgressDialog.createDialog(getContext());
-            mProgressDialog.setMessage("加载中...");
-            mProgressDialog.show();
-        }
-    }
-
-    public void dismissLoading() {
-        if (mProgressDialog != null) {
-            mProgressDialog.dismiss();
-        }
-    }
-
-    protected void loading() {
-        System.out.println("~~" + getClass().getSimpleName() + ".loadData~~");
         showLoading();
-
-        liveData = vm.getData(getArgs());
-        liveData.observe(getActivity(),
+        vm.getData().observe(getActivity(),
                 new Observer<M>() {
                     @Override
                     public void onChanged(@Nullable M m) {
                         loadedData(m);
+                        onLoadEnd();
                         dismissLoading();
-                        liveData.removeObserver(this);
                     }
                 });
-//        if (liveData == null) {
-//            liveData = vm.getData(getArgs());
-//            liveData.observe(getActivity(),
-//                    new Observer<M>() {
-//                        @Override
-//                        public void onChanged(@Nullable M m) {
-//                            loadedData(m);
-//                            dismissLoading();
-//                            liveData.removeObserver(this);
-//                        }
-//                    });
-//        } else {
-//            vm.getData(getArgs());
-//        }
+        vm.loading(getArgs());
+    }
+
+    public void showLoading() {
+        if (!isShowProgressDialog) return;
+        if (mProgressDialog == null) mProgressDialog = ProgressDialog.createDialog(getContext());
+        mProgressDialog.setMessage("加载中...");
+        mProgressDialog.show();
+        onLoadBegin();
+    }
+
+    public void dismissLoading() {
+        if (mProgressDialog != null) mProgressDialog.dismiss();
+    }
+
+    protected void onLoadBegin(){}
+    protected void onLoadEnd(){}
+
+    public void setShowProgressDialog(boolean showProgressDialog) {
+        isShowProgressDialog = showProgressDialog;
     }
 
     public void setArgs(Map<String, Object> args) {

@@ -48,15 +48,21 @@ public abstract class IronViewModel<T> extends ViewModel {
 
     @Override
     protected void onCleared() {
+        System.out.println("~~" + getClass().getSimpleName() + ".onCleared~~");
+        System.out.println(this);
         disposable.dispose();
     }
 
-    public MediatorLiveData<T> getData(Map<String, Object> map) {
+    public MediatorLiveData<T> getData() {
         if (liveData == null) {
             liveData = new MediatorLiveData<>();
         }
-        disposable = loadData(map).subscribe(this::onNext, this::onError);
         return liveData;
+    }
+
+    public MediatorLiveData<T> loading(@Nullable Map<String, Object> map){
+        disposable = loadData(map).subscribe(this::onNext, this::onError);
+        return getData();
     }
 
     abstract Observable<T> loadData(@Nullable Map<String, Object> map);
