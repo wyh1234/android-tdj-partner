@@ -69,7 +69,7 @@ public class IronAdapter extends ArrayAdapter<List<String>> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        System.out.println("~~" + getClass().getSimpleName() + ".getView~~");
+//        System.out.println("~~" + getClass().getSimpleName() + ".getView~~");
 
         convertView = LayoutInflater.from(getContext()).inflate(mResource, parent, false);
 

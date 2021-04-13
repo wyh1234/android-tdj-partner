@@ -1,4 +1,4 @@
-package com.tdjpartner.viewmodel;
+package com.tdjpartner.base;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
@@ -41,7 +41,7 @@ import retrofit2.HttpException;
 /**
  * Created by LFM on 2021/3/20.
  */
-public abstract class IronViewModel<T> extends ViewModel {
+public abstract class BaseViewModel<T> extends ViewModel {
     private Disposable disposable;
 
     private MediatorLiveData<T> liveData;
@@ -50,7 +50,7 @@ public abstract class IronViewModel<T> extends ViewModel {
     protected void onCleared() {
         System.out.println("~~" + getClass().getSimpleName() + ".onCleared~~");
         System.out.println(this);
-        disposable.dispose();
+        if(disposable != null) disposable.dispose();
     }
 
     public MediatorLiveData<T> getData() {
@@ -61,11 +61,12 @@ public abstract class IronViewModel<T> extends ViewModel {
     }
 
     public MediatorLiveData<T> loading(@Nullable Map<String, Object> map){
+        if(disposable != null) disposable.isDisposed();
         disposable = loadData(map).subscribe(this::onNext, this::onError);
         return getData();
     }
 
-    abstract Observable<T> loadData(@Nullable Map<String, Object> map);
+    protected abstract Observable<T> loadData(@Nullable Map<String, Object> map);
 
     public void onNext(T t) {
         liveData.postValue(t);

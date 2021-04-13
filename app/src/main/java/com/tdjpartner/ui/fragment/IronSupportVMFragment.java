@@ -1,7 +1,12 @@
 package com.tdjpartner.ui.fragment;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,9 +31,8 @@ public class IronSupportVMFragment extends VMFragment<AfterSaleInfoData, AfterSa
     }
 
     @Override
-    protected View initView(View view) {
-        System.out.println("~~" + getClass().getSimpleName() + ".initView~~");
-        System.out.println("view = " + view);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         ListView listView = view.findViewById(R.id.listView);
         ironAdapter = new IronAdapter.Builder()
                 .setResource(R.layout.iron_support_list_item)
@@ -40,11 +44,10 @@ public class IronSupportVMFragment extends VMFragment<AfterSaleInfoData, AfterSa
 //                .setOnClickListener(this)
                 .build(getContext());
         listView.setAdapter(ironAdapter);
-        return view;
     }
 
     @Override
-    protected void loadedData(AfterSaleInfoData afterSaleInfoData) {
+    protected void updateView(AfterSaleInfoData afterSaleInfoData) {
         System.out.println("~~" + getClass().getSimpleName() + ".loadedData~~");
         System.out.println("afterSaleInfoData = " + afterSaleInfoData);
 

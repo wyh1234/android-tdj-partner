@@ -10,17 +10,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tdjpartner.utils.LocationUtils;
-import com.tdjpartner.viewmodel.IronViewModel;
 import com.tdjpartner.widget.ProgressDialog;
 
 import java.util.Map;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 /**
  * Created by LFM on 2021/3/20.
  */
-public abstract class VMFragment<M, VM extends IronViewModel<M>> extends Fragment {
+public abstract class VMFragment<M, VM extends BaseViewModel<M>> extends Fragment {
 
     private VM vm;
+    private Unbinder unbinder;
 
     private Map<String, Object> args;
     private ProgressDialog mProgressDialog;
@@ -30,6 +33,17 @@ public abstract class VMFragment<M, VM extends IronViewModel<M>> extends Fragmen
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         vm = setVM();
+        showLoading();
+        vm.getData().observe(getActivity(),
+                new Observer<M>() {
+                    @Override
+                    public void onChanged(@Nullable M m) {
+                        updateView(m);
+                        onLoadEnd();
+                        dismissLoading();
+                    }
+                });
+        vm.loading(getArgs());
     }
 
     @Override
@@ -41,24 +55,14 @@ public abstract class VMFragment<M, VM extends IronViewModel<M>> extends Fragmen
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (getLayoutId() == 0) return initView(null);
+        if (getLayoutId() == 0) {
+            View view = createView();
+            if (view != null) unbinder = ButterKnife.bind(this, view);
+            return view;
+        }
         View view = inflater.inflate(getLayoutId(), container, false);
-        return initView(view);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        showLoading();
-        vm.getData().observe(getActivity(),
-                new Observer<M>() {
-                    @Override
-                    public void onChanged(@Nullable M m) {
-                        loadedData(m);
-                        onLoadEnd();
-                        dismissLoading();
-                    }
-                });
-        vm.loading(getArgs());
+        if (view != null) unbinder = ButterKnife.bind(this, view);
+        return view;
     }
 
     public void showLoading() {
@@ -72,9 +76,6 @@ public abstract class VMFragment<M, VM extends IronViewModel<M>> extends Fragmen
     public void dismissLoading() {
         if (mProgressDialog != null) mProgressDialog.dismiss();
     }
-
-    protected void onLoadBegin(){}
-    protected void onLoadEnd(){}
 
     public void setShowProgressDialog(boolean showProgressDialog) {
         isShowProgressDialog = showProgressDialog;
@@ -91,11 +92,27 @@ public abstract class VMFragment<M, VM extends IronViewModel<M>> extends Fragmen
         return args;
     }
 
+    @Override
+    public void onDestroy() {
+        if (unbinder != null) unbinder.unbind();
+        super.onDestroy();
+    }
+
+    protected int getLayoutId() {
+        return 0;
+    }
+
+    protected View createView() {
+        return null;
+    }
+
+    protected void onLoadBegin() {
+    }
+
+    protected void onLoadEnd() {
+    }
+
     protected abstract VM setVM();
 
-    protected abstract int getLayoutId();
-
-    protected abstract View initView(View view);
-
-    protected abstract void loadedData(M m);
+    protected abstract void updateView(M m);
 }

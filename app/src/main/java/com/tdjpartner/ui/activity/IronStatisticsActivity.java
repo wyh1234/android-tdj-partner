@@ -1,6 +1,5 @@
 package com.tdjpartner.ui.activity;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Color;
@@ -23,15 +22,13 @@ import com.tdjpartner.base.BaseActivity;
 import com.tdjpartner.model.IronStatisticsDetails;
 import com.tdjpartner.model.SeachTag;
 import com.tdjpartner.mvp.presenter.IronDayStatisticsPresenter;
-import com.tdjpartner.ui.fragment.IronDayListDetailFragment;
 import com.tdjpartner.ui.fragment.IronDayListDetailVMFragment;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.statusbar.Eyes;
-import com.tdjpartner.viewmodel.IronStatisticsDetailsViewModel;
+import com.tdjpartner.viewmodel.StatisticsDetailsViewModel;
 import com.tdjpartner.widget.ProgressDialog;
 import com.tdjpartner.widget.tablayout.WTabLayout;
-import com.umeng.commonsdk.debug.D;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -112,7 +109,7 @@ public class IronStatisticsActivity extends BaseActivity<IronDayStatisticsPresen
     protected void initData() {
         System.out.println("~~" + getClass().getSimpleName() + ".initData~~");
         ViewModelProviders.of(this)
-                .get(IronStatisticsDetailsViewModel.class)
+                .get(StatisticsDetailsViewModel.class)
                 .getData()
                 .observe(this, new Observer<IronStatisticsDetails>() {
                     @Override
@@ -140,7 +137,7 @@ public class IronStatisticsActivity extends BaseActivity<IronDayStatisticsPresen
         System.out.println("~~" + getClass().getSimpleName() + ".refresh~~");
         showLoading();
         ViewModelProviders.of(this)
-                .get(IronStatisticsDetailsViewModel.class)
+                .get(StatisticsDetailsViewModel.class)
                 .loading(getArges(date, wtab.getSelectedTabPosition() + 1));
     }
 
@@ -148,8 +145,9 @@ public class IronStatisticsActivity extends BaseActivity<IronDayStatisticsPresen
     protected void initView() {
         Eyes.translucentStatusBar(this, true);
 
-        isDay = getIntent().getBooleanExtra("isDay", false);
         date = new Date();
+        isDay = getIntent().getBooleanExtra("isDay", false);
+        tv_title.setText(isDay ? "日统计" : "月统计");
 
         selectedDate = Calendar.getInstance();
         startDate = Calendar.getInstance();
@@ -178,7 +176,7 @@ public class IronStatisticsActivity extends BaseActivity<IronDayStatisticsPresen
 //                }
             }
         }) //年月日时分秒 的显示与否，不设置则默认全部显示
-                .setType(new boolean[]{true, true, true, false, false, false})
+                .setType(new boolean[]{true, true, isDay, false, false, false})
                 .setLabel("年", "月", isDay ? "日" : "", "", "", "")
                 .isCenterLabel(true)
                 .setDividerColor(Color.DKGRAY)
@@ -312,8 +310,8 @@ public class IronStatisticsActivity extends BaseActivity<IronDayStatisticsPresen
 
     public void showLoading() {
         if (mProgressDialog == null) mProgressDialog = ProgressDialog.createDialog(getContext());
-            mProgressDialog.setMessage("加载中...");
-            mProgressDialog.show();
+        mProgressDialog.setMessage("加载中...");
+        mProgressDialog.show();
     }
 
     public void dismissLoading() {

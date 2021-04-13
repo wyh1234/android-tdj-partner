@@ -31,6 +31,7 @@ import com.tdjpartner.model.HomeDataDetails;
 import com.tdjpartner.model.HomePageFuncationButton;
 import com.tdjpartner.model.IntegralShop;
 import com.tdjpartner.model.InvitationHistory;
+import com.tdjpartner.model.IronDayAndMonthData;
 import com.tdjpartner.model.IronHomeData;
 import com.tdjpartner.model.IronHomeTopData;
 import com.tdjpartner.model.IronStatisticsDetails;
@@ -372,8 +373,10 @@ public class RequestPresenter {
     public static Observable<AfterSaleInfoData> getafterSalesTask(Map<String, Object> map) {
         return getApiService().getafterSalesTask(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
     }
-
     public static Observable<IronStatisticsDetails> ironStatisticsDetails(Map<String, Object> map) {
         return getApiService().ironStatisticsDetails(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
+    }
+    public static Observable<IronDayAndMonthData> ironDayAndMonthData(Map<String, Object> map) {
+        return getApiService().ironDayAndMonthData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
     }
 }

@@ -1,6 +1,9 @@
 package com.tdjpartner.ui.fragment;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -10,32 +13,25 @@ import com.tdjpartner.R;
 import com.tdjpartner.adapter.IronAdapter;
 import com.tdjpartner.base.VMFragment;
 import com.tdjpartner.model.IronStatisticsDetails;
-import com.tdjpartner.viewmodel.IronStatisticsDetailsViewModel;
+import com.tdjpartner.viewmodel.StatisticsDetailsViewModel;
 
 import java.util.Arrays;
-import java.util.Random;
 
 /**
  * Created by LFM on 2021/3/15.
  */
-public class IronDayListDetailVMFragment extends VMFragment<IronStatisticsDetails, IronStatisticsDetailsViewModel> implements View.OnClickListener {
+public class IronDayListDetailVMFragment extends VMFragment<IronStatisticsDetails, StatisticsDetailsViewModel> implements View.OnClickListener {
 
     private IronAdapter ironAdapter;
 
     @Override
-    protected int getLayoutId() {
-        return 0;
+    protected StatisticsDetailsViewModel setVM() {
+        return ViewModelProviders.of(this).get(StatisticsDetailsViewModel.class);
     }
 
     @Override
-    protected IronStatisticsDetailsViewModel setVM() {
-        return ViewModelProviders.of(this).get(IronStatisticsDetailsViewModel.class);
-    }
-
-    @Override
-    protected View initView(View view) {
+    protected View createView() {
         System.out.println("~~" + getClass().getSimpleName() + ".initView~~");
-        System.out.println("view = " + view);
 
         ListView listView = new ListView(getContext());
         listView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -66,8 +62,8 @@ public class IronDayListDetailVMFragment extends VMFragment<IronStatisticsDetail
     }
 
     @Override
-    protected void loadedData(IronStatisticsDetails ironStatisticsDetails) {
-        System.out.println("~~" + getClass().getSimpleName() + ".loadedData~~");
+    protected void updateView(IronStatisticsDetails ironStatisticsDetails) {
+        System.out.println("~~" + getClass().getSimpleName() + ".updateView~~");
         System.out.println("ironStatisticsDetails = " + ironStatisticsDetails);
         System.out.println(ironStatisticsDetails.getList().size() + "|ironStatisticsDetails = " + ironStatisticsDetails.getList());
 

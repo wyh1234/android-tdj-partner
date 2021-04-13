@@ -26,6 +26,7 @@ import com.tdjpartner.model.HomeDataDetails;
 import com.tdjpartner.model.HomePageFuncationButton;
 import com.tdjpartner.model.IntegralShop;
 import com.tdjpartner.model.InvitationHistory;
+import com.tdjpartner.model.IronDayAndMonthData;
 import com.tdjpartner.model.IronHomeData;
 import com.tdjpartner.model.IronHomeTopData;
 import com.tdjpartner.model.IronStatisticsDetails;
@@ -654,4 +655,8 @@ public interface ApiService {
     @Headers({"url_type:xuming"})
     @POST("tdj-report/report/customer/homeDataDetails")
     Observable<BaseResponse<IronStatisticsDetails>> ironStatisticsDetails(@Body RequestBody body);
+
+    @Headers({"url_type:xuming"})
+    @POST("/tdj-report/report/teamOverView/dayAndMonthData")
+    Observable<BaseResponse<IronDayAndMonthData>> ironDayAndMonthData(@Body RequestBody body);
 }

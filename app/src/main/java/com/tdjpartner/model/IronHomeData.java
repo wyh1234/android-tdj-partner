@@ -3,9 +3,7 @@ package com.tdjpartner.model;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class IronHomeData  {
-
-
+public class IronHomeData {
 
 
     private AllDataBean allData;
@@ -67,65 +65,65 @@ public class IronHomeData  {
 
         /**
          * {
-         *       "customerId": null,
-         *       "auth": null,
-         *       "name": null,
-         *       "address": null,
-         *       "boss": null,
-         *       "mobile": null,
-         *       "partnerName": null,
-         *       "followTime": null,
-         *       "websiteId": null,
-         *       "regionCollNo": null,
-         *       "regionNo": null,
-         *       "lineCode": null,
-         *       "customerLineCode": null,
-         *       "todayAmount": null,
-         *       "averageAmount": null, //日客单价
-         *       "todayTimes": null,
-         *       "todayAfterSaleTimes": null,
-         *       "monthTimes": null,
-         *       "notOrderDays": null,
-         *       "notCallDays": null,
-         *       "userType": null,
-         *       "monthAmount": 111095.02,
-         *       "afterSaleTimes": null,
-         *       "noCallDay": null,
-         *       "receiveName": null,
-         *       "receiveMobile": null,
-         *       "deliveredTimeBegin": null,
-         *       "deliveredTimeEnd": null,
-         *       "punchDistance": null,
-         *       "dayOrderTimes": null,
-         *       "dayRegisterTimes": null,
-         *       "lat": null,
-         *       "lon": null,
-         *       "headUrl": null,
-         *       "lastMonthActiveNum": null,
-         *       "activeNum": null,
-         *       "callNum": null,
-         *       "monthRegisterNum": 178685,
-         *       "monthActiveNum": 1,
-         *       "monthCallNum": 2,
-         *       "lastMonthAvgActiveNum": null,
-         *       "monthAvgActiveNum": 0.0,
-         *       "firstOrderNum": null,
-         *       "lastMonthFirstOrderNum": null,
-         *       "monthFirstOrderNum": 33,
-         *       "monthAverageAmount": 3471.72,
-         *       "monthAfterSaleTimes": 20,
-         *       "thirtyTimesNum": null,
-         *       "createTime": null,
-         *       "yesterdayActiveNum": null, //昨日日活差
-         *       "addMonthAmount": 0.00,
-         *       "monthAfterSaleAmount": 11.000000,
-         *       "afterSaleAmount": null, //售后金额
-         *       "categoryNum": 0, //新鲜蔬菜
-         *       "categoryAmount": null,
-         *       "gradeNextName": "",
-         *       "grade": 0,
-         *       "driverName": null,
-         *       "driverTel": null
+         * "customerId": null,
+         * "auth": null,
+         * "name": null,
+         * "address": null,
+         * "boss": null,
+         * "mobile": null,
+         * "partnerName": null,
+         * "followTime": null,
+         * "websiteId": null,
+         * "regionCollNo": null,
+         * "regionNo": null,
+         * "lineCode": null,
+         * "customerLineCode": null,
+         * "todayAmount": null,
+         * "averageAmount": null, //日客单价
+         * "todayTimes": null,
+         * "todayAfterSaleTimes": null,
+         * "monthTimes": null,
+         * "notOrderDays": null,
+         * "notCallDays": null,
+         * "userType": null,
+         * "monthAmount": 111095.02,
+         * "afterSaleTimes": null,
+         * "noCallDay": null,
+         * "receiveName": null,
+         * "receiveMobile": null,
+         * "deliveredTimeBegin": null,
+         * "deliveredTimeEnd": null,
+         * "punchDistance": null,
+         * "dayOrderTimes": null,
+         * "dayRegisterTimes": null,
+         * "lat": null,
+         * "lon": null,
+         * "headUrl": null,
+         * "lastMonthActiveNum": null,
+         * "activeNum": null,
+         * "callNum": null,
+         * "monthRegisterNum": 178685,
+         * "monthActiveNum": 1,
+         * "monthCallNum": 2,
+         * "lastMonthAvgActiveNum": null,
+         * "monthAvgActiveNum": 0.0,
+         * "firstOrderNum": null,
+         * "lastMonthFirstOrderNum": null,
+         * "monthFirstOrderNum": 33,
+         * "monthAverageAmount": 3471.72,
+         * "monthAfterSaleTimes": 20,
+         * "thirtyTimesNum": null,
+         * "createTime": null,
+         * "yesterdayActiveNum": null, //昨日日活差
+         * "addMonthAmount": 0.00,
+         * "monthAfterSaleAmount": 11.000000,
+         * "afterSaleAmount": null, //售后金额
+         * "categoryNum": 0, //新鲜蔬菜
+         * "categoryAmount": null,
+         * "gradeNextName": "",
+         * "grade": 0,
+         * "driverName": null,
+         * "driverTel": null
          * }
          */
 
@@ -286,7 +284,7 @@ public class IronHomeData  {
         }
 
         public Integer getCountCustomer() {
-            return countCustomer==null?0:countCustomer;
+            return countCustomer == null ? 0 : countCustomer;
         }
 
         public void setCountCustomer(Integer countCustomer) {
@@ -774,7 +772,7 @@ public class IronHomeData  {
         }
 
         public Integer getDayRegisterTimes() {
-            return dayRegisterTimes==null?0:dayRegisterTimes;
+            return dayRegisterTimes == null ? 0 : dayRegisterTimes;
         }
 
         public void setDayRegisterTimes(Integer dayRegisterTimes) {
@@ -944,8 +942,12 @@ public class IronHomeData  {
          */
 
         private int id;
-        private String menuPic;
         private int sort;
+        private int downDataNum;
+        private int followDataNum;
+        private int noVerifyNum;
+        private String subscriptNum;
+        private String menuPic;
         private String title;
         private String context;
         private String linkTitle;
@@ -953,18 +955,6 @@ public class IronHomeData  {
         private String linkUrl;
         private String status;
         private String seatType;
-        private int downDataNum;
-        private int followDataNum;
-        private int noVerifyNum;
-        private Integer subscriptNum;
-
-        public Integer getSubscriptNum() {
-            return subscriptNum;
-        }
-
-        public void setSubscriptNum(Integer subscriptNum) {
-            this.subscriptNum = subscriptNum;
-        }
 
         public int getId() {
             return id;
@@ -1068,6 +1058,14 @@ public class IronHomeData  {
 
         public void setNoVerifyNum(int noVerifyNum) {
             this.noVerifyNum = noVerifyNum;
+        }
+
+        public String getSubscriptNum() {
+            return subscriptNum;
+        }
+
+        public void setSubscriptNum(String subscriptNum) {
+            this.subscriptNum = subscriptNum;
         }
     }
 
@@ -1407,7 +1405,7 @@ public class IronHomeData  {
         }
 
         public Integer getDayOrderTimes() {
-            return dayOrderTimes==null?0:dayOrderTimes;
+            return dayOrderTimes == null ? 0 : dayOrderTimes;
         }
 
         public void setDayOrderTimes(Integer dayOrderTimes) {

@@ -227,7 +227,13 @@
 <!--            android:name=".ui.activity.IronM2MonthActivity"-->
 <!--            android:screenOrientation="portrait" />-->
         <activity
+            android:name=".ui.activity.IronListActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.activity.IronStatisticsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.IronDayActivity"
             android:screenOrientation="portrait" />
 <!--        <activity-->
 <!--            android:name=".ui.activity.IronApprovalDetailActivity"-->

@@ -39,7 +39,7 @@
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"
                 android:gravity="right"
-                android:text="M1 >"
+                android:text="Mn >"
                 android:textColor="@color/orage_red"
                 android:textSize="14sp" />
         </LinearLayout>

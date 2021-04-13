@@ -19,9 +19,12 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.IronAdapter;
 import com.tdjpartner.base.BaseFrgment;
+import com.tdjpartner.common.PublicCache;
 import com.tdjpartner.model.IronHomeData;
 import com.tdjpartner.model.NewHomeData;
 import com.tdjpartner.mvp.presenter.IronIndexFragmentPresenter;
+import com.tdjpartner.ui.activity.IronDayActivity;
+import com.tdjpartner.ui.activity.IronListActivity;
 import com.tdjpartner.ui.activity.IronStatisticsActivity;
 import com.tdjpartner.ui.activity.IronMonthActivity;
 import com.tdjpartner.ui.activity.TeamMemberActivity;
@@ -33,6 +36,7 @@ import com.tdjpartner.widget.tablayout.WTabLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,7 +61,6 @@ public class IronIndexFragment extends BaseFrgment<IronIndexFragmentPresenter>
     ListView day_listView;
     @BindView(R.id.member_list)
     ListView month_listView;
-
 
     @BindView(R.id.ll_team)
     LinearLayout rl_team;
@@ -117,8 +120,18 @@ public class IronIndexFragment extends BaseFrgment<IronIndexFragmentPresenter>
                 break;
         }
 
-        if (view.getId() == R.id.tv_day_sink ||
-                view.getId() == R.id.ll_day_register ||
+        if (view.getId() == R.id.tv_day_sink) {
+            Intent intent = new Intent(getContext(), IronListActivity.class);
+            intent.putExtra("isDay", true);
+            startActivity(intent);
+        }
+        if (view.getId() == R.id.tv_month_sink) {
+            Intent intent = new Intent(getContext(), IronListActivity.class);
+            intent.putExtra("isDay", false);
+            startActivity(intent);
+        }
+
+        if (view.getId() == R.id.ll_day_register ||
                 view.getId() == R.id.ll_day_open ||
                 view.getId() == R.id.ll_day_vegetables) {
             System.out.println(view);
@@ -127,8 +140,7 @@ public class IronIndexFragment extends BaseFrgment<IronIndexFragmentPresenter>
             startActivity(intent);
         }
 
-        if (view.getId() == R.id.tv_month_sink ||
-                view.getId() == R.id.ll_month_register ||
+        if (view.getId() == R.id.ll_month_register ||
                 view.getId() == R.id.ll_month_open ||
                 view.getId() == R.id.ll_month_vegetables) {
             System.out.println(view);
@@ -264,10 +276,16 @@ public class IronIndexFragment extends BaseFrgment<IronIndexFragmentPresenter>
 
     public void getData() {
         Map<String, Object> map = new HashMap<>();
+
         map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
-        map.put("userId", 258869);
-        map.put("dayDate", "2021-03-22");
-        map.put("monthTime", "2021-03");
+        System.out.println("userId is " + UserUtils.getInstance().getLoginBean().getEntityId());
+        map.put("dayDate", GeneralUtils.getTimeFilter(new Date()));
+        map.put("monthTime", GeneralUtils.getMonthFilter(new Date()));
+        map.put("websiteId", UserUtils.getInstance().getLoginBean().getSite());
+
+//        map.put("userId", 258869);
+        map.put("monthTime", "2021-04");
+        map.put("dayDate", "2021-04-09");
         map.put("websiteId", 3);
         mPresenter.homeData(map);
     }
@@ -288,7 +306,7 @@ public class IronIndexFragment extends BaseFrgment<IronIndexFragmentPresenter>
             orderList.clear();
         }
 
-//        tv_day_sink.setText(homeData.getTodayData().gradeNextName);
+        tv_day_sink.setText(homeData.getTodayData().gradeNextName.isEmpty()?"" : homeData.getTodayData().gradeNextName + " >");
         ironDayAdapter.clear();
         ironDayAdapter.add(Arrays.asList("" + homeData.getTodayData().dayRegisterTimes,
                 "" + homeData.getTodayData().firstOrderNum,
@@ -298,7 +316,7 @@ public class IronIndexFragment extends BaseFrgment<IronIndexFragmentPresenter>
         ironDayAdapter.notifyDataSetChanged();
 
 
-//        tv_month_sink.setText(homeData.getMonthData().gradeNextName);
+        tv_month_sink.setText(homeData.getMonthData().gradeNextName.isEmpty()?"" : homeData.getMonthData().gradeNextName + " >");
         ironMonthAdapter.clear();
         ironMonthAdapter.add(Arrays.asList("" + homeData.getMonthData().monthRegisterNum,
                 "" + homeData.getMonthData().monthRegisterNum,
@@ -309,21 +327,23 @@ public class IronIndexFragment extends BaseFrgment<IronIndexFragmentPresenter>
 
         //重点关注
         ImageLoad.loadImageView(getContext(), homeData.getPartnerApproachData().get(0).getMenuPic(), image_drop);
-        if (homeData.getPartnerApproachData().get(0).getSubscriptNum() > 0) {
+        if (!homeData.getPartnerApproachData().get(0).getSubscriptNum().isEmpty()) {
             count_drop.setVisibility(View.VISIBLE);
             count_drop.setText(homeData.getPartnerApproachData().get(0).getSubscriptNum());
         } else {
             count_drop.setVisibility(View.GONE);
         }
 
+        //公海跟进
         ImageLoad.loadImageView(getContext(), homeData.getPartnerApproachData().get(1).getMenuPic(), image_sea);
-        if (homeData.getPartnerApproachData().get(1).getSubscriptNum() > 0) {
+        if (!homeData.getPartnerApproachData().get(1).getSubscriptNum().isEmpty()) {
             count_sea.setVisibility(View.VISIBLE);
             count_sea.setText(homeData.getPartnerApproachData().get(1).getSubscriptNum());
         } else {
             count_sea.setVisibility(View.GONE);
         }
     }
+
     public void homeData_failed() {
         stop();
     }
@@ -335,7 +355,7 @@ public class IronIndexFragment extends BaseFrgment<IronIndexFragmentPresenter>
         switch (view.getId()) {
 
             case R.id.tv_day:
-                getActivity().startActivity(new Intent(getContext(), IronMonthActivity.class));
+                getActivity().startActivity(new Intent(getContext(), IronDayActivity.class));
                 break;
 
             case R.id.tv_month:

@@ -143,10 +143,7 @@ public class IronDayActivity extends BaseActivity<TeamMemberPresenter> implement
 //        endDate.set(2029, 11, 28);
 //        endDate.set(endDate.get(Calendar.YEAR), (endDate.get(Calendar.MONTH)), endDate.get(Calendar.DAY_OF_MONTH));
 
-
-
         getData();
-
     }
 
     @Override
