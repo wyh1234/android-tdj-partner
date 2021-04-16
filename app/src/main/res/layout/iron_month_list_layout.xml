@@ -141,7 +141,7 @@
                     android:layout_gravity="center_vertical"
                     android:gravity="right"
                     android:text="M1 >"
-                    android:textColor="@color/orage_red"
+                    android:textColor="@color/orange_red"
                     android:textSize="14sp" />
             </LinearLayout>
 

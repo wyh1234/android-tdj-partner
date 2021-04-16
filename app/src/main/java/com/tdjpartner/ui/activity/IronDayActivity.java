@@ -64,8 +64,8 @@ public class IronDayActivity extends BaseActivity<TeamMemberPresenter> implement
     ListView member_list;
     @BindView(R.id.ll_header_include)
     LinearLayout ll_header_include;
-    @BindView(R.id.other_include)
-    LinearLayout other_include;
+//    @BindView(R.id.other_include)
+//    LinearLayout other_include;
     @BindView(R.id.tv_day_sink)
     TextView tv_day_sink;
 
@@ -86,7 +86,6 @@ public class IronDayActivity extends BaseActivity<TeamMemberPresenter> implement
 
     @OnClick({R.id.tv_time, R.id.tv_day_sink})
     public void onClick(View view) {
-        System.out.println("~~~~~~~~~view = " + view);
         switch (view.getId()) {
             case R.id.tv_time:
                 setTime(true);
@@ -195,10 +194,10 @@ public class IronDayActivity extends BaseActivity<TeamMemberPresenter> implement
         ((TextView) ll_header_include.findViewById(R.id.gmvNum)).setText("" + random.nextInt(1000));
         ((TextView) ll_header_include.findViewById(R.id.priceNum)).setText("" + random.nextInt(1000));
 
-        ((TextView) other_include.findViewById(R.id.registerNum)).setText("" + random.nextInt(1000));
-        ((TextView) other_include.findViewById(R.id.openNum)).setText("" + random.nextInt(1000));
-        ((TextView) other_include.findViewById(R.id.vegetablesNum)).setText("" + random.nextInt(1000));
-        ((TextView) other_include.findViewById(R.id.gmvNum)).setText("" + random.nextInt(1000));
+//        ((TextView) other_include.findViewById(R.id.registerNum)).setText("" + random.nextInt(1000));
+//        ((TextView) other_include.findViewById(R.id.openNum)).setText("" + random.nextInt(1000));
+//        ((TextView) other_include.findViewById(R.id.vegetablesNum)).setText("" + random.nextInt(1000));
+//        ((TextView) other_include.findViewById(R.id.gmvNum)).setText("" + random.nextInt(1000));
         ((TextView) ll_header_include.findViewById(R.id.priceNum)).setText("" + random.nextInt(1000));
 
 
@@ -268,11 +267,11 @@ public class IronDayActivity extends BaseActivity<TeamMemberPresenter> implement
         ((TextView) ll_header_include.findViewById(R.id.gmvNum)).setText("" + random.nextInt(1000));
         ((TextView) ll_header_include.findViewById(R.id.priceNum)).setText("" + random.nextInt(1000));
 
-        ((TextView) other_include.findViewById(R.id.registerNum)).setText("" + random.nextInt(1000));
-        ((TextView) other_include.findViewById(R.id.openNum)).setText("" + random.nextInt(1000));
-        ((TextView) other_include.findViewById(R.id.vegetablesNum)).setText("" + random.nextInt(1000));
-        ((TextView) other_include.findViewById(R.id.gmvNum)).setText("" + random.nextInt(1000));
-        ((TextView) other_include.findViewById(R.id.priceNum)).setText("" + random.nextInt(1000));
+//        ((TextView) other_include.findViewById(R.id.registerNum)).setText("" + random.nextInt(1000));
+//        ((TextView) other_include.findViewById(R.id.openNum)).setText("" + random.nextInt(1000));
+//        ((TextView) other_include.findViewById(R.id.vegetablesNum)).setText("" + random.nextInt(1000));
+//        ((TextView) other_include.findViewById(R.id.gmvNum)).setText("" + random.nextInt(1000));
+//        ((TextView) other_include.findViewById(R.id.priceNum)).setText("" + random.nextInt(1000));
 
 
     }

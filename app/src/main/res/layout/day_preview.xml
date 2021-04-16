@@ -33,7 +33,7 @@
             android:text="M2 >"
             android:gravity="right"
             android:layout_marginEnd="16dp"
-            android:textColor="@color/orage_red"
+            android:textColor="@color/orange_red"
             android:textSize="14sp" />
     </LinearLayout>
 

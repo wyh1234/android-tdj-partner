@@ -2,14 +2,10 @@ package com.tdjpartner.ui.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
-import com.tdjpartner.MainTabActivity;
 import com.tdjpartner.R;
-import com.tdjpartner.ui.fragment.IronDayListDetailVMFragment;
-import com.tdjpartner.ui.fragment.IronIndexFragment;
-import com.tdjpartner.ui.fragment.IronListVMFragment;
+import com.tdjpartner.ui.fragment.IronListFragment;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
 
@@ -29,7 +25,7 @@ public class IronListActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.iron_list_activity);
-        IronListVMFragment fragment = new IronListVMFragment();
+        IronListFragment fragment = new IronListFragment();
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("args", (Serializable) getArges(new Date(), getIntent().getBooleanExtra("isDay", true), true));
@@ -70,6 +66,7 @@ public class IronListActivity extends AppCompatActivity {
             map.put("startTime", GeneralUtils.getMonthFilter(date));
             map.put("timeType", "month");
         }
+        System.out.println("map = " + map);
         return map;
     }
 }

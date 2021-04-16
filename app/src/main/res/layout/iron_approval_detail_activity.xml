@@ -10,7 +10,6 @@
         android:orientation="vertical">
 
         <include layout="@layout/iron_header_include" />
-
         <include layout="@layout/iron_approval_detail_include" />
 
         <LinearLayout
@@ -44,21 +43,26 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/created_at"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginBottom="120dp"
-                    android:drawableStart="@mipmap/right_bg"
+                    android:drawableStart="@drawable/bg_circle_orange_8"
                     android:drawablePadding="4dp"
                     android:text="提交时间：2019.08.22 12:22:33"
                     android:textSize="12sp" />
-
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="11dp"
+                    android:background="@drawable/line_orange_16"/>
                 <TextView
+                    android:id="@+id/verify"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginBottom="120dp"
-                    android:drawableStart="@mipmap/right_bg"
+                    android:drawableStart="@drawable/bg_circle_orange_8"
                     android:drawablePadding="4dp"
                     android:text="张三 186812231"
                     android:textSize="12sp" />

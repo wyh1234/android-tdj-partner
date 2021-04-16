@@ -1,87 +1,134 @@
 package com.tdjpartner.ui.activity;
 
-import com.bigkoo.pickerview.TimePickerView;
-import com.tdjpartner.R;
-import com.tdjpartner.adapter.FragmentStatisticsAdapter;
-import com.tdjpartner.base.BaseActivity;
-import com.tdjpartner.model.SeachTag;
-import com.tdjpartner.mvp.presenter.IPresenter;
-import com.tdjpartner.utils.statusbar.Eyes;
+import android.app.Dialog;
+import android.arch.lifecycle.ViewModelProviders;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.util.ArrayMap;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import com.tdjpartner.R;
+import com.tdjpartner.model.HotelAuditInfo;
+import com.tdjpartner.utils.DialogUtils;
+import com.tdjpartner.utils.GeneralUtils;
+import com.tdjpartner.utils.glide.ImageLoad;
+import com.tdjpartner.utils.statusbar.Eyes;
+import com.tdjpartner.viewmodel.NetworkViewModel;
+
+import java.util.Map;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by LFM on 2021/3/16.
  */
-public class IronApprovalHandleActivity extends BaseActivity {
-//    @BindView(R.id.tv_title)
-//    TextView tv_title;
-//    @BindView(R.id.wtab)
-//    WTabLayout wtab;
-//    @BindView(R.id.viewPager)
-//    ViewPager viewPager;
+public class IronApprovalHandleActivity extends AppCompatActivity {
 
-//    @BindView(R.id.btn_back)
-//    ImageView btn_back;
-//    @BindView(R.id.search_text)
-//    EditText search_text;
-//    @BindView(R.id.ll_seach)
-//    LinearLayout ll_seach;
-//    @BindView(R.id.tv_name)
-//    TextView tv_name;
-//    @BindView(R.id.tv_list_type)
-//    TextView tv_list_type;
 
-    private Calendar selectedDate, endDate, startDate;
-    private TimePickerView pvTime;
-    public SeachTag seachTag = new SeachTag();
-    public String title;
-    public List<String> titles = new ArrayList<>();
+    @BindView(R.id.tv_title)
+    TextView tv_title;
+    @BindView(R.id.enterprise_code)
+    TextView enterprise_code;
+    @BindView(R.id.authStatus)
+    TextView authStatus;
+    @BindView(R.id.person_name)
+    TextView person_name;
+    @BindView(R.id.enterprise_msg)
+    TextView enterprise_msg;
 
-//    @OnClick({R.id.btn_back, R.id.tv_name, R.id.tv_list_type})
-//    public void onClick(View view) {
-////        switch (view.getId()) {
-////            case R.id.btn_back:
-////                finish();
-////                break;
-////            case R.id.tv_list_type:
-////                if (GeneralUtils.isNullOrZeroLenght(search_text.getText().toString())) {
-////                    GeneralUtils.showToastshort("请输入门店名称或者手机号");
-////
-////                } else {
-////                    seachTag.setTag(search_text.getText().toString());
-////                    EventBus.getDefault().post(seachTag);
-////                }
-////                break;
-////            case R.id.tv_name:
-////                pvTime.show(tv_name);
-////                break;
-////        }
-//    }
+    @BindView(R.id.image_url)
+    ImageView image_url;
+    @BindView(R.id.bzlicence_url)
+    ImageView bzlicence_url;
 
-    public FragmentStatisticsAdapter adatper;
+    Dialog dialog;
+    HotelAuditInfo hotelAuditInfo;
 
-    @Override
-    protected IPresenter loadPresenter() {
-        return null;
+
+    @OnClick({R.id.btn_yes, R.id.btn_no})
+    public void onClick(View view){
+        System.out.println("~~" + getClass().getSimpleName() + ".onClick~~");
+        System.out.println("view = " + view);
+
+        switch (view.getId()) {
+            case R.id.btn_yes:
+
+                break;
+            case R.id.btn_no:
+                if(dialog == null) dialog = DialogUtils.getResourceDialog(this, R.layout.common_dialog, this::onClick, this::onClick);
+                dialog.show();
+                break;
+            case R.id.dialog_btn_yes:
+                String refuse = ((EditText)dialog.findViewById(R.id.tv_refuse)).getText().toString();
+                if (dialog.isShowing() && !refuse.isEmpty()) {
+                    dialog.dismiss();
+                    NetworkViewModel vm = ViewModelProviders.of(this).get(NetworkViewModel.class);
+                    Map<String, Object> map = new ArrayMap<>();
+                    map.put("markCode", hotelAuditInfo.mark_code);
+                    map.put("passName", "测试");
+                    map.put("passPhone", "12345678901");
+                    map.put("verifyInfo", refuse);
+                    vm.gethotelAuditRejectLiveData().observe(this,  GeneralUtils::showToastshort);
+                    vm.posthotelAuditReject(map);
+                }
+                break;
+            case R.id.dialog_btn_no:
+                if(dialog.isShowing())dialog.dismiss();
+                break;
+        }
     }
 
     @Override
-    protected void initData() {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-    }
-
-    @Override
-    protected void initView() {
+        setContentView(R.layout.iron_approval_handle_activity);
         Eyes.translucentStatusBar(this, true);
+        ButterKnife.bind(this);
+        tv_title.setText("审核处理");
 
-    }
+        NetworkViewModel vm = ViewModelProviders.of(this).get(NetworkViewModel.class);
 
+        vm.getHotelAuditInfoLiveData().observe(this, hotelAuditInfo -> {
+            System.out.println("hotelAuditInfo = " + hotelAuditInfo);
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.iron_approval_handle_activity;
+            this.hotelAuditInfo = hotelAuditInfo;
+
+            switch (hotelAuditInfo.authStatus) {
+                case 0:
+                    authStatus.setText("待审核");
+                    break;
+                case 1:
+                    authStatus.setText("审核成功");
+                    authStatus.setBackgroundResource(R.drawable.bg_green_12);
+                    break;
+                case 2:
+                    authStatus.setText("审核驳回");
+                    authStatus.setBackgroundResource(R.drawable.bg_grey_12);
+                    break;
+                default:
+                    authStatus.setText("未知状态");
+            }
+
+            enterprise_code.setText("" + hotelAuditInfo.enterprise_code);
+            person_name.setText(hotelAuditInfo.nick_name + "：" + "" + hotelAuditInfo.phone);
+            enterprise_msg.setText("" + hotelAuditInfo.enterprise_msg);
+
+            ImageLoad.loadImageViewLoding(hotelAuditInfo.image_url, image_url);
+            ImageLoad.loadImageViewLoding(hotelAuditInfo.bzlicence_url, bzlicence_url);
+
+        });
+
+        Map<String, Object> map = new ArrayMap<>();
+        map.put("customerId", getIntent().getLongExtra("customerId", -1));
+        map.put("customerId", 258693);
+        vm.loadHotelAuditInfo(map);
+
     }
 }

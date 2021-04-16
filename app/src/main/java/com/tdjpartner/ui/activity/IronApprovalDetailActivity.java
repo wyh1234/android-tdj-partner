@@ -1,98 +1,102 @@
 package com.tdjpartner.ui.activity;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.util.ArrayMap;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.bigkoo.pickerview.TimePickerView;
 import com.tdjpartner.R;
-import com.tdjpartner.adapter.FragmentStatisticsAdapter;
-import com.tdjpartner.base.BaseActivity;
-import com.tdjpartner.model.SeachTag;
-import com.tdjpartner.mvp.presenter.IPresenter;
-import com.tdjpartner.ui.fragment.IronApprovalPendingFragment;
+import com.tdjpartner.utils.glide.ImageLoad;
 import com.tdjpartner.utils.statusbar.Eyes;
-import com.tdjpartner.widget.tablayout.WTabLayout;
+import com.tdjpartner.viewmodel.NetworkViewModel;
+import com.tdjpartner.widget.view.ScrollPickerAdapter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by LFM on 2021/3/16.
  */
-public class IronApprovalDetailActivity extends BaseActivity {
-//    @BindView(R.id.tv_title)
-//    TextView tv_title;
-//    @BindView(R.id.wtab)
-//    WTabLayout wtab;
-//    @BindView(R.id.viewPager)
-//    ViewPager viewPager;
+public class IronApprovalDetailActivity extends AppCompatActivity {
 
-//    @BindView(R.id.btn_back)
-//    ImageView btn_back;
-//    @BindView(R.id.search_text)
-//    EditText search_text;
-//    @BindView(R.id.ll_seach)
-//    LinearLayout ll_seach;
-//    @BindView(R.id.tv_name)
-//    TextView tv_name;
-//    @BindView(R.id.tv_list_type)
-//    TextView tv_list_type;
 
-    private Calendar selectedDate, endDate, startDate;
-    private TimePickerView pvTime;
-    public SeachTag seachTag = new SeachTag();
-    public String title;
-    public List<String> titles = new ArrayList<>();
+    @BindView(R.id.tv_title)
+    TextView tv_title;
+    @BindView(R.id.enterprise_code)
+    TextView enterprise_code;
+    @BindView(R.id.authStatus)
+    TextView authStatus;
+    @BindView(R.id.person_name)
+    TextView person_name;
+    @BindView(R.id.enterprise_msg)
+    TextView enterprise_msg;
+    @BindView(R.id.created_at)
+    TextView created_at;
+    @BindView(R.id.verify)
+    TextView verify;
 
-//    @OnClick({R.id.btn_back, R.id.tv_name, R.id.tv_list_type})
-//    public void onClick(View view) {
-////        switch (view.getId()) {
-////            case R.id.btn_back:
-////                finish();
-////                break;
-////            case R.id.tv_list_type:
-////                if (GeneralUtils.isNullOrZeroLenght(search_text.getText().toString())) {
-////                    GeneralUtils.showToastshort("请输入门店名称或者手机号");
-////
-////                } else {
-////                    seachTag.setTag(search_text.getText().toString());
-////                    EventBus.getDefault().post(seachTag);
-////                }
-////                break;
-////            case R.id.tv_name:
-////                pvTime.show(tv_name);
-////                break;
-////        }
-//    }
-
-    public FragmentStatisticsAdapter adatper;
+    @BindView(R.id.image_url)
+    ImageView image_url;
+    @BindView(R.id.bzlicence_url)
+    ImageView bzlicence_url;
 
     @Override
-    protected IPresenter loadPresenter() {
-        return null;
-    }
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-    @Override
-    protected void initData() {
-
-    }
-
-    @Override
-    protected void initView() {
+        setContentView(R.layout.iron_approval_detail_activity);
         Eyes.translucentStatusBar(this, true);
+        ButterKnife.bind(this);
 
-    }
+        tv_title.setText("审核详情");
+
+        NetworkViewModel vm = ViewModelProviders.of(this).get(NetworkViewModel.class);
+
+        vm.getHotelAuditInfoLiveData().observe(this, hotelAuditInfo -> {
+            System.out.println("hotelAuditInfo = " + hotelAuditInfo);
 
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.iron_approval_detail_activity;
+            switch (hotelAuditInfo.authStatus) {
+                case 0:
+                    authStatus.setText("待审核");
+                    break;
+                case 1:
+                    authStatus.setText("审核成功");
+                    authStatus.setBackgroundResource(R.drawable.bg_green_12);
+                    break;
+                case 2:
+                    authStatus.setText("审核驳回");
+                    authStatus.setBackgroundResource(R.drawable.bg_grey_12);
+                    break;
+                default:
+                    authStatus.setText("未知状态");
+            }
+
+            enterprise_code.setText("" + hotelAuditInfo.enterprise_code);
+            person_name.setText(hotelAuditInfo.nick_name + "：" + "" + hotelAuditInfo.phone);
+            enterprise_msg.setText("" + hotelAuditInfo.enterprise_msg);
+
+            ImageLoad.loadImageViewLoding(hotelAuditInfo.image_url, image_url);
+            ImageLoad.loadImageViewLoding(hotelAuditInfo.bzlicence_url, bzlicence_url);
+
+
+            created_at.setText("提交时间：" + hotelAuditInfo.created_at);
+            verify.setText("审核结果：" + hotelAuditInfo.verify_info);
+
+        });
+
+        Map<String, Object> map = new ArrayMap<>();
+        map.put("customerId", getIntent().getLongExtra("customerId", -1));
+        map.put("customerId", 258693);
+        vm.loadHotelAuditInfo(map);
+
     }
 }

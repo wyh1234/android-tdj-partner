@@ -76,7 +76,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="4dp"
                 android:text="2斤/共:1元"
-                android:textColor="@color/orage_red"
+                android:textColor="@color/orange_red"
                 android:textSize="12sp" />
 
             <TextView

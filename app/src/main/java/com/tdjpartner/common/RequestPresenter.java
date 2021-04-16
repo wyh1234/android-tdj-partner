@@ -4,6 +4,7 @@ import com.apkfuns.logutils.LogUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.tdjpartner.http.BaseObserver;
+import com.tdjpartner.http.BaseResponse;
 import com.tdjpartner.http.GodObserver;
 import com.tdjpartner.http.RetrofitServiceManager;
 import com.tdjpartner.http.RxUtils;
@@ -29,6 +30,8 @@ import com.tdjpartner.model.GoodsInfo;
 import com.tdjpartner.model.HomeData;
 import com.tdjpartner.model.HomeDataDetails;
 import com.tdjpartner.model.HomePageFuncationButton;
+import com.tdjpartner.model.HotelAuditInfo;
+import com.tdjpartner.model.HotelAuditPageList;
 import com.tdjpartner.model.IntegralShop;
 import com.tdjpartner.model.InvitationHistory;
 import com.tdjpartner.model.IronDayAndMonthData;
@@ -378,5 +381,14 @@ public class RequestPresenter {
     }
     public static Observable<IronDayAndMonthData> ironDayAndMonthData(Map<String, Object> map) {
         return getApiService().ironDayAndMonthData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
+    }
+    public static Observable<HotelAuditPageList> hotelAuditPageListObservable(Map<String, Object> map) {
+        return getApiService().hotelAuditPageList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
+    }
+    public static Observable<HotelAuditInfo> hotelAuditInfo(Map<String, Object> map) {
+        return getApiService().hotelAuditInfo(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
+    }
+    public static Observable<String> hotelAuditReject(Map<String, Object> map) {
+        return getApiService().hotelAuditReject(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
     }
 }

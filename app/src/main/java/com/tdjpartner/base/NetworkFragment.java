@@ -1,6 +1,8 @@
 package com.tdjpartner.base;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.tdjpartner.utils.LocationUtils;
+import com.tdjpartner.viewmodel.NetworkViewModel;
 import com.tdjpartner.widget.ProgressDialog;
 
 import java.util.Map;
@@ -20,36 +22,13 @@ import butterknife.Unbinder;
 /**
  * Created by LFM on 2021/3/20.
  */
-public abstract class VMFragment<M, VM extends BaseViewModel<M>> extends Fragment {
+public abstract class NetworkFragment extends Fragment{
 
-    private VM vm;
     private Unbinder unbinder;
 
     private Map<String, Object> args;
     private ProgressDialog mProgressDialog;
     private boolean isShowProgressDialog = true;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        vm = setVM();
-        showLoading();
-        vm.getData().observe(getActivity(),
-                new Observer<M>() {
-                    @Override
-                    public void onChanged(@Nullable M m) {
-                        updateView(m);
-                        onLoadEnd();
-                        dismissLoading();
-                    }
-                });
-        vm.loading(getArgs());
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
 
     @Nullable
     @Override
@@ -69,7 +48,6 @@ public abstract class VMFragment<M, VM extends BaseViewModel<M>> extends Fragmen
         if (mProgressDialog == null) mProgressDialog = ProgressDialog.createDialog(getContext());
         mProgressDialog.setMessage("加载中...");
         mProgressDialog.show();
-        onLoadBegin();
     }
 
     public void dismissLoading() {
@@ -82,6 +60,14 @@ public abstract class VMFragment<M, VM extends BaseViewModel<M>> extends Fragmen
 
     public void setArgs(Map<String, Object> args) {
         this.args = args;
+    }
+
+    public NetworkViewModel getVMWithFragment(){
+        return ViewModelProviders.of(this).get(NetworkViewModel.class);
+    }
+
+    public NetworkViewModel getVMWithActivity(){
+        return ViewModelProviders.of(getActivity()).get(NetworkViewModel.class);
     }
 
     public Map<String, Object> getArgs() {
@@ -104,14 +90,4 @@ public abstract class VMFragment<M, VM extends BaseViewModel<M>> extends Fragmen
     protected View createView() {
         return null;
     }
-
-    protected void onLoadBegin() {
-    }
-
-    protected void onLoadEnd() {
-    }
-
-    protected abstract VM setVM();
-
-    protected abstract void updateView(M m);
 }

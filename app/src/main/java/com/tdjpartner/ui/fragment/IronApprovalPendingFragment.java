@@ -1,88 +1,113 @@
 package com.tdjpartner.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.tdjpartner.R;
-import com.tdjpartner.adapter.IronAdapter;
-
-import java.util.Arrays;
-import java.util.Random;
+import com.tdjpartner.base.NetworkFragment;
+import com.tdjpartner.model.HotelAuditPageList;
+import com.tdjpartner.ui.activity.IronApprovalDetailActivity;
+import com.tdjpartner.ui.activity.IronApprovalHandleActivity;
+import com.tdjpartner.utils.glide.ImageLoad;
 
 /**
  * Created by LFM on 2021/3/15.
  */
-public class IronApprovalPendingFragment extends Fragment implements View.OnClickListener {
+public class IronApprovalPendingFragment extends NetworkFragment implements BaseQuickAdapter.OnItemChildClickListener {
 
-    private int id;
-    private IronAdapter ironAdapter;
+    private BaseQuickAdapter adapter;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            id = getArguments().getInt("id");
-        }
+
+        getVMWithFragment().getHotelAuditPageListLiveData()
+                .observe(this, hotelAuditPageList -> {
+                    adapter.setNewData(hotelAuditPageList.obj);
+                    dismissLoading();
+                });
+        showLoading();
+        getVMWithFragment().loadHotelAuditPageList(getArgs());
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        ListView listView = new ListView(getContext());
-        listView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        RecyclerView recyclerView = new RecyclerView(getContext());
+        recyclerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        adapter = new BaseQuickAdapter<HotelAuditPageList.HotelAuditPage, BaseViewHolder>(R.layout.iron_approval_item) {
+
+            @Override
+            protected void convert(BaseViewHolder baseViewHolder, HotelAuditPageList.HotelAuditPage item) {
+                System.out.println("~~" + getClass().getSimpleName() + ".convert~~");
+                System.out.println("baseViewHolder = " + baseViewHolder + ", item = " + item);
 
 
-        ironAdapter = new IronAdapter.Builder()
-                .setResource(R.layout.iron_approval_item)
-                .setInitView((data, convertView) -> {
-                    System.out.println("data = " + data + ", convertView = " + convertView);
+                String authStatus;
+                switch (item.authStatus) {
+                    case 0:
+                        authStatus = "待审核";
+                        break;
+                    case 1:
+                        authStatus = "审核成功";
+                        baseViewHolder.getView(R.id.authStatus).setBackgroundResource(R.drawable.bg_green_12);
+                        break;
+                    case 2:
+                        authStatus = "审核驳回";
+                        baseViewHolder.getView(R.id.authStatus).setBackgroundResource(R.drawable.bg_grey_12);
+                        break;
+                    default:
+                        authStatus = "未知状态";
+                }
 
-//                    ((TextView) convertView.findViewById(R.id.priceNum)).setText(data.get(0));
-//                    ((TextView) convertView.findViewById(R.id.vegetablesNum)).setText(data.get(1));
-//                    ((TextView) convertView.findViewById(R.id.orderNum)).setText(data.get(2));
-//
-//                    ((TextView) convertView.findViewById(R.id.tv_name)).setText(data.get(3));
-//                    ((TextView) convertView.findViewById(R.id.tv_boss)).setText(data.get(4));
-//                    ((TextView) convertView.findViewById(R.id.tv_regionCollNo)).setText(data.get(5));
-//                    ((TextView) convertView.findViewById(R.id.tv_username)).setText(data.get(6));
-//                    ((TextView) convertView.findViewById(R.id.tv_address)).setText(data.get(7));
+                baseViewHolder.setText(R.id.enterprise_code, "" + item.enterprise_code)
+                        .setText(R.id.authStatus, authStatus)
+                        .setText(R.id.person_name, "" + item.nick_name + "：" + "" + item.phone)
+                        .setText(R.id.created_at, "" + item.created_at)
+                        .setText(R.id.enterprise_msg, "" + item.enterprise_msg);
 
+                baseViewHolder.addOnClickListener(R.id.fl_header);
+                baseViewHolder.addOnClickListener(R.id.ll_body);
 
-                })
-                .setOnClickListener(this)
-                .build(getContext());
-        listView.setAdapter(ironAdapter);
-        listView.setDivider(null);
-        return listView;
+                ImageLoad.loadImageViewLoding(item.image_url, baseViewHolder.getView(R.id.image_url));
+                ImageLoad.loadImageViewLoding(item.bzlicence_url, baseViewHolder.getView(R.id.bzlicence_url));
+
+            }
+        };
+
+        adapter.setOnItemChildClickListener(this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
+
+        return recyclerView;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        System.out.println("~~" + getClass().getSimpleName() + ".onViewCreated~~");
-        System.out.println("view = " + view + ", savedInstanceState = " + savedInstanceState);
-
-        Random random = new Random();
-        ironAdapter.clear();
-        for (int i = 0; i < 5; i++) {
-            ironAdapter.add(Arrays.asList("" + random.nextInt(1000),
-                    "" + random.nextInt(1000),
-                    "" + random.nextInt(1000),
-                    "华天大酒店" + random.nextInt(1000),
-                    "负责专员:李四" + random.nextInt(1000),
-                    "D92区72-58" + random.nextInt(1000),
-                    "李四" + random.nextInt(1000),
-                    "武昌徐东大街100号" + random.nextInt(1000)));
+    public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+        System.out.println("~~" + getClass().getSimpleName() + ".onItemChildClick~~");
+        System.out.println("baseQuickAdapter = " + baseQuickAdapter + ", view = " + view + ", i = " + i);
+        Intent intent;
+        switch (view.getId()) {
+            case R.id.fl_header:
+                intent = new Intent(getContext(), IronApprovalHandleActivity.class);
+                intent.putExtra("customerId", ((HotelAuditPageList.HotelAuditPage) baseQuickAdapter.getItem(i)).entity_id);
+                startActivity(intent);
+                break;
+            case R.id.ll_body:
+                intent = new Intent(getContext(), IronApprovalDetailActivity.class);
+                intent.putExtra("customerId", ((HotelAuditPageList.HotelAuditPage) baseQuickAdapter.getItem(i)).entity_id);
+                startActivity(intent);
+                break;
         }
-    }
-
-    @Override
-    public void onClick(View v) {
-
     }
 }

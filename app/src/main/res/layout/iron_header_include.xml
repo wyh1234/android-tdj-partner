@@ -28,7 +28,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:text="审核处理"
+            android:text="审核XX"
             android:textColor="@color/white"
             android:textSize="20sp" />
     </FrameLayout>

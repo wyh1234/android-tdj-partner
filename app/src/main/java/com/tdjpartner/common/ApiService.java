@@ -24,6 +24,8 @@ import com.tdjpartner.model.GoodsInfo;
 import com.tdjpartner.model.HomeData;
 import com.tdjpartner.model.HomeDataDetails;
 import com.tdjpartner.model.HomePageFuncationButton;
+import com.tdjpartner.model.HotelAuditInfo;
+import com.tdjpartner.model.HotelAuditPageList;
 import com.tdjpartner.model.IntegralShop;
 import com.tdjpartner.model.InvitationHistory;
 import com.tdjpartner.model.IronDayAndMonthData;
@@ -659,4 +661,16 @@ public interface ApiService {
     @Headers({"url_type:xuming"})
     @POST("/tdj-report/report/teamOverView/dayAndMonthData")
     Observable<BaseResponse<IronDayAndMonthData>> ironDayAndMonthData(@Body RequestBody body);
+
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/hotelAudit/pageList")
+    Observable<BaseResponse<HotelAuditPageList>> hotelAuditPageList(@Body RequestBody body);
+
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/hotelAudit/info")
+    Observable<BaseResponse<HotelAuditInfo>> hotelAuditInfo(@Body RequestBody body);
+
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/hotelAudit/reject")
+    Observable<BaseResponse<String>> hotelAuditReject(@Body RequestBody body);
 }

@@ -7,24 +7,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/client_item_sahp"
         android:orientation="vertical"
-        android:padding="8dp"
-        android:background="@drawable/client_item_sahp">
+        android:padding="8dp">
 
         <FrameLayout
+            android:id="@+id/fl_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/tv_title"
+                android:id="@+id/enterprise_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center_vertical"
                 android:text="BD:李四13212346542"
-                android:textSize="12sp" />
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/btn_back"
+                android:id="@+id/authStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -41,88 +43,92 @@
         </FrameLayout>
 
         <LinearLayout
+            android:id="@+id/ll_body"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp">
-
-            <TextView
-                android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableStart="@mipmap/call"
-                android:drawablePadding="4dp"
-                android:text="周伟  1868122231"
-                android:textSize="12sp" />
+                android:layout_marginTop="8dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/person_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableStart="@mipmap/call"
+                    android:drawablePadding="4dp"
+                    android:text="周伟  1868122231"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/created_at"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableStart="@mipmap/call"
+                    android:drawablePadding="4dp"
+                    android:text="2018.09.16  16:18:11"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableStart="@mipmap/call"
-                android:drawablePadding="4dp"
-                android:text="2018.09.16  16:18:11"
-                android:textSize="12sp" />
+                android:layout_marginTop="8dp">
 
+                <TextView
+                    android:id="@+id/enterprise_msg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@mipmap/call"
+                    android:drawablePadding="4dp"
+                    android:text="武昌徐东大街100号"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/image_url"
+                    android:layout_width="100dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:padding="8dp"
+                    android:src="@color/gray_e1" />
+
+                <ImageView
+                    android:id="@+id/bzlicence_url"
+                    android:layout_width="100dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:padding="8dp"
+                    android:src="@color/gray_e1" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="形象照"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="营业照"
+                    android:textSize="12sp" />
+            </LinearLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableStart="@mipmap/call"
-                android:drawablePadding="4dp"
-                android:text="武昌徐东大街100号"
-                android:textSize="12sp" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/image_person"
-                android:layout_width="100dp"
-                android:layout_height="120dp"
-                android:layout_weight="1"
-                android:padding="8dp"
-                android:src="@color/gray_e1" />
-
-            <ImageView
-                android:id="@+id/image_shop"
-                android:layout_width="100dp"
-                android:layout_height="120dp"
-                android:layout_weight="1"
-                android:padding="8dp"
-                android:src="@color/gray_e1" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="形象照"
-                android:textSize="12sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="营业照"
-                android:textSize="12sp" />
-        </LinearLayout>
-
 
     </LinearLayout>
 </FrameLayout>

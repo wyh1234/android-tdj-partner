@@ -51,13 +51,14 @@
 
 <!--        <activity android:name=".ui.activity.IronMonthActivity"-->
 <!--        <activity android:name=".ui.activity.IronDayActivity"-->
-<!--        <activity android:name=".ui.activity.IronApprovalActivity"-->
 <!--        <activity android:name=".ui.activity.IronApprovalHandleActivity"-->
-<!--        <activity android:name=".ui.activity.IronApprovalDetailActivity"-->
 <!--        <activity android:name=".ui.activity.IronSupportDetailActivity"-->
 <!--        <activity android:name=".ui.activity.IronSupportActivity"-->
 <!--        <activity android:name=".ui.activity.IronDayStatisticsActivity"-->
-        <activity android:name=".SplashActivity"
+<!--        <activity android:name=".ui.activity.IronApprovalDetailActivity"-->
+<!--        <activity android:name=".ui.activity.IronStatisticsActivity"-->
+<!--        <activity android:name=".SplashActivity"-->
+        <activity android:name=".ui.activity.IronApprovalActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Launcher">
             <intent-filter>
@@ -235,12 +236,12 @@
         <activity
             android:name=".ui.activity.IronDayActivity"
             android:screenOrientation="portrait" />
-<!--        <activity-->
-<!--            android:name=".ui.activity.IronApprovalDetailActivity"-->
-<!--            android:screenOrientation="portrait" />-->
-<!--        <activity-->
-<!--            android:name=".ui.activity.IronApprovalHandleActivity"-->
-<!--            android:screenOrientation="portrait" />-->
+        <activity
+            android:name=".ui.activity.IronApprovalDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.IronApprovalHandleActivity"
+            android:screenOrientation="portrait" />
 <!--        <activity-->
 <!--            android:name=".ui.activity.IronSupportActivity"-->
 <!--            android:screenOrientation="portrait" />-->
