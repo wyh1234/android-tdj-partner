@@ -26,7 +26,7 @@ public class IronDayListDetailFragment extends NetworkFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getVMWithFragment().getIronStatisticsDetailsLiveData()
+        getVMWithFragment().loadingWithNewLiveData(IronStatisticsDetails.class, getArgs())
                 .observe(this, ironStatisticsDetails -> {
 
                     ironAdapter.clear();
@@ -54,7 +54,6 @@ public class IronDayListDetailFragment extends NetworkFragment {
                     dismissLoading();
                 });
         showLoading();
-        getVMWithFragment().loadIronStatisticsDetails(getArgs());
     }
 
     @Override

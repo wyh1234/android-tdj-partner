@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tdjpartner.R;
+import com.tdjpartner.model.HotelAuditInfo;
 import com.tdjpartner.utils.glide.ImageLoad;
 import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.viewmodel.NetworkViewModel;
@@ -58,45 +59,41 @@ public class IronApprovalDetailActivity extends AppCompatActivity {
 
         tv_title.setText("审核详情");
 
-        NetworkViewModel vm = ViewModelProviders.of(this).get(NetworkViewModel.class);
-
-        vm.getHotelAuditInfoLiveData().observe(this, hotelAuditInfo -> {
-            System.out.println("hotelAuditInfo = " + hotelAuditInfo);
-
-
-            switch (hotelAuditInfo.authStatus) {
-                case 0:
-                    authStatus.setText("待审核");
-                    break;
-                case 1:
-                    authStatus.setText("审核成功");
-                    authStatus.setBackgroundResource(R.drawable.bg_green_12);
-                    break;
-                case 2:
-                    authStatus.setText("审核驳回");
-                    authStatus.setBackgroundResource(R.drawable.bg_grey_12);
-                    break;
-                default:
-                    authStatus.setText("未知状态");
-            }
-
-            enterprise_code.setText("" + hotelAuditInfo.enterprise_code);
-            person_name.setText(hotelAuditInfo.nick_name + "：" + "" + hotelAuditInfo.phone);
-            enterprise_msg.setText("" + hotelAuditInfo.enterprise_msg);
-
-            ImageLoad.loadImageViewLoding(hotelAuditInfo.image_url, image_url);
-            ImageLoad.loadImageViewLoding(hotelAuditInfo.bzlicence_url, bzlicence_url);
-
-
-            created_at.setText("提交时间：" + hotelAuditInfo.created_at);
-            verify.setText("审核结果：" + hotelAuditInfo.verify_info);
-
-        });
-
         Map<String, Object> map = new ArrayMap<>();
         map.put("customerId", getIntent().getLongExtra("customerId", -1));
         map.put("customerId", 258693);
-        vm.loadHotelAuditInfo(map);
 
+        ViewModelProviders.of(this).get(NetworkViewModel.class)
+                .loadingWithNewLiveData(HotelAuditInfo.class, map)
+                .observe(this, hotelAuditInfo -> {
+                    System.out.println("hotelAuditInfo = " + hotelAuditInfo);
+                    switch (hotelAuditInfo.authStatus) {
+                        case 0:
+                            authStatus.setText("待审核");
+                            break;
+                        case 1:
+                            authStatus.setText("审核成功");
+                            authStatus.setBackgroundResource(R.drawable.bg_green_12);
+                            break;
+                        case 2:
+                            authStatus.setText("审核驳回");
+                            authStatus.setBackgroundResource(R.drawable.bg_grey_12);
+                            break;
+                        default:
+                            authStatus.setText("未知状态");
+                    }
+
+                    enterprise_code.setText("" + hotelAuditInfo.enterprise_code);
+                    person_name.setText(hotelAuditInfo.nick_name + "：" + "" + hotelAuditInfo.phone);
+                    enterprise_msg.setText("" + hotelAuditInfo.enterprise_msg);
+
+                    ImageLoad.loadImageViewLoding(hotelAuditInfo.image_url, image_url);
+                    ImageLoad.loadImageViewLoding(hotelAuditInfo.bzlicence_url, bzlicence_url);
+
+
+                    created_at.setText("提交时间：" + hotelAuditInfo.created_at);
+                    verify.setText("审核结果：" + hotelAuditInfo.verify_info);
+
+                });
     }
 }

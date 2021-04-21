@@ -29,13 +29,12 @@ public class IronApprovalPendingFragment extends NetworkFragment implements Base
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getVMWithFragment().getHotelAuditPageListLiveData()
+        getVMWithFragment().loadingWithNewLiveData(HotelAuditPageList.class, getArgs())
                 .observe(this, hotelAuditPageList -> {
                     adapter.setNewData(hotelAuditPageList.obj);
                     dismissLoading();
                 });
         showLoading();
-        getVMWithFragment().loadHotelAuditPageList(getArgs());
     }
 
 

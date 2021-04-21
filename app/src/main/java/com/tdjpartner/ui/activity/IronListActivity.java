@@ -34,25 +34,7 @@ public class IronListActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fl, fragment, "one")
-                .addToBackStack("one")
                 .commit();
-    }
-
-    @Override
-    public void onBackPressed() {
-        System.out.println("~~" + getClass().getSimpleName() + ".onBackPressed~~");
-        //如果是主页面
-
-        System.out.println("getBackStackEntryCount is " + getSupportFragmentManager().getBackStackEntryCount());
-
-        if(getSupportFragmentManager().getBackStackEntryCount() == 1) finish();
-
-//        if (System.currentTimeMillis() - mPreTime > 2000) {// 两次点击间隔大于2秒
-//            GeneralUtils.showToastshort("再按一次，退出应用");
-//            mPreTime = System.currentTimeMillis();
-//            return;
-//        }
-        super.onBackPressed();// finish()
     }
 
     private Map<String, Object> getArges(Date date, boolean isDay, boolean isNext) {

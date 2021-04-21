@@ -34,13 +34,8 @@ public class IronApprovalActivity extends AppCompatActivity {
     @BindView(R.id.viewPager)
     ViewPager viewPager;
 
-
-    public SeachTag seachTag = new SeachTag();
     public String title;
     public List<String> titles = new ArrayList<>();
-
-
-    public FragmentStatisticsAdapter adatper;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

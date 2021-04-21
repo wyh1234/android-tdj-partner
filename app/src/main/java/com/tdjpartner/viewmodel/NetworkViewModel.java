@@ -22,6 +22,7 @@ import org.json.JSONException;
 import java.io.NotSerializableException;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
+import java.util.HashMap;
 import java.util.Map;
 
 import io.reactivex.annotations.Nullable;
@@ -33,58 +34,34 @@ import retrofit2.HttpException;
  */
 public class NetworkViewModel extends ViewModel {
 
-
+    private Map<Class, MediatorLiveData> register;
     private CompositeDisposable compositeDisposable;
-    private MediatorLiveData<HotelAuditInfo> hotelAuditInfoLiveData;
-    private MediatorLiveData<HotelAuditPageList> hotelAuditPageListLiveData;
-    private MediatorLiveData<IronStatisticsDetails> ironStatisticsDetailsLiveData;
-    private MediatorLiveData<IronDayAndMonthData> ironDayAndMonthDataLiveData;
-    private MediatorLiveData<String> hotelAuditRejectLiveData;
 
-    public MediatorLiveData<HotelAuditInfo> getHotelAuditInfoLiveData() {
-        if (hotelAuditInfoLiveData == null) hotelAuditInfoLiveData = new MediatorLiveData<>();
-        return hotelAuditInfoLiveData;
+    public <D> MediatorLiveData<D> loadingWithNewLiveData(Class<D> dClass, @Nullable Map<String, Object> map) {
+        loadData(dClass, map);
+
+        if (getRegister().containsKey(dClass)) {
+            return getRegister().get(dClass);
+        }
+
+        MediatorLiveData<D> mediatorLiveData = new MediatorLiveData<>();
+        getRegister().put(dClass, mediatorLiveData);
+
+        return mediatorLiveData;
     }
 
-    public void loadHotelAuditInfo(@Nullable Map<String, Object> map) {
-        getCompositeDisposable().add(RequestPresenter.hotelAuditInfo(map).subscribe(this::onNext, this::onError));
+    public <D> void loading(Class<D> dClass, @Nullable Map<String, Object> map) {
+        if (getRegister().containsKey(dClass)) {
+            if (getRegister().get(dClass).hasObservers()) loadData(dClass, map);
+        } else {
+            LogUtils.e("请先使用loadingWithNewLiveData()注册LiveData，再加载数据");
+            GeneralUtils.showToastshort("数据加载失败");
+        }
     }
 
-    public MediatorLiveData<HotelAuditPageList> getHotelAuditPageListLiveData() {
-        if (hotelAuditPageListLiveData == null) hotelAuditPageListLiveData = new MediatorLiveData<>();
-        return hotelAuditPageListLiveData;
+    private <D> void loadData(Class<D> dClass, @Nullable Map<String, Object> map) {
+        getCompositeDisposable().add(RequestPresenter.loading(dClass, map).subscribe(this::onNext, this::onError));
     }
-
-    public void loadHotelAuditPageList(@Nullable Map<String, Object> map) {
-        getCompositeDisposable().add(RequestPresenter.hotelAuditPageListObservable(map).subscribe(this::onNext, this::onError));
-    }
-
-    public MediatorLiveData<IronStatisticsDetails> getIronStatisticsDetailsLiveData() {
-        if (ironStatisticsDetailsLiveData == null) ironStatisticsDetailsLiveData = new MediatorLiveData<>();
-        return ironStatisticsDetailsLiveData;
-    }
-
-    public void loadIronStatisticsDetails(@Nullable Map<String, Object> map) {
-        getCompositeDisposable().add(RequestPresenter.ironStatisticsDetails(map).subscribe(this::onNext, this::onError));
-    }
-
-    public MediatorLiveData<IronDayAndMonthData> getIronDayAndMonthDataLiveData() {
-        if (ironDayAndMonthDataLiveData == null) ironDayAndMonthDataLiveData = new MediatorLiveData<>();
-        return ironDayAndMonthDataLiveData;
-    }
-
-    public void loadIronDayAndMonthData(@Nullable Map<String, Object> map) {
-        getCompositeDisposable().add(RequestPresenter.ironDayAndMonthData(map).subscribe(this::onNext, this::onError));
-    }
-
-    public MediatorLiveData<String> gethotelAuditRejectLiveData() {
-        if (hotelAuditRejectLiveData == null) hotelAuditRejectLiveData = new MediatorLiveData<>();
-        return hotelAuditRejectLiveData;
-    }
-    public void posthotelAuditReject(@Nullable Map<String, Object> map) {
-        getCompositeDisposable().add(RequestPresenter.hotelAuditReject(map).subscribe(this::onNext, this::onError));
-    }
-
 
     @Override
     protected void onCleared() {
@@ -96,6 +73,11 @@ public class NetworkViewModel extends ViewModel {
     private CompositeDisposable getCompositeDisposable() {
         if (compositeDisposable == null) compositeDisposable = new CompositeDisposable();
         return compositeDisposable;
+    }
+
+    public Map<Class, MediatorLiveData> getRegister() {
+        if (register == null) register = new HashMap<>();
+        return register;
     }
 
     public void onError(Throwable e) {
@@ -144,20 +126,25 @@ public class NetworkViewModel extends ViewModel {
         }
     }
 
-    public void onNext(Object o) {
-        if (o instanceof HotelAuditInfo && getHotelAuditInfoLiveData().hasObservers()) {
-            getHotelAuditInfoLiveData().postValue((HotelAuditInfo) o);
-        } else if (o instanceof HotelAuditPageList && getHotelAuditPageListLiveData().hasObservers()) {
-            getHotelAuditPageListLiveData().postValue((HotelAuditPageList) o);
-        } else if (o instanceof IronStatisticsDetails && getIronStatisticsDetailsLiveData().hasObservers()) {
-            getIronStatisticsDetailsLiveData().postValue((IronStatisticsDetails) o);
-        }  else if (o instanceof IronDayAndMonthData && getIronDayAndMonthDataLiveData().hasObservers()) {
-            getIronDayAndMonthDataLiveData().postValue((IronDayAndMonthData) o);
-        }  else if (o instanceof String && gethotelAuditRejectLiveData().hasObservers()) {
-            gethotelAuditRejectLiveData().postValue((String) o);
+    public <T> void onNext(T t) {
+//        if (o instanceof HotelAuditInfo && getHotelAuditInfoLiveData().hasObservers()) {
+//            getHotelAuditInfoLiveData().postValue((HotelAuditInfo) o);
+//        } else if (o instanceof HotelAuditPageList && getHotelAuditPageListLiveData().hasObservers()) {
+//            getHotelAuditPageListLiveData().postValue((HotelAuditPageList) o);
+//        } else if (o instanceof IronStatisticsDetails && getIronStatisticsDetailsLiveData().hasObservers()) {
+//            getIronStatisticsDetailsLiveData().postValue((IronStatisticsDetails) o);
+//        } else if (o instanceof IronDayAndMonthData && getIronDayAndMonthDataLiveData().hasObservers()) {
+//            getIronDayAndMonthDataLiveData().postValue((IronDayAndMonthData) o);
+//        } else if (o instanceof String && gethotelAuditRejectLiveData().hasObservers()) {
+//            gethotelAuditRejectLiveData().postValue((String) o);
+//        } else {
+//            GeneralUtils.showToastshort("操作失败，未知数据");
+//        }
+
+        if (getRegister().containsKey(t.getClass()) && getRegister().get(t.getClass()).hasObservers()) {
+            getRegister().get(t.getClass()).postValue(t);
         } else {
             GeneralUtils.showToastshort("操作失败，未知数据");
         }
-
     }
 }

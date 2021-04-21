@@ -52,7 +52,7 @@ public class IronApprovalHandleActivity extends AppCompatActivity {
 
 
     @OnClick({R.id.btn_yes, R.id.btn_no})
-    public void onClick(View view){
+    public void onClick(View view) {
         System.out.println("~~" + getClass().getSimpleName() + ".onClick~~");
         System.out.println("view = " + view);
 
@@ -61,25 +61,29 @@ public class IronApprovalHandleActivity extends AppCompatActivity {
 
                 break;
             case R.id.btn_no:
-                if(dialog == null) dialog = DialogUtils.getResourceDialog(this, R.layout.common_dialog, this::onClick, this::onClick);
+                if (dialog == null)
+                    dialog = DialogUtils.getResourceDialog(this, R.layout.common_dialog, this::onClick, this::onClick);
                 dialog.show();
                 break;
             case R.id.dialog_btn_yes:
-                String refuse = ((EditText)dialog.findViewById(R.id.tv_refuse)).getText().toString();
+                String refuse = ((EditText) dialog.findViewById(R.id.tv_refuse)).getText().toString();
                 if (dialog.isShowing() && !refuse.isEmpty()) {
                     dialog.dismiss();
-                    NetworkViewModel vm = ViewModelProviders.of(this).get(NetworkViewModel.class);
+
                     Map<String, Object> map = new ArrayMap<>();
+                    map.put("api", "hotelAuditReject");
                     map.put("markCode", hotelAuditInfo.mark_code);
                     map.put("passName", "测试");
                     map.put("passPhone", "12345678901");
                     map.put("verifyInfo", refuse);
-                    vm.gethotelAuditRejectLiveData().observe(this,  GeneralUtils::showToastshort);
-                    vm.posthotelAuditReject(map);
+                    ViewModelProviders.of(this)
+                            .get(NetworkViewModel.class)
+                            .loadingWithNewLiveData(String.class, map)
+                            .observe(this, GeneralUtils::showToastshort);
                 }
                 break;
             case R.id.dialog_btn_no:
-                if(dialog.isShowing())dialog.dismiss();
+                if (dialog.isShowing()) dialog.dismiss();
                 break;
         }
     }
@@ -93,42 +97,43 @@ public class IronApprovalHandleActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         tv_title.setText("审核处理");
 
-        NetworkViewModel vm = ViewModelProviders.of(this).get(NetworkViewModel.class);
-
-        vm.getHotelAuditInfoLiveData().observe(this, hotelAuditInfo -> {
-            System.out.println("hotelAuditInfo = " + hotelAuditInfo);
-
-            this.hotelAuditInfo = hotelAuditInfo;
-
-            switch (hotelAuditInfo.authStatus) {
-                case 0:
-                    authStatus.setText("待审核");
-                    break;
-                case 1:
-                    authStatus.setText("审核成功");
-                    authStatus.setBackgroundResource(R.drawable.bg_green_12);
-                    break;
-                case 2:
-                    authStatus.setText("审核驳回");
-                    authStatus.setBackgroundResource(R.drawable.bg_grey_12);
-                    break;
-                default:
-                    authStatus.setText("未知状态");
-            }
-
-            enterprise_code.setText("" + hotelAuditInfo.enterprise_code);
-            person_name.setText(hotelAuditInfo.nick_name + "：" + "" + hotelAuditInfo.phone);
-            enterprise_msg.setText("" + hotelAuditInfo.enterprise_msg);
-
-            ImageLoad.loadImageViewLoding(hotelAuditInfo.image_url, image_url);
-            ImageLoad.loadImageViewLoding(hotelAuditInfo.bzlicence_url, bzlicence_url);
-
-        });
-
         Map<String, Object> map = new ArrayMap<>();
         map.put("customerId", getIntent().getLongExtra("customerId", -1));
         map.put("customerId", 258693);
-        vm.loadHotelAuditInfo(map);
+
+        ViewModelProviders.of(this)
+                .get(NetworkViewModel.class)
+                .loadingWithNewLiveData(HotelAuditInfo.class, map)
+                .observe(this, hotelAuditInfo -> {
+                    System.out.println("hotelAuditInfo = " + hotelAuditInfo);
+
+                    this.hotelAuditInfo = hotelAuditInfo;
+
+                    switch (hotelAuditInfo.authStatus) {
+                        case 0:
+                            authStatus.setText("待审核");
+                            break;
+                        case 1:
+                            authStatus.setText("审核成功");
+                            authStatus.setBackgroundResource(R.drawable.bg_green_12);
+                            break;
+                        case 2:
+                            authStatus.setText("审核驳回");
+                            authStatus.setBackgroundResource(R.drawable.bg_grey_12);
+                            break;
+                        default:
+                            authStatus.setText("未知状态");
+                    }
+
+                    enterprise_code.setText("" + hotelAuditInfo.enterprise_code);
+                    person_name.setText(hotelAuditInfo.nick_name + "：" + "" + hotelAuditInfo.phone);
+                    enterprise_msg.setText("" + hotelAuditInfo.enterprise_msg);
+
+                    ImageLoad.loadImageViewLoding(hotelAuditInfo.image_url, image_url);
+                    ImageLoad.loadImageViewLoding(hotelAuditInfo.bzlicence_url, bzlicence_url);
+
+                });
+
 
     }
 }

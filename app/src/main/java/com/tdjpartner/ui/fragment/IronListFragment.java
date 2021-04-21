@@ -75,7 +75,7 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
         pvTime = new TimePickerView.Builder(getContext(), new TimePickerView.OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                tv_time.setText(GeneralUtils.getTimes(date));
+                tv_time.setText(isDay?GeneralUtils.getTimes(date):GeneralUtils.getTime(date));
                 IronListFragment.this.date = date;
                 refresh();
             }
@@ -101,7 +101,7 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getVMWithActivity().getIronDayAndMonthDataLiveData()
+        getVMWithActivity().loadingWithNewLiveData(IronDayAndMonthData.class, getArgs())
                 .observe(this, ironDayAndMonthData -> {
                     tv_title.setText(ironDayAndMonthData.teamView.gradeChineseName + (isDay ? "日" : "月") + "统计");
                     //头部统计
@@ -115,7 +115,6 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
                     dismissLoading();
                 });
         showLoading();
-        getVMWithActivity().loadIronDayAndMonthData(getArgs());
     }
 
     @Override
@@ -186,7 +185,7 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
             map.put("timeType", "month");
         }
 
-        getVMWithFragment().loadIronDayAndMonthData(getArgs());
+        getVMWithActivity().loading(IronDayAndMonthData.class, getArgs());
     }
 
     private Map<String, Object> makeArges(int userId, Date date, boolean isDay, boolean isNext) {
@@ -208,6 +207,7 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
         Bundle bundle = new Bundle();
         Map<String, Object> map = makeArges(userId, new Date(), isDay, isNext);
         bundle.putSerializable("args", (Serializable) map);
+        bundle.putBoolean("isDay", isDay);
         IronListFragment fragment = new IronListFragment();
         fragment.setArguments(bundle);
 

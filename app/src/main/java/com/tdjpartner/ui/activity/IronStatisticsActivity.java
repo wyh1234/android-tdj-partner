@@ -106,9 +106,11 @@ public class IronStatisticsActivity extends AppCompatActivity {
 
     protected void initData() {
         System.out.println("~~" + getClass().getSimpleName() + ".initData~~");
+
+        showLoading();
         ViewModelProviders.of(this)
                 .get(NetworkViewModel.class)
-                .getIronStatisticsDetailsLiveData()
+                .loadingWithNewLiveData(IronStatisticsDetails.class, getArges(date, 1))
                 .observe(this, new Observer<IronStatisticsDetails>() {
                     @Override
                     public void onChanged(@Nullable IronStatisticsDetails ironStatisticsDetails) {
@@ -127,13 +129,14 @@ public class IronStatisticsActivity extends AppCompatActivity {
                         dismissLoading();
                     }
                 });
-        refresh(new Date());
     }
 
     private void refresh(Date date) {
         System.out.println("~~" + getClass().getSimpleName() + ".refresh~~");
         showLoading();
-        getVM().loadIronStatisticsDetails(getArges(date, wtab.getSelectedTabPosition() + 1));
+        ViewModelProviders.of(this)
+                .get(NetworkViewModel.class)
+                .loading(IronStatisticsDetails.class, getArges(date, wtab.getSelectedTabPosition() + 1));
     }
 
     protected void initView() {
