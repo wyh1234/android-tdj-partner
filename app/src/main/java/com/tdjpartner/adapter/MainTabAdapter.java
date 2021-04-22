@@ -6,18 +6,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.ViewGroup;
 
-import com.tdjpartner.base.BaseFrgment;
-
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class MainTabAdapter extends FragmentStatePagerAdapter {
-    private BaseFrgment baseFrgment;
+    private Fragment fragment;
 
-    private List<BaseFrgment> mFragments = new ArrayList<BaseFrgment>();
+    private List<Fragment> mFragments = new ArrayList<Fragment>();
 
-    public MainTabAdapter(List<BaseFrgment> fragmentList, FragmentManager fm) {
+    public MainTabAdapter(List<Fragment> fragmentList, FragmentManager fm) {
         super(fm);
         if (fragmentList != null){
             mFragments = fragmentList;
@@ -25,7 +23,7 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
     }
 
     @Override
-    public Fragment getItem(int position) {
+    public android.support.v4.app.Fragment getItem(int position) {
         return mFragments.get(position);
     }
 
@@ -36,12 +34,12 @@ public class MainTabAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        baseFrgment = (BaseFrgment) object;
+        fragment = (Fragment) object;
         super.setPrimaryItem(container, position, object);
     }
 
-    public BaseFrgment getBaseFrgment() {
-        return baseFrgment;
+    public Fragment getBaseFragment() {
+        return fragment;
     }
 
 }

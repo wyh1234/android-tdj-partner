@@ -69,7 +69,7 @@ public class IronDayListDetailFragment extends NetworkFragment {
                     System.out.println("data = " + data + ", convertView = " + convertView);
 
                     ((TextView) convertView.findViewById(R.id.priceNum)).setText(data.get(0));
-                    ((TextView) convertView.findViewById(R.id.vegetablesNum)).setText(data.get(1));
+                    ((TextView) convertView.findViewById(R.id.activeNum)).setText(data.get(1));
                     ((TextView) convertView.findViewById(R.id.orderNum)).setText(data.get(2));
 
                     ((TextView) convertView.findViewById(R.id.tv_name)).setText(data.get(3));

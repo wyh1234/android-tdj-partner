@@ -50,12 +50,14 @@ public class NetworkViewModel extends ViewModel {
         return mediatorLiveData;
     }
 
-    public <D> void loading(Class<D> dClass, @Nullable Map<String, Object> map) {
+    public <D> MediatorLiveData<D> loading(Class<D> dClass, @Nullable Map<String, Object> map) {
         if (getRegister().containsKey(dClass)) {
             if (getRegister().get(dClass).hasObservers()) loadData(dClass, map);
+            return getRegister().get(dClass);
         } else {
             LogUtils.e("请先使用loadingWithNewLiveData()注册LiveData，再加载数据");
             GeneralUtils.showToastshort("数据加载失败");
+            return null;
         }
     }
 
@@ -127,20 +129,6 @@ public class NetworkViewModel extends ViewModel {
     }
 
     public <T> void onNext(T t) {
-//        if (o instanceof HotelAuditInfo && getHotelAuditInfoLiveData().hasObservers()) {
-//            getHotelAuditInfoLiveData().postValue((HotelAuditInfo) o);
-//        } else if (o instanceof HotelAuditPageList && getHotelAuditPageListLiveData().hasObservers()) {
-//            getHotelAuditPageListLiveData().postValue((HotelAuditPageList) o);
-//        } else if (o instanceof IronStatisticsDetails && getIronStatisticsDetailsLiveData().hasObservers()) {
-//            getIronStatisticsDetailsLiveData().postValue((IronStatisticsDetails) o);
-//        } else if (o instanceof IronDayAndMonthData && getIronDayAndMonthDataLiveData().hasObservers()) {
-//            getIronDayAndMonthDataLiveData().postValue((IronDayAndMonthData) o);
-//        } else if (o instanceof String && gethotelAuditRejectLiveData().hasObservers()) {
-//            gethotelAuditRejectLiveData().postValue((String) o);
-//        } else {
-//            GeneralUtils.showToastshort("操作失败，未知数据");
-//        }
-
         if (getRegister().containsKey(t.getClass()) && getRegister().get(t.getClass()).hasObservers()) {
             getRegister().get(t.getClass()).postValue(t);
         } else {

@@ -79,7 +79,7 @@
 
             <include
                 android:id="@+id/ll_header_include"
-                layout="@layout/month_preview_item"
+                layout="@layout/iron_month_preview_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -149,7 +149,7 @@
 
             <include
                 android:id="@+id/other_include"
-                layout="@layout/month_preview_item"
+                layout="@layout/iron_month_preview_item"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 

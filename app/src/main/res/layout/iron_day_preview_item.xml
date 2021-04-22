@@ -23,7 +23,7 @@ android:background="@drawable/client_item_sahp">
         android:text="注册数 " />
 
     <TextView
-        android:id="@+id/registerNum"
+        android:id="@+id/callNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -58,7 +58,7 @@ android:background="@drawable/client_item_sahp">
         android:text="新开 " />
 
     <TextView
-        android:id="@+id/openNum"
+        android:id="@+id/firstOrderNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -93,7 +93,7 @@ android:background="@drawable/client_item_sahp">
         android:text="新鲜蔬菜 " />
 
     <TextView
-        android:id="@+id/vegetablesNum"
+        android:id="@+id/activeNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -127,7 +127,7 @@ android:background="@drawable/client_item_sahp">
         android:text="GMV" />
 
     <TextView
-        android:id="@+id/gmvNum"
+        android:id="@+id/yesterdayActiveNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"

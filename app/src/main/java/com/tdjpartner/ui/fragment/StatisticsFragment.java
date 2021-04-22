@@ -1,57 +1,38 @@
 package com.tdjpartner.ui.fragment;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.apkfuns.logutils.LogUtils;
-import com.bigkoo.pickerview.TimePickerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
-import com.tdjpartner.adapter.ClientListAdapter;
 import com.tdjpartner.adapter.HomeDataDetailsAdapter;
-import com.tdjpartner.base.BaseFrgment;
-import com.tdjpartner.model.ClientInfo;
+import com.tdjpartner.base.Fragment;
 import com.tdjpartner.model.HomeDataDetails;
 import com.tdjpartner.model.SeachTag;
-import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.mvp.presenter.StatisticsFragmentPresenter;
 import com.tdjpartner.ui.activity.ClientDetailsActivity;
 import com.tdjpartner.ui.activity.statistics.StatisticsListActivity;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
-import com.tdjpartner.utils.glide.GifSizeFilter;
-import com.tdjpartner.utils.glide.MyGlideEngine;
-import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.filter.Filter;
-import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import io.reactivex.functions.Consumer;
 
 
-public class StatisticsFragment extends BaseFrgment<StatisticsFragmentPresenter>  implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener
+public class StatisticsFragment extends Fragment<StatisticsFragmentPresenter> implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener
 ,BaseQuickAdapter.OnItemClickListener,BaseQuickAdapter.OnItemChildClickListener{
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout refreshLayout;

@@ -40,6 +40,7 @@ import com.tdjpartner.model.IronHomeTopData;
 import com.tdjpartner.model.IronStatisticsDetails;
 import com.tdjpartner.model.MyCountMoney;
 import com.tdjpartner.model.MyTeam;
+import com.tdjpartner.model.NetHomeData;
 import com.tdjpartner.model.NewHomeData;
 import com.tdjpartner.model.NewMyTeam;
 import com.tdjpartner.model.OrderDetail;
@@ -389,7 +390,9 @@ public class RequestPresenter {
             } else {
                 observable = (Observable<T>) getApiService().hotelAuditReject(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
             }
-        } else if (clazz.isAssignableFrom(HotelAuditInfo.class)) {
+        } else if (clazz.isAssignableFrom(NetHomeData.class)) {
+            observable = (Observable<T>) getApiService().netHomeData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
+        }  else if (clazz.isAssignableFrom(HotelAuditInfo.class)) {
             observable = (Observable<T>) getApiService().hotelAuditInfo(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
         } else if (clazz.isAssignableFrom(HotelAuditPageList.class)) {
             observable = (Observable<T>) getApiService().hotelAuditPageList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());

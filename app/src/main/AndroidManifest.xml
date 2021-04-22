@@ -228,7 +228,7 @@
 <!--            android:name=".ui.activity.IronM2MonthActivity"-->
 <!--            android:screenOrientation="portrait" />-->
         <activity
-            android:name=".ui.activity.IronListActivity"
+            android:name=".ui.activity.StatisticsListActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.IronStatisticsActivity"

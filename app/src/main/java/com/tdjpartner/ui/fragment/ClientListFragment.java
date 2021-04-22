@@ -4,26 +4,21 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.apkfuns.logutils.LogUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.ClientListAdapter;
-import com.tdjpartner.base.BaseFrgment;
+import com.tdjpartner.base.Fragment;
 import com.tdjpartner.model.ClientInfo;
-import com.tdjpartner.model.IntegralShop;
 import com.tdjpartner.model.LocationBean;
 import com.tdjpartner.mvp.presenter.ClientListPresenter;
-import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.ui.activity.ClientDetailsActivity;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
@@ -32,7 +27,6 @@ import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.popuwindow.FollowUpPopuWindow;
 
 import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +36,7 @@ import java.util.Map;
 import butterknife.BindView;
 import io.reactivex.functions.Consumer;
 
-public class ClientListFragment extends BaseFrgment<ClientListPresenter>  implements OnRefreshListener,
+public class ClientListFragment extends Fragment<ClientListPresenter> implements OnRefreshListener,
         BaseQuickAdapter.OnItemClickListener,BaseQuickAdapter.OnItemChildClickListener,FollowUpPopuWindow.FollowUpListener {
     @BindView(R.id.refreshLayout)
     RefreshLayout refreshLayout;

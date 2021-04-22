@@ -77,7 +77,7 @@
 
             <include
                 android:id="@+id/ll_header_include"
-                layout="@layout/day_preview_item"
+                layout="@layout/iron_day_preview_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

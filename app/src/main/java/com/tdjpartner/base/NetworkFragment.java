@@ -71,7 +71,7 @@ public abstract class NetworkFragment extends Fragment{
     }
 
     public Map<String, Object> getArgs() {
-        if (args == null) {
+        if (args == null && getArguments() != null) {
             this.args = (Map<String, Object>) getArguments().getSerializable("args");
         }
         return args;

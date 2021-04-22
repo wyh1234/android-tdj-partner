@@ -1,6 +1,5 @@
 package com.tdjpartner.ui.fragment;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -26,7 +25,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.ClientMapAdapter;
-import com.tdjpartner.base.BaseFrgment;
+import com.tdjpartner.base.Fragment;
 import com.tdjpartner.model.ClientFragmentType;
 import com.tdjpartner.model.ClientInfo;
 import com.tdjpartner.model.LocationBean;
@@ -48,9 +47,8 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.functions.Consumer;
 
-public class ClientMapFragment extends BaseFrgment<ClientMapPresenter> implements LocationSource, AMap.OnMapLoadedListener, BaseQuickAdapter.OnItemClickListener {
+public class ClientMapFragment extends Fragment<ClientMapPresenter> implements LocationSource, AMap.OnMapLoadedListener, BaseQuickAdapter.OnItemClickListener {
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
     @BindView(R.id.tv_list_type)

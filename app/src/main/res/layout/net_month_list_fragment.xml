@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/gray_f2">
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp">
+
 
         <!--头部-->
         <FrameLayout
@@ -35,7 +33,7 @@
                 android:layout_gravity="center"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:text="日统计"
+                android:text="Mn日统计"
                 android:textColor="@color/white"
                 android:textSize="17sp" />
 
@@ -72,14 +70,14 @@
                     android:layout_marginLeft="6dp"
                     android:drawableRight="@mipmap/xiala_bg"
                     android:gravity="center"
-                    android:text="2月1日 "
+                    android:text="n月n日 "
                     android:textColor="@color/black_63"
                     android:textSize="16sp" />
             </LinearLayout>
 
             <include
                 android:id="@+id/ll_header_include"
-                layout="@layout/iron_day_preview_item"
+                layout="@layout/net_month_preview_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -88,10 +86,10 @@
 
 
         <!--人员列表-->
-        <ListView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/member_list"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="match_parent"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
@@ -100,58 +98,4 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ll_header" />
 
-
-        <!--其他总统计-->
-        <LinearLayout
-            android:id="@+id/ll_other"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/client_item_sahp"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/member_list">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/line_orange_16"
-                    android:drawablePadding="8dp"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/black_63"
-                    android:textSize="16sp"
-                    android:text="其他" />
-
-                <TextView
-                    android:id="@+id/tv_day_sink"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_weight="1"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="right"
-                    android:text="M1 >"
-                    android:textColor="@color/orange_red"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <include
-                android:id="@+id/other_include"
-                layout="@layout/iron_day_preview_item"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
-
-    </android.support.constraint.ConstraintLayout>
-</android.support.v4.widget.NestedScrollView>
+</LinearLayout>

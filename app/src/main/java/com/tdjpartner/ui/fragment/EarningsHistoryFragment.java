@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.apkfuns.logutils.LogUtils;
@@ -12,13 +11,10 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.tdjpartner.R;
-import com.tdjpartner.adapter.BaiFangHistoryAdapter;
 import com.tdjpartner.adapter.EarningsHistoryAdapter;
-import com.tdjpartner.base.BaseFrgment;
-import com.tdjpartner.model.BaiFangHistory;
+import com.tdjpartner.base.Fragment;
 import com.tdjpartner.model.EarningsHistory;
 import com.tdjpartner.mvp.presenter.EarningsHistoryPresenter;
-import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
 import com.tdjpartner.utils.cache.UserUtils;
@@ -30,7 +26,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 
-public class EarningsHistoryFragment extends BaseFrgment<EarningsHistoryPresenter> implements OnRefreshListener, OnLoadmoreListener {
+public class EarningsHistoryFragment extends Fragment<EarningsHistoryPresenter> implements OnRefreshListener, OnLoadmoreListener {
     @BindView(R.id.refreshLayout)
     RefreshLayout refreshLayout;
     @BindView(R.id.recyclerView_list)

@@ -105,10 +105,10 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
                 .observe(this, ironDayAndMonthData -> {
                     tv_title.setText(ironDayAndMonthData.teamView.gradeChineseName + (isDay ? "日" : "月") + "统计");
                     //头部统计
-                    ((TextView) ll_header_include.findViewById(R.id.registerNum)).setText("" + ironDayAndMonthData.teamView.registerNum);
-                    ((TextView) ll_header_include.findViewById(R.id.openNum)).setText("" + ironDayAndMonthData.teamView.firstOrderNum);
-                    ((TextView) ll_header_include.findViewById(R.id.vegetablesNum)).setText("" + ironDayAndMonthData.teamView.categoryNum);
-                    ((TextView) ll_header_include.findViewById(R.id.gmvNum)).setText("" + ironDayAndMonthData.teamView.amount);
+                    ((TextView) ll_header_include.findViewById(R.id.callNum)).setText("" + ironDayAndMonthData.teamView.registerNum);
+                    ((TextView) ll_header_include.findViewById(R.id.firstOrderNum)).setText("" + ironDayAndMonthData.teamView.firstOrderNum);
+                    ((TextView) ll_header_include.findViewById(R.id.activeNum)).setText("" + ironDayAndMonthData.teamView.categoryNum);
+                    ((TextView) ll_header_include.findViewById(R.id.yesterdayActiveNum)).setText("" + ironDayAndMonthData.teamView.amount);
                     ((TextView) ll_header_include.findViewById(R.id.priceNum)).setText("" + ironDayAndMonthData.teamView.averageAmount);
 
                     adapter.setNewData(ironDayAndMonthData.teamView.teamViewList);
@@ -131,10 +131,10 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
 
 
         //头部统计
-        ((TextView) ll_header_include.findViewById(R.id.registerNum)).setText("N");
-        ((TextView) ll_header_include.findViewById(R.id.openNum)).setText("N");
-        ((TextView) ll_header_include.findViewById(R.id.vegetablesNum)).setText("N");
-        ((TextView) ll_header_include.findViewById(R.id.gmvNum)).setText("N");
+        ((TextView) ll_header_include.findViewById(R.id.callNum)).setText("N");
+        ((TextView) ll_header_include.findViewById(R.id.firstOrderNum)).setText("N");
+        ((TextView) ll_header_include.findViewById(R.id.activeNum)).setText("N");
+        ((TextView) ll_header_include.findViewById(R.id.yesterdayActiveNum)).setText("N");
         ((TextView) ll_header_include.findViewById(R.id.priceNum)).setText("N");
 
 
@@ -147,10 +147,10 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
 
                 baseViewHolder.addOnClickListener(R.id.tv_day_sink);
 
-                baseViewHolder.setText(R.id.registerNum, "" + teamView.registerNum)
-                        .setText(R.id.openNum, "" + teamView.firstOrderNum)
-                        .setText(R.id.vegetablesNum, "" + teamView.categoryNum)
-                        .setText(R.id.gmvNum, "" + teamView.amount)
+                baseViewHolder.setText(R.id.callNum, "" + teamView.registerNum)
+                        .setText(R.id.firstOrderNum, "" + teamView.firstOrderNum)
+                        .setText(R.id.activeNum, "" + teamView.categoryNum)
+                        .setText(R.id.yesterdayActiveNum, "" + teamView.amount)
                         .setText(R.id.priceNum, "" + teamView.averageAmount)
                         .setText(R.id.tv_name, "" + teamView.gradeName + "：" + teamView.nickName)
                         .setText(R.id.tv_day_sink, "" + teamView.gradeChineseName + (teamView.gradeChineseName.equals("BD") ? "" : " >"));
@@ -161,16 +161,6 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
         member_list.setLayoutManager(new LinearLayoutManager(getContext()));
         member_list.setAdapter(adapter);
 
-    }
-
-    @Override
-    public void onDestroyView() {
-        System.out.println("~~" + getClass().getSimpleName() + ".onDestroyView~~");
-        System.out.println("getBackStackEntryCount is " + getFragmentManager().getBackStackEntryCount());
-        System.out.println("Id -1 is " + getFragmentManager().findFragmentById(getFragmentManager().getBackStackEntryCount() - 1));
-        System.out.println("getBackStackEntryCount is " + getFragmentManager().findFragmentByTag("M2"));
-
-        super.onDestroyView();
     }
 
     private void refresh() {

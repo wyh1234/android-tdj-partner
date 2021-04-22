@@ -12,10 +12,9 @@ import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.DiscountCouponAdapter;
-import com.tdjpartner.base.BaseFrgment;
+import com.tdjpartner.base.Fragment;
 import com.tdjpartner.model.DiscountCoupon;
 import com.tdjpartner.mvp.presenter.DiscountCouponPresenter;
-import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.ui.activity.DiscountCouponActivity;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
@@ -28,7 +27,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 
-public class DiscountCouponFragment extends BaseFrgment<DiscountCouponPresenter> implements OnRefreshListener, OnLoadmoreListener {
+public class DiscountCouponFragment extends Fragment<DiscountCouponPresenter> implements OnRefreshListener, OnLoadmoreListener {
     @BindView(R.id.refreshLayout)
     RefreshLayout refreshLayout;
     @BindView(R.id.recyclerView_list)

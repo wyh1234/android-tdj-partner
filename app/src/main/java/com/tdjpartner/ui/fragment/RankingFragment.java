@@ -10,7 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tdjpartner.R;
-import com.tdjpartner.base.BaseFrgment;
+import com.tdjpartner.base.Fragment;
 import com.tdjpartner.model.IronHomeTopData;
 import com.tdjpartner.mvp.presenter.RankingFragmentPresenter;
 
@@ -19,7 +19,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RankingFragment extends BaseFrgment<RankingFragmentPresenter> {
+/**
+ * Created by LFM on 2021/4/22.
+ */
+public class RankingFragment extends Fragment<RankingFragmentPresenter> {
 
     private int type;
     private int userType;

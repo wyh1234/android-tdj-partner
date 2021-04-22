@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -18,13 +17,12 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.IronAdapter;
-import com.tdjpartner.base.BaseFrgment;
-import com.tdjpartner.common.PublicCache;
+import com.tdjpartner.base.Fragment;
 import com.tdjpartner.model.IronHomeData;
 import com.tdjpartner.model.NewHomeData;
 import com.tdjpartner.mvp.presenter.IronIndexFragmentPresenter;
 import com.tdjpartner.ui.activity.IronDayActivity;
-import com.tdjpartner.ui.activity.IronListActivity;
+import com.tdjpartner.ui.activity.StatisticsListActivity;
 import com.tdjpartner.ui.activity.IronStatisticsActivity;
 import com.tdjpartner.ui.activity.IronMonthActivity;
 import com.tdjpartner.ui.activity.TeamMemberActivity;
@@ -47,7 +45,7 @@ import butterknife.OnClick;
 /**
  * Created by LFM on 2021/3/3.
  */
-public class IronIndexFragment extends BaseFrgment<IronIndexFragmentPresenter>
+public class IronIndexFragment extends Fragment<IronIndexFragmentPresenter>
         implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, BaseQuickAdapter.OnItemChildClickListener {
 
     @BindView(R.id.swipeRefreshLayout)
@@ -121,12 +119,12 @@ public class IronIndexFragment extends BaseFrgment<IronIndexFragmentPresenter>
         }
 
         if (view.getId() == R.id.tv_day_sink) {
-            Intent intent = new Intent(getContext(), IronListActivity.class);
+            Intent intent = new Intent(getContext(), StatisticsListActivity.class);
             intent.putExtra("isDay", true);
             startActivity(intent);
         }
         if (view.getId() == R.id.tv_month_sink) {
-            Intent intent = new Intent(getContext(), IronListActivity.class);
+            Intent intent = new Intent(getContext(), StatisticsListActivity.class);
             intent.putExtra("isDay", false);
             startActivity(intent);
         }
@@ -177,8 +175,8 @@ public class IronIndexFragment extends BaseFrgment<IronIndexFragmentPresenter>
             }
 
             @Override
-            public Fragment getItem(int i) {
-                Fragment fragment = new RankingFragment();
+            public android.support.v4.app.Fragment getItem(int i) {
+                android.support.v4.app.Fragment fragment = new RankingFragment();
                 Bundle bundle = new Bundle();
                 bundle.putInt("type", i);
                 bundle.putInt("websiteId", 3);
@@ -225,13 +223,13 @@ public class IronIndexFragment extends BaseFrgment<IronIndexFragmentPresenter>
 
         ironDayAdapter = new IronAdapter.Builder()
                 .setOnClickListener(this)
-                .setResource(R.layout.day_preview_item)
+                .setResource(R.layout.iron_day_preview_item)
                 .addChildId(R.id.ll_day_register, R.id.ll_day_open, R.id.ll_day_vegetables, R.id.ll_day_gmv, R.id.ll_day_price)
                 .setInitView((data, convertView) -> {
-                    ((TextView) convertView.findViewById(R.id.registerNum)).setText(data.get(0));
-                    ((TextView) convertView.findViewById(R.id.openNum)).setText(data.get(1));
-                    ((TextView) convertView.findViewById(R.id.vegetablesNum)).setText(data.get(2));
-                    ((TextView) convertView.findViewById(R.id.gmvNum)).setText(data.get(3));
+                    ((TextView) convertView.findViewById(R.id.callNum)).setText(data.get(0));
+                    ((TextView) convertView.findViewById(R.id.firstOrderNum)).setText(data.get(1));
+                    ((TextView) convertView.findViewById(R.id.activeNum)).setText(data.get(2));
+                    ((TextView) convertView.findViewById(R.id.yesterdayActiveNum)).setText(data.get(3));
                     ((TextView) convertView.findViewById(R.id.priceNum)).setText(data.get(4));
                 })
                 .build(getContext());
@@ -240,13 +238,13 @@ public class IronIndexFragment extends BaseFrgment<IronIndexFragmentPresenter>
 
         ironMonthAdapter = new IronAdapter.Builder()
                 .setOnClickListener(this)
-                .setResource(R.layout.month_preview_item)
+                .setResource(R.layout.iron_month_preview_item)
                 .addChildId(R.id.ll_month_register, R.id.ll_month_open, R.id.ll_month_vegetables, R.id.ll_month_gmv)
                 .setInitView((data, convertView) -> {
-                    ((TextView) convertView.findViewById(R.id.registerNum)).setText(data.get(0));
-                    ((TextView) convertView.findViewById(R.id.openNum)).setText(data.get(1));
-                    ((TextView) convertView.findViewById(R.id.vegetablesNum)).setText(data.get(2));
-                    ((TextView) convertView.findViewById(R.id.gmvNum)).setText(data.get(3));
+                    ((TextView) convertView.findViewById(R.id.callNum)).setText(data.get(0));
+                    ((TextView) convertView.findViewById(R.id.firstOrderNum)).setText(data.get(1));
+                    ((TextView) convertView.findViewById(R.id.activeNum)).setText(data.get(2));
+                    ((TextView) convertView.findViewById(R.id.yesterdayActiveNum)).setText(data.get(3));
                 })
                 .build(getContext());
         month_listView.setAdapter(ironMonthAdapter);

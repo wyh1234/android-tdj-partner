@@ -20,7 +20,7 @@ import com.tdjpartner.adapter.home.HomeOrderTimesAdapter;
 import com.tdjpartner.adapter.home.HomeRegisterTimesAdapter;
 import com.tdjpartner.adapter.home.MonthDataAdapter;
 import com.tdjpartner.adapter.home.TodyDataAdapter;
-import com.tdjpartner.base.BaseFrgment;
+import com.tdjpartner.base.Fragment;
 import com.tdjpartner.model.HomeData;
 import com.tdjpartner.model.HomeFilter;
 import com.tdjpartner.model.StatisticalData;
@@ -48,7 +48,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 
-public class MenberHomepageFragment extends BaseFrgment<MenberHomepageFragmentPresenter> implements SwipeRefreshLayout.OnRefreshListener,BaseQuickAdapter.OnItemClickListener, View.OnClickListener {
+public class MenberHomepageFragment extends Fragment<MenberHomepageFragmentPresenter> implements SwipeRefreshLayout.OnRefreshListener,BaseQuickAdapter.OnItemClickListener, View.OnClickListener {
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.rv_recyclerView)

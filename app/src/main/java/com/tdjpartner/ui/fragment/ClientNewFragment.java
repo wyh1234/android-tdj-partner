@@ -2,23 +2,19 @@ package com.tdjpartner.ui.fragment;
 
 import android.Manifest;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.MapView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.tdjpartner.MainTabActivity;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.FragmentAdapter;
-import com.tdjpartner.base.BaseFrgment;
+import com.tdjpartner.base.Fragment;
 import com.tdjpartner.model.ClientFragmentType;
 import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.ui.activity.ClientListSeachActivity;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.LocationUtils;
-import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.widget.tablayout.WTabLayout;
 
 import org.greenrobot.eventbus.EventBus;
@@ -30,7 +26,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
 
-public class ClientNewFragment extends BaseFrgment {
+public class ClientNewFragment extends Fragment {
     @BindView(R.id.wtab)
     WTabLayout wtab;
     @BindView(R.id.viewPager)

@@ -1,20 +1,17 @@
 package com.tdjpartner.ui.fragment;
 
-import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import com.apkfuns.logutils.LogUtils;
 import com.tdjpartner.R;
-import com.tdjpartner.base.BaseFrgment;
+import com.tdjpartner.base.Fragment;
 import com.tdjpartner.model.ClientFragmentType;
 import com.tdjpartner.mvp.presenter.IPresenter;
 
-import org.greenrobot.eventbus.Subscribe;
 import java.util.List;
 
-public class ClientFragment  extends BaseFrgment {
+public class ClientFragment  extends Fragment {
     private ClientMapFragment clientMapFragment;
     private ClientNewFragment clientNewFragment;
     private  String mapdata = "map";
@@ -31,7 +28,7 @@ public class ClientFragment  extends BaseFrgment {
 
     }
 
-    public List<Fragment> getChildFrament() {
+    public List<android.support.v4.app.Fragment> getChildFrament() {
         return getChildFragmentManager().getFragments();
     }
 
@@ -45,7 +42,7 @@ public class ClientFragment  extends BaseFrgment {
 
     public void checkClientFragment(ClientFragmentType clientFragmentType) {
         FragmentTransaction fa = getChildFragmentManager().beginTransaction();
-        List<Fragment> list = getChildFrament();
+        List<android.support.v4.app.Fragment> list = getChildFrament();
         if (clientFragmentType.getType().equals("list")){
             if (list.size() == 0) {
                 if (clientNewFragment == null) clientNewFragment = new ClientNewFragment();

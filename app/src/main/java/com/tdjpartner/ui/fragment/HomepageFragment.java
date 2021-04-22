@@ -20,7 +20,7 @@ import com.tdjpartner.adapter.TeamPreviewAllAdapter;
 import com.tdjpartner.adapter.TeamPreviewMothAdapter;
 import com.tdjpartner.adapter.home.NewHomeOrderTimesAdapter;
 import com.tdjpartner.adapter.home.NewHomeRegisterTimesAdapter;
-import com.tdjpartner.base.BaseFrgment;
+import com.tdjpartner.base.Fragment;
 import com.tdjpartner.model.HomeFilter;
 import com.tdjpartner.model.NewHomeData;
 import com.tdjpartner.model.TeamOverView;
@@ -42,7 +42,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> implements SwipeRefreshLayout.OnRefreshListener
+public class HomepageFragment extends Fragment<HomepageFragmentPresenter> implements SwipeRefreshLayout.OnRefreshListener
         , View.OnClickListener, BaseQuickAdapter.OnItemChildClickListener {
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;

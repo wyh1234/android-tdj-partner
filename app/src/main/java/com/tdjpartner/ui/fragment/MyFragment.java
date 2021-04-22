@@ -15,7 +15,7 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.MyFragmentAdapter;
-import com.tdjpartner.base.BaseFrgment;
+import com.tdjpartner.base.Fragment;
 import com.tdjpartner.model.ImageUploadOk;
 import com.tdjpartner.model.MyFragmentBottom;
 import com.tdjpartner.model.UserInfo;
@@ -44,7 +44,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 
-public class MyFragment extends BaseFrgment<MyFragmentPresneter> implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.OnItemClickListener , View.OnClickListener
+public class MyFragment extends Fragment<MyFragmentPresneter> implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.OnItemClickListener , View.OnClickListener
 ,SetHeadImagePopu.SetHeadImageListener{
     @BindView(R.id.rv_recyclerView)
     RecyclerView rv_recyclerView;

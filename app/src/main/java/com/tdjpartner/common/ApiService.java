@@ -34,6 +34,7 @@ import com.tdjpartner.model.IronHomeTopData;
 import com.tdjpartner.model.IronStatisticsDetails;
 import com.tdjpartner.model.MyCountMoney;
 import com.tdjpartner.model.MyTeam;
+import com.tdjpartner.model.NetHomeData;
 import com.tdjpartner.model.NewHomeData;
 import com.tdjpartner.model.NewMyTeam;
 import com.tdjpartner.model.OrderDetail;
@@ -566,7 +567,6 @@ public interface ApiService {
     @POST("tdj-report/report/teamOverView/homePageTop")
     Observable<BaseResponse<IronHomeTopData>> ironHomeTopData(@Body RequestBody body);
 
-
     @Headers({"url_type:xuming"})
     @POST("tdj-report/report/customer/homeData")
     Observable<BaseResponse<HomeData>> homeData(@Body RequestBody body);
@@ -673,4 +673,8 @@ public interface ApiService {
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/hotelAudit/reject")
     Observable<BaseResponse<String>> hotelAuditReject(@Body RequestBody body);
+
+    @Headers({"url_type:xuming"})
+    @POST("tdj-report/report/customer/homeData")
+    Observable<BaseResponse<NetHomeData>> netHomeData(@Body RequestBody body);
 }

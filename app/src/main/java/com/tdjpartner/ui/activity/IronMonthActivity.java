@@ -193,15 +193,15 @@ public class IronMonthActivity extends BaseActivity<TeamMemberPresenter> impleme
 
         tv_title.setText("M2" + tv_title.getText());
 
-        ((TextView) ll_header_include.findViewById(R.id.registerNum)).setText("" + random.nextInt(1000));
-        ((TextView) ll_header_include.findViewById(R.id.openNum)).setText("" + random.nextInt(1000));
-        ((TextView) ll_header_include.findViewById(R.id.vegetablesNum)).setText("" + random.nextInt(1000));
-        ((TextView) ll_header_include.findViewById(R.id.gmvNum)).setText("" + random.nextInt(1000));
+        ((TextView) ll_header_include.findViewById(R.id.callNum)).setText("" + random.nextInt(1000));
+        ((TextView) ll_header_include.findViewById(R.id.firstOrderNum)).setText("" + random.nextInt(1000));
+        ((TextView) ll_header_include.findViewById(R.id.activeNum)).setText("" + random.nextInt(1000));
+        ((TextView) ll_header_include.findViewById(R.id.yesterdayActiveNum)).setText("" + random.nextInt(1000));
 
-        ((TextView) other_include.findViewById(R.id.registerNum)).setText("" + random.nextInt(1000));
-        ((TextView) other_include.findViewById(R.id.openNum)).setText("" + random.nextInt(1000));
-        ((TextView) other_include.findViewById(R.id.vegetablesNum)).setText("" + random.nextInt(1000));
-        ((TextView) other_include.findViewById(R.id.gmvNum)).setText("" + random.nextInt(1000));
+        ((TextView) other_include.findViewById(R.id.callNum)).setText("" + random.nextInt(1000));
+        ((TextView) other_include.findViewById(R.id.firstOrderNum)).setText("" + random.nextInt(1000));
+        ((TextView) other_include.findViewById(R.id.activeNum)).setText("" + random.nextInt(1000));
+        ((TextView) other_include.findViewById(R.id.yesterdayActiveNum)).setText("" + random.nextInt(1000));
 
 
 
@@ -211,10 +211,10 @@ public class IronMonthActivity extends BaseActivity<TeamMemberPresenter> impleme
                 .setOnClickListener(this)
                 .setResource(R.layout.iron_month_list_member_layout)
                 .setInitView((data, convertView) -> {
-                    ((TextView)convertView.findViewById(R.id.registerNum)).setText(data.get(0));
-                    ((TextView)convertView.findViewById(R.id.openNum)).setText(data.get(1));
-                    ((TextView)convertView.findViewById(R.id.vegetablesNum)).setText(data.get(2));
-                    ((TextView)convertView.findViewById(R.id.gmvNum)).setText(data.get(3));
+                    ((TextView)convertView.findViewById(R.id.callNum)).setText(data.get(0));
+                    ((TextView)convertView.findViewById(R.id.firstOrderNum)).setText(data.get(1));
+                    ((TextView)convertView.findViewById(R.id.activeNum)).setText(data.get(2));
+                    ((TextView)convertView.findViewById(R.id.yesterdayActiveNum)).setText(data.get(3));
                     ((TextView)convertView.findViewById(R.id.tv_name)).setText(data.get(4));
                 })
                 .build(this);
@@ -263,15 +263,15 @@ public class IronMonthActivity extends BaseActivity<TeamMemberPresenter> impleme
         ironListAdapter.notifyDataSetChanged();
 
 
-        ((TextView) ll_header_include.findViewById(R.id.registerNum)).setText("" + random.nextInt(1000));
-        ((TextView) ll_header_include.findViewById(R.id.openNum)).setText("" + random.nextInt(1000));
-        ((TextView) ll_header_include.findViewById(R.id.vegetablesNum)).setText("" + random.nextInt(1000));
-        ((TextView) ll_header_include.findViewById(R.id.gmvNum)).setText("" + random.nextInt(1000));
+        ((TextView) ll_header_include.findViewById(R.id.callNum)).setText("" + random.nextInt(1000));
+        ((TextView) ll_header_include.findViewById(R.id.firstOrderNum)).setText("" + random.nextInt(1000));
+        ((TextView) ll_header_include.findViewById(R.id.activeNum)).setText("" + random.nextInt(1000));
+        ((TextView) ll_header_include.findViewById(R.id.yesterdayActiveNum)).setText("" + random.nextInt(1000));
 
-        ((TextView) other_include.findViewById(R.id.registerNum)).setText("" + random.nextInt(1000));
-        ((TextView) other_include.findViewById(R.id.openNum)).setText("" + random.nextInt(1000));
-        ((TextView) other_include.findViewById(R.id.vegetablesNum)).setText("" + random.nextInt(1000));
-        ((TextView) other_include.findViewById(R.id.gmvNum)).setText("" + random.nextInt(1000));
+        ((TextView) other_include.findViewById(R.id.callNum)).setText("" + random.nextInt(1000));
+        ((TextView) other_include.findViewById(R.id.firstOrderNum)).setText("" + random.nextInt(1000));
+        ((TextView) other_include.findViewById(R.id.activeNum)).setText("" + random.nextInt(1000));
+        ((TextView) other_include.findViewById(R.id.yesterdayActiveNum)).setText("" + random.nextInt(1000));
 
 
     }
