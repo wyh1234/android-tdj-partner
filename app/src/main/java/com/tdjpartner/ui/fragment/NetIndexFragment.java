@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.ArrayMap;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -18,13 +19,13 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.tdjpartner.R;
-import com.tdjpartner.adapter.NetAdapter;
+import com.tdjpartner.adapter.ListViewAdapter;
 import com.tdjpartner.base.NetworkFragment;
-import com.tdjpartner.model.NetHomeData;
+import com.tdjpartner.model.V3HomeData;
 import com.tdjpartner.model.NewHomeData;
-import com.tdjpartner.ui.activity.IronDayActivity;
+import com.tdjpartner.ui.activity.ApprovalActivity;
+import com.tdjpartner.ui.activity.IronSupportActivity;
 import com.tdjpartner.ui.activity.StatisticsListActivity;
-import com.tdjpartner.ui.activity.IronMonthActivity;
 import com.tdjpartner.ui.activity.TeamMemberActivity;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
@@ -32,6 +33,7 @@ import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.glide.ImageLoad;
 import com.tdjpartner.widget.tablayout.WTabLayout;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -82,9 +84,10 @@ public class NetIndexFragment extends NetworkFragment
     boolean isDay;//时间类型标记
     int userType = UserUtils.getInstance().getLoginBean().getType();//用户类型
     int site = UserUtils.getInstance().getLoginBean().getSite();//用户类型
+    int grade = UserUtils.getInstance().getLoginBean().getGrade();//用户类型
 
-    private NetAdapter<NetHomeData> netDayAdapter, netMonthAdapter;
-    private BaseQuickAdapter<NetHomeData.PartnerApproachDataBean, BaseViewHolder> keyPointAdapter;
+    private ListViewAdapter<V3HomeData> netDayAdapter, netMonthAdapter;
+    private BaseQuickAdapter<V3HomeData.PartnerApproachDataBean, BaseViewHolder> keyPointAdapter;
     private List<NewHomeData.RegisterTimesTopListBean> registerlist = new ArrayList<>();
     private List<NewHomeData.OrdersTimesTopList> orderList = new ArrayList<>();
 
@@ -138,7 +141,7 @@ public class NetIndexFragment extends NetworkFragment
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        System.out.println("map is " + getArgs());
         if (UserUtils.getInstance().getLoginBean().getGrade() != 3) {
             rl_team.setVisibility(View.VISIBLE);
         } else {
@@ -148,7 +151,6 @@ public class NetIndexFragment extends NetworkFragment
         //初始化刷新布局
         swipeRefreshLayout.setColorSchemeResources(R.color.bbl_ff0000);
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setRefreshing(true);
 
         //初始化顶部UI
         tv_username.setText("你好," + UserUtils.getInstance().getLoginBean().getRealname() + "!");
@@ -157,7 +159,7 @@ public class NetIndexFragment extends NetworkFragment
 
 
         //初始化日月统计
-        netDayAdapter = new NetAdapter.Builder<NetHomeData>()
+        netDayAdapter = new ListViewAdapter.Builder<V3HomeData>()
                 .setOnClickListener(this)
                 .setResource(R.layout.net_day_preview_item)
                 .setInitView((data, convertView) -> {
@@ -176,7 +178,7 @@ public class NetIndexFragment extends NetworkFragment
         day_listView.setNestedScrollingEnabled(true);
 
 
-        netMonthAdapter = new NetAdapter.Builder<NetHomeData>()
+        netMonthAdapter = new ListViewAdapter.Builder<V3HomeData>()
                 .setOnClickListener(this)
                 .setResource(R.layout.net_month_preview_item)
                 .setInitView((data, convertView) -> {
@@ -197,12 +199,12 @@ public class NetIndexFragment extends NetworkFragment
 
 
         //重点关注
-        keyPointAdapter = new BaseQuickAdapter<NetHomeData.PartnerApproachDataBean, BaseViewHolder>(R.layout.key_point_item) {
+        keyPointAdapter = new BaseQuickAdapter<V3HomeData.PartnerApproachDataBean, BaseViewHolder>(R.layout.key_point_item) {
 
             @Override
-            protected void convert(BaseViewHolder baseViewHolder, NetHomeData.PartnerApproachDataBean data) {
+            protected void convert(BaseViewHolder baseViewHolder, V3HomeData.PartnerApproachDataBean data) {
                 ImageLoad.loadImageViewLoding(data.getMenuPic(), baseViewHolder.getView(R.id.image));
-
+                baseViewHolder.addOnClickListener(R.id.ll_keyPoint);
                 baseViewHolder.setText(R.id.title, "" + data.getTitle());
 
                 if (!data.getSubscriptNum().isEmpty()) {
@@ -230,12 +232,17 @@ public class NetIndexFragment extends NetworkFragment
 
             @Override
             public android.support.v4.app.Fragment getItem(int i) {
-                android.support.v4.app.Fragment fragment = new RankingFragment();
+                Map<String, Object> map = new HashMap<>();
+                map.put("type", i + 1);
+                map.put("websiteId", site);
+                map.put("userType", userType);
+                map.put("timeType", isDay ? "day" : "month");
+
                 Bundle bundle = new Bundle();
-                bundle.putInt("type", i + 1);
-                bundle.putInt("websiteId", site);
-                bundle.putInt("userType", userType);
-                bundle.putBoolean("isDay", isDay);
+                bundle.putSerializable("args", (Serializable) map);
+
+
+                android.support.v4.app.Fragment fragment = new RankingFragment();
                 fragment.setArguments(bundle);
                 return fragment;
             }
@@ -266,8 +273,9 @@ public class NetIndexFragment extends NetworkFragment
 
 
         //加载数据
-        getVMWithFragment().loadingWithNewLiveData(NetHomeData.class, getArgs())
-                .observe(this, netHomeData -> {
+        swipeRefreshLayout.setRefreshing(true);
+        getVMWithFragment().loadingWithNewLiveData(V3HomeData.class, getArgs())
+                .observe(this, v3HomeData -> {
                     stop();
                     if (!ListUtils.isEmpty(registerlist)) {
                         registerlist.clear();
@@ -277,21 +285,19 @@ public class NetIndexFragment extends NetworkFragment
                     }
 
                     //日统计
-                    tv_day_sink.setText(netHomeData.getTodayData().gradeNextName.isEmpty() ? "" : netHomeData.getTodayData().gradeNextName + " >");
+                    tv_day_sink.setText(v3HomeData.getTodayData().gradeNextName.isEmpty() ? "" : v3HomeData.getTodayData().gradeNextName + " >");
                     netDayAdapter.clear();
-                    netDayAdapter.add(netHomeData);
+                    netDayAdapter.add(v3HomeData);
                     netDayAdapter.notifyDataSetChanged();
 
-
                     //月统计
-                    tv_month_sink.setText(netHomeData.getMonthData().gradeNextName.isEmpty() ? "" : netHomeData.getMonthData().gradeNextName + " >");
+                    tv_month_sink.setText(v3HomeData.getMonthData().gradeNextName.isEmpty() ? "" : v3HomeData.getMonthData().gradeNextName + " >");
                     netMonthAdapter.clear();
-                    netMonthAdapter.add(netHomeData);
+                    netMonthAdapter.add(v3HomeData);
                     netMonthAdapter.notifyDataSetChanged();
 
-
                     //重点关注
-                    keyPointAdapter.setNewData(netHomeData.getPartnerApproachData());
+                    keyPointAdapter.setNewData(v3HomeData.getPartnerApproachData());
                     keyPointAdapter.notifyDataSetChanged();
                 });
     }
@@ -311,7 +317,7 @@ public class NetIndexFragment extends NetworkFragment
 //        map.put("dayDate", "2021-04-09");
 //        map.put("websiteId", 3);
 
-        getVMWithFragment().loading(NetHomeData.class, map);
+        getVMWithFragment().loading(V3HomeData.class, map);
     }
 
     public void stop() {
@@ -324,15 +330,18 @@ public class NetIndexFragment extends NetworkFragment
     public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
         System.out.println("~~" + getClass().getSimpleName() + ".onItemChildClick~~");
         System.out.println("baseQuickAdapter = " + baseQuickAdapter + ", view = " + view + ", i = " + i);
-        switch (view.getId()) {
-
-            case R.id.tv_day:
-                getActivity().startActivity(new Intent(getContext(), IronDayActivity.class));
-                break;
-
-            case R.id.tv_month:
-                getActivity().startActivity(new Intent(getContext(), IronMonthActivity.class));
-                break;
+        if (grade == 3) {
+            switch (((V3HomeData.PartnerApproachDataBean) baseQuickAdapter.getItem(i)).getSort()) {
+                case 3:
+                    getActivity().startActivity(new Intent(getContext(), IronSupportActivity.class));
+                    break;
+            }
+        } else {
+            switch (((V3HomeData.PartnerApproachDataBean) baseQuickAdapter.getItem(i)).getSort()) {
+                case 2:
+                    getActivity().startActivity(new Intent(getContext(), ApprovalActivity.class));
+                    break;
+            }
         }
     }
 }

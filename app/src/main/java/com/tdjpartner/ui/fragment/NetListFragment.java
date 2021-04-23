@@ -99,7 +99,7 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
         getVMWithActivity().loadingWithNewLiveData(IronDayAndMonthData.class, getArgs())
                 .observe(this, ironDayAndMonthData -> {
                     tv_title.setText(ironDayAndMonthData.teamView.gradeChineseName + (isDay ? "日" : "月") + "统计");
-
+                    System.out.println("~~observe~~");
                     //头部统计
                     if (isDay) {
                         ((TextView) ll_header_include.findViewById(R.id.dayRegisterTimes)).setText("" + ironDayAndMonthData.teamView.registerNum);
@@ -257,7 +257,7 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
 
         getFragmentManager().beginTransaction()
                 .add(R.id.fl, fragment)
-                .addToBackStack(tag)
+                .addToBackStack(tag += userId + "")
                 .commit();
     }
 
@@ -270,7 +270,7 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
             case R.id.tv_day_sink:
                 IronDayAndMonthData.TeamView teamView = (IronDayAndMonthData.TeamView) baseQuickAdapter.getItem(i);
                 if (teamView.gradeChineseName.equals("BD")) return;
-                leak(teamView.parentId, true);
+                leak(teamView.partnerId, true);
                 break;
         }
     }

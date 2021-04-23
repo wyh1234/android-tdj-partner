@@ -53,11 +53,11 @@
 <!--        <activity android:name=".ui.activity.IronDayActivity"-->
 <!--        <activity android:name=".ui.activity.IronApprovalHandleActivity"-->
 <!--        <activity android:name=".ui.activity.IronSupportDetailActivity"-->
-<!--        <activity android:name=".ui.activity.IronSupportActivity"-->
 <!--        <activity android:name=".ui.activity.IronDayStatisticsActivity"-->
 <!--        <activity android:name=".ui.activity.IronApprovalDetailActivity"-->
 <!--        <activity android:name=".ui.activity.IronStatisticsActivity"-->
-<!--        <activity android:name=".ui.activity.IronApprovalActivity"-->
+<!--        <activity android:name=".ui.activity.ApprovalActivity"-->
+<!--        <activity android:name=".ui.activity.IronSupportActivity"-->
         <activity android:name=".SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Launcher">
@@ -223,10 +223,7 @@
             android:theme="@style/DialogActivity" />
 
 
-
-<!--        <activity-->
-<!--            android:name=".ui.activity.IronM2MonthActivity"-->
-<!--            android:screenOrientation="portrait" />-->
+        <!--  创客3.0 -->
         <activity
             android:name=".ui.activity.StatisticsListActivity"
             android:screenOrientation="portrait" />
@@ -234,20 +231,20 @@
             android:name=".ui.activity.IronStatisticsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.IronDayActivity"
+            android:name=".ui.activity.ApprovalActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.IronApprovalDetailActivity"
+            android:name=".ui.activity.ApprovalDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.IronApprovalHandleActivity"
+            android:name=".ui.activity.ApprovalHandleActivity"
             android:screenOrientation="portrait" />
-<!--        <activity-->
-<!--            android:name=".ui.activity.IronSupportActivity"-->
-<!--            android:screenOrientation="portrait" />-->
-<!--        <activity-->
-<!--            android:name=".ui.activity.IronSupportDetailActivity"-->
-<!--            android:screenOrientation="portrait" />-->
+        <activity
+            android:name=".ui.activity.IronSupportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.IronSupportDetailActivity"
+            android:screenOrientation="portrait" />
 
 
 

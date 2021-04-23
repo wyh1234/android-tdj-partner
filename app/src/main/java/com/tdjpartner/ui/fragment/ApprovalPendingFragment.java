@@ -14,14 +14,14 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.tdjpartner.R;
 import com.tdjpartner.base.NetworkFragment;
 import com.tdjpartner.model.HotelAuditPageList;
-import com.tdjpartner.ui.activity.IronApprovalDetailActivity;
-import com.tdjpartner.ui.activity.IronApprovalHandleActivity;
+import com.tdjpartner.ui.activity.ApprovalHandleActivity;
+import com.tdjpartner.ui.activity.ApprovalDetailActivity;
 import com.tdjpartner.utils.glide.ImageLoad;
 
 /**
  * Created by LFM on 2021/3/15.
  */
-public class IronApprovalPendingFragment extends NetworkFragment implements BaseQuickAdapter.OnItemChildClickListener {
+public class ApprovalPendingFragment extends NetworkFragment implements BaseQuickAdapter.OnItemChildClickListener {
 
     private BaseQuickAdapter adapter;
 
@@ -70,6 +70,7 @@ public class IronApprovalPendingFragment extends NetworkFragment implements Base
                 }
 
                 baseViewHolder.setText(R.id.enterprise_code, "" + item.enterprise_code)
+                        .setText(R.id.commissioner_name, "DB:" + item.commissioner_name)
                         .setText(R.id.authStatus, authStatus)
                         .setText(R.id.person_name, "" + item.nick_name + "：" + "" + item.phone)
                         .setText(R.id.created_at, "" + item.created_at)
@@ -98,12 +99,12 @@ public class IronApprovalPendingFragment extends NetworkFragment implements Base
         Intent intent;
         switch (view.getId()) {
             case R.id.fl_header:
-                intent = new Intent(getContext(), IronApprovalHandleActivity.class);
+                intent = new Intent(getContext(), ApprovalHandleActivity.class);
                 intent.putExtra("customerId", ((HotelAuditPageList.HotelAuditPage) baseQuickAdapter.getItem(i)).entity_id);
                 startActivity(intent);
                 break;
             case R.id.ll_body:
-                intent = new Intent(getContext(), IronApprovalDetailActivity.class);
+                intent = new Intent(getContext(), ApprovalDetailActivity.class);
                 intent.putExtra("customerId", ((HotelAuditPageList.HotelAuditPage) baseQuickAdapter.getItem(i)).entity_id);
                 startActivity(intent);
                 break;

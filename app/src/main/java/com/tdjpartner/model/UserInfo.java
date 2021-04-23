@@ -2,8 +2,8 @@ package com.tdjpartner.model;
 
 import java.math.BigDecimal;
 
-public class UserInfo  {
-    private String username;;
+public class UserInfo {
+    private String username;
     private String realname;
     private String phoneNumber;
     private int entityId;
@@ -13,15 +13,15 @@ public class UserInfo  {
     private String alias;  //昵称
     private int site;
     private Integer grade;//用户级别1经理2主管3业务员(创客)
-    private BigDecimal surplusAmount 	;//总提成收益
-    private String idCard 	;//非空，已实名
-    private String avatarUrl 	;//自定义创客图片
-    private Long pmCount 	;//未读消息数
+    private String gradeName;
+    private BigDecimal surplusAmount;//总提成收益
+    private String idCard;//非空，已实名
+    private String avatarUrl;//自定义创客图片
+    private Long pmCount;//未读消息数
     private String siteName;
     private String cardUrlPositive;//身份证正面
     private String cardUrlNegative;//身份证反面
-    private String verifyCode;;
-    private String gradeName;
+    private String verifyCode;
 
     public void setType(int type) {
         this.type = type;
@@ -72,7 +72,7 @@ public class UserInfo  {
     }
 
     public Integer getGrade() {
-        return grade==null?0:grade;
+        return grade == null ? 0 : grade;
     }
 
     public void setGrade(Integer grade) {

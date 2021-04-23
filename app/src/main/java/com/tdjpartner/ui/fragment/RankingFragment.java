@@ -10,9 +10,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tdjpartner.R;
-import com.tdjpartner.base.Fragment;
+import com.tdjpartner.base.NetworkFragment;
 import com.tdjpartner.model.IronHomeTopData;
-import com.tdjpartner.mvp.presenter.RankingFragmentPresenter;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,7 +21,7 @@ import java.util.Map;
 /**
  * Created by LFM on 2021/4/22.
  */
-public class RankingFragment extends Fragment<RankingFragmentPresenter> {
+public class RankingFragment extends NetworkFragment {
 
     private int type;
     private int userType;
@@ -30,28 +29,31 @@ public class RankingFragment extends Fragment<RankingFragmentPresenter> {
     private boolean isDay;
     private ArrayAdapter<List<String>> arrayAdapter;
 
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        if (getArguments() != null) {
+//            type = getArguments().getInt("type");
+//            userType = getArguments().getInt("userType");
+//            websiteId = getArguments().getInt("websiteId");
+//            isDay = getArguments().getBoolean("isDay");
+//        }
+//    }
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            type = getArguments().getInt("type");
-            userType = getArguments().getInt("userType");
-            websiteId = getArguments().getInt("websiteId");
-            isDay = getArguments().getBoolean("isDay");
-        }
+    protected int getLayoutId() {
+        return R.layout.fragment_ranking;
     }
 
     @Override
-    protected void initView(View view) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
+        //初始化View
         arrayAdapter = new ArrayAdapter<List<String>>(getContext(), R.layout.adapter_ranking) {
-
             @NonNull
             @Override
             public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                System.out.println("~~" + getClass().getSimpleName() + ".getView~~");
-                System.out.println("position = " + position + ", convertView = " + convertView + ", parent = " + parent);
-
                 convertView = getLayoutInflater().inflate(R.layout.adapter_ranking, parent, false);
 
                 List<String> data = getItem(position);
@@ -73,45 +75,16 @@ public class RankingFragment extends Fragment<RankingFragmentPresenter> {
         listView.setNestedScrollingEnabled(true);
 
 
-    }
-
-    @Override
-    protected void loadData() {
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("userType", userType);
-        map.put("timeType", isDay ? "day" : "month");
-        map.put("websiteId", 3);
-        map.put("type", type);
-
-
-        mPresenter.homeTopData(map);
-    }
-
-    @Override
-    protected RankingFragmentPresenter loadPresenter() {
-        return new RankingFragmentPresenter();
-    }
-
-    @Override
-    protected int getContentId() {
-        return R.layout.fragment_ranking;
-    }
-
-    public void homeTopData_Success(IronHomeTopData homeTopData) {
-        System.out.println("homeTopData = " + homeTopData.getRegisterTimesTopList());
-
-        for (int i = 0; i < homeTopData.getRegisterTimesTopList().size(); i++) {
-            arrayAdapter.add(Arrays.asList("" + (i + 1),
-                    homeTopData.getRegisterTimesTopList().get(i).partnerName,
-                    homeTopData.getRegisterTimesTopList().get(i).name,
-                    "" + homeTopData.getRegisterTimesTopList().get(i).monthActiveNum));
-        }
+        //加载数据
+        getVMWithFragment().loadingWithNewLiveData(IronHomeTopData.class, getArgs())
+                .observe(this, ironHomeTopData -> {
+                    for (int i = 0; i < ironHomeTopData.getRegisterTimesTopList().size(); i++) {
+                        arrayAdapter.add(Arrays.asList("" + (i + 1),
+                                ironHomeTopData.getRegisterTimesTopList().get(i).partnerName,
+                                ironHomeTopData.getRegisterTimesTopList().get(i).name,
+                                "" + ironHomeTopData.getRegisterTimesTopList().get(i).monthActiveNum));
+                    }
+                });
 
     }
-
-    public void homeTopData_failed() {
-//        stop();
-    }
-
 }

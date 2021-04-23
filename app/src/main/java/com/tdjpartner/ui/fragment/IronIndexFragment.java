@@ -8,23 +8,25 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.tdjpartner.R;
-import com.tdjpartner.adapter.IronAdapter;
-import com.tdjpartner.base.Fragment;
+import com.tdjpartner.adapter.ListViewAdapter;
+import com.tdjpartner.base.NetworkFragment;
 import com.tdjpartner.model.IronHomeData;
+import com.tdjpartner.model.V3HomeData;
 import com.tdjpartner.model.NewHomeData;
-import com.tdjpartner.mvp.presenter.IronIndexFragmentPresenter;
-import com.tdjpartner.ui.activity.IronDayActivity;
-import com.tdjpartner.ui.activity.StatisticsListActivity;
+import com.tdjpartner.ui.activity.ApprovalActivity;
 import com.tdjpartner.ui.activity.IronStatisticsActivity;
-import com.tdjpartner.ui.activity.IronMonthActivity;
+import com.tdjpartner.ui.activity.IronSupportActivity;
+import com.tdjpartner.ui.activity.StatisticsListActivity;
 import com.tdjpartner.ui.activity.TeamMemberActivity;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
@@ -32,6 +34,7 @@ import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.glide.ImageLoad;
 import com.tdjpartner.widget.tablayout.WTabLayout;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -45,20 +48,18 @@ import butterknife.OnClick;
 /**
  * Created by LFM on 2021/3/3.
  */
-public class IronIndexFragment extends Fragment<IronIndexFragmentPresenter>
+public class IronIndexFragment extends NetworkFragment
         implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, BaseQuickAdapter.OnItemChildClickListener {
 
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.image_drop)
-    ImageView image_drop;
-    @BindView(R.id.image_sea)
-    ImageView image_sea;
 
     @BindView(R.id.day_listView)
     ListView day_listView;
     @BindView(R.id.member_list)
     ListView month_listView;
+    @BindView(R.id.keyPoint_rv)
+    RecyclerView keyPoint_rv;
 
     @BindView(R.id.ll_team)
     LinearLayout rl_team;
@@ -76,17 +77,16 @@ public class IronIndexFragment extends Fragment<IronIndexFragmentPresenter>
     TextView tv_month_sink;
     @BindView(R.id.tv_day_sink)
     TextView tv_day_sink;
-    @BindView(R.id.count_drop)
-    TextView count_drop;
-    @BindView(R.id.count_sea)
-    TextView count_sea;
     @BindView(R.id.ranking_vp)
     ViewPager ranking_vp;
 
     boolean isDay;//时间类型标记
     int userType = UserUtils.getInstance().getLoginBean().getType();//用户类型
+    int site = UserUtils.getInstance().getLoginBean().getSite();//用户类型
+    int grade = UserUtils.getInstance().getLoginBean().getGrade();//用户类型
 
-    private IronAdapter ironDayAdapter, ironMonthAdapter;
+    private ListViewAdapter<V3HomeData> ironDayAdapter, ironMonthAdapter;
+    private BaseQuickAdapter<V3HomeData.PartnerApproachDataBean, BaseViewHolder> keyPointAdapter;
     private List<NewHomeData.RegisterTimesTopListBean> registerlist = new ArrayList<>();
     private List<NewHomeData.OrdersTimesTopList> orderList = new ArrayList<>();
 
@@ -123,6 +123,7 @@ public class IronIndexFragment extends Fragment<IronIndexFragmentPresenter>
             intent.putExtra("isDay", true);
             startActivity(intent);
         }
+
         if (view.getId() == R.id.tv_month_sink) {
             Intent intent = new Intent(getContext(), StatisticsListActivity.class);
             intent.putExtra("isDay", false);
@@ -132,7 +133,6 @@ public class IronIndexFragment extends Fragment<IronIndexFragmentPresenter>
         if (view.getId() == R.id.ll_day_register ||
                 view.getId() == R.id.ll_day_open ||
                 view.getId() == R.id.ll_day_vegetables) {
-            System.out.println(view);
             Intent intent = new Intent(getContext(), IronStatisticsActivity.class);
             intent.putExtra("isDay", true);
             startActivity(intent);
@@ -141,7 +141,6 @@ public class IronIndexFragment extends Fragment<IronIndexFragmentPresenter>
         if (view.getId() == R.id.ll_month_register ||
                 view.getId() == R.id.ll_month_open ||
                 view.getId() == R.id.ll_month_vegetables) {
-            System.out.println(view);
             Intent intent = new Intent(getContext(), IronStatisticsActivity.class);
             intent.putExtra("isDay", false);
             startActivity(intent);
@@ -149,7 +148,9 @@ public class IronIndexFragment extends Fragment<IronIndexFragmentPresenter>
     }
 
     @Override
-    protected void initView(View view) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
 
         swipeRefreshLayout.setColorSchemeResources(R.color.bbl_ff0000);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -160,6 +161,64 @@ public class IronIndexFragment extends Fragment<IronIndexFragmentPresenter>
         } else {
 //            rl_team.setVisibility(View.GONE);
         }
+
+        //初始化顶部UI
+        tv_username.setText("你好," + UserUtils.getInstance().getLoginBean().getRealname() + "!");
+        tv_time.setText(GeneralUtils.getCurrDay() + "\t\t" + GeneralUtils.getWeekDay(System.currentTimeMillis()));
+        tv_heard.setText(tv_heard.getText() + "武汉");
+
+
+        //初始日月统计
+        ironDayAdapter = new ListViewAdapter.Builder<V3HomeData>()
+                .setOnClickListener(this)
+                .setResource(R.layout.iron_day_preview_item)
+                .addChildId(R.id.ll_day_register, R.id.ll_day_open, R.id.ll_day_vegetables, R.id.ll_day_gmv, R.id.ll_day_price)
+                .setInitView((data, convertView) -> {
+                    ((TextView) convertView.findViewById(R.id.callNum)).setText(data.getTodayData().callNum + "");
+                    ((TextView) convertView.findViewById(R.id.firstOrderNum)).setText(data.getTodayData().firstOrderNum + "");
+                    ((TextView) convertView.findViewById(R.id.activeNum)).setText(data.getTodayData().activeNum + "");
+                    ((TextView) convertView.findViewById(R.id.yesterdayActiveNum)).setText(data.getTodayData().yesterdayActiveNum + "");
+                    ((TextView) convertView.findViewById(R.id.priceNum)).setText(data.getTodayData().averageAmount + "" + "");
+                })
+                .build(getContext());
+        day_listView.setAdapter(ironDayAdapter);
+        day_listView.setNestedScrollingEnabled(true);
+
+        ironMonthAdapter = new ListViewAdapter.Builder<V3HomeData>()
+                .setOnClickListener(this)
+                .setResource(R.layout.iron_month_preview_item)
+                .addChildId(R.id.ll_month_register, R.id.ll_month_open, R.id.ll_month_vegetables, R.id.ll_month_gmv)
+                .setInitView((data, convertView) -> {
+                    ((TextView) convertView.findViewById(R.id.callNum)).setText(data.getMonthData().callNum + "");
+                    ((TextView) convertView.findViewById(R.id.firstOrderNum)).setText(data.getMonthData().firstOrderNum + "");
+                    ((TextView) convertView.findViewById(R.id.activeNum)).setText(data.getMonthData().activeNum + "");
+                    ((TextView) convertView.findViewById(R.id.yesterdayActiveNum)).setText(data.getMonthData().yesterdayActiveNum + "");
+                })
+                .build(getContext());
+        month_listView.setAdapter(ironMonthAdapter);
+        month_listView.setNestedScrollingEnabled(true);
+
+
+        //重点关注
+        keyPointAdapter = new BaseQuickAdapter<V3HomeData.PartnerApproachDataBean, BaseViewHolder>(R.layout.key_point_item) {
+
+            @Override
+            protected void convert(BaseViewHolder baseViewHolder, V3HomeData.PartnerApproachDataBean data) {
+                ImageLoad.loadImageViewLoding(data.getMenuPic(), baseViewHolder.getView(R.id.image));
+                baseViewHolder.addOnClickListener(R.id.ll_keyPoint);
+                baseViewHolder.setText(R.id.title, "" + data.getTitle());
+
+                if (!data.getSubscriptNum().isEmpty()) {
+                    baseViewHolder.getView(R.id.count).setVisibility(View.VISIBLE);
+                    baseViewHolder.setText(R.id.count, data.getSubscriptNum());
+                } else {
+                    baseViewHolder.getView(R.id.count).setVisibility(View.GONE);
+                }
+            }
+        };
+        keyPointAdapter.setOnItemChildClickListener(this);
+        keyPoint_rv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        keyPoint_rv.setAdapter(keyPointAdapter);
 
 
         //排行榜
@@ -176,12 +235,17 @@ public class IronIndexFragment extends Fragment<IronIndexFragmentPresenter>
 
             @Override
             public android.support.v4.app.Fragment getItem(int i) {
-                android.support.v4.app.Fragment fragment = new RankingFragment();
+                Map<String, Object> map = new HashMap<>();
+                map.put("type", i + 1);
+                map.put("websiteId", site);
+                map.put("userType", userType);
+                map.put("timeType", isDay ? "day" : "month");
+
                 Bundle bundle = new Bundle();
-                bundle.putInt("type", i);
-                bundle.putInt("websiteId", 3);
-                bundle.putInt("userType", userType);
-                bundle.putBoolean("isDay", isDay);
+                bundle.putSerializable("args", (Serializable) map);
+
+
+                android.support.v4.app.Fragment fragment = new RankingFragment();
                 fragment.setArguments(bundle);
                 return fragment;
             }
@@ -209,74 +273,50 @@ public class IronIndexFragment extends Fragment<IronIndexFragmentPresenter>
 
         WTabLayout wtab = view.findViewById(R.id.wtab);
         wtab.setupWithViewPager(ranking_vp);
-    }
 
 
-    @Override
-    protected void loadData() {
-
-        //初始化顶部UI
-        tv_username.setText("你好," + UserUtils.getInstance().getLoginBean().getRealname() + "!");
-        tv_time.setText(GeneralUtils.getCurrDay() + "\t\t" + GeneralUtils.getWeekDay(System.currentTimeMillis()));
-        tv_heard.setText(tv_heard.getText() + "武汉");
-
-
-        ironDayAdapter = new IronAdapter.Builder()
-                .setOnClickListener(this)
-                .setResource(R.layout.iron_day_preview_item)
-                .addChildId(R.id.ll_day_register, R.id.ll_day_open, R.id.ll_day_vegetables, R.id.ll_day_gmv, R.id.ll_day_price)
-                .setInitView((data, convertView) -> {
-                    ((TextView) convertView.findViewById(R.id.callNum)).setText(data.get(0));
-                    ((TextView) convertView.findViewById(R.id.firstOrderNum)).setText(data.get(1));
-                    ((TextView) convertView.findViewById(R.id.activeNum)).setText(data.get(2));
-                    ((TextView) convertView.findViewById(R.id.yesterdayActiveNum)).setText(data.get(3));
-                    ((TextView) convertView.findViewById(R.id.priceNum)).setText(data.get(4));
-                })
-                .build(getContext());
-        day_listView.setAdapter(ironDayAdapter);
-        day_listView.setNestedScrollingEnabled(true);
-
-        ironMonthAdapter = new IronAdapter.Builder()
-                .setOnClickListener(this)
-                .setResource(R.layout.iron_month_preview_item)
-                .addChildId(R.id.ll_month_register, R.id.ll_month_open, R.id.ll_month_vegetables, R.id.ll_month_gmv)
-                .setInitView((data, convertView) -> {
-                    ((TextView) convertView.findViewById(R.id.callNum)).setText(data.get(0));
-                    ((TextView) convertView.findViewById(R.id.firstOrderNum)).setText(data.get(1));
-                    ((TextView) convertView.findViewById(R.id.activeNum)).setText(data.get(2));
-                    ((TextView) convertView.findViewById(R.id.yesterdayActiveNum)).setText(data.get(3));
-                })
-                .build(getContext());
-        month_listView.setAdapter(ironMonthAdapter);
-        month_listView.setNestedScrollingEnabled(true);
-
-        //-----------刷新加载数据----------------
+        //加载数据
         swipeRefreshLayout.setRefreshing(true);
-        onRefresh();
+        getVMWithFragment().loadingWithNewLiveData(V3HomeData.class, getArgs())
+                .observe(this, v3HomeData -> {
+                    stop();
+                    if (!ListUtils.isEmpty(registerlist)) {
+                        registerlist.clear();
+                    }
+                    if (!ListUtils.isEmpty(orderList)) {
+                        orderList.clear();
+                    }
 
+                    //日统计
+                    tv_day_sink.setText(v3HomeData.getTodayData().gradeNextName.isEmpty() ? "" : v3HomeData.getTodayData().gradeNextName + " >");
+                    ironDayAdapter.clear();
+                    ironDayAdapter.add(v3HomeData);
+                    ironDayAdapter.notifyDataSetChanged();
+
+
+                    //月统计
+                    tv_month_sink.setText(v3HomeData.getMonthData().gradeNextName.isEmpty() ? "" : v3HomeData.getMonthData().gradeNextName + " >");
+                    ironMonthAdapter.clear();
+                    ironMonthAdapter.add(v3HomeData);
+                    ironMonthAdapter.notifyDataSetChanged();
+
+
+                    //重点关注
+                    keyPointAdapter.setNewData(v3HomeData.getPartnerApproachData());
+                    keyPointAdapter.notifyDataSetChanged();
+                });
     }
 
-
     @Override
-    protected IronIndexFragmentPresenter loadPresenter() {
-        return new IronIndexFragmentPresenter();
-    }
-
-    @Override
-    protected int getContentId() {
+    protected int getLayoutId() {
         return R.layout.iron_index_fragment;
     }
 
     @Override
     public void onRefresh() {
-        getData();
-    }
-
-    public void getData() {
         Map<String, Object> map = new HashMap<>();
 
         map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
-        System.out.println("userId is " + UserUtils.getInstance().getLoginBean().getEntityId());
         map.put("dayDate", GeneralUtils.getTimeFilter(new Date()));
         map.put("monthTime", GeneralUtils.getMonthFilter(new Date()));
         map.put("websiteId", UserUtils.getInstance().getLoginBean().getSite());
@@ -285,7 +325,8 @@ public class IronIndexFragment extends Fragment<IronIndexFragmentPresenter>
         map.put("monthTime", "2021-04");
         map.put("dayDate", "2021-04-09");
         map.put("websiteId", 3);
-        mPresenter.homeData(map);
+
+        getVMWithFragment().loading(IronHomeData.class, map);
     }
 
     public void stop() {
@@ -294,71 +335,22 @@ public class IronIndexFragment extends Fragment<IronIndexFragmentPresenter>
         }
     }
 
-
-    public void homeData_Success(IronHomeData homeData) {
-        stop();
-        if (!ListUtils.isEmpty(registerlist)) {
-            registerlist.clear();
-        }
-        if (!ListUtils.isEmpty(orderList)) {
-            orderList.clear();
-        }
-
-        tv_day_sink.setText(homeData.getTodayData().gradeNextName.isEmpty()?"" : homeData.getTodayData().gradeNextName + " >");
-        ironDayAdapter.clear();
-        ironDayAdapter.add(Arrays.asList("" + homeData.getTodayData().dayRegisterTimes,
-                "" + homeData.getTodayData().firstOrderNum,
-                "" + homeData.getTodayData().categoryNum,
-                "" + homeData.getTodayData().todayAmount,
-                "" + homeData.getTodayData().averageAmount));
-        ironDayAdapter.notifyDataSetChanged();
-
-
-        tv_month_sink.setText(homeData.getMonthData().gradeNextName.isEmpty()?"" : homeData.getMonthData().gradeNextName + " >");
-        ironMonthAdapter.clear();
-        ironMonthAdapter.add(Arrays.asList("" + homeData.getMonthData().monthRegisterNum,
-                "" + homeData.getMonthData().monthRegisterNum,
-                "" + homeData.getMonthData().categoryNum,
-                "" + homeData.getMonthData().addMonthAmount));
-        ironMonthAdapter.notifyDataSetChanged();
-
-
-        //重点关注
-        ImageLoad.loadImageView(getContext(), homeData.getPartnerApproachData().get(0).getMenuPic(), image_drop);
-        if (!homeData.getPartnerApproachData().get(0).getSubscriptNum().isEmpty()) {
-            count_drop.setVisibility(View.VISIBLE);
-            count_drop.setText(homeData.getPartnerApproachData().get(0).getSubscriptNum());
-        } else {
-            count_drop.setVisibility(View.GONE);
-        }
-
-        //公海跟进
-        ImageLoad.loadImageView(getContext(), homeData.getPartnerApproachData().get(1).getMenuPic(), image_sea);
-        if (!homeData.getPartnerApproachData().get(1).getSubscriptNum().isEmpty()) {
-            count_sea.setVisibility(View.VISIBLE);
-            count_sea.setText(homeData.getPartnerApproachData().get(1).getSubscriptNum());
-        } else {
-            count_sea.setVisibility(View.GONE);
-        }
-    }
-
-    public void homeData_failed() {
-        stop();
-    }
-
     @Override
     public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
         System.out.println("~~" + getClass().getSimpleName() + ".onItemChildClick~~");
         System.out.println("baseQuickAdapter = " + baseQuickAdapter + ", view = " + view + ", i = " + i);
-        switch (view.getId()) {
-
-            case R.id.tv_day:
-                getActivity().startActivity(new Intent(getContext(), IronDayActivity.class));
-                break;
-
-            case R.id.tv_month:
-                getActivity().startActivity(new Intent(getContext(), IronMonthActivity.class));
-                break;
+        if (grade == 3) {
+            switch (((V3HomeData.PartnerApproachDataBean) baseQuickAdapter.getItem(i)).getSort()) {
+                case 3:
+                    getActivity().startActivity(new Intent(getContext(), IronSupportActivity.class));
+                    break;
+            }
+        } else {
+            switch (((V3HomeData.PartnerApproachDataBean) baseQuickAdapter.getItem(i)).getSort()) {
+                case 2:
+                    getActivity().startActivity(new Intent(getContext(), ApprovalActivity.class));
+                    break;
+            }
         }
     }
 }

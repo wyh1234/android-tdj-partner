@@ -1,11 +1,7 @@
 package com.tdjpartner.common;
 
-import com.apkfuns.logutils.LogUtils;
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.tdjpartner.http.BaseObserver;
-import com.tdjpartner.http.BaseResponse;
-import com.tdjpartner.http.GodObserver;
 import com.tdjpartner.http.RetrofitServiceManager;
 import com.tdjpartner.http.RxUtils;
 import com.tdjpartner.http.interceptor.PostJsonBody;
@@ -35,12 +31,11 @@ import com.tdjpartner.model.HotelAuditPageList;
 import com.tdjpartner.model.IntegralShop;
 import com.tdjpartner.model.InvitationHistory;
 import com.tdjpartner.model.IronDayAndMonthData;
-import com.tdjpartner.model.IronHomeData;
 import com.tdjpartner.model.IronHomeTopData;
 import com.tdjpartner.model.IronStatisticsDetails;
 import com.tdjpartner.model.MyCountMoney;
 import com.tdjpartner.model.MyTeam;
-import com.tdjpartner.model.NetHomeData;
+import com.tdjpartner.model.V3HomeData;
 import com.tdjpartner.model.NewHomeData;
 import com.tdjpartner.model.NewMyTeam;
 import com.tdjpartner.model.OrderDetail;
@@ -68,7 +63,6 @@ import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
-import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
@@ -307,20 +301,8 @@ public class RequestPresenter {
         return getApiService().homeData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
 
-    public static Disposable ironHomeData(Map<String, Object> map, BaseObserver<IronHomeData> callback) {
-        return getApiService().ironHomeData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
-    }
-
-    public static Disposable ironHomeTopData(Map<String, Object> map, BaseObserver<IronHomeTopData> callback) {
-        return getApiService().ironHomeTopData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
-    }
-
     public static Disposable newhomeData(Map<String, Object> map, BaseObserver<NewHomeData> callback) {
         return getApiService().newhomeData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
-    }
-
-    public static Disposable ironStatisticsDetails(Map<String, Object> map, BaseObserver<IronStatisticsDetails> callback) {
-        return getApiService().ironStatisticsDetails(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
 
     public static Disposable homeDataDetails(Map<String, Object> map, BaseObserver<HomeDataDetails> callback) {
@@ -385,13 +367,15 @@ public class RequestPresenter {
     public static <T> Observable<T> loading(Class<T> clazz, Map<String, Object> map) {
         Observable<T> observable;
         if (clazz.isAssignableFrom(String.class)) {
-            if (map.remove("api").equals("hotelAuditReject")) {
+            if (map.containsKey("api") && map.remove("api").equals("hotelAuditReject")) {
                 observable = (Observable<T>) getApiService().hotelAuditReject(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
             } else {
-                observable = (Observable<T>) getApiService().hotelAuditReject(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
+                observable = (Observable<T>) getApiService().hotelAuditPass(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
             }
-        } else if (clazz.isAssignableFrom(NetHomeData.class)) {
-            observable = (Observable<T>) getApiService().netHomeData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
+        } else if (clazz.isAssignableFrom(IronHomeTopData.class)) {
+            observable = (Observable<T>) getApiService().ironHomeTopData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
+        }  else if (clazz.isAssignableFrom(V3HomeData.class)) {
+            observable = (Observable<T>) getApiService().v3HomeData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
         }  else if (clazz.isAssignableFrom(HotelAuditInfo.class)) {
             observable = (Observable<T>) getApiService().hotelAuditInfo(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
         } else if (clazz.isAssignableFrom(HotelAuditPageList.class)) {

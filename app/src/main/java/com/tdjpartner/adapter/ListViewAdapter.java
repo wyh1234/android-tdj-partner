@@ -14,42 +14,42 @@ import java.util.List;
 /**
  * Created by LFM on 2021/3/12.
  */
-public class IronAdapter extends ArrayAdapter<List<String>> {
+public class ListViewAdapter<T> extends ArrayAdapter<T> {
 
-    public interface InitView {
-        void initView(List<String> data, View convertView);
+    public interface InitView<D> {
+        void initView(D data, View convertView);
     }
 
-    public static final class Builder {
+    public static final class Builder<M> {
         private  int resource;
         private View.OnClickListener onClickListener;
         private InitView initView;
         private List<Integer> childIds = new ArrayList<>();
 
-        public Builder setResource(int resource) {
+        public Builder<M> setResource(int resource) {
             this.resource = resource;
             return this;
         }
 
-        public Builder setOnClickListener(View.OnClickListener onClickListener) {
+        public Builder<M> setOnClickListener(View.OnClickListener onClickListener) {
             this.onClickListener = onClickListener;
             return this;
         }
 
-        public Builder setInitView(InitView initView) {
+        public Builder<M> setInitView(InitView<M> initView) {
             this.initView = initView;
             return this;
         }
 
-        public Builder addChildId(int... id){
+        public Builder<M> addChildId(int... id){
             for (int n : id) {
                 childIds.add(n);
             }
             return this;
         }
 
-        public IronAdapter build(@NonNull Context context){
-            return new IronAdapter(context, resource, initView, childIds, onClickListener);
+        public ListViewAdapter<M> build(@NonNull Context context){
+            return new ListViewAdapter<>(context, resource, initView, childIds, onClickListener);
         }
     }
 
@@ -58,7 +58,7 @@ public class IronAdapter extends ArrayAdapter<List<String>> {
     private final InitView mInitView;
     private final List<Integer> mChildIds;
 
-    private IronAdapter(@NonNull Context context, int resource, InitView initView, List<Integer> childIds, View.OnClickListener onClickListener) {
+    private ListViewAdapter(@NonNull Context context, int resource, InitView initView, List<Integer> childIds, View.OnClickListener onClickListener) {
         super(context, resource);
         mResource = resource;
         mChildIds = childIds;
@@ -69,8 +69,6 @@ public class IronAdapter extends ArrayAdapter<List<String>> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-//        System.out.println("~~" + getClass().getSimpleName() + ".getView~~");
-
         convertView = LayoutInflater.from(getContext()).inflate(mResource, parent, false);
 
         if(mInitView != null) mInitView.initView(getItem(position), convertView);

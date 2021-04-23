@@ -14,16 +14,28 @@
         <FrameLayout
             android:id="@+id/fl_header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical">
 
-            <TextView
-                android:id="@+id/enterprise_code"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical"
-                android:text="BD:李四13212346542"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/enterprise_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="XX酒店"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/commissioner_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:gravity="bottom"
+                    android:text="BD:李四13212346542"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/authStatus"

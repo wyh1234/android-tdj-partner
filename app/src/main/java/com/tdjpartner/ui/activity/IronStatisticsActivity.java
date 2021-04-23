@@ -236,10 +236,6 @@ public class IronStatisticsActivity extends AppCompatActivity {
         return map;
     }
 
-    private NetworkViewModel getVM() {
-        return ViewModelProviders.of(this).get(NetworkViewModel.class);
-    }
-
     public void showLoading() {
         if (mProgressDialog == null) mProgressDialog = ProgressDialog.createDialog(this);
         mProgressDialog.setMessage("加载中...");

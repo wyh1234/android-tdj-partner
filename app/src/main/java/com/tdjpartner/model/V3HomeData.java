@@ -2,7 +2,7 @@ package com.tdjpartner.model;
 
 import java.util.List;
 
-public class NetHomeData {
+public class V3HomeData {
 
 
     private AllDataBean allData;

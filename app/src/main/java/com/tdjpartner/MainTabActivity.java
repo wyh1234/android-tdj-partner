@@ -68,24 +68,16 @@ public class MainTabActivity extends BaseActivity<MainTabPresenter> implements O
     protected void initData() {
         mFragmentList = new ArrayList<>();
 
-        if (UserUtils.getInstance().getLoginBean().getType() == 1) {
-
-            Fragment fragment = new NetIndexFragment();
-            Map<String, Object> map = new HashMap<>();
-            map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
-//            map.put("userId", 258869);
-            map.put("websiteId", UserUtils.getInstance().getLoginBean().getSite());
-            map.put("dayDate", GeneralUtils.getTimeFilter(new Date()));
-            map.put("monthTime", GeneralUtils.getMonthFilter(new Date()));
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("args", (Serializable) map);
-            fragment.setArguments(bundle);
-            mFragmentList.add(fragment);//网军
-        } else {
-            Fragment fragment = new IronIndexFragment();
-            mFragmentList.add(fragment);//网军
-        }
-
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
+        map.put("websiteId", UserUtils.getInstance().getLoginBean().getSite());
+        map.put("dayDate", GeneralUtils.getTimeFilter(new Date()));
+        map.put("monthTime", GeneralUtils.getMonthFilter(new Date()));
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("args", (Serializable) map);
+        Fragment fragment = UserUtils.getInstance().getLoginBean().getType() == 1 ? new NetIndexFragment() : new IronIndexFragment();
+        fragment.setArguments(bundle);
+        mFragmentList.add(fragment);
 
 
 //        if (UserUtils.getInstance().getLoginBean().getGrade() != 3) {

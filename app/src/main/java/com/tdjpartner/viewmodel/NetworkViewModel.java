@@ -39,14 +39,8 @@ public class NetworkViewModel extends ViewModel {
 
     public <D> MediatorLiveData<D> loadingWithNewLiveData(Class<D> dClass, @Nullable Map<String, Object> map) {
         loadData(dClass, map);
-
-        if (getRegister().containsKey(dClass)) {
-            return getRegister().get(dClass);
-        }
-
         MediatorLiveData<D> mediatorLiveData = new MediatorLiveData<>();
-        getRegister().put(dClass, mediatorLiveData);
-
+        getRegister().put(dClass, mediatorLiveData); //每次都使用新实例替换注册器中的旧实例
         return mediatorLiveData;
     }
 

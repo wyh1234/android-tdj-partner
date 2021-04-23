@@ -8,9 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.tdjpartner.R;
-import com.tdjpartner.adapter.FragmentStatisticsAdapter;
-import com.tdjpartner.model.SeachTag;
-import com.tdjpartner.ui.fragment.IronApprovalPendingFragment;
+import com.tdjpartner.ui.fragment.ApprovalPendingFragment;
 import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.widget.tablayout.WTabLayout;
@@ -28,7 +26,7 @@ import butterknife.ButterKnife;
 /**
  * Created by LFM on 2021/3/15.
  */
-public class IronApprovalActivity extends AppCompatActivity {
+public class ApprovalActivity extends AppCompatActivity {
     @BindView(R.id.wtab)
     WTabLayout wtab;
     @BindView(R.id.viewPager)
@@ -51,11 +49,11 @@ public class IronApprovalActivity extends AppCompatActivity {
 
             @Override
             public Fragment getItem(int i) {
-                IronApprovalPendingFragment fragment = new IronApprovalPendingFragment();
+                ApprovalPendingFragment fragment = new ApprovalPendingFragment();
                 Bundle bundle = new Bundle();
                 Map<String, Object> map = new HashMap<>();
                 map.put("userId", UserUtils.getInstance().getLoginBean().getLoginUserId());
-                map.put("userId", 2023814);
+//                map.put("userId", 2023814);
                 map.put("authStatus", i);
                 map.put("ps", 999);
                 map.put("pn", 1);

@@ -4,14 +4,13 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tdjpartner.R;
-import com.tdjpartner.adapter.IronAdapter;
+import com.tdjpartner.adapter.ListViewAdapter;
 import com.tdjpartner.base.VMFragment;
 import com.tdjpartner.model.AfterSaleInfoData;
 import com.tdjpartner.viewmodel.AfterSalesViewModel;
@@ -23,7 +22,7 @@ import java.util.Arrays;
  */
 public class IronSupportVMFragment extends VMFragment<AfterSaleInfoData, AfterSalesViewModel> implements View.OnClickListener {
 
-    private IronAdapter ironAdapter;
+    private ListViewAdapter simpleListAdapter;
 
     @Override
     protected int getLayoutId() {
@@ -34,16 +33,16 @@ public class IronSupportVMFragment extends VMFragment<AfterSaleInfoData, AfterSa
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ListView listView = view.findViewById(R.id.listView);
-        ironAdapter = new IronAdapter.Builder()
+        simpleListAdapter = new ListViewAdapter.Builder<>()
                 .setResource(R.layout.iron_support_list_item)
                 .setInitView((data, convertView) -> {
-                    ((TextView) convertView.findViewById(R.id.hotel_name)).setText(data.get(0));
-                    ((TextView) convertView.findViewById(R.id.operator_user_name)).setText(data.get(1));
+//                    ((TextView) convertView.findViewById(R.id.hotel_name)).setText(data.get(0));
+//                    ((TextView) convertView.findViewById(R.id.operator_user_name)).setText(data.get(1));
                 })
 //                .addChildId(R.id.hotel_name)
 //                .setOnClickListener(this)
                 .build(getContext());
-        listView.setAdapter(ironAdapter);
+        listView.setAdapter(simpleListAdapter);
     }
 
     @Override
@@ -58,8 +57,8 @@ public class IronSupportVMFragment extends VMFragment<AfterSaleInfoData, AfterSa
 //        }
 //        ironAdapter.notifyDataSetChanged();
 
-        ironAdapter.clear();
-        ironAdapter.add(Arrays.asList("111", "222"));
+        simpleListAdapter.clear();
+        simpleListAdapter.add(Arrays.asList("111", "222"));
     }
 
     @Override

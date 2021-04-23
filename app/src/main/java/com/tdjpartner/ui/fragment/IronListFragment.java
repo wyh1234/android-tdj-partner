@@ -75,7 +75,7 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
         pvTime = new TimePickerView.Builder(getContext(), new TimePickerView.OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                tv_time.setText(isDay?GeneralUtils.getTimes(date):GeneralUtils.getTime(date));
+                tv_time.setText(isDay ? GeneralUtils.getTimes(date) : GeneralUtils.getTime(date));
                 IronListFragment.this.date = date;
                 refresh();
             }
@@ -201,9 +201,10 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
         IronListFragment fragment = new IronListFragment();
         fragment.setArguments(bundle);
 
+
         getFragmentManager().beginTransaction()
                 .add(R.id.fl, fragment)
-                .addToBackStack(tag)
+                .addToBackStack(tag += userId + "")
                 .commit();
     }
 
@@ -217,7 +218,7 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
             case R.id.tv_day_sink:
                 IronDayAndMonthData.TeamView teamView = (IronDayAndMonthData.TeamView) baseQuickAdapter.getItem(i);
                 if (teamView.gradeChineseName.equals("BD")) return;
-                leak(teamView.parentId, true);
+                leak(teamView.partnerId, true);
                 break;
         }
     }

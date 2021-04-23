@@ -34,7 +34,7 @@ import com.tdjpartner.model.IronHomeTopData;
 import com.tdjpartner.model.IronStatisticsDetails;
 import com.tdjpartner.model.MyCountMoney;
 import com.tdjpartner.model.MyTeam;
-import com.tdjpartner.model.NetHomeData;
+import com.tdjpartner.model.V3HomeData;
 import com.tdjpartner.model.NewHomeData;
 import com.tdjpartner.model.NewMyTeam;
 import com.tdjpartner.model.OrderDetail;
@@ -58,12 +58,10 @@ import com.tdjpartner.model.WithdrawDetalis;
 import java.util.List;
 import java.util.Map;
 
-import io.reactivex.Completable;
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
-import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
@@ -564,10 +562,6 @@ public interface ApiService {
     Observable<BaseResponse<IronHomeData>> ironHomeData(@Body RequestBody body);
 
     @Headers({"url_type:xuming"})
-    @POST("tdj-report/report/teamOverView/homePageTop")
-    Observable<BaseResponse<IronHomeTopData>> ironHomeTopData(@Body RequestBody body);
-
-    @Headers({"url_type:xuming"})
     @POST("tdj-report/report/customer/homeData")
     Observable<BaseResponse<HomeData>> homeData(@Body RequestBody body);
 
@@ -650,31 +644,42 @@ public interface ApiService {
 
 
     /****************创客3.0********************/
+    //首页日月统计
     @Headers({"url_type:xuming"})
-    @POST("tdj-partner/partner/afterSalesApplication/getafterSalesTask")
-    Observable<BaseResponse<AfterSaleInfoData>> getafterSalesTask(@Body RequestBody body);
+    @POST("tdj-report/report/customer/homeData")
+    Observable<BaseResponse<V3HomeData>> v3HomeData(@Body RequestBody body);
 
+    //首页排行榜
+    @Headers({"url_type:xuming"})
+    @POST("tdj-report/report/teamOverView/homePageTop")
+    Observable<BaseResponse<IronHomeTopData>> ironHomeTopData(@Body RequestBody body);
+
+    //铁军统计
     @Headers({"url_type:xuming"})
     @POST("tdj-report/report/customer/homeDataDetails")
     Observable<BaseResponse<IronStatisticsDetails>> ironStatisticsDetails(@Body RequestBody body);
 
+    //日月统计
     @Headers({"url_type:xuming"})
     @POST("/tdj-report/report/teamOverView/dayAndMonthData")
     Observable<BaseResponse<IronDayAndMonthData>> ironDayAndMonthData(@Body RequestBody body);
 
+    //酒店审核
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/hotelAudit/pageList")
     Observable<BaseResponse<HotelAuditPageList>> hotelAuditPageList(@Body RequestBody body);
-
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/hotelAudit/info")
     Observable<BaseResponse<HotelAuditInfo>> hotelAuditInfo(@Body RequestBody body);
-
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/hotelAudit/reject")
     Observable<BaseResponse<String>> hotelAuditReject(@Body RequestBody body);
-
     @Headers({"url_type:xuming"})
-    @POST("tdj-report/report/customer/homeData")
-    Observable<BaseResponse<NetHomeData>> netHomeData(@Body RequestBody body);
+    @POST("tdj-partner/partner/hotelAudit/pass")
+    Observable<BaseResponse<String>> hotelAuditPass(@Body RequestBody body);
+
+    //网军DB售后
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/afterSalesApplication/getafterSalesTask")
+    Observable<BaseResponse<AfterSaleInfoData>> getafterSalesTask(@Body RequestBody body);
 }
