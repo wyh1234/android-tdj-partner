@@ -129,7 +129,7 @@ public class MainTabActivity extends BaseActivity<MainTabPresenter> implements O
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GeneralUtils.REQUEST_CODE_CHOOSE_GRIDE && resultCode == RESULT_OK) {//storage/emulated/0/Pictures/JPEG_20181011_155709.jpg
+        if (requestCode == GeneralUtils.REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {//storage/emulated/0/Pictures/JPEG_20181011_155709.jpg
             LogUtils.i(Matisse.obtainPathResult(data).get(0));
             EventBus.getDefault().post(new ImageUploadOk(Matisse.obtainPathResult(data).get(0)));
         }

@@ -4,6 +4,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
+        android:id="@+id/product_img"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_gravity="center_horizontal"
@@ -21,15 +22,13 @@
             android:layout_marginTop="4dp">
 
             <TextView
+                android:id="@+id/product_criteria"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/bg_count_red"
+                android:background="@drawable/bg_ring_orange"
                 android:gravity="center"
-                android:padding="2dp"
-                android:paddingStart="4dp"
-                android:paddingEnd="4dp"
-                android:layout_marginEnd="4dp"
+                android:padding="6dp"
                 android:text="通"
                 android:textSize="12sp" />
 
@@ -49,7 +48,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:gravity="center"
-            android:layout_marginTop="4dp"
             android:text="11.99元/箱（24盒*250毫升）"
             android:textSize="12sp" />
 
@@ -71,15 +69,17 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="4dp"
-                android:text="2斤/共:1元"
+                android:text="2斤/共1元"
                 android:textColor="@color/orange_red"
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/store_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -92,6 +92,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -101,16 +102,6 @@
                 android:text="上门补货"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
-
-            <!--                <TextView-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:layout_gravity="center_vertical"-->
-            <!--                    android:background="@drawable/bg_orange_4"-->
-            <!--                    android:padding="4dp"-->
-            <!--                    android:text="上门补货"-->
-            <!--                    android:textColor="@color/white"-->
-            <!--                    android:textSize="12sp" />-->
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

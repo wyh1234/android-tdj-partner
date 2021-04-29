@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tdjpartner.R;
+import com.tdjpartner.base.NetworkActivity;
 import com.tdjpartner.model.HotelAuditInfo;
 import com.tdjpartner.utils.DialogUtils;
 import com.tdjpartner.utils.GeneralUtils;
@@ -29,7 +30,7 @@ import butterknife.OnClick;
 /**
  * Created by LFM on 2021/3/16.
  */
-public class ApprovalHandleActivity extends AppCompatActivity {
+public class ApprovalHandleActivity extends NetworkActivity {
 
 
     @BindView(R.id.tv_title)
@@ -60,6 +61,7 @@ public class ApprovalHandleActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.btn_yes:
                 map.clear();
+                map.put("api", "hotelAuditPass");
                 map.put("markCode", hotelAuditInfo.mark_code);
                 map.put("userId", UserUtils.getInstance().getLoginBean().getLoginUserId());
                 ViewModelProviders.of(this)
@@ -81,7 +83,6 @@ public class ApprovalHandleActivity extends AppCompatActivity {
                     map.put("api", "hotelAuditReject");
                     map.put("markCode", hotelAuditInfo.mark_code);
                     map.put("userId", UserUtils.getInstance().getLoginBean().getLoginUserId());
-//                    map.put("passPhone", "12345678901");
                     map.put("verifyInfo", refuse);
                     ViewModelProviders.of(this)
                             .get(NetworkViewModel.class)
@@ -95,22 +96,19 @@ public class ApprovalHandleActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.iron_approval_handle_activity);
-        Eyes.translucentStatusBar(this, true);
-        ButterKnife.bind(this);
+    @Override
+    protected void initView() {}
+
+    @Override
+    protected void initData() {
         tv_title.setText("审核处理");
 
         Map<String, Object> map = new ArrayMap<>();
         map.put("customerId", getIntent().getIntExtra("customerId", -1));
         map.put("customerId", 258693);
 
-        ViewModelProviders.of(this)
-                .get(NetworkViewModel.class)
-                .loadingWithNewLiveData(HotelAuditInfo.class, map)
+        getVM().loadingWithNewLiveData(HotelAuditInfo.class, map)
                 .observe(this, hotelAuditInfo -> {
                     System.out.println("hotelAuditInfo = " + hotelAuditInfo);
 
@@ -140,7 +138,10 @@ public class ApprovalHandleActivity extends AppCompatActivity {
                     ImageLoad.loadImageViewLoding(hotelAuditInfo.bzlicence_url, bzlicence_url);
 
                 });
+    }
 
-
+    @Override
+    protected int getLayoutId() {
+        return R.layout.iron_approval_handle_activity;
     }
 }

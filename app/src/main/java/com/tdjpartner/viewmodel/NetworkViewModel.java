@@ -10,6 +10,7 @@ import com.google.gson.JsonSerializer;
 import com.google.gson.JsonSyntaxException;
 import com.tdjpartner.common.RequestPresenter;
 import com.tdjpartner.http.ApiException;
+import com.tdjpartner.http.BaseObserver;
 import com.tdjpartner.model.HotelAuditInfo;
 import com.tdjpartner.model.HotelAuditPageList;
 import com.tdjpartner.model.IronDayAndMonthData;
@@ -44,16 +45,37 @@ public class NetworkViewModel extends ViewModel {
         return mediatorLiveData;
     }
 
+    public <D> MediatorLiveData<D> loadingWithNewLiveData(Class<D> dClass, String fileName, byte[] bytes) {
+
+        getCompositeDisposable().add(RequestPresenter.uploading(fileName, bytes).subscribe(this::onNext, this::onError));
+
+        MediatorLiveData<D> mediatorLiveData = new MediatorLiveData<>();
+        getRegister().put(dClass, mediatorLiveData); //每次都使用新实例替换注册器中的旧实例
+        return mediatorLiveData;
+    }
+
     public <D> MediatorLiveData<D> loading(Class<D> dClass, @Nullable Map<String, Object> map) {
         if (getRegister().containsKey(dClass)) {
             if (getRegister().get(dClass).hasObservers()) loadData(dClass, map);
             return getRegister().get(dClass);
         } else {
-            LogUtils.e("请先使用loadingWithNewLiveData()注册LiveData，再加载数据");
-            GeneralUtils.showToastshort("数据加载失败");
-            return null;
+//            LogUtils.e("请先使用loadingWithNewLiveData()注册LiveData，再加载数据");
+//            GeneralUtils.showToastshort("数据加载失败");
+            return loadingWithNewLiveData(dClass, map);
         }
     }
+
+//    public <D> MediatorLiveData<D> uploading(Class<D> dClass, String fileName, byte[] bytes) {
+//        if (getRegister().containsKey(dClass)) {
+//            if (getRegister().get(dClass).hasObservers())
+//                getCompositeDisposable().add(RequestPresenter.uploading(fileName, bytes).subscribe(this::onNext, this::onError));
+//            return getRegister().get(dClass);
+//        } else {
+//            LogUtils.e("请先使用loadingWithNewLiveData()注册LiveData，再加载数据");
+//            GeneralUtils.showToastshort("数据加载失败");
+//            return null;
+//        }
+//    }
 
     private <D> void loadData(Class<D> dClass, @Nullable Map<String, Object> map) {
         getCompositeDisposable().add(RequestPresenter.loading(dClass, map).subscribe(this::onNext, this::onError));
@@ -62,8 +84,8 @@ public class NetworkViewModel extends ViewModel {
     @Override
     protected void onCleared() {
         System.out.println("~~" + getClass().getSimpleName() + ".onCleared~~");
-        System.out.println(this);
         if (compositeDisposable != null) compositeDisposable.dispose();
+        register.clear();
     }
 
     private CompositeDisposable getCompositeDisposable() {
@@ -77,22 +99,23 @@ public class NetworkViewModel extends ViewModel {
     }
 
     public void onError(Throwable e) {
-        LogUtils.e(e);
+//        LogUtils.e(e);
 
         if (e instanceof ApiException) {
             //处理API错误
-//            LogUtils.e(((ApiException) e).getCode());
-//
-//            if (((ApiException) e).getCode() == 4 || ((ApiException) e).getCode() == 901) {
-//                GeneralUtils.showToastshort(((ApiException) e).getMsg());
+            ApiException apiException = (ApiException) e;
+            LogUtils.e("[" + apiException.getCode() + "]" + apiException.getMsg());
+
+            if (apiException.getCode() == 4 || apiException.getCode() == 901) {
+                GeneralUtils.showToastshort(apiException.getMsg());
 //                if (ClickCheckedUtil.onClickChecked(1000))
 //                    EventBus.getDefault().post(new LoginLoseEfficacyEvent());
-//                return;
-//            } else if (((ApiException) e).getCode() == 0) {
-////                onNext(null);
-//            } else {
-//                GeneralUtils.showToastshort(((ApiException) e).getMsg());
-//            }
+                return;
+            } else if (apiException.getCode() == 0) {
+//                onNext(null);
+            } else {
+                GeneralUtils.showToastshort(apiException.getMsg());
+            }
 
         } else if (e instanceof HttpException) {
             GeneralUtils.showToastshort("网络错误");

@@ -8,20 +8,38 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_margin="8dp"
-        android:padding="8dp"
-        android:background="@drawable/bg_white_12">
+        android:background="@drawable/bg_white_12"
+        android:orientation="vertical"
+        android:padding="8dp">
 
-        <TextView
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:paddingStart="4dp"
-            android:drawableStart="@drawable/line_orange_16"
-            android:drawablePadding="8dp"
-            android:text="门店：测试门店720   编号：E107区11-1"
-            android:textSize="14sp" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/customer_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:drawableStart="@drawable/line_orange_16"
+                android:drawablePadding="8dp"
+                android:paddingStart="4dp"
+                android:text="门店：测试门店720"
+                android:layout_gravity="start|bottom"
+                android:textStyle="bold"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/shipping_line_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:paddingEnd="4dp"
+                android:text="编号：E107区11-1"
+                android:layout_gravity="end|bottom"
+                android:textSize="14sp" />
+        </FrameLayout>
 
         <View
             android:layout_width="match_parent"
@@ -32,40 +50,47 @@
 
 
         <TextView
+            android:id="@+id/receive_user_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@mipmap/right_bg"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
+            android:drawableStart="@mipmap/receive"
             android:drawablePadding="8dp"
             android:text="收货人：企业720（13995566720）"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
             android:textSize="12sp" />
+
         <TextView
+            android:id="@+id/customer_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@mipmap/right_bg"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
+            android:drawableStart="@mipmap/adress"
             android:drawablePadding="8dp"
             android:text="地址：汇通新长江中心B座1102室"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
             android:textSize="12sp" />
+
         <TextView
+            android:id="@+id/supplier_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@mipmap/right_bg"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
+            android:drawableStart="@mipmap/user"
             android:drawablePadding="8dp"
             android:text="供应商名称：测试环境店铺"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
             android:textSize="12sp" />
+
         <TextView
+            android:id="@+id/supplier_tel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@mipmap/right_bg"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
+            android:drawableStart="@mipmap/tel"
             android:drawablePadding="8dp"
             android:text="供应商电话：12345678009"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
             android:textSize="12sp" />
     </LinearLayout>
 
@@ -73,12 +98,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_margin="8dp"
-        android:padding="8dp"
-        android:background="@drawable/bg_white_12">
+        android:background="@drawable/bg_white_12"
+        android:orientation="vertical"
+        android:padding="8dp">
 
         <TextView
+            android:id="@+id/order_pay_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -87,6 +113,7 @@
             android:textSize="12sp" />
 
         <TextView
+            android:id="@+id/order_no"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -95,6 +122,7 @@
             android:textSize="12sp" />
 
         <TextView
+            android:id="@+id/create_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"

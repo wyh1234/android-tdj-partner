@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tdjpartner.R;
+import com.tdjpartner.base.NetworkActivity;
 import com.tdjpartner.model.HotelAuditInfo;
 import com.tdjpartner.utils.glide.ImageLoad;
 import com.tdjpartner.utils.statusbar.Eyes;
@@ -26,7 +27,7 @@ import butterknife.OnClick;
 /**
  * Created by LFM on 2021/3/16.
  */
-public class ApprovalDetailActivity extends AppCompatActivity {
+public class ApprovalDetailActivity extends NetworkActivity {
 
 
     @BindView(R.id.tv_title)
@@ -50,21 +51,18 @@ public class ApprovalDetailActivity extends AppCompatActivity {
     ImageView bzlicence_url;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.iron_approval_detail_activity);
-        Eyes.translucentStatusBar(this, true);
-        ButterKnife.bind(this);
-
+    protected void initView() {
         tv_title.setText("审核详情");
+    }
+
+    @Override
+    protected void initData() {
 
         Map<String, Object> map = new ArrayMap<>();
         map.put("customerId", getIntent().getLongExtra("customerId", -1));
         map.put("customerId", 258693);
 
-        ViewModelProviders.of(this).get(NetworkViewModel.class)
-                .loadingWithNewLiveData(HotelAuditInfo.class, map)
+        getVM().loadingWithNewLiveData(HotelAuditInfo.class, map)
                 .observe(this, hotelAuditInfo -> {
                     System.out.println("hotelAuditInfo = " + hotelAuditInfo);
                     switch (hotelAuditInfo.authStatus) {
@@ -95,5 +93,10 @@ public class ApprovalDetailActivity extends AppCompatActivity {
                     verify.setText("审核结果：" + hotelAuditInfo.verify_info);
 
                 });
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.iron_approval_detail_activity;
     }
 }

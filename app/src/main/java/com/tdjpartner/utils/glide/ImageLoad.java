@@ -59,6 +59,11 @@ public class ImageLoad {
         GlideApp.with(mImageView.getContext()).load(path).placeholder(R.mipmap.head_portrait).error(R.mipmap.head_portrait).into(mImageView);
     }
 
+    //设置加载中以及加载失败图片,加载图片
+    public static void loadImageViewLodingWithOption( String path, ImageView mImageView, RequestOptions requestOptions) {
+        GlideApp.with(mImageView.getContext()).load(path).error(R.mipmap.head_portrait).apply(requestOptions).into(mImageView);
+    }
+
     public static void loadImageViewLodingCache(String path, ImageView mImageView) {
         GlideApp.with(mImageView.getContext()).load(path).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.RESOURCE).error(R.mipmap.head_portrait).dontAnimate().into(mImageView);
 

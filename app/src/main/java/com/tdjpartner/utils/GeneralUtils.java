@@ -10,15 +10,10 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
-import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
-import android.text.format.DateUtils;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,11 +21,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.apkfuns.logutils.LogUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.AppAplication;
 import com.tdjpartner.R;
-import com.tdjpartner.ui.activity.RealNameAuthenticationActivity;
 import com.tdjpartner.utils.glide.GifSizeFilter;
 import com.tdjpartner.utils.glide.MyGlideEngine;
 import com.zhihu.matisse.Matisse;
@@ -38,7 +31,6 @@ import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
-import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -50,7 +42,7 @@ import java.util.regex.Pattern;
 import io.reactivex.functions.Consumer;
 
 public class GeneralUtils {
-    public static final int REQUEST_CODE_CHOOSE_GRIDE = 23;
+    public static final int REQUEST_CODE_CHOOSE = 23;
     private  static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");;
     /**
      * <手机号码判断>
@@ -331,7 +323,7 @@ public class GeneralUtils {
                             .maxOriginalSize(10)
                             .thumbnailScale(0.85f)
                             .imageEngine(new MyGlideEngine())
-                            .forResult(REQUEST_CODE_CHOOSE_GRIDE);
+                            .forResult(REQUEST_CODE_CHOOSE);
 
                 }
             }

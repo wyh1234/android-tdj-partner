@@ -2,6 +2,7 @@ package com.tdjpartner.common;
 
 
 import com.tdjpartner.http.BaseResponse;
+import com.tdjpartner.model.AfterDetailData;
 import com.tdjpartner.model.AfterSaleInfoData;
 import com.tdjpartner.model.AfterSales;
 import com.tdjpartner.model.AppVersion;
@@ -34,7 +35,6 @@ import com.tdjpartner.model.IronHomeTopData;
 import com.tdjpartner.model.IronStatisticsDetails;
 import com.tdjpartner.model.MyCountMoney;
 import com.tdjpartner.model.MyTeam;
-import com.tdjpartner.model.V3HomeData;
 import com.tdjpartner.model.NewHomeData;
 import com.tdjpartner.model.NewMyTeam;
 import com.tdjpartner.model.OrderDetail;
@@ -53,6 +53,7 @@ import com.tdjpartner.model.StoreInfo;
 import com.tdjpartner.model.TeamOverView;
 import com.tdjpartner.model.ToMakeMoney;
 import com.tdjpartner.model.UserInfo;
+import com.tdjpartner.model.V3HomeData;
 import com.tdjpartner.model.WithdrawDetalis;
 
 import java.util.List;
@@ -682,4 +683,10 @@ public interface ApiService {
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/afterSalesApplication/getafterSalesTask")
     Observable<BaseResponse<AfterSaleInfoData>> getafterSalesTask(@Body RequestBody body);
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/afterSalesApplication/afterDetail")
+    Observable<BaseResponse<AfterDetailData>> afterDetail(@Body RequestBody body);
+    @Headers({"url_type:xuming"})
+    @POST("/tdj-partner/partner/afterSalesApplication/modifyAfterSalePhoto")
+    Observable<BaseResponse<AfterDetailData>> modifyAfterSalePhoto(@Body RequestBody body);
 }

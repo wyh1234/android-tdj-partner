@@ -5,54 +5,62 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 
+import com.bigkoo.pickerview.TimePickerView;
 import com.tdjpartner.R;
 import com.tdjpartner.base.NetworkActivity;
-import com.tdjpartner.ui.fragment.ApprovalPendingFragment;
+import com.tdjpartner.model.SeachTag;
+import com.tdjpartner.ui.fragment.NetSupportFragment;
 import com.tdjpartner.utils.cache.UserUtils;
-import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.widget.tablayout.WTabLayout;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by LFM on 2021/3/15.
  */
-public class ApprovalActivity extends NetworkActivity {
+public class NetSupportActivity extends NetworkActivity {
+
     @BindView(R.id.wtab)
     WTabLayout wtab;
     @BindView(R.id.viewPager)
     ViewPager viewPager;
 
+    private Calendar selectedDate, endDate, startDate;
+    private TimePickerView pvTime;
+    public SeachTag seachTag = new SeachTag();
     public String title;
     public List<String> titles = new ArrayList<>();
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.net_support_activity;
+    }
 
     @Override
     protected void initView() {
         viewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
 
-            List<String> titles = Arrays.asList("待审核", "审核通过", "审核驳回");
+            List<String> titles = Arrays.asList("指派", "全部");
 
             @Override
             public Fragment getItem(int i) {
-                ApprovalPendingFragment fragment = new ApprovalPendingFragment();
-                Bundle bundle = new Bundle();
                 Map<String, Object> map = new HashMap<>();
                 map.put("userId", UserUtils.getInstance().getLoginBean().getLoginUserId());
-//                map.put("userId", 2023814);
-                map.put("authStatus", i);
-                map.put("ps", 999);
-                map.put("pn", 1);
+                map.put("tab", i);
+
+                Bundle bundle = new Bundle();
                 bundle.putSerializable("args", (Serializable) map);
+
+                Fragment fragment = new NetSupportFragment();
                 fragment.setArguments(bundle);
                 return fragment;
             }
@@ -74,11 +82,5 @@ public class ApprovalActivity extends NetworkActivity {
 
     @Override
     protected void initData() {
-
-    }
-
-    @Override
-    protected int getLayoutId() {
-        return R.layout.iron_approval_activity;
     }
 }

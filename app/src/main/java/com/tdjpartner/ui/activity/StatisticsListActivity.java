@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
 import com.tdjpartner.R;
+import com.tdjpartner.base.NetworkActivity;
 import com.tdjpartner.ui.fragment.IronListFragment;
 import com.tdjpartner.ui.fragment.NetListFragment;
 import com.tdjpartner.utils.GeneralUtils;
@@ -19,13 +20,14 @@ import java.util.Map;
 /**
  * Created by LFM on 2021/3/12.
  */
-public class StatisticsListActivity extends AppCompatActivity {
+public class StatisticsListActivity extends NetworkActivity {
     int type = UserUtils.getInstance().getLoginBean().getType();//用户类型
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.iron_list_activity);
+    protected void initView() {}
+
+    @Override
+    protected void initData() {
         Fragment fragment = type == 1 ? new NetListFragment() : new IronListFragment();
 
         Bundle bundle = new Bundle();
@@ -36,6 +38,11 @@ public class StatisticsListActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fl, fragment, "one")
                 .commit();
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.iron_list_activity;
     }
 
     private Map<String, Object> getArges(Date date, boolean isDay, boolean isNext) {

@@ -3,6 +3,7 @@ package com.tdjpartner.utils.glide;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.os.Build;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
@@ -12,6 +13,9 @@ import android.support.annotation.RequiresApi;
 import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileDescriptor;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * RenderScript图片高斯模糊
@@ -88,6 +92,27 @@ public class BlurBitmapUtils {
         options.inJustDecodeBounds = false;
         //尺寸 初步压缩
         Bitmap bitmap = BitmapFactory.decodeFile(filePath, options);
+        if (bitmap == null) return null;
+        //质量压缩
+        if (compress.length>0 ) {
+            return null;
+        }
+        return getcompressBitmap(bitmap);
+    }
+
+    // 根据路径获得图片并压缩，返回bitmap用于显示
+    public static Bitmap getSmallBitmapFromFileDescriptor(FileDescriptor fileDescriptor, boolean... compress) {
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        //  inJustDecodeBounds设置为true，可以不把图片读到内存中,但依然可以计算出图片的大小
+        BitmapFactory.decodeFileDescriptor(fileDescriptor, null, options);
+        // Calculate inSampleSize计算图片的缩放值
+        options.inSampleSize = calculateInSampleSize(options);
+
+        // Decode head_portrait_bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        //尺寸 初步压缩
+        Bitmap bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor, null, options);
         if (bitmap == null) return null;
         //质量压缩
         if (compress.length>0 ) {

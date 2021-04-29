@@ -25,7 +25,7 @@ import com.tdjpartner.model.V3HomeData;
 import com.tdjpartner.model.NewHomeData;
 import com.tdjpartner.ui.activity.ApprovalActivity;
 import com.tdjpartner.ui.activity.IronStatisticsActivity;
-import com.tdjpartner.ui.activity.IronSupportActivity;
+import com.tdjpartner.ui.activity.NetSupportActivity;
 import com.tdjpartner.ui.activity.StatisticsListActivity;
 import com.tdjpartner.ui.activity.TeamMemberActivity;
 import com.tdjpartner.utils.GeneralUtils;
@@ -208,7 +208,7 @@ public class IronIndexFragment extends NetworkFragment
                 baseViewHolder.addOnClickListener(R.id.ll_keyPoint);
                 baseViewHolder.setText(R.id.title, "" + data.getTitle());
 
-                if (!data.getSubscriptNum().isEmpty()) {
+                if (!data.getSubscriptNum().isEmpty() && !data.getSubscriptNum().equals("0")) {
                     baseViewHolder.getView(R.id.count).setVisibility(View.VISIBLE);
                     baseViewHolder.setText(R.id.count, data.getSubscriptNum());
                 } else {
@@ -342,7 +342,7 @@ public class IronIndexFragment extends NetworkFragment
         if (grade == 3) {
             switch (((V3HomeData.PartnerApproachDataBean) baseQuickAdapter.getItem(i)).getSort()) {
                 case 3:
-                    getActivity().startActivity(new Intent(getContext(), IronSupportActivity.class));
+                    getActivity().startActivity(new Intent(getContext(), NetSupportActivity.class));
                     break;
             }
         } else {

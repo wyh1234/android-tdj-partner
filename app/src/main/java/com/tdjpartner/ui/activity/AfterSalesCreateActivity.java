@@ -2,16 +2,12 @@ package com.tdjpartner.ui.activity;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -491,7 +487,7 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GeneralUtils.REQUEST_CODE_CHOOSE_GRIDE && resultCode == RESULT_OK) {//storage/emulated/0/Pictures/JPEG_20181011_155709.jpg
+        if (requestCode == GeneralUtils.REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {//storage/emulated/0/Pictures/JPEG_20181011_155709.jpg
             LogUtils.i(Matisse.obtainPathResult(data).get(0));
             Log.e("OnActivityResult ", String.valueOf(Matisse.obtainPathResult(data).get(0)));
             mPresenter.imageUpload(Matisse.obtainPathResult(data).get(0));

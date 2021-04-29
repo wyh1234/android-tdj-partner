@@ -5,6 +5,7 @@ import com.tdjpartner.http.BaseObserver;
 import com.tdjpartner.http.RetrofitServiceManager;
 import com.tdjpartner.http.RxUtils;
 import com.tdjpartner.http.interceptor.PostJsonBody;
+import com.tdjpartner.model.AfterDetailData;
 import com.tdjpartner.model.AfterSaleInfoData;
 import com.tdjpartner.model.AfterSales;
 import com.tdjpartner.model.AppVersion;
@@ -360,23 +361,24 @@ public class RequestPresenter {
 
 
     /****************创客3.0********************/
-    public static Observable<AfterSaleInfoData> getafterSalesTask(Map<String, Object> map) {
-        return getApiService().getafterSalesTask(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
-    }
-
     public static <T> Observable<T> loading(Class<T> clazz, Map<String, Object> map) {
         Observable<T> observable;
-        if (clazz.isAssignableFrom(String.class)) {
-            if (map.containsKey("api") && map.remove("api").equals("hotelAuditReject")) {
+        if (clazz.isAssignableFrom(String.class) && map.containsKey("api")) {
+            String api = (String) map.remove("api");
+            if (api.equals("hotelAuditReject")) {
                 observable = (Observable<T>) getApiService().hotelAuditReject(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
-            } else {
+            } else if (api.equals("hotelAuditPass")) {
                 observable = (Observable<T>) getApiService().hotelAuditPass(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
+            } else if (api.equals("modifyAfterSalePhoto")) {
+                observable = (Observable<T>) getApiService().modifyAfterSalePhoto(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
+            } else {
+                observable = null;
             }
         } else if (clazz.isAssignableFrom(IronHomeTopData.class)) {
             observable = (Observable<T>) getApiService().ironHomeTopData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
-        }  else if (clazz.isAssignableFrom(V3HomeData.class)) {
+        } else if (clazz.isAssignableFrom(V3HomeData.class)) {
             observable = (Observable<T>) getApiService().v3HomeData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
-        }  else if (clazz.isAssignableFrom(HotelAuditInfo.class)) {
+        } else if (clazz.isAssignableFrom(HotelAuditInfo.class)) {
             observable = (Observable<T>) getApiService().hotelAuditInfo(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
         } else if (clazz.isAssignableFrom(HotelAuditPageList.class)) {
             observable = (Observable<T>) getApiService().hotelAuditPageList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
@@ -384,10 +386,19 @@ public class RequestPresenter {
             observable = (Observable<T>) getApiService().ironDayAndMonthData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
         } else if (clazz.isAssignableFrom(IronStatisticsDetails.class)) {
             observable = (Observable<T>) getApiService().ironStatisticsDetails(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
+        } else if (clazz.isAssignableFrom(AfterSaleInfoData.class)) {
+            observable = (Observable<T>) getApiService().getafterSalesTask(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
+        } else if (clazz.isAssignableFrom(AfterDetailData.class)) {
+            observable = (Observable<T>) getApiService().afterDetail(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
         } else {
             observable = null;
         }
         return observable;
+    }
+
+    //图片上传
+    public static <T> Observable<T> uploading(String fileName, byte[] bytes) {
+        return (Observable<T>) getApiService().imageUpload(getMultipartBody_part(fileName, bytes)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
     }
 
 }

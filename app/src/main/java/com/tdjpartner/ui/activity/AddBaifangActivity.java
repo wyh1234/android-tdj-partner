@@ -14,7 +14,6 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
 import com.tdjpartner.base.BaseActivity;
 import com.tdjpartner.mvp.presenter.AddBaifangPresenter;
-import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.glide.ImageLoad;
@@ -259,7 +258,7 @@ public class AddBaifangActivity extends BaseActivity<AddBaifangPresenter> implem
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GeneralUtils.REQUEST_CODE_CHOOSE_GRIDE && resultCode == RESULT_OK) {//storage/emulated/0/Pictures/JPEG_20181011_155709.jpg
+        if (requestCode == GeneralUtils.REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {//storage/emulated/0/Pictures/JPEG_20181011_155709.jpg
             LogUtils.i(Matisse.obtainPathResult(data).get(0));
             Log.e("OnActivityResult ", String.valueOf(Matisse.obtainPathResult(data).get(0)));
             mPresenter.imageUpload(Matisse.obtainPathResult(data).get(0));

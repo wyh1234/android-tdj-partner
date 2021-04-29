@@ -1,8 +1,6 @@
 package com.tdjpartner.ui.activity;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,26 +12,18 @@ import com.apkfuns.logutils.LogUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
 import com.tdjpartner.base.BaseActivity;
-import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.mvp.presenter.RealNameAuthenticationPresenter;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
-import com.tdjpartner.utils.glide.GifSizeFilter;
 import com.tdjpartner.utils.glide.ImageLoad;
-import com.tdjpartner.utils.glide.MyGlideEngine;
 import com.tdjpartner.utils.statusbar.Eyes;
 import com.zhihu.matisse.Matisse;
-import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.filter.Filter;
-import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.functions.Consumer;
 
 public class RealNameAuthenticationActivity extends BaseActivity<RealNameAuthenticationPresenter> {
     @BindView(R.id.tv_title)
@@ -159,7 +149,7 @@ public class RealNameAuthenticationActivity extends BaseActivity<RealNameAuthent
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GeneralUtils.REQUEST_CODE_CHOOSE_GRIDE && resultCode == RESULT_OK) {//storage/emulated/0/Pictures/JPEG_20181011_155709.jpg
+        if (requestCode == GeneralUtils.REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {//storage/emulated/0/Pictures/JPEG_20181011_155709.jpg
             LogUtils.i(Matisse.obtainPathResult(data).get(0));
             Log.e("OnActivityResult ", String.valueOf(Matisse.obtainPathResult(data).get(0)));
                 mPresenter.imageUpload(Matisse.obtainPathResult(data).get(0));
