@@ -84,7 +84,6 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
                             break;
                     }
 
-
                     switch (data.level_type) {
                         case 1:
                             ((TextView) convertView.findViewById(R.id.tv_amount)).setText(amount + data.amount + data.unit);
@@ -110,6 +109,7 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
                 .observe(this, afterSaleInfoData -> {
                     dismissLoading();
                     this.afterSaleInfoData = afterSaleInfoData;
+                    listViewAdapter.clear();
                     listViewAdapter.addAll(afterSaleInfoData.buGeting_list);
 
                     if (afterSaleInfoData.buTotalNum > 0) {
@@ -131,6 +131,15 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
                     }
                 });
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        System.out.println("~~" + getClass().getSimpleName() + ".onActivityResult~~");
+        System.out.println("~~" + getClass().getSimpleName() + ".onActivityResult~~");
+        super.onActivityResult(requestCode, resultCode, data);
+
+        getVMWithFragment().loading(AfterSaleInfoData.class, getArgs());
     }
 
     @OnClick({R.id.ll_refund, R.id.ll_replace, R.id.ll_replenish})
@@ -163,6 +172,6 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
         intent.putExtra("original", listViewAdapter.getItem(position).original_amount + listViewAdapter.getItem(position).unit);
         intent.putExtra("amount", listViewAdapter.getItem(position).amount + listViewAdapter.getItem(position).avg_unit);
         intent.putExtra("money", listViewAdapter.getItem(position).discount_price + "元/" + listViewAdapter.getItem(position).unit);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
     }
 }

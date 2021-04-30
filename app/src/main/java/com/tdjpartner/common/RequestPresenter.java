@@ -371,6 +371,8 @@ public class RequestPresenter {
                 observable = (Observable<T>) getApiService().hotelAuditPass(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
             } else if (api.equals("modifyAfterSalePhoto")) {
                 observable = (Observable<T>) getApiService().modifyAfterSalePhoto(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
+            }  else if (api.equals("difficulty")) {
+                observable = (Observable<T>) getApiService().difficulty(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
             } else {
                 observable = null;
             }

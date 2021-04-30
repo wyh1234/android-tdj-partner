@@ -59,23 +59,9 @@ public class NetworkViewModel extends ViewModel {
             if (getRegister().get(dClass).hasObservers()) loadData(dClass, map);
             return getRegister().get(dClass);
         } else {
-//            LogUtils.e("请先使用loadingWithNewLiveData()注册LiveData，再加载数据");
-//            GeneralUtils.showToastshort("数据加载失败");
             return loadingWithNewLiveData(dClass, map);
         }
     }
-
-//    public <D> MediatorLiveData<D> uploading(Class<D> dClass, String fileName, byte[] bytes) {
-//        if (getRegister().containsKey(dClass)) {
-//            if (getRegister().get(dClass).hasObservers())
-//                getCompositeDisposable().add(RequestPresenter.uploading(fileName, bytes).subscribe(this::onNext, this::onError));
-//            return getRegister().get(dClass);
-//        } else {
-//            LogUtils.e("请先使用loadingWithNewLiveData()注册LiveData，再加载数据");
-//            GeneralUtils.showToastshort("数据加载失败");
-//            return null;
-//        }
-//    }
 
     private <D> void loadData(Class<D> dClass, @Nullable Map<String, Object> map) {
         getCompositeDisposable().add(RequestPresenter.loading(dClass, map).subscribe(this::onNext, this::onError));

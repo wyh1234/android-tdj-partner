@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
 import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.viewmodel.NetworkViewModel;
@@ -18,6 +19,7 @@ import butterknife.ButterKnife;
 public abstract class NetworkActivity extends AppCompatActivity {
 
     private ProgressDialog mProgressDialog;
+    private RxPermissions rxPermissions;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,5 +60,10 @@ public abstract class NetworkActivity extends AppCompatActivity {
 
     public NetworkViewModel getVM(){
         return ViewModelProviders.of(this).get(NetworkViewModel.class);
+    }
+
+    public RxPermissions getRxPermissions() {
+        if (rxPermissions == null) rxPermissions = new RxPermissions(this);
+        return rxPermissions;
     }
 }

@@ -2,9 +2,6 @@ package com.tdjpartner.ui.activity;
 
 import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.ArrayMap;
 import android.view.View;
 import android.widget.EditText;
@@ -18,13 +15,11 @@ import com.tdjpartner.utils.DialogUtils;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.glide.ImageLoad;
-import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.viewmodel.NetworkViewModel;
 
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -75,7 +70,7 @@ public class ApprovalHandleActivity extends NetworkActivity {
                 dialog.show();
                 break;
             case R.id.dialog_btn_yes:
-                String refuse = ((EditText) dialog.findViewById(R.id.tv_refuse)).getText().toString();
+                String refuse = ((EditText) dialog.findViewById(R.id.et_content)).getText().toString();
                 if (dialog.isShowing() && !refuse.isEmpty()) {
                     dialog.dismiss();
 
@@ -106,7 +101,7 @@ public class ApprovalHandleActivity extends NetworkActivity {
 
         Map<String, Object> map = new ArrayMap<>();
         map.put("customerId", getIntent().getIntExtra("customerId", -1));
-        map.put("customerId", 258693);
+//        map.put("customerId", 258693);
 
         getVM().loadingWithNewLiveData(HotelAuditInfo.class, map)
                 .observe(this, hotelAuditInfo -> {

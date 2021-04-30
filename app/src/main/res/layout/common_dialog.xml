@@ -12,6 +12,7 @@
             android:padding="8dp"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
@@ -20,7 +21,7 @@
                 android:textSize="16sp"
                 android:text="驳回原因" />
             <EditText
-                android:id="@+id/tv_refuse"
+                android:id="@+id/et_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"

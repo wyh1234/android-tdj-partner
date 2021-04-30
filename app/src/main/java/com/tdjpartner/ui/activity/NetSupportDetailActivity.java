@@ -1,6 +1,8 @@
 package com.tdjpartner.ui.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -10,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,20 +26,17 @@ import android.widget.TextView;
 import com.apkfuns.logutils.LogUtils;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.tdjpartner.R;
 import com.tdjpartner.base.NetworkActivity;
 import com.tdjpartner.model.AfterDetailData;
+import com.tdjpartner.utils.DialogUtils;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.glide.BlurBitmapUtils;
-import com.tdjpartner.utils.glide.GlideApp;
 import com.tdjpartner.utils.glide.ImageLoad;
 
 import java.io.File;
@@ -56,6 +56,8 @@ import static com.tdjpartner.ui.fragment.NetSupportFragment.REPLENISH;
  */
 public class NetSupportDetailActivity extends NetworkActivity {
 
+    @BindView(R.id.tv_title)
+    TextView tv_title;
     @BindView(R.id.customer_name)
     TextView customer_name;
     @BindView(R.id.shipping_line_code)
@@ -84,13 +86,15 @@ public class NetSupportDetailActivity extends NetworkActivity {
     TextView num_title;
     @BindView(R.id.price_title)
     TextView price_title;
+    @BindView(R.id.difficulty)
+    TextView difficulty;
     @BindView(R.id.remark)
     Spinner remark;
 
-    @BindView(R.id.num)
-    EditText num;
-    @BindView(R.id.price)
-    EditText price;
+    @BindView(R.id.et_num)
+    EditText et_num;
+    @BindView(R.id.et_price)
+    EditText et_price;
 
 
     @BindView(R.id.problem_description)
@@ -104,23 +108,23 @@ public class NetSupportDetailActivity extends NetworkActivity {
 
     String receiveUserTel, supplierTel, spinnerContent, type;
     Map<Integer, String> imageUrl;
+    Dialog dialog;
     boolean isLoading = false;
     int uploadIndex;
     int entityId;
+    File captureFile;
 
-    File captureFile = null;
-
-    @OnClick({R.id.tv_title, R.id.receive_user_name, R.id.button, R.id.upload_1, R.id.upload_2, R.id.upload_3, R.id.tv_remove})
+    @OnClick({R.id.tv_title, R.id.receive_user_name, R.id.supplier_tel, R.id.button, R.id.upload_1, R.id.upload_2, R.id.upload_3, R.id.tv_remove, R.id.difficulty})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_title:
                 finish();
                 break;
             case R.id.receive_user_name:
-                startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + receiveUserTel)));
+                GeneralUtils.action_call(getRxPermissions(), receiveUserTel, this);
                 break;
             case R.id.supplier_tel:
-                startActivity(new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + supplierTel)));
+                GeneralUtils.action_call(getRxPermissions(), supplierTel, this);
                 break;
             case R.id.upload_1:
                 uploadIndex = 0;
@@ -153,25 +157,25 @@ public class NetSupportDetailActivity extends NetworkActivity {
                 if (imageUrl.isEmpty()) {
                     error = "请至少上传一张图片";
                 } else {
-                    map.put("images", imageUrl.values().stream().reduce((s1, s2) -> s1 + ", " + s2).get());
+                    map.put("images", TextUtils.join(",", imageUrl.values()));
                 }
 
-                if (type == REPLACE || type == REPLENISH) {
-                    if (price.getText().toString().isEmpty()) {
+                if (type.equals(REPLACE) || type.equals(REPLENISH)) {
+                    if (et_price.getText().toString().isEmpty()) {
                         error = "请输入实际金额";
                     } else {
-                        map.put("price", Double.parseDouble(price.getText().toString()));
+                        map.put("price", Double.parseDouble(et_price.getText().toString()));
                     }
 
-                    if (num.getText().toString().isEmpty()) {
+                    if (et_num.getText().toString().isEmpty()) {
                         error = "请输入实际数量";
                     } else {
-                        map.put("num", Double.parseDouble(num.getText().toString()));
+                        map.put("num", Double.parseDouble(et_num.getText().toString()));
                     }
 
                     String v = money.getText().toString();
                     map.put("money", Double.parseDouble(v.substring(v.indexOf('：') + 1, v.indexOf('元'))));
-                    if (type == REPLACE) map.put("remark", spinnerContent);
+                    if (type.equals(REPLACE)) map.put("remark", spinnerContent);
                 }
 
 
@@ -179,13 +183,43 @@ public class NetSupportDetailActivity extends NetworkActivity {
 
                 if (error.isEmpty()) {
                     getVM().loadingWithNewLiveData(String.class, map)
-                            .observe(this, s -> {
-                                GeneralUtils.showToastshort(s);
-                            });
+                            .observe(this, GeneralUtils::showToastshort);
                 } else {
                     GeneralUtils.showToastshort(error);
                 }
+                break;
+            case R.id.difficulty:
+                if (dialog == null)
+                    dialog = DialogUtils.getResourceDialog(this, R.layout.common_dialog, REPLACE + "问题反映", "请输入遇到的问题", this::onClick, this::onClick);
+                if (!dialog.isShowing()) dialog.show();
+                break;
+            case R.id.dialog_btn_yes:
+                String remark = ((EditText) dialog.findViewById(R.id.et_content)).getText().toString();
+                if (dialog.isShowing() && !remark.isEmpty()) {
+                    dialog.dismiss();
 
+                    if (typeToInt() == -1) {
+                        GeneralUtils.showToastshort("无法处理");
+                        return;
+                    }
+                    Map<String, Object> args = new ArrayMap<>();
+                    args.put("api", "difficulty");
+                    args.put("userId", UserUtils.getInstance().getLoginBean().getLoginUserId());
+                    args.put("entityId", entityId);
+                    args.put("tab", typeToInt());
+                    args.put("remark", remark);
+
+                    System.out.println("args = " + args);
+                    getVM().loadingWithNewLiveData(String.class, args)
+                            .observe(this, s -> {
+                                GeneralUtils.showToastshort(s);
+                                setResult(RESULT_OK);
+                                finish();
+                            });
+                }
+                break;
+            case R.id.dialog_btn_no:
+                if (dialog.isShowing()) dialog.dismiss();
                 break;
         }
     }
@@ -204,18 +238,20 @@ public class NetSupportDetailActivity extends NetworkActivity {
         num_title.setText("实际数量：");
         price_title.setText("实际金额：");
 
-
         switch (type) {
             case REPLENISH:
+                tv_title.setText(REPLENISH.substring(2, 4) + "详情");
                 amount.setText("要求补货：" + getIntent().getStringExtra("amount"));
-                num.setHint("请输入实际补货数量");
-                price.setHint("请输入实际补货金额");
+                et_num.setHint("请输入实际补货数量");
+                et_price.setHint("请输入实际补货金额");
                 break;
             case REPLACE:
+                tv_title.setText(REPLACE.substring(2, 4) + "详情");
                 amount.setText("要求换货：" + getIntent().getStringExtra("amount"));
-                num.setHint("请输入实际换货数量");
-                price.setHint("请输入实际换货金额");
-
+                et_num.setHint("请输入实际换货数量");
+                et_price.setHint("请输入实际换货金额");
+                difficulty.setPaintFlags(difficulty.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                difficulty.setVisibility(View.VISIBLE);
 
                 //换货证明
                 adapter = new BaseQuickAdapter<String, BaseViewHolder>(0) {
@@ -255,6 +291,7 @@ public class NetSupportDetailActivity extends NetworkActivity {
 
                 break;
             case REFUND:
+                tv_title.setText(REFUND.substring(2, 4) + "详情");
                 findViewById(R.id.ll_info).setVisibility(View.GONE);
                 break;
         }
@@ -338,21 +375,15 @@ public class NetSupportDetailActivity extends NetworkActivity {
                 try (ParcelFileDescriptor pfd = getContentResolver().openFileDescriptor(data.getData(), "r")) {
                     showLoading("图片上传中...");
                     getVM().loadingWithNewLiveData(String.class, file.substring(0, file.length() - 3) + "png", BlurBitmapUtils.bitmapTobyte(BlurBitmapUtils.getSmallBitmapFromFileDescriptor(pfd.getFileDescriptor()), true))
-                            .observe(this, s -> {
-                                RequestOptions requestOptions = new RequestOptions();
-                                requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(12));
-
-                                GlideApp.with(this)
-                                        .load(s)
-                                        .error(R.mipmap.head_portrait)
-                                        .apply(requestOptions)
-                                        .listener(new RequestListener<Drawable>() {
+                            .observe(this, url -> {
+                                ImageLoad.loadRoundImageWithListen(this, url, 12, updateUploadImage(),
+                                        new RequestListener<Drawable>() {
                                             @Override
                                             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                                                 dismissLoading();
                                                 isLoading = false;
                                                 GeneralUtils.showToastshort("图片上传失败！");
-                                                LogUtils.e("upload failure, file is " + s);
+                                                LogUtils.e("upload failure, file is " + url);
                                                 return false;
                                             }
 
@@ -360,12 +391,11 @@ public class NetSupportDetailActivity extends NetworkActivity {
                                             public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                                                 dismissLoading();
                                                 isLoading = false;
-                                                imageUrl.put(uploadIndex, s);
+                                                imageUrl.put(uploadIndex, url);
                                                 getParent(uploadIndex).findViewById(R.id.tv_remove).setVisibility(View.VISIBLE);
                                                 return false;
                                             }
-                                        })
-                                        .into(updateUploadImage());
+                                        });
                             });
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -429,4 +459,19 @@ public class NetSupportDetailActivity extends NetworkActivity {
                 return null;
         }
     }
+
+
+    private int typeToInt() {
+        switch (type) {
+            case REPLENISH:
+                return 0;
+            case REPLACE:
+                return 1;
+            case REFUND:
+                return 2;
+            default:
+                return -1;
+        }
+    }
+
 }

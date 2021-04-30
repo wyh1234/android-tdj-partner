@@ -689,4 +689,7 @@ public interface ApiService {
     @Headers({"url_type:xuming"})
     @POST("/tdj-partner/partner/afterSalesApplication/modifyAfterSalePhoto")
     Observable<BaseResponse<AfterDetailData>> modifyAfterSalePhoto(@Body RequestBody body);
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/afterSalesApplication/difficulty")
+    Observable<BaseResponse<AfterDetailData>> difficulty(@Body RequestBody body);
 }

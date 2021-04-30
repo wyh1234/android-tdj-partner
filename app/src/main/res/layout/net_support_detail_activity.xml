@@ -99,7 +99,7 @@
                             android:textSize="12sp" />
 
                         <EditText
-                            android:id="@+id/num"
+                            android:id="@+id/et_num"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="1dp"
@@ -131,7 +131,7 @@
                             android:textSize="12sp" />
 
                         <EditText
-                            android:id="@+id/price"
+                            android:id="@+id/et_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="1dp"
@@ -238,6 +238,17 @@
                 android:elevation="0dp"
                 android:text="确认并提交"
                 android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/difficulty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_gravity="center"
+                android:text="遇到问题，上门取件？"
+                android:visibility="gone"
+                android:textStyle="italic"
+                android:textSize="12sp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
