@@ -14,9 +14,11 @@ import com.tdjpartner.model.ClientDetails;
 import com.tdjpartner.model.ClientInfo;
 import com.tdjpartner.model.ClientSeachInfo;
 import com.tdjpartner.model.CouponsStatistics;
+import com.tdjpartner.model.CustomerInfo;
 import com.tdjpartner.model.DegreeOfSatisfaction;
 import com.tdjpartner.model.DeleteSalesAppByEntityId;
 import com.tdjpartner.model.DiscountCoupon;
+import com.tdjpartner.model.DistanceInfo;
 import com.tdjpartner.model.DistinctList;
 import com.tdjpartner.model.DriverLocation;
 import com.tdjpartner.model.DropOuting;
@@ -423,6 +425,17 @@ public interface ApiService {
     @POST("tdj-report/report/customer/hotelMap")
     Observable<BaseResponse<List<ClientInfo>>> hotelMap(@Body RequestBody body);
 
+    @Headers({"url_type:xuming"})
+    @POST("tdj-report/report/customer/mapData")
+    Observable<BaseResponse<List<ClientInfo>>> mapData(@Body RequestBody body);
+
+    @Headers({"url_type:xuming"})
+    @POST("tdj-report/report/customer/listData")
+    Observable<BaseResponse<CustomerInfo>> listData(@Body RequestBody body);
+
+    @Headers({"url_type:xuming"})
+    @POST("tdj-report/report/customer/punchDistance")
+    Observable<BaseResponse<DistanceInfo>> punchDistance(@Body RequestBody body);
 
     /*
      *.地图搜索

@@ -36,18 +36,19 @@ public class ClientNewFragment extends Fragment {
     @BindView(R.id.search_text)
     TextView search_text;
     public RxPermissions rxPermissions;
-    @OnClick({R.id.tv_list_type,R.id.search_text})
-    public void  onClick(View view){
-        switch (view.getId()){
+
+    @OnClick({R.id.tv_list_type, R.id.search_text})
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.tv_list_type:
 
-                rxPermissions.request( Manifest.permission.ACCESS_COARSE_LOCATION).subscribe(new Consumer<Boolean>() {
+                rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION).subscribe(new Consumer<Boolean>() {
                     @Override
                     public void accept(Boolean b) throws Exception {
-                        if (b){
-                               EventBus.getDefault().post(new ClientFragmentType("map"));
-                                LocationUtils.getInstance().startLocalService("MAP");
-                        }else {
+                        if (b) {
+                            EventBus.getDefault().post(new ClientFragmentType("map"));
+                            LocationUtils.getInstance().startLocalService("MAP");
+                        } else {
                             GeneralUtils.showToastshort("请开启位置信息");
                         }
 
@@ -56,15 +57,15 @@ public class ClientNewFragment extends Fragment {
 
                 break;
             case R.id.search_text:
-                Intent intent=new Intent(getContext(), ClientListSeachActivity.class);
+                Intent intent = new Intent(getContext(), ClientListSeachActivity.class);
                 startActivity(intent);
                 break;
         }
     }
+
     @Override
     protected void initView(View view) {
     }
-
 
 
     @Override
@@ -76,10 +77,11 @@ public class ClientNewFragment extends Fragment {
     protected IPresenter loadPresenter() {
         return null;
     }
+
     @Override
     protected void onFragmentFirstVisible() {
         super.onFragmentFirstVisible();//第一次加载
-        rxPermissions=new RxPermissions(getActivity());
+        rxPermissions = new RxPermissions(getActivity());
         List<String> titles = new ArrayList<>();
         titles.add("我的客户");
         titles.add("公海客户");
@@ -90,6 +92,7 @@ public class ClientNewFragment extends Fragment {
         //将TabLayout和ViewPager关联起来。
         wtab.setupWithViewPager(viewPager);
     }
+
     @Override
     protected int getContentId() {
         return R.layout.client_fragment;

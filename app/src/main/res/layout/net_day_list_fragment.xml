@@ -77,7 +77,7 @@
 
             <include
                 android:id="@+id/ll_header_include"
-                layout="@layout/net_day_preview_item"
+                layout="@layout/net_day_preview_db_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

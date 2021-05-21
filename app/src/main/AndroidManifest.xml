@@ -49,7 +49,6 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme">
 
-<!--        <activity android:name=".ui.activity.NetSupportDetailActivity"-->
         <activity android:name=".SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Launcher">
@@ -221,6 +220,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.IronStatisticsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.NetStatisticsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.ApprovalActivity"

@@ -1,12 +1,6 @@
 package com.tdjpartner.ui.activity;
 
-import android.arch.lifecycle.ViewModelProviders;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.ArrayMap;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,15 +8,10 @@ import com.tdjpartner.R;
 import com.tdjpartner.base.NetworkActivity;
 import com.tdjpartner.model.HotelAuditInfo;
 import com.tdjpartner.utils.glide.ImageLoad;
-import com.tdjpartner.utils.statusbar.Eyes;
-import com.tdjpartner.viewmodel.NetworkViewModel;
-import com.tdjpartner.widget.view.ScrollPickerAdapter;
 
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by LFM on 2021/3/16.

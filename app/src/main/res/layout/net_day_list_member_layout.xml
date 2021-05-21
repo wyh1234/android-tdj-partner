@@ -45,7 +45,7 @@
         </LinearLayout>
 
         <include
-            layout="@layout/net_day_preview_item"
+            layout="@layout/net_day_preview_db_item"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.bigkoo.pickerview.TimePickerView;
 import com.tdjpartner.R;
@@ -23,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by LFM on 2021/3/15.
@@ -33,12 +36,23 @@ public class NetSupportActivity extends NetworkActivity {
     WTabLayout wtab;
     @BindView(R.id.viewPager)
     ViewPager viewPager;
+    @BindView(R.id.btn_back)
+    ImageView btn_back;
 
     private Calendar selectedDate, endDate, startDate;
     private TimePickerView pvTime;
     public SeachTag seachTag = new SeachTag();
     public String title;
     public List<String> titles = new ArrayList<>();
+
+    @OnClick({R.id.btn_back})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_back:
+                finish();
+                break;
+        }
+    }
 
     @Override
     protected int getLayoutId() {

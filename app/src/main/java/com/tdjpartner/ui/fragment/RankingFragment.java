@@ -1,5 +1,6 @@
 package com.tdjpartner.ui.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.tdjpartner.R;
 import com.tdjpartner.base.NetworkFragment;
 import com.tdjpartner.model.IronHomeTopData;
+import com.tdjpartner.utils.cache.UserUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,7 +29,8 @@ public class RankingFragment extends NetworkFragment {
     private int userType;
     private int websiteId;
     private boolean isDay;
-    private ArrayAdapter<List<String>> arrayAdapter;
+    private ArrayAdapter<IronHomeTopData.RegisterTimesTopListBean> arrayAdapter;
+    private int entityId = UserUtils.getInstance().getLoginBean().getEntityId();//用户站点
 
 //    @Override
 //    public void onCreate(Bundle savedInstanceState) {
@@ -50,22 +53,46 @@ public class RankingFragment extends NetworkFragment {
         super.onViewCreated(view, savedInstanceState);
 
         //初始化View
-        arrayAdapter = new ArrayAdapter<List<String>>(getContext(), R.layout.adapter_ranking) {
+        arrayAdapter = new ArrayAdapter<IronHomeTopData.RegisterTimesTopListBean>(getContext(), R.layout.adapter_ranking) {
             @NonNull
             @Override
             public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
                 convertView = getLayoutInflater().inflate(R.layout.adapter_ranking, parent, false);
 
-                List<String> data = getItem(position);
-                System.out.println("data = " + data);
-                TextView textView = convertView.findViewById(R.id.tv_ranking);
-                textView.setText(data.get(0));
-                textView = convertView.findViewById(R.id.tv_db);
-                textView.setText(data.get(1));
-                textView = convertView.findViewById(R.id.tv_higher);
-                textView.setText(data.get(2));
-                textView = convertView.findViewById(R.id.tv_action);
-                textView.setText(data.get(3));
+                IronHomeTopData.RegisterTimesTopListBean bean = getItem(position);
+                System.out.println("bean = " + bean);
+
+                if (bean.customerId == entityId) {
+                    TextView textView = convertView.findViewById(R.id.tv_ranking);
+                    textView.setText("" + position + 1);
+                    textView.setTextColor(getResources().getColor(R.color.orange_red, null));
+
+                    textView = convertView.findViewById(R.id.tv_db);
+                    textView.setText(bean.partnerName);
+                    textView.setTextColor(getResources().getColor(R.color.orange_red, null));
+
+                    textView = convertView.findViewById(R.id.tv_higher);
+                    textView.setText(bean.name);
+                    textView.setTextColor(getResources().getColor(R.color.orange_red, null));
+
+                    textView = convertView.findViewById(R.id.tv_action);
+                    textView.setText("" + bean.monthActiveNum);
+                    textView.setTextColor(getResources().getColor(R.color.orange_red, null));
+                } else {
+                    TextView textView = convertView.findViewById(R.id.tv_ranking);
+                    textView.setText("" + position + 1);
+
+                    textView = convertView.findViewById(R.id.tv_db);
+                    textView.setText(bean.partnerName);
+
+                    textView = convertView.findViewById(R.id.tv_higher);
+                    textView.setText(bean.name);
+
+                    textView = convertView.findViewById(R.id.tv_action);
+                    textView.setText("" + bean.monthActiveNum);
+                }
+
+
 
                 return convertView;
             }
@@ -78,12 +105,7 @@ public class RankingFragment extends NetworkFragment {
         //加载数据
         getVMWithFragment().loadingWithNewLiveData(IronHomeTopData.class, getArgs())
                 .observe(this, ironHomeTopData -> {
-                    for (int i = 0; i < ironHomeTopData.getRegisterTimesTopList().size(); i++) {
-                        arrayAdapter.add(Arrays.asList("" + (i + 1),
-                                ironHomeTopData.getRegisterTimesTopList().get(i).partnerName,
-                                ironHomeTopData.getRegisterTimesTopList().get(i).name,
-                                "" + ironHomeTopData.getRegisterTimesTopList().get(i).monthActiveNum));
-                    }
+                    arrayAdapter.addAll(ironHomeTopData.getRegisterTimesTopList());
                 });
 
     }

@@ -75,40 +75,41 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
         this.locationBean = locationBean;
     }
 
-    private List<ClientInfo> clientMapInfoList=new ArrayList<>();
-    @OnClick({R.id.tv_list_type,R.id.search_text})
-    public void  onClick(View view){
-        switch (view.getId()){
+    private List<ClientInfo> clientMapInfoList = new ArrayList<>();
+
+    @OnClick({R.id.tv_list_type, R.id.search_text})
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.tv_list_type:
                 onDestroy();
                 EventBus.getDefault().post(new ClientFragmentType("list"));
                 break;
             case R.id.search_text:
-                Intent intent=new Intent(getContext(), ClientListSeachActivity.class);
+                Intent intent = new Intent(getContext(), ClientListSeachActivity.class);
                 startActivity(intent);
                 break;
         }
     }
+
     @Override
     protected void initView(View view) {
 //        rxPermissions=new RxPermissions(getActivity());
         LinearLayoutManager layout = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
         recyclerview.setLayoutManager(layout);
-        clientMapAdapter=new ClientMapAdapter(R.layout.map_info_list_layout,clientMapInfoList);
+        clientMapAdapter = new ClientMapAdapter(R.layout.map_info_list_layout, clientMapInfoList);
         clientMapAdapter.setOnItemClickListener(this);
         recyclerview.setAdapter(clientMapAdapter);
 
     }
+
     @Override
     protected void initViews(View view, Bundle savedInstanceState) {
         super.initViews(view, savedInstanceState);
         mapView.onCreate(savedInstanceState);
-        if (aMap==null)
-        {
-            aMap=mapView.getMap();
+        if (aMap == null) {
+            aMap = mapView.getMap();
         }
-
 
 
     }
@@ -140,7 +141,7 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
 
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         mapView.onResume();
     }
@@ -150,19 +151,22 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
         super.onPause();
         mapView.onPause();
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
-        if(LocationUtils.mLocationClient!=null){
+        if (LocationUtils.mLocationClient != null) {
             LocationUtils.mLocationClient.onDestroy();
         }
     }
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mapView.onSaveInstanceState(outState);
     }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -179,6 +183,7 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
     protected ClientMapPresenter loadPresenter() {
         return new ClientMapPresenter();
     }
+
     /**
      * 激活定位
      */
@@ -187,11 +192,12 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
         mlistener = listener;
 
     }
+
     /*code 不同事件接受處理*/
-    @Subscribe( threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void eventCode(LocationBean locationBean) {
         LogUtils.e(locationBean);
-        if (locationBean.getTag().contains("MAP")){
+        if (locationBean.getTag().contains("MAP")) {
             setLocationBean(locationBean);
             myLocationStyle = new MyLocationStyle();//初始化定位蓝点样式类
             aMap.setMyLocationStyle(myLocationStyle);
@@ -202,7 +208,7 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
             mlistener.onLocationChanged(locationBean.getaMapLocation());
 
 
-            LatLng latLng = new LatLng(getLocationBean().getLatitude(),getLocationBean().getLongitude());
+            LatLng latLng = new LatLng(getLocationBean().getLatitude(), getLocationBean().getLongitude());
             LogUtils.e(latLng);
             //设置中心点和缩放比例
             aMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng));
@@ -230,19 +236,20 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
     public void onMapLoaded() {
 
 
-        Map<String,Object> map=new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
-        map.put("latitude",getLocationBean().getLatitude());
-        map.put("longitude",getLocationBean().getLongitude());
-        map.put("keyword","");
-        mPresenter.hotelMap(map);
+        map.put("latitude", getLocationBean().getLatitude());
+        map.put("longitude", getLocationBean().getLongitude());
+        map.put("keyword", "");
+//        mPresenter.hotelMap(map);
+        mPresenter.mapData(map);
 
     }
 
     private void addMarkerInScreenCenter() {
         //多个覆盖物用for循环
-        for (ClientInfo clientInfo:clientMapInfoList){
-            LatLng latLng = new LatLng(Double.parseDouble(clientInfo.getLat()),Double.parseDouble(clientInfo.getLon()));
+        for (ClientInfo clientInfo : clientMapInfoList) {
+            LatLng latLng = new LatLng(Double.parseDouble(clientInfo.getLat()), Double.parseDouble(clientInfo.getLon()));
             markerOption = new MarkerOptions();
             markerOption.position(latLng);
             markerOption.title(clientInfo.getName());
@@ -253,21 +260,22 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
             // 将Marker设置为贴地显示，可以双指下拉地图查看效果
             markerOption.setFlat(true);//设置marker平贴地图效果
             Point screenPosition = aMap.getProjection().toScreenLocation(latLng);
-            screenMarker=aMap.addMarker(markerOption);
+            screenMarker = aMap.addMarker(markerOption);
         }
 
 
     }
+
     public View getMarkerCountView(ClientInfo clientInfo) {
         View view = this.getLayoutInflater().inflate(R.layout.ll_map_count_info, null);
-        ImageView imageView = (ImageView)view.findViewById(R.id.iv_maker_bg);
-        if (clientInfo.getUserType()==1){
+        ImageView imageView = (ImageView) view.findViewById(R.id.iv_maker_bg);
+        if (clientInfo.getUserType() == 1) {
             imageView.setImageResource(R.mipmap.jiudianone_bg);
-        }else if (clientInfo.getUserType()==2){
+        } else if (clientInfo.getUserType() == 2) {
             imageView.setImageResource(R.mipmap.jiudiantwo_bg);
-        }else if (clientInfo.getUserType()==3){
+        } else if (clientInfo.getUserType() == 3) {
             imageView.setImageResource(R.mipmap.jiudianthree_bg);
-        }else {
+        } else {
 
             imageView.setImageResource(R.mipmap.huangse);
         }
@@ -286,7 +294,7 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
             clientMapInfoList.addAll(clientInfoList);
             addMarkerInScreenCenter();
             clientMapAdapter.setNewData(clientMapInfoList);
-        }else {
+        } else {
             recyclerview.setVisibility(View.GONE);
         }
 
@@ -294,9 +302,9 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
 
     @Override
     public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-        if (clientMapInfoList.get(i).getUserType()==1||clientMapInfoList.get(i).getUserType()==2){
-            Intent intent=new Intent(getContext(), ClientDetailsActivity.class);
-            intent.putExtra("customerId",clientMapInfoList.get(i).getCustomerId()+"");
+        if (clientMapInfoList.get(i).getUserType() == 1 || clientMapInfoList.get(i).getUserType() == 2) {
+            Intent intent = new Intent(getContext(), ClientDetailsActivity.class);
+            intent.putExtra("customerId", clientMapInfoList.get(i).getCustomerId() + "");
             startActivity(intent);
         }
 

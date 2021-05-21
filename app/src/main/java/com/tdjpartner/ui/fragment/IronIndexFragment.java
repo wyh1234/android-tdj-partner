@@ -20,11 +20,13 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.ListViewAdapter;
 import com.tdjpartner.base.NetworkFragment;
-import com.tdjpartner.model.IronHomeData;
-import com.tdjpartner.model.V3HomeData;
+import com.tdjpartner.model.IronHomeTopData;
 import com.tdjpartner.model.NewHomeData;
+import com.tdjpartner.model.V3HomeData;
 import com.tdjpartner.ui.activity.ApprovalActivity;
-import com.tdjpartner.ui.activity.IronStatisticsActivity;
+import com.tdjpartner.ui.activity.CommonFollowUpActivity;
+import com.tdjpartner.ui.activity.DropOutingActivity;
+import com.tdjpartner.ui.activity.NetStatisticsActivity;
 import com.tdjpartner.ui.activity.NetSupportActivity;
 import com.tdjpartner.ui.activity.StatisticsListActivity;
 import com.tdjpartner.ui.activity.TeamMemberActivity;
@@ -133,7 +135,7 @@ public class IronIndexFragment extends NetworkFragment
         if (view.getId() == R.id.ll_day_register ||
                 view.getId() == R.id.ll_day_open ||
                 view.getId() == R.id.ll_day_vegetables) {
-            Intent intent = new Intent(getContext(), IronStatisticsActivity.class);
+            Intent intent = new Intent(getContext(), NetStatisticsActivity.class);
             intent.putExtra("isDay", true);
             startActivity(intent);
         }
@@ -141,7 +143,7 @@ public class IronIndexFragment extends NetworkFragment
         if (view.getId() == R.id.ll_month_register ||
                 view.getId() == R.id.ll_month_open ||
                 view.getId() == R.id.ll_month_vegetables) {
-            Intent intent = new Intent(getContext(), IronStatisticsActivity.class);
+            Intent intent = new Intent(getContext(), NetStatisticsActivity.class);
             intent.putExtra("isDay", false);
             startActivity(intent);
         }
@@ -174,10 +176,10 @@ public class IronIndexFragment extends NetworkFragment
                 .setResource(R.layout.iron_day_preview_item)
                 .addChildId(R.id.ll_day_register, R.id.ll_day_open, R.id.ll_day_vegetables, R.id.ll_day_gmv, R.id.ll_day_price)
                 .setInitView((data, convertView) -> {
-                    ((TextView) convertView.findViewById(R.id.callNum)).setText(data.getTodayData().callNum + "");
-                    ((TextView) convertView.findViewById(R.id.firstOrderNum)).setText(data.getTodayData().firstOrderNum + "");
-                    ((TextView) convertView.findViewById(R.id.activeNum)).setText(data.getTodayData().activeNum + "");
-                    ((TextView) convertView.findViewById(R.id.yesterdayActiveNum)).setText(data.getTodayData().yesterdayActiveNum + "");
+                    ((TextView) convertView.findViewById(R.id.registerNum)).setText(data.getTodayData().dayRegisterTimes + "");
+                    ((TextView) convertView.findViewById(R.id.openNum)).setText(data.getTodayData().firstOrderNum + "");
+                    ((TextView) convertView.findViewById(R.id.vegetablesNum)).setText(data.getTodayData().categoryNum + "");
+                    ((TextView) convertView.findViewById(R.id.gmvNum)).setText(data.getTodayData().todayAmount + "");
                     ((TextView) convertView.findViewById(R.id.priceNum)).setText(data.getTodayData().averageAmount + "" + "");
                 })
                 .build(getContext());
@@ -189,10 +191,10 @@ public class IronIndexFragment extends NetworkFragment
                 .setResource(R.layout.iron_month_preview_item)
                 .addChildId(R.id.ll_month_register, R.id.ll_month_open, R.id.ll_month_vegetables, R.id.ll_month_gmv)
                 .setInitView((data, convertView) -> {
-                    ((TextView) convertView.findViewById(R.id.callNum)).setText(data.getMonthData().callNum + "");
-                    ((TextView) convertView.findViewById(R.id.firstOrderNum)).setText(data.getMonthData().firstOrderNum + "");
-                    ((TextView) convertView.findViewById(R.id.activeNum)).setText(data.getMonthData().activeNum + "");
-                    ((TextView) convertView.findViewById(R.id.yesterdayActiveNum)).setText(data.getMonthData().yesterdayActiveNum + "");
+                    ((TextView) convertView.findViewById(R.id.registerNum)).setText(data.getMonthData().monthRegisterNum + "");
+                    ((TextView) convertView.findViewById(R.id.openNum)).setText(data.getMonthData().monthFirstOrderNum + "");
+                    ((TextView) convertView.findViewById(R.id.vegetablesNum)).setText(data.getMonthData().categoryNum + "");
+                    ((TextView) convertView.findViewById(R.id.gmvNum)).setText(data.getMonthData().monthAmount + "");
                 })
                 .build(getContext());
         month_listView.setAdapter(ironMonthAdapter);
@@ -316,17 +318,19 @@ public class IronIndexFragment extends NetworkFragment
     public void onRefresh() {
         Map<String, Object> map = new HashMap<>();
 
-        map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
-        map.put("dayDate", GeneralUtils.getTimeFilter(new Date()));
-        map.put("monthTime", GeneralUtils.getMonthFilter(new Date()));
-        map.put("websiteId", UserUtils.getInstance().getLoginBean().getSite());
+//        map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
+//        map.put("dayDate", GeneralUtils.getTimeFilter(new Date()));
+//        map.put("monthTime", GeneralUtils.getMonthFilter(new Date()));
+//        map.put("websiteId", UserUtils.getInstance().getLoginBean().getSite());
+//
+////        map.put("userId", 258869);
+////        map.put("monthTime", "2021-04");
+////        map.put("dayDate", "2021-04-09");
+////        map.put("websiteId", 3);
+//
+//        getVMWithFragment().loading(IronHomeTopData.class, map);
 
-//        map.put("userId", 258869);
-        map.put("monthTime", "2021-04");
-        map.put("dayDate", "2021-04-09");
-        map.put("websiteId", 3);
-
-        getVMWithFragment().loading(IronHomeData.class, map);
+        getVMWithFragment().loading(V3HomeData.class, getArgs());
     }
 
     public void stop() {
@@ -341,8 +345,11 @@ public class IronIndexFragment extends NetworkFragment
         System.out.println("baseQuickAdapter = " + baseQuickAdapter + ", view = " + view + ", i = " + i);
         if (grade == 3) {
             switch (((V3HomeData.PartnerApproachDataBean) baseQuickAdapter.getItem(i)).getSort()) {
-                case 3:
-                    getActivity().startActivity(new Intent(getContext(), NetSupportActivity.class));
+                case 1:
+                    getActivity().startActivity(new Intent(getContext(), DropOutingActivity.class));
+                    break;
+                case 2:
+                    getActivity().startActivity(new Intent(getContext(), CommonFollowUpActivity.class));
                     break;
             }
         } else {

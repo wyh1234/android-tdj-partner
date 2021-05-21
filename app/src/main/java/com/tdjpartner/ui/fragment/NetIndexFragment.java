@@ -11,7 +11,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -23,9 +22,11 @@ import com.tdjpartner.base.NetworkFragment;
 import com.tdjpartner.model.NewHomeData;
 import com.tdjpartner.model.V3HomeData;
 import com.tdjpartner.ui.activity.ApprovalActivity;
+import com.tdjpartner.ui.activity.CommonFollowUpActivity;
+import com.tdjpartner.ui.activity.DropOutingActivity;
+import com.tdjpartner.ui.activity.NetStatisticsActivity;
 import com.tdjpartner.ui.activity.NetSupportActivity;
 import com.tdjpartner.ui.activity.StatisticsListActivity;
-import com.tdjpartner.ui.activity.TeamMemberActivity;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
 import com.tdjpartner.utils.cache.UserUtils;
@@ -59,14 +60,10 @@ public class NetIndexFragment extends NetworkFragment
     @BindView(R.id.keyPoint_rv)
     RecyclerView keyPoint_rv;
 
-    @BindView(R.id.ll_team)
-    LinearLayout rl_team;
     @BindView(R.id.tv_username)
     TextView tv_username;
     @BindView(R.id.tv_time)
     TextView tv_time;
-    @BindView(R.id.tv_heard)
-    TextView tv_heard;
     @BindView(R.id.tv_day)
     TextView tv_day;
     @BindView(R.id.tv_month)
@@ -82,23 +79,17 @@ public class NetIndexFragment extends NetworkFragment
 
     boolean isDay;//时间类型标记
     int userType = UserUtils.getInstance().getLoginBean().getType();//用户类型
-    int site = UserUtils.getInstance().getLoginBean().getSite();//用户类型
-    int grade = UserUtils.getInstance().getLoginBean().getGrade();//用户类型
+    int site = UserUtils.getInstance().getLoginBean().getSite();//用户站点
+    int grade = UserUtils.getInstance().getLoginBean().getGrade();//用户级别
 
     private ListViewAdapter<V3HomeData> netDayAdapter, netMonthAdapter;
     private BaseQuickAdapter<V3HomeData.PartnerApproachDataBean, BaseViewHolder> keyPointAdapter;
     private List<NewHomeData.RegisterTimesTopListBean> registerlist = new ArrayList<>();
     private List<NewHomeData.OrdersTimesTopList> orderList = new ArrayList<>();
 
-    @OnClick({R.id.ll_team, R.id.tv_day, R.id.tv_month, R.id.tv_day_sink, R.id.tv_month_sink})
+    @OnClick({R.id.tv_day, R.id.tv_month, R.id.tv_day_sink, R.id.tv_month_sink})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.ll_team:
-                Intent intent = new Intent(getContext(), TeamMemberActivity.class);
-                intent.putExtra("userId", UserUtils.getInstance().getLoginBean().getEntityId() + "");
-                startActivity(intent);
-                break;
-
             case R.id.tv_month:
                 view.setBackgroundResource(R.drawable.bg_orange_left_semi_4);
                 ((TextView) view).setTextColor(Color.WHITE);
@@ -130,6 +121,26 @@ public class NetIndexFragment extends NetworkFragment
             intent.putExtra("isDay", false);
             startActivity(intent);
         }
+
+        if (view.getId() == R.id.ll_day_register ||
+                view.getId() == R.id.ll_day_open ||
+                view.getId() == R.id.ll_day_active ||
+                view.getId() == R.id.ll_day_call ||
+                view.getId() == R.id.ll_day_vegetables) {
+            Intent intent = new Intent(getContext(), NetStatisticsActivity.class);
+            intent.putExtra("isDay", true);
+            startActivity(intent);
+        }
+
+        if (view.getId() == R.id.ll_month_vegetables ||
+                view.getId() == R.id.ll_month_call ||
+                view.getId() == R.id.ll_month_active ||
+                view.getId() == R.id.ll_month_open ||
+                view.getId() == R.id.ll_month_register) {
+            Intent intent = new Intent(getContext(), NetStatisticsActivity.class);
+            intent.putExtra("isDay", false);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -141,11 +152,6 @@ public class NetIndexFragment extends NetworkFragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         System.out.println("map is " + getArgs());
-        if (UserUtils.getInstance().getLoginBean().getGrade() != 3) {
-            rl_team.setVisibility(View.VISIBLE);
-        } else {
-//            rl_team.setVisibility(View.GONE);
-        }
 
         //初始化刷新布局
         swipeRefreshLayout.setColorSchemeResources(R.color.bbl_ff0000);
@@ -154,13 +160,13 @@ public class NetIndexFragment extends NetworkFragment
         //初始化顶部UI
         tv_username.setText("你好," + UserUtils.getInstance().getLoginBean().getRealname() + "!");
         tv_time.setText(GeneralUtils.getCurrDay() + "\t\t" + GeneralUtils.getWeekDay(System.currentTimeMillis()));
-        tv_heard.setText(tv_heard.getText() + "武汉");
 
 
         //初始化日月统计
         netDayAdapter = new ListViewAdapter.Builder<V3HomeData>()
                 .setOnClickListener(this)
-                .setResource(R.layout.net_day_preview_item)
+                .addChildId(R.id.ll_day_register, R.id.ll_day_open, R.id.ll_day_active, R.id.ll_day_call, R.id.ll_day_vegetables)
+                .setResource(grade == 3 ? R.layout.net_day_preview_db_item : R.layout.net_day_preview_item)
                 .setInitView((data, convertView) -> {
                     ((TextView) convertView.findViewById(R.id.dayRegisterTimes)).setText("" + data.getTodayData().dayRegisterTimes);
                     ((TextView) convertView.findViewById(R.id.firstOrderNum)).setText("" + data.getTodayData().firstOrderNum);
@@ -179,7 +185,8 @@ public class NetIndexFragment extends NetworkFragment
 
         netMonthAdapter = new ListViewAdapter.Builder<V3HomeData>()
                 .setOnClickListener(this)
-                .setResource(R.layout.net_month_preview_item)
+                .setResource(grade == 3 ? R.layout.net_month_preview_db_item : R.layout.net_month_preview_item)
+                .addChildId(R.id.ll_month_vegetables, R.id.ll_month_call, R.id.ll_month_active, R.id.ll_month_open, R.id.ll_month_register)
                 .setInitView((data, convertView) -> {
                     ((TextView) convertView.findViewById(R.id.monthRegisterNum)).setText("" + data.getMonthData().monthRegisterNum);
                     ((TextView) convertView.findViewById(R.id.monthFirstOrderNum)).setText("" + data.getMonthData().monthFirstOrderNum);
@@ -331,8 +338,13 @@ public class NetIndexFragment extends NetworkFragment
         System.out.println("baseQuickAdapter = " + baseQuickAdapter + ", view = " + view + ", i = " + i);
         if (grade == 3) {
             switch (((V3HomeData.PartnerApproachDataBean) baseQuickAdapter.getItem(i)).getSort()) {
+                case 1:
+                    getActivity().startActivity(new Intent(getContext(), DropOutingActivity.class));
+                    break;
+                case 2:
+                    getActivity().startActivity(new Intent(getContext(), CommonFollowUpActivity.class));
+                    break;
                 case 3:
-
                     getActivity().startActivity(new Intent(getContext(), NetSupportActivity.class));
                     break;
             }

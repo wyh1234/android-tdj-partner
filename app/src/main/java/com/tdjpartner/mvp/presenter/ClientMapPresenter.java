@@ -15,21 +15,30 @@ public class ClientMapPresenter extends BasePresenter<Model, ClientMapFragment> 
     public Model loadModel() {
         return null;
     }
-    public void hotelMap(Map<String,Object> map){
+
+    public void hotelMap(Map<String, Object> map) {
         getIView().addSubscribe(RequestPresenter.hotelMap(map, new BaseObserver<List<ClientInfo>>(getIView().getContext(), true) {
             @Override
             protected void onSuccess(List<ClientInfo> clientInfoList) {
                 getIView().hotelMap_Success(clientInfoList);
-
-
-
             }
 
             @Override
             protected void onFailed(Throwable e) {
-
             }
         }));
+    }
 
+    public void mapData(Map<String, Object> map) {
+        getIView().addSubscribe(RequestPresenter.mapData(map, new BaseObserver<List<ClientInfo>>(getIView().getContext(), true) {
+            @Override
+            protected void onSuccess(List<ClientInfo> clientInfoList) {
+                getIView().hotelMap_Success(clientInfoList);
+            }
+
+            @Override
+            protected void onFailed(Throwable e) {
+            }
+        }));
     }
 }

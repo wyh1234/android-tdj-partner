@@ -16,9 +16,11 @@ import com.tdjpartner.model.ClientDetails;
 import com.tdjpartner.model.ClientInfo;
 import com.tdjpartner.model.ClientSeachInfo;
 import com.tdjpartner.model.CouponsStatistics;
+import com.tdjpartner.model.CustomerInfo;
 import com.tdjpartner.model.DegreeOfSatisfaction;
 import com.tdjpartner.model.DeleteSalesAppByEntityId;
 import com.tdjpartner.model.DiscountCoupon;
+import com.tdjpartner.model.DistanceInfo;
 import com.tdjpartner.model.DistinctList;
 import com.tdjpartner.model.DriverLocation;
 import com.tdjpartner.model.DropOuting;
@@ -36,7 +38,6 @@ import com.tdjpartner.model.IronHomeTopData;
 import com.tdjpartner.model.IronStatisticsDetails;
 import com.tdjpartner.model.MyCountMoney;
 import com.tdjpartner.model.MyTeam;
-import com.tdjpartner.model.V3HomeData;
 import com.tdjpartner.model.NewHomeData;
 import com.tdjpartner.model.NewMyTeam;
 import com.tdjpartner.model.OrderDetail;
@@ -55,6 +56,7 @@ import com.tdjpartner.model.StoreInfo;
 import com.tdjpartner.model.TeamOverView;
 import com.tdjpartner.model.ToMakeMoney;
 import com.tdjpartner.model.UserInfo;
+import com.tdjpartner.model.V3HomeData;
 import com.tdjpartner.model.WithdrawDetalis;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
@@ -194,6 +196,10 @@ public class RequestPresenter {
         return getApiService().internationalWaters(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
 
+    public static Disposable punchDistance(Map<String, Object> map, BaseObserver<DistanceInfo> callback) {
+        return getApiService().punchDistance(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+
     public static Disposable collect_products(Map<String, Object> map, BaseObserver<GoodsInfo> callback) {
         return getApiService().collect_products(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
@@ -244,6 +250,12 @@ public class RequestPresenter {
 
     public static Disposable hotelMap(Map<String, Object> map, BaseObserver<List<ClientInfo>> callback) {
         return getApiService().hotelMap(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable mapData(Map<String, Object> map, BaseObserver<List<ClientInfo>> callback) {
+        return getApiService().mapData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+    public static Disposable listData(Map<String, Object> map, BaseObserver<CustomerInfo> callback) {
+        return getApiService().listData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
 
     public static Disposable verifyList(Map<String, Object> map, BaseObserver<PartnerCheck> callback) {

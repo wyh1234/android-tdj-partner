@@ -23,7 +23,7 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/callNum"
+            android:id="@+id/registerNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -58,7 +58,7 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/firstOrderNum"
+            android:id="@+id/openNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -93,7 +93,7 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/activeNum"
+            android:id="@+id/vegetablesNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -127,7 +127,7 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/yesterdayActiveNum"
+            android:id="@+id/gmvNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
