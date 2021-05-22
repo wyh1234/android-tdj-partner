@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -118,9 +119,11 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
                     ((TextView) ll_header_include.findViewById(R.id.gmvNum)).setText("" + ironDayAndMonthData.teamView.amount);
                     ((TextView) ll_header_include.findViewById(R.id.priceNum)).setText("" + ironDayAndMonthData.teamView.averageAmount);
 
-//                    List<String> newList = new ArrayList<String>(listOne);
-//                    newList.addAll(listTwo);
-                    adapter.setNewData(Stream.concat(ironDayAndMonthData.teamViewList.stream(), ironDayAndMonthData.othersTeamView.stream()).collect(Collectors.toList()));
+                    List<IronDayAndMonthData.TeamView> list = new ArrayList<>(ironDayAndMonthData.teamViewList);
+                    list.add(ironDayAndMonthData.othersTeamView);
+                    adapter.setNewData(list);
+//                    adapter.setNewData(ironDayAndMonthData.teamViewList);
+//                    adapter.setNewData(Stream.concat(ironDayAndMonthData.teamViewList.stream(), ironDayAndMonthData.othersTeamView.stream()).collect(Collectors.toList()));
 //                    adapter.addData();
                     dismissLoading();
                 });
@@ -163,7 +166,7 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
                         .setText(R.id.gmvNum, "" + teamView.amount)
                         .setText(R.id.priceNum, "" + teamView.averageAmount)
                         .setText(R.id.tv_name, "" + teamView.gradeName + "：" + teamView.nickName)
-                        .setText(R.id.tv_day_sink, "" + teamView.gradeChineseName + (teamView.gradeChineseName.equals("BD") ? "" : " >"));
+                        .setText(R.id.tv_day_sink, "" + teamView.gradeChineseName + ((!TextUtils.isEmpty(teamView.gradeChineseName) && teamView.gradeChineseName.equals("BD")) ? "" : " >"));
             }
         };
 

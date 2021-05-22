@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_margin="4dp"
     android:background="@color/selector_grey"
-    tools:context=".ui.fragment.RankingFragment">
+    tools:context=".ui.fragment.IronRankingFragment">
 
     <LinearLayout
         android:id="@+id/head"
@@ -36,6 +36,7 @@
             android:layout_weight="1"
             android:text="上一级" />
         <TextView
+            android:id="@+id/tv_ranking_four"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

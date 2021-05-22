@@ -96,7 +96,7 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
                             break;
                     }
 
-                    ImageLoad.loadImageViewLoding(data.product_img, convertView.findViewById(R.id.product_img));
+                    ImageLoad.loadImageViewLoding(data.product_img, convertView.findViewById(R.id.product_img), R.mipmap.baifangjiudain_bg);
 
                 })
                 .build(getContext());

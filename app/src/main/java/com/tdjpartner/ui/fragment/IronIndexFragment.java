@@ -175,11 +175,7 @@ public class IronIndexFragment extends NetworkFragment
         swipeRefreshLayout.setOnRefreshListener(this);
 
 
-        if (grade == 3) {
-            tv_team.setVisibility(View.GONE);
-        } else {
-            tv_team.setVisibility(View.VISIBLE);
-        }
+        if (grade == 3) tv_team.setVisibility(View.GONE);
 
         //初始化顶部UI
         tv_username.setText("你好," + UserUtils.getInstance().getLoginBean().getRealname() + "!");
@@ -188,7 +184,6 @@ public class IronIndexFragment extends NetworkFragment
 
 
         //初始日月统计
-
         ironDayAdapter = new ListViewAdapter.Builder<V3HomeData>()
                 .setOnClickListener(this)
                 .setResource(R.layout.iron_day_preview_item)
@@ -284,7 +279,7 @@ public class IronIndexFragment extends NetworkFragment
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("args", (Serializable) map);
 
-                android.support.v4.app.Fragment fragment = new RankingFragment();
+                android.support.v4.app.Fragment fragment = new IronRankingFragment();
                 fragment.setArguments(bundle);
                 return fragment;
             }
@@ -292,11 +287,7 @@ public class IronIndexFragment extends NetworkFragment
             @Override
             public int getCount() {
 
-                if (userType == 1) {//网军
-                    titles = Arrays.asList("月日活", "月均日活", "月GMV");
-                } else {//铁军
-                    titles = Arrays.asList(isDay ? "日总GMV" : "月总GMV", "注册总数", "新开总数");
-                }
+                titles = Arrays.asList(isDay ? "日总GMV" : "月总GMV", "注册总数", "新开总数");
 
                 return titles.size();
             }

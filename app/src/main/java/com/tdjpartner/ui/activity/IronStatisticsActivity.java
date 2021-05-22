@@ -72,7 +72,7 @@ public class IronStatisticsActivity extends NetworkActivity {
     private Date date;
     private TimePickerView pvTime;
     public SeachTag seachTag = new SeachTag();
-    public String title;
+    public String title, keyword;
     public List<String> titles;
 
     @OnClick({R.id.btn_back, R.id.tv_time, R.id.tv_list_type})
@@ -84,10 +84,11 @@ public class IronStatisticsActivity extends NetworkActivity {
             case R.id.tv_list_type:
                 if (GeneralUtils.isNullOrZeroLenght(search_text.getText().toString())) {
                     GeneralUtils.showToastshort("请输入门店名称或者手机号");
-
                 } else {
-                    seachTag.setTag(search_text.getText().toString());
-                    EventBus.getDefault().post(seachTag);
+//                    seachTag.setTag(search_text.getText().toString());
+//                    EventBus.getDefault().post(seachTag);
+                    keyword = search_text.getText().toString();
+                    refresh(date);
                 }
                 break;
             case R.id.tv_time:
@@ -218,7 +219,7 @@ public class IronStatisticsActivity extends NetworkActivity {
         } else {
             map.put("monthTime", GeneralUtils.getMonthFilter(date));
         }
-        map.put("keyword", "");
+        map.put("keyword", keyword);
         map.put("userType", i);
         map.put("pn", 1);
         map.put("ps", 999);

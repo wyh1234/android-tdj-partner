@@ -17,10 +17,12 @@ import com.tdjpartner.utils.cache.UserUtils;
 /**
  * Created by LFM on 2021/4/22.
  */
-public class RankingFragment extends NetworkFragment {
+public class NetRankingFragment extends NetworkFragment {
 
     private ArrayAdapter<IronHomeTopData.RegisterTimesTopListBean> arrayAdapter;
     private int entityId = UserUtils.getInstance().getLoginBean().getEntityId();//用户站点
+    private int type = UserUtils.getInstance().getLoginBean().getType();//用户级别
+    private int grade = UserUtils.getInstance().getLoginBean().getGrade();//用户级别
 
     @Override
     protected int getLayoutId() {
@@ -32,6 +34,12 @@ public class RankingFragment extends NetworkFragment {
         super.onViewCreated(view, savedInstanceState);
 
         //初始化View
+        if (getArgs().get("timeType").equals("day")) {
+            ((TextView) view.findViewById(R.id.tv_ranking_four)).setText("GMV");
+        } else {
+            ((TextView) view.findViewById(R.id.tv_ranking_four)).setText(grade == 3 ? "月日活" : "月活");
+        }
+
         arrayAdapter = new ArrayAdapter<IronHomeTopData.RegisterTimesTopListBean>(getContext(), R.layout.adapter_ranking) {
             @NonNull
             @Override
@@ -41,6 +49,7 @@ public class RankingFragment extends NetworkFragment {
 
                 IronHomeTopData.RegisterTimesTopListBean bean = getItem(position);
                 System.out.println("bean = " + bean);
+
 
                 if (bean.customerId == entityId) {
                     TextView textView = convertView.findViewById(R.id.tv_ranking);
@@ -56,7 +65,7 @@ public class RankingFragment extends NetworkFragment {
                     textView.setTextColor(getResources().getColor(R.color.orange_red, null));
 
                     textView = convertView.findViewById(R.id.tv_action);
-                    textView.setText("" + bean.monthActiveNum);
+                    textView.setText("" + bean.monthAmount);
                     textView.setTextColor(getResources().getColor(R.color.orange_red, null));
                 } else {
                     TextView textView = convertView.findViewById(R.id.tv_ranking);
@@ -69,8 +78,9 @@ public class RankingFragment extends NetworkFragment {
                     textView.setText(bean.name);
 
                     textView = convertView.findViewById(R.id.tv_action);
-                    textView.setText("" + bean.monthActiveNum);
+                    textView.setText("" + bean.monthAmount);
                 }
+
                 return convertView;
             }
         };

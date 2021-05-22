@@ -161,17 +161,7 @@ public class NetIndexFragment extends NetworkFragment
         super.onViewCreated(view, savedInstanceState);
         System.out.println("map is " + getArgs());
 
-        if (grade == 3){
-            tv_heard.setVisibility(View.GONE);
-        }else {
-//            tv_heard.setText(tv_heard.getText() + "武汉");
-        }
-
-//        if (UserUtils.getInstance().getLoginBean().getGrade() != 3) {
-//            rl_team.setVisibility(View.VISIBLE);
-//        } else {
-////            rl_team.setVisibility(View.GONE);
-//        }
+        if (grade == 3) tv_heard.setVisibility(View.GONE);
 
         //初始化刷新布局
         swipeRefreshLayout.setColorSchemeResources(R.color.bbl_ff0000);
@@ -251,6 +241,7 @@ public class NetIndexFragment extends NetworkFragment
         //排行榜
         tv_day.setOnClickListener(this);
         tv_month.setOnClickListener(this);
+        isDay = (boolean) getArgs().get("isDay");
         ranking_vp.setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
 
             @Override
@@ -270,19 +261,17 @@ public class NetIndexFragment extends NetworkFragment
                 bundle.putSerializable("args", (Serializable) map);
 
 
-                android.support.v4.app.Fragment fragment = new RankingFragment();
+                android.support.v4.app.Fragment fragment = new NetRankingFragment();
                 fragment.setArguments(bundle);
                 return fragment;
             }
 
             @Override
             public int getCount() {
-                if (titles == null) {
-                    if (userType == 1) {
-                        titles = Arrays.asList("月日活", "月均日活", "月GMV");
-                    } else {
-                        titles = Arrays.asList("月总GMV", "注册总数", "新开总数");
-                    }
+                if (isDay) {
+                    titles = Arrays.asList("GMV", "注册数", "新开");
+                } else {
+                    titles = Arrays.asList("月活", "月均日活", "月GMV");
                 }
                 return titles.size();
             }
@@ -316,8 +305,8 @@ public class NetIndexFragment extends NetworkFragment
                     tv_day_sink.setText(v3HomeData.getTodayData().gradeNextName.isEmpty() ? "" : v3HomeData.getTodayData().gradeNextName + " >");
                     netDayAdapter.clear();
                     netDayAdapter.add(v3HomeData);
-//
-//                    //月统计
+
+                    //月统计
                     tv_month_sink.setText(v3HomeData.getMonthData().gradeNextName.isEmpty() ? "" : v3HomeData.getMonthData().gradeNextName + " >");
                     netMonthAdapter.clear();
                     netMonthAdapter.add(v3HomeData);
