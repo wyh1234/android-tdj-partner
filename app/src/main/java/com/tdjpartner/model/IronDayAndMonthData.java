@@ -66,10 +66,22 @@ public class IronDayAndMonthData {
      * "totalNum": 0,
      * "teamViewList": null
      * }]
+     * "partnerId": 258333,
+     * "parentId": null,
+     * "grade": 4,
+     * "gradeName": null,
+     * "headGrade": "M2日统计"
      * }
      */
 
     public TeamView teamView;
+    public List<TeamView> teamViewList;
+    public List<TeamView> othersTeamView;
+    public int partnerId; //258333,
+    public int parentId; //null,
+    public int grade; //4,
+    public String gradeName; //null,
+    public String headGrade; //"M2日统计"
 
     public static class TeamView {
         public int registerNum; //0,

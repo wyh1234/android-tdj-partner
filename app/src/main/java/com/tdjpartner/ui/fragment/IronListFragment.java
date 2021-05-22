@@ -18,12 +18,19 @@ import com.tdjpartner.R;
 import com.tdjpartner.base.NetworkFragment;
 import com.tdjpartner.model.IronDayAndMonthData;
 import com.tdjpartner.utils.GeneralUtils;
+import com.tdjpartner.utils.cache.UserUtils;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -105,13 +112,16 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
                 .observe(this, ironDayAndMonthData -> {
                     tv_title.setText(ironDayAndMonthData.teamView.gradeChineseName + (isDay ? "日" : "月") + "统计");
                     //头部统计
-                    ((TextView) ll_header_include.findViewById(R.id.callNum)).setText("" + ironDayAndMonthData.teamView.registerNum);
-                    ((TextView) ll_header_include.findViewById(R.id.firstOrderNum)).setText("" + ironDayAndMonthData.teamView.firstOrderNum);
-                    ((TextView) ll_header_include.findViewById(R.id.activeNum)).setText("" + ironDayAndMonthData.teamView.categoryNum);
-                    ((TextView) ll_header_include.findViewById(R.id.yesterdayActiveNum)).setText("" + ironDayAndMonthData.teamView.amount);
+                    ((TextView) ll_header_include.findViewById(R.id.registerNum)).setText("" + ironDayAndMonthData.teamView.registerNum);
+                    ((TextView) ll_header_include.findViewById(R.id.openNum)).setText("" + ironDayAndMonthData.teamView.firstOrderNum);
+                    ((TextView) ll_header_include.findViewById(R.id.vegetablesNum)).setText("" + ironDayAndMonthData.teamView.categoryNum);
+                    ((TextView) ll_header_include.findViewById(R.id.gmvNum)).setText("" + ironDayAndMonthData.teamView.amount);
                     ((TextView) ll_header_include.findViewById(R.id.priceNum)).setText("" + ironDayAndMonthData.teamView.averageAmount);
 
-                    adapter.setNewData(ironDayAndMonthData.teamView.teamViewList);
+//                    List<String> newList = new ArrayList<String>(listOne);
+//                    newList.addAll(listTwo);
+                    adapter.setNewData(Stream.concat(ironDayAndMonthData.teamViewList.stream(), ironDayAndMonthData.othersTeamView.stream()).collect(Collectors.toList()));
+//                    adapter.addData();
                     dismissLoading();
                 });
         showLoading();
@@ -131,10 +141,10 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
 
 
         //头部统计
-        ((TextView) ll_header_include.findViewById(R.id.callNum)).setText("N");
-        ((TextView) ll_header_include.findViewById(R.id.firstOrderNum)).setText("N");
-        ((TextView) ll_header_include.findViewById(R.id.activeNum)).setText("N");
-        ((TextView) ll_header_include.findViewById(R.id.yesterdayActiveNum)).setText("N");
+        ((TextView) ll_header_include.findViewById(R.id.registerNum)).setText("N");
+        ((TextView) ll_header_include.findViewById(R.id.openNum)).setText("N");
+        ((TextView) ll_header_include.findViewById(R.id.vegetablesNum)).setText("N");
+        ((TextView) ll_header_include.findViewById(R.id.gmvNum)).setText("N");
         ((TextView) ll_header_include.findViewById(R.id.priceNum)).setText("N");
 
 
@@ -147,10 +157,10 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
 
                 baseViewHolder.addOnClickListener(R.id.tv_day_sink);
 
-                baseViewHolder.setText(R.id.callNum, "" + teamView.registerNum)
-                        .setText(R.id.firstOrderNum, "" + teamView.firstOrderNum)
-                        .setText(R.id.activeNum, "" + teamView.categoryNum)
-                        .setText(R.id.yesterdayActiveNum, "" + teamView.amount)
+                baseViewHolder.setText(R.id.registerNum, "" + teamView.registerNum)
+                        .setText(R.id.openNum, "" + teamView.firstOrderNum)
+                        .setText(R.id.vegetablesNum, "" + teamView.categoryNum)
+                        .setText(R.id.gmvNum, "" + teamView.amount)
                         .setText(R.id.priceNum, "" + teamView.averageAmount)
                         .setText(R.id.tv_name, "" + teamView.gradeName + "：" + teamView.nickName)
                         .setText(R.id.tv_day_sink, "" + teamView.gradeChineseName + (teamView.gradeChineseName.equals("BD") ? "" : " >"));
@@ -178,9 +188,11 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
         getVMWithActivity().loading(IronDayAndMonthData.class, getArgs());
     }
 
-    private Map<String, Object> makeArges(int userId, Date date, boolean isDay, boolean isNext) {
+    private Map<String, Object> makeArges(int userId, int grade, Date date, boolean isDay, boolean isNext) {
         Map<String, Object> map = new HashMap<>();
+        map.put("loginId", UserUtils.getInstance().getLoginBean().getLoginUserId());
         map.put("userId", userId);
+        map.put("grade", grade);
         map.put("type", isNext ? "next" : "up");
         if (isDay) {
             map.put("startTime", GeneralUtils.getTimeFilter(date));
@@ -193,9 +205,9 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
         return map;
     }
 
-    private void leak(int userId, boolean isNext) {
+    private void leak(int userId, int grade, boolean isNext) {
         Bundle bundle = new Bundle();
-        Map<String, Object> map = makeArges(userId, new Date(), isDay, isNext);
+        Map<String, Object> map = makeArges(userId, grade, new Date(), isDay, isNext);
         bundle.putSerializable("args", (Serializable) map);
         bundle.putBoolean("isDay", isDay);
         IronListFragment fragment = new IronListFragment();
@@ -218,7 +230,7 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
             case R.id.tv_day_sink:
                 IronDayAndMonthData.TeamView teamView = (IronDayAndMonthData.TeamView) baseQuickAdapter.getItem(i);
                 if (teamView.gradeChineseName.equals("BD")) return;
-                leak(teamView.partnerId, true);
+                leak(teamView.partnerId, teamView.grade, true);
                 break;
         }
     }

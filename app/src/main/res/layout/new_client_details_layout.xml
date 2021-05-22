@@ -105,7 +105,7 @@
                 android:textSize="14sp" />
 
             <RelativeLayout
-                android:id="@+id/rl_call"
+                android:id="@+id/ll_call"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_name"

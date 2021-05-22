@@ -1,8 +1,6 @@
 package com.tdjpartner.ui.activity;
 
 import android.content.Intent;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -11,7 +9,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.makeramen.roundedimageview.RoundedImageView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.adapter.HistoryInfoAdapter;
 import com.tdjpartner.R;
@@ -26,9 +23,7 @@ import com.tdjpartner.utils.GridSpacingItemDecoration;
 import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.glide.ImageLoad;
 import com.tdjpartner.utils.popuwindow.CheckHeadImagePopuWindow;
-import com.tdjpartner.utils.popuwindow.PartnerCheckDetailsPopu;
 import com.tdjpartner.utils.statusbar.Eyes;
-import com.tdjpartner.widget.CustomLinearLayout;
 import com.tdjpartner.widget.MyRecyclerView;
 import com.tdjpartner.widget.ScrollLinearLayoutManager;
 
@@ -71,7 +66,7 @@ public class ClientDetailsActivity extends BaseActivity<ClientDetailsPresenter> 
     TextView tv_heard;*/
     @BindView(R.id.iv_heard)
     ImageView iv_heard;
-    @BindView(R.id.rl_call)
+    @BindView(R.id.ll_call)
     RelativeLayout rl_call;
     private List<ClientDetailsStoreInfo> storeInfoList=new ArrayList<>();
     private List<HistoryInfo> historyInfoList=new ArrayList<>();
@@ -88,7 +83,7 @@ public class ClientDetailsActivity extends BaseActivity<ClientDetailsPresenter> 
         this.clientDetails = clientDetails;
     }
 
-    @OnClick({R.id.btn_back,R.id.btn,R.id.rl_call, R.id.iv_heard})
+    @OnClick({R.id.btn_back,R.id.btn,R.id.ll_call, R.id.iv_heard})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.btn_back:
@@ -100,7 +95,7 @@ public class ClientDetailsActivity extends BaseActivity<ClientDetailsPresenter> 
                 startActivity(intent);
 
                 break;
-            case R.id.rl_call:
+            case R.id.ll_call:
                 if (getClientDetails()!=null){
                     GeneralUtils.action_call(rxPermissions,getClientDetails().getMobile(),getContext());
                 }

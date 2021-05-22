@@ -57,7 +57,7 @@ public class MenberHomepageFragment extends Fragment<MenberHomepageFragmentPrese
     RelativeLayout rl_team;
     @BindView(R.id.tv_username)
     TextView tv_username;
-    @BindView(R.id.tv_heard)
+    @BindView(R.id.tv_team)
     TextView tv_heard;
     @BindView(R.id.tv_time)
     TextView tv_time;

@@ -6,7 +6,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.tdjpartner.R;
 import com.tdjpartner.model.ClientInfo;
-import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
 
 import java.util.List;
@@ -51,7 +50,7 @@ public class ClientListAdapter extends BaseQuickAdapter<ClientInfo, BaseViewHold
 
         baseViewHolder.setText(R.id.tv_address,clientInfo.getAddress());
         baseViewHolder.setText(R.id.tv_address1,clientInfo.getAddress());
-        baseViewHolder.addOnClickListener(R.id.rl_call);
+        baseViewHolder.addOnClickListener(R.id.ll_call);
         if (index==1){
             if (UserUtils.getInstance().getLoginBean().getGrade()==3){
                 baseViewHolder.setGone(R.id.tv_gj_status,true);

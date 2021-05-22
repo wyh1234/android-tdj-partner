@@ -58,7 +58,7 @@
                     android:src="@mipmap/tuandui"
                     android:layout_height="wrap_content" />
                 <TextView
-                    android:id="@+id/tv_heard"
+                    android:id="@+id/tv_team"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/iv_tuandui"
                     android:textSize="@dimen/sp_12"

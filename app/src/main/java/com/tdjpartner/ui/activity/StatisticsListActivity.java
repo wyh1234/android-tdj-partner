@@ -47,7 +47,9 @@ public class StatisticsListActivity extends NetworkActivity {
 
     private Map<String, Object> getArges(Date date, boolean isDay, boolean isNext) {
         Map<String, Object> map = new HashMap<>();
+        map.put("loginId", UserUtils.getInstance().getLoginBean().getLoginUserId());
         map.put("userId", UserUtils.getInstance().getLoginBean().getLoginUserId());
+        map.put("grade", UserUtils.getInstance().getLoginBean().getGrade());
         map.put("type", isNext ? "next" : "up");
         if (isDay) {
             map.put("startTime", GeneralUtils.getTimeFilter(date));

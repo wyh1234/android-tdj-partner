@@ -206,9 +206,6 @@ public class NetStatisticsActivity extends NetworkActivity {
                         }
                     }
 
-
-
-
                     viewPager.getAdapter().notifyDataSetChanged();
                     dismissLoading();
                 });

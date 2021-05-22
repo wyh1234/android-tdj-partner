@@ -166,7 +166,7 @@
             </RelativeLayout>
         </LinearLayout>
         <RelativeLayout
-            android:id="@+id/rl_call"
+            android:id="@+id/ll_call"
             android:layout_marginTop="17dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

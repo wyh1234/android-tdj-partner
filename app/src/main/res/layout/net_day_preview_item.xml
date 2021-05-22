@@ -15,14 +15,6 @@ android:background="@drawable/client_item_sahp"
             android:layout_margin="4dp"
             android:orientation="vertical"
             android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="注册数"
-                android:textColor="@color/gray_66"
-                android:textSize="12sp" />
-
             <TextView
                 android:id="@+id/dayRegisterTimes"
                 android:layout_width="wrap_content"
@@ -31,6 +23,13 @@ android:background="@drawable/client_item_sahp"
                 android:textColor="@color/gray_69"
                 android:textSize="12sp"
                 android:text="0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="注册数"
+                android:textColor="@color/gray_66"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <View
@@ -47,13 +46,6 @@ android:background="@drawable/client_item_sahp"
             android:layout_margin="4dp"
             android:orientation="vertical"
             android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="新开"
-                android:textColor="@color/gray_66"
-                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/firstOrderNum"
@@ -63,6 +55,13 @@ android:background="@drawable/client_item_sahp"
                 android:textColor="@color/gray_69"
                 android:textSize="12sp"
                 android:text="0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="新开"
+                android:textColor="@color/gray_66"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <View
@@ -79,13 +78,6 @@ android:background="@drawable/client_item_sahp"
             android:layout_margin="4dp"
             android:orientation="vertical"
             android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="日活"
-                android:textColor="@color/gray_66"
-                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/activeNum"
@@ -95,6 +87,13 @@ android:background="@drawable/client_item_sahp"
                 android:textColor="@color/gray_69"
                 android:textSize="12sp"
                 android:text="0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="日活"
+                android:textColor="@color/gray_66"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <View
@@ -113,13 +112,6 @@ android:background="@drawable/client_item_sahp"
             android:gravity="center">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="昨天日活差"
-                android:textColor="@color/gray_66"
-                android:textSize="12sp" />
-
-            <TextView
                 android:id="@+id/yesterdayActiveNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -127,6 +119,13 @@ android:background="@drawable/client_item_sahp"
                 android:textColor="@color/gray_69"
                 android:textSize="12sp"
                 android:text="0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="昨天日活差"
+                android:textColor="@color/gray_66"
+                android:textSize="12sp" />
         </LinearLayout>
 
     </LinearLayout>
@@ -144,13 +143,6 @@ android:background="@drawable/client_item_sahp"
             android:gravity="center">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="拜访数"
-                android:textColor="@color/gray_66"
-                android:textSize="12sp" />
-
-            <TextView
                 android:id="@+id/callNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -158,6 +150,13 @@ android:background="@drawable/client_item_sahp"
                 android:textColor="@color/gray_69"
                 android:textSize="12sp"
                 android:text="0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="拜访数"
+                android:textColor="@color/gray_66"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <View
@@ -174,14 +173,6 @@ android:background="@drawable/client_item_sahp"
             android:layout_margin="4dp"
             android:orientation="vertical"
             android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="GMV"
-                android:textColor="@color/gray_66"
-                android:textSize="12sp" />
-
             <TextView
                 android:id="@+id/todayAmount"
                 android:layout_width="wrap_content"
@@ -190,6 +181,12 @@ android:background="@drawable/client_item_sahp"
                 android:textColor="@color/gray_69"
                 android:textSize="12sp"
                 android:text="0" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GMV"
+                android:textColor="@color/gray_66"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <View
@@ -206,14 +203,6 @@ android:background="@drawable/client_item_sahp"
             android:layout_margin="4dp"
             android:orientation="vertical"
             android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="客单价"
-                android:textColor="@color/gray_66"
-                android:textSize="12sp" />
-
             <TextView
                 android:id="@+id/averageAmount"
                 android:layout_width="wrap_content"
@@ -222,6 +211,14 @@ android:background="@drawable/client_item_sahp"
                 android:textColor="@color/gray_69"
                 android:textSize="12sp"
                 android:text="0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="客单价"
+                android:textColor="@color/gray_66"
+                android:textSize="12sp" />
+
         </LinearLayout>
 
         <View
@@ -238,14 +235,6 @@ android:background="@drawable/client_item_sahp"
             android:layout_margin="4dp"
             android:orientation="vertical"
             android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="售后"
-                android:textColor="@color/gray_66"
-                android:textSize="12sp" />
-
             <TextView
                 android:id="@+id/todayAfterSaleTimes"
                 android:layout_width="wrap_content"
@@ -254,6 +243,14 @@ android:background="@drawable/client_item_sahp"
                 android:textColor="@color/gray_69"
                 android:textSize="12sp"
                 android:text="0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="售后"
+                android:textColor="@color/gray_66"
+                android:textSize="12sp" />
+
         </LinearLayout>
 
     </LinearLayout>
@@ -269,14 +266,6 @@ android:background="@drawable/client_item_sahp"
             android:layout_margin="4dp"
             android:orientation="vertical"
             android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="售后金额"
-                android:textColor="@color/gray_66"
-                android:textSize="12sp" />
-
             <TextView
                 android:id="@+id/afterSaleAmount"
                 android:layout_width="wrap_content"
@@ -285,6 +274,13 @@ android:background="@drawable/client_item_sahp"
                 android:textColor="@color/gray_69"
                 android:textSize="12sp"
                 android:text="0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="售后金额"
+                android:textColor="@color/gray_66"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <View

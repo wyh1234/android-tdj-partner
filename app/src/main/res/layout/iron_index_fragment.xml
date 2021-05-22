@@ -15,8 +15,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@mipmap/home_bg"
-            android:paddingTop="30dp"
             android:orientation="vertical"
+            android:paddingTop="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -30,59 +30,68 @@
                 android:textColor="@color/white"
                 android:textSize="17sp" />
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_tiltle"
-                android:layout_marginTop="17dp">
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginEnd="8dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-                <TextView
-                    android:id="@+id/tv_username"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="你好，李"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/sp_12" />
 
-                <TextView
-                    android:id="@+id/tv_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_username"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="7dp"
-                    android:text="1月1日 星期一"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/sp_12" />
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/ll_team"
-                    android:layout_width="match_parent"
-                    android:layout_height="21dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginEnd="13dp"
-                    android:gravity="right"
-                    android:textSize="@dimen/sp_12">
-                    <!--                <ImageView-->
-                    <!--                    android:id="@+id/iv_tuandui"-->
-                    <!--                    android:layout_centerVertical="true"-->
-                    <!--                    android:layout_width="wrap_content"-->
-                    <!--                    android:src="@mipmap/tuandui"-->
-                    <!--                    android:layout_height="wrap_content" />-->
                     <TextView
-                        android:id="@+id/tv_heard"
+                        android:id="@+id/tv_username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="所在城市："
+                        android:layout_marginLeft="10dp"
+                        android:text="你好，李"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp_12" />
+
+                    <TextView
+                        android:id="@+id/tv_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_username"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="7dp"
+                        android:text="1月1日 星期一"
                         android:textColor="@color/white"
                         android:textSize="@dimen/sp_12" />
                 </LinearLayout>
-            </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="end|center_vertical">
+
+                    <TextView
+                        android:id="@+id/tv_city"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:text="所在城市："
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp_12" />
+
+                    <TextView
+                        android:id="@+id/tv_team"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|bottom"
+                        android:background="@drawable/bg_border_white_6"
+                        android:drawableStart="@mipmap/tuandui"
+                        android:padding="4dp"
+                        android:text="当前成员"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp_12" />
+                </LinearLayout>
+            </FrameLayout>
         </LinearLayout>
 
 
@@ -119,21 +128,21 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:drawableStart="@drawable/line_orange_16"
                             android:drawablePadding="8dp"
-                            android:layout_gravity="center_vertical"
                             android:gravity="center_vertical"
+                            android:text="日统计"
                             android:textColor="@color/black_63"
-                            android:textSize="16sp"
-                            android:text="日统计" />
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/tv_day_sink"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_marginEnd="16dp"
                             android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
                             android:gravity="right"
                             android:text="Mn >"
                             android:textColor="@color/orange_red"
@@ -165,21 +174,21 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:drawableStart="@drawable/line_orange_16"
                             android:drawablePadding="8dp"
-                            android:layout_gravity="center_vertical"
                             android:gravity="center_vertical"
+                            android:text="月统计(n-1)"
                             android:textColor="@color/black_63"
-                            android:textSize="16sp"
-                            android:text="月统计(n-1)" />
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/tv_month_sink"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_marginEnd="16dp"
                             android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
                             android:gravity="right"
                             android:text="Mn >"
                             android:textColor="@color/orange_red"
@@ -266,8 +275,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
                     android:layout_gravity="center_vertical"
+                    android:gravity="right"
                     android:orientation="horizontal">
 
                     <TextView
@@ -276,11 +285,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:layout_marginBottom="2dp"
+                        android:background="@drawable/bg_grey_left_semi_4"
                         android:paddingStart="8dp"
                         android:paddingEnd="8dp"
-                        android:background="@drawable/bg_orange_left_semi_4"
                         android:text="月"
-                        android:textColor="@color/white"
+                        android:textColor="@color/gray_66"
                         android:textSize="12sp" />
 
                     <TextView
@@ -289,11 +298,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:layout_marginBottom="2dp"
+                        android:background="@drawable/bg_orange_right_semi_4"
                         android:paddingStart="8dp"
                         android:paddingEnd="8dp"
-                        android:background="@drawable/bg_grey_right_semi_4"
                         android:text="日"
-                        android:textColor="@color/gray_66"
+                        android:textColor="@color/white"
                         android:textSize="12sp" />
                 </LinearLayout>
 

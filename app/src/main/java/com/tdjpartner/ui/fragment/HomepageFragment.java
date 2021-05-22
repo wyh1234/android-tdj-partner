@@ -54,7 +54,7 @@ public class HomepageFragment extends Fragment<HomepageFragmentPresenter> implem
     TextView tv_username;
     @BindView(R.id.tv_time)
     TextView tv_time;
-    @BindView(R.id.tv_heard)
+    @BindView(R.id.tv_team)
     TextView tv_heard;
     private RecyclerView month_recyclerView, all_recyclerView, register_recyclerView, order_recyclerView;
     private TeamPreviewAdapter teamPreviewAdapter;

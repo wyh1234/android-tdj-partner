@@ -12,16 +12,6 @@ android:background="@drawable/client_item_sahp">
     android:layout_margin="4dp"
     android:orientation="vertical"
     android:gravity="center">
-
-    <TextView
-        android:id="@+id/register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableEnd="@mipmap/right_bg"
-        android:textColor="@color/gray_66"
-        android:textSize="12sp"
-        android:text="注册数 " />
-
     <TextView
         android:id="@+id/registerNum"
         android:layout_width="wrap_content"
@@ -30,6 +20,14 @@ android:background="@drawable/client_item_sahp">
         android:textColor="@color/gray_69"
         android:textSize="12sp"
         android:text="0" />
+
+    <TextView
+        android:id="@+id/register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gray_66"
+        android:textSize="12sp"
+        android:text="注册数" />
 </LinearLayout>
 
 <View
@@ -47,16 +45,6 @@ android:background="@drawable/client_item_sahp">
     android:layout_margin="4dp"
     android:orientation="vertical"
     android:gravity="center">
-
-    <TextView
-        android:id="@+id/open"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableEnd="@mipmap/right_bg"
-        android:textColor="@color/gray_66"
-        android:textSize="12sp"
-        android:text="新开 " />
-
     <TextView
         android:id="@+id/openNum"
         android:layout_width="wrap_content"
@@ -65,6 +53,14 @@ android:background="@drawable/client_item_sahp">
         android:textColor="@color/gray_69"
         android:textSize="12sp"
         android:text="0" />
+
+    <TextView
+        android:id="@+id/open"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gray_66"
+        android:textSize="12sp"
+        android:text="新开" />
 </LinearLayout>
 
 <View
@@ -82,16 +78,6 @@ android:background="@drawable/client_item_sahp">
     android:layout_margin="4dp"
     android:orientation="vertical"
     android:gravity="center">
-
-    <TextView
-        android:id="@+id/vegetables"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableEnd="@mipmap/right_bg"
-        android:textColor="@color/gray_66"
-        android:textSize="12sp"
-        android:text="新鲜蔬菜 " />
-
     <TextView
         android:id="@+id/vegetablesNum"
         android:layout_width="wrap_content"
@@ -100,6 +86,13 @@ android:background="@drawable/client_item_sahp">
         android:textColor="@color/gray_69"
         android:textSize="12sp"
         android:text="0" />
+    <TextView
+        android:id="@+id/vegetables"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gray_66"
+        android:textSize="12sp"
+        android:text="新鲜蔬菜" />
 </LinearLayout>
 
 <View
@@ -117,15 +110,6 @@ android:background="@drawable/client_item_sahp">
     android:layout_margin="4dp"
     android:orientation="vertical"
     android:gravity="center">
-
-    <TextView
-        android:id="@+id/gmv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/gray_66"
-        android:textSize="12sp"
-        android:text="GMV" />
-
     <TextView
         android:id="@+id/gmvNum"
         android:layout_width="wrap_content"
@@ -134,6 +118,14 @@ android:background="@drawable/client_item_sahp">
         android:textColor="@color/gray_69"
         android:textSize="12sp"
         android:text="0" />
+
+    <TextView
+        android:id="@+id/gmv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gray_66"
+        android:textSize="12sp"
+        android:text="GMV" />
 </LinearLayout>
 
 <View
@@ -151,15 +143,6 @@ android:background="@drawable/client_item_sahp">
     android:layout_margin="4dp"
     android:orientation="vertical"
     android:gravity="center">
-
-    <TextView
-        android:id="@+id/price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/gray_66"
-        android:textSize="12sp"
-        android:text="客单价" />
-
     <TextView
         android:id="@+id/priceNum"
         android:layout_width="wrap_content"
@@ -168,6 +151,14 @@ android:background="@drawable/client_item_sahp">
         android:textColor="@color/gray_69"
         android:textSize="12sp"
         android:text="0" />
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gray_66"
+        android:textSize="12sp"
+        android:text="客单价" />
 </LinearLayout>
 
 </LinearLayout>

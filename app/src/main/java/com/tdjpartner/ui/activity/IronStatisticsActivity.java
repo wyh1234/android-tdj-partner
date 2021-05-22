@@ -177,6 +177,7 @@ public class IronStatisticsActivity extends NetworkActivity {
 
 //        wtab.setxTabDisplayNum(4);
         wtab.setupWithViewPager(viewPager);
+        viewPager.setCurrentItem(getIntent().getIntExtra("position", 0));
     }
 
     protected void initData() {
@@ -186,7 +187,7 @@ public class IronStatisticsActivity extends NetworkActivity {
         getVM().loadingWithNewLiveData(IronStatisticsDetails.class, getArges(date, 1))
                 .observe(this, ironStatisticsDetails -> {
                     if (userType == 2) {
-                        titles = Arrays.asList("注册数" + (isDay ? ironStatisticsDetails.getDayRegisterTimes() : ironStatisticsDetails.getMonthRegisterNum()),
+                        titles = Arrays.asList("注册数" + (ironStatisticsDetails.getDayRegisterTimes()),
                                 "新开数" + ironStatisticsDetails.getFirstOrderNum(),
                                 "新鲜蔬菜" + ironStatisticsDetails.getCategoryNum());
                     } else {

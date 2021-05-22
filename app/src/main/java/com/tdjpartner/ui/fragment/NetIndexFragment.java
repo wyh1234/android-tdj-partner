@@ -27,6 +27,7 @@ import com.tdjpartner.ui.activity.DropOutingActivity;
 import com.tdjpartner.ui.activity.NetStatisticsActivity;
 import com.tdjpartner.ui.activity.NetSupportActivity;
 import com.tdjpartner.ui.activity.StatisticsListActivity;
+import com.tdjpartner.ui.activity.TeamMemberActivity;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
 import com.tdjpartner.utils.cache.UserUtils;
@@ -52,7 +53,8 @@ public class NetIndexFragment extends NetworkFragment
 
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
-
+    @BindView(R.id.tv_team)
+    TextView tv_heard;
     @BindView(R.id.day_listView)
     ListView day_listView;
     @BindView(R.id.member_list)
@@ -87,9 +89,15 @@ public class NetIndexFragment extends NetworkFragment
     private List<NewHomeData.RegisterTimesTopListBean> registerlist = new ArrayList<>();
     private List<NewHomeData.OrdersTimesTopList> orderList = new ArrayList<>();
 
-    @OnClick({R.id.tv_day, R.id.tv_month, R.id.tv_day_sink, R.id.tv_month_sink})
+    @OnClick({R.id.tv_day, R.id.tv_month, R.id.tv_day_sink, R.id.tv_month_sink, R.id.tv_team})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_team:
+                Intent intent = new Intent(getContext(), TeamMemberActivity.class);
+                intent.putExtra("userId", UserUtils.getInstance().getLoginBean().getEntityId() + "");
+                startActivity(intent);
+                break;
+
             case R.id.tv_month:
                 view.setBackgroundResource(R.drawable.bg_orange_left_semi_4);
                 ((TextView) view).setTextColor(Color.WHITE);
@@ -153,6 +161,18 @@ public class NetIndexFragment extends NetworkFragment
         super.onViewCreated(view, savedInstanceState);
         System.out.println("map is " + getArgs());
 
+        if (grade == 3){
+            tv_heard.setVisibility(View.GONE);
+        }else {
+//            tv_heard.setText(tv_heard.getText() + "武汉");
+        }
+
+//        if (UserUtils.getInstance().getLoginBean().getGrade() != 3) {
+//            rl_team.setVisibility(View.VISIBLE);
+//        } else {
+////            rl_team.setVisibility(View.GONE);
+//        }
+
         //初始化刷新布局
         swipeRefreshLayout.setColorSchemeResources(R.color.bbl_ff0000);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -165,9 +185,10 @@ public class NetIndexFragment extends NetworkFragment
         //初始化日月统计
         netDayAdapter = new ListViewAdapter.Builder<V3HomeData>()
                 .setOnClickListener(this)
-                .addChildId(R.id.ll_day_register, R.id.ll_day_open, R.id.ll_day_active, R.id.ll_day_call, R.id.ll_day_vegetables)
                 .setResource(grade == 3 ? R.layout.net_day_preview_db_item : R.layout.net_day_preview_item)
+//                .addChildId(R.id.ll_day_register, R.id.ll_day_open, R.id.ll_day_active, R.id.ll_day_call, R.id.ll_day_vegetables)
                 .setInitView((data, convertView) -> {
+                    System.out.println("view = " + view + ", savedInstanceState = " + savedInstanceState);
                     ((TextView) convertView.findViewById(R.id.dayRegisterTimes)).setText("" + data.getTodayData().dayRegisterTimes);
                     ((TextView) convertView.findViewById(R.id.firstOrderNum)).setText("" + data.getTodayData().firstOrderNum);
                     ((TextView) convertView.findViewById(R.id.activeNum)).setText("" + data.getTodayData().activeNum);
@@ -186,8 +207,9 @@ public class NetIndexFragment extends NetworkFragment
         netMonthAdapter = new ListViewAdapter.Builder<V3HomeData>()
                 .setOnClickListener(this)
                 .setResource(grade == 3 ? R.layout.net_month_preview_db_item : R.layout.net_month_preview_item)
-                .addChildId(R.id.ll_month_vegetables, R.id.ll_month_call, R.id.ll_month_active, R.id.ll_month_open, R.id.ll_month_register)
+//                .addChildId(R.id.ll_month_vegetables, R.id.ll_month_call, R.id.ll_month_active, R.id.ll_month_open, R.id.ll_month_register)
                 .setInitView((data, convertView) -> {
+                    System.out.println("view = " + view + ", savedInstanceState = " + savedInstanceState);
                     ((TextView) convertView.findViewById(R.id.monthRegisterNum)).setText("" + data.getMonthData().monthRegisterNum);
                     ((TextView) convertView.findViewById(R.id.monthFirstOrderNum)).setText("" + data.getMonthData().monthFirstOrderNum);
                     ((TextView) convertView.findViewById(R.id.monthActiveNum)).setText("" + data.getMonthData().monthActiveNum);
@@ -294,13 +316,11 @@ public class NetIndexFragment extends NetworkFragment
                     tv_day_sink.setText(v3HomeData.getTodayData().gradeNextName.isEmpty() ? "" : v3HomeData.getTodayData().gradeNextName + " >");
                     netDayAdapter.clear();
                     netDayAdapter.add(v3HomeData);
-                    netDayAdapter.notifyDataSetChanged();
-
-                    //月统计
+//
+//                    //月统计
                     tv_month_sink.setText(v3HomeData.getMonthData().gradeNextName.isEmpty() ? "" : v3HomeData.getMonthData().gradeNextName + " >");
                     netMonthAdapter.clear();
                     netMonthAdapter.add(v3HomeData);
-                    netMonthAdapter.notifyDataSetChanged();
 
                     //重点关注
                     keyPointAdapter.setNewData(v3HomeData.getPartnerApproachData());

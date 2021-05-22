@@ -73,6 +73,7 @@ public class MainTabActivity extends BaseActivity<MainTabPresenter> implements O
         map.put("websiteId", UserUtils.getInstance().getLoginBean().getSite());
         map.put("dayDate", GeneralUtils.getTimeFilter(new Date()));
         map.put("monthTime", GeneralUtils.getMonthFilter(new Date()));
+        map.put("isDay", true);
         Bundle bundle = new Bundle();
         bundle.putSerializable("args", (Serializable) map);
         Fragment fragment = UserUtils.getInstance().getLoginBean().getType() == 1 ? new NetIndexFragment() : new IronIndexFragment();

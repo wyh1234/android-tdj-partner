@@ -70,6 +70,6 @@ public class DropOutingAdapter extends BaseQuickAdapter<DropOuting.ObjBean, Base
         baseViewHolder.setText(R.id.tv_num3,dropOuting.getTodayAfterSaleTimes()+"");
         baseViewHolder.setText(R.id.tv_username,dropOuting.getBoss());
         baseViewHolder.setText(R.id.tv_address,dropOuting.getAddress());
-        baseViewHolder.addOnClickListener(R.id.rl_call);
+        baseViewHolder.addOnClickListener(R.id.ll_call);
     }
 }

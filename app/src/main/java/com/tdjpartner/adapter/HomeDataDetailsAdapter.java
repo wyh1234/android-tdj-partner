@@ -2,7 +2,6 @@ package com.tdjpartner.adapter;
 
 import android.support.annotation.Nullable;
 
-import com.apkfuns.logutils.LogUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.tdjpartner.R;
@@ -25,7 +24,7 @@ public class HomeDataDetailsAdapter extends BaseQuickAdapter<HomeDataDetails.Obj
 
     @Override
     protected void convert(BaseViewHolder baseViewHolder, HomeDataDetails.ObjBean.ListBean objBean) {
-        baseViewHolder.addOnClickListener(R.id.rl_call);
+        baseViewHolder.addOnClickListener(R.id.ll_call);
         baseViewHolder.setText(R.id.tv_name,objBean.getName());
         baseViewHolder.setText(R.id.tv_boss,"负责人:"+objBean.getPartnerName());
         if (objBean.getAuth()==0){

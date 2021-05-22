@@ -12,16 +12,6 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/register"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableEnd="@mipmap/right_bg"
-            android:text="注册数 "
-            android:textColor="@color/gray_66"
-            android:textSize="12sp" />
-
         <TextView
             android:id="@+id/registerNum"
             android:layout_width="wrap_content"
@@ -29,6 +19,14 @@
             android:layout_marginTop="4dp"
             android:text="0"
             android:textColor="@color/gray_69"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="注册数 "
+            android:textColor="@color/gray_66"
             android:textSize="12sp" />
     </LinearLayout>
 
@@ -47,16 +45,6 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/open"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableEnd="@mipmap/right_bg"
-            android:text="新开 "
-            android:textColor="@color/gray_66"
-            android:textSize="12sp" />
-
         <TextView
             android:id="@+id/openNum"
             android:layout_width="wrap_content"
@@ -64,6 +52,13 @@
             android:layout_marginTop="4dp"
             android:text="0"
             android:textColor="@color/gray_69"
+            android:textSize="12sp" />
+        <TextView
+            android:id="@+id/open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="新开 "
+            android:textColor="@color/gray_66"
             android:textSize="12sp" />
     </LinearLayout>
 
@@ -82,16 +77,6 @@
         android:layout_weight="0.95"
         android:gravity="center"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/vegetables"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableEnd="@mipmap/right_bg"
-            android:text="新鲜蔬菜 "
-            android:textColor="@color/gray_66"
-            android:textSize="12sp" />
-
         <TextView
             android:id="@+id/vegetablesNum"
             android:layout_width="wrap_content"
@@ -99,6 +84,13 @@
             android:layout_marginTop="4dp"
             android:text="0"
             android:textColor="@color/gray_69"
+            android:textSize="12sp" />
+        <TextView
+            android:id="@+id/vegetables"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="新鲜蔬菜 "
+            android:textColor="@color/gray_66"
             android:textSize="12sp" />
     </LinearLayout>
 
@@ -117,15 +109,6 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/gmv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="GMV"
-            android:textColor="@color/gray_66"
-            android:textSize="12sp" />
-
         <TextView
             android:id="@+id/gmvNum"
             android:layout_width="wrap_content"
@@ -133,6 +116,13 @@
             android:layout_marginTop="4dp"
             android:text="0"
             android:textColor="@color/gray_69"
+            android:textSize="12sp" />
+        <TextView
+            android:id="@+id/gmv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GMV"
+            android:textColor="@color/gray_66"
             android:textSize="12sp" />
     </LinearLayout>
 

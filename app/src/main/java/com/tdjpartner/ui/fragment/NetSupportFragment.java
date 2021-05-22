@@ -135,8 +135,6 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        System.out.println("~~" + getClass().getSimpleName() + ".onActivityResult~~");
-        System.out.println("~~" + getClass().getSimpleName() + ".onActivityResult~~");
         super.onActivityResult(requestCode, resultCode, data);
 
         getVMWithFragment().loading(AfterSaleInfoData.class, getArgs());
