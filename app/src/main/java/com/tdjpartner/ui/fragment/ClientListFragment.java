@@ -113,7 +113,6 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
         recyclerView_list.setAdapter(clientListAdapter);
         clientListAdapter.setOnItemClickListener(this);
         clientListAdapter.setOnItemChildClickListener(this);
-
     }
 
     @Override

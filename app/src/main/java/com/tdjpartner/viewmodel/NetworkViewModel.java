@@ -10,11 +10,6 @@ import com.google.gson.JsonSerializer;
 import com.google.gson.JsonSyntaxException;
 import com.tdjpartner.common.RequestPresenter;
 import com.tdjpartner.http.ApiException;
-import com.tdjpartner.http.BaseObserver;
-import com.tdjpartner.model.HotelAuditInfo;
-import com.tdjpartner.model.HotelAuditPageList;
-import com.tdjpartner.model.IronDayAndMonthData;
-import com.tdjpartner.model.IronStatisticsDetails;
 import com.tdjpartner.utils.GeneralUtils;
 
 import org.apache.http.conn.ConnectTimeoutException;

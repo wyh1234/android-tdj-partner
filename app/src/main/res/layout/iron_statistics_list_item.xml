@@ -116,7 +116,7 @@
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/categoryNum"
+                    android:id="@+id/categoryAmount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"

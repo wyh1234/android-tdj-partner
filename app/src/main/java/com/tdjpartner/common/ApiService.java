@@ -34,7 +34,7 @@ import com.tdjpartner.model.InvitationHistory;
 import com.tdjpartner.model.IronDayAndMonthData;
 import com.tdjpartner.model.IronHomeData;
 import com.tdjpartner.model.IronHomeTopData;
-import com.tdjpartner.model.IronStatisticsDetails;
+import com.tdjpartner.model.StatisticsDetails;
 import com.tdjpartner.model.MyCountMoney;
 import com.tdjpartner.model.MyTeam;
 import com.tdjpartner.model.NewHomeData;
@@ -671,7 +671,7 @@ public interface ApiService {
     //铁军统计
     @Headers({"url_type:xuming"})
     @POST("tdj-report/report/customer/homeDataDetails")
-    Observable<BaseResponse<IronStatisticsDetails>> ironStatisticsDetails(@Body RequestBody body);
+    Observable<BaseResponse<StatisticsDetails>> ironStatisticsDetails(@Body RequestBody body);
 
     //日月统计
     @Headers({"url_type:xuming"})

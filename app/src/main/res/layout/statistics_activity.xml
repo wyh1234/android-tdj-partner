@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/ll_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="140dp"
         android:background="@mipmap/home_bg"
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -107,7 +107,6 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-40dp"/>
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

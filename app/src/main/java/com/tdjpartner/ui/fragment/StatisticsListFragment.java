@@ -2,38 +2,65 @@ package com.tdjpartner.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.apkfuns.logutils.LogUtils;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.ListViewAdapter;
 import com.tdjpartner.base.NetworkFragment;
-import com.tdjpartner.model.IronStatisticsDetails;
+import com.tdjpartner.common.PublicCache;
+import com.tdjpartner.model.StatisticsDetails;
 import com.tdjpartner.ui.activity.ClientDetailsActivity;
 import com.tdjpartner.utils.GeneralUtils;
+import com.tdjpartner.utils.ListUtils;
 import com.tdjpartner.utils.cache.UserUtils;
+import com.tdjpartner.widget.tablayout.WTabLayout;
+
+import butterknife.BindView;
 
 /**
  * Created by LFM on 2021/3/15.
  */
-public class StatisticsListFragment extends NetworkFragment {
+public class StatisticsListFragment extends NetworkFragment implements OnRefreshListener{
 
-    private ListViewAdapter<IronStatisticsDetails.ListBean> adapter;
+    @BindView(R.id.refreshLayout)
+    RefreshLayout refreshLayout;
+
+    @BindView(R.id.iv_empty)
+    ImageView iv_empty;
+    @BindView(R.id.listView)
+    ListView listView;
+
+    private ListViewAdapter<StatisticsDetails.ListBean> adapter;
     int userType = UserUtils.getInstance().getLoginBean().getType();//用户类型
     boolean isDay;
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.statistics_list_fragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         isDay = getArgs().containsKey("dayDate");
-        getVMWithFragment().loadingWithNewLiveData(IronStatisticsDetails.class, getArgs())
+        getVMWithFragment().loadingWithNewLiveData(StatisticsDetails.class, getArgs())
                 .observe(this, ironStatisticsDetails -> {
+                    if (refreshLayout.isRefreshing()) {
+                        refreshLayout.finishRefresh();
+                    }
+                    if(ironStatisticsDetails.getList().size() > 0)iv_empty.setVisibility(View.GONE);
                     adapter.clear();
                     adapter.addAll(ironStatisticsDetails.getList());
                     dismissLoading();
@@ -42,13 +69,12 @@ public class StatisticsListFragment extends NetworkFragment {
     }
 
     @Override
-    protected View createView() {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         System.out.println("~~" + getClass().getSimpleName() + ".initView~~");
 
-        ListView listView = new ListView(getContext());
-        listView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-        adapter = new ListViewAdapter.Builder<IronStatisticsDetails.ListBean>()
+        refreshLayout.setOnRefreshListener(this);
+        adapter = new ListViewAdapter.Builder<StatisticsDetails.ListBean>()
                 .setResource(userType == 1 ? R.layout.net_statistics_list_item : R.layout.iron_statistics_list_item)
                 .setOnClickListener(this::onClick)
                 .addChildId(R.id.ll_call, R.id.tv_driverName)
@@ -82,16 +108,23 @@ public class StatisticsListFragment extends NetworkFragment {
                         ((TextView) convertView.findViewById(R.id.callNum)).setText("" + data.getCallNum());
                         ((TextView) convertView.findViewById(R.id.todayTimes)).setText("" + data.getMonthTimes());//日下单次数同月下单次数
                     } else {//铁军
+//                        if (isDay) {
+//                            ((TextView) convertView.findViewById(R.id.todayAmountNum)).setText("" + data.getTodayAmount());
+//                            ((TextView) convertView.findViewById(R.id.categoryAmount)).setText("" + data.getCategoryAmount());
+//                        } else {
+//                            ((TextView) convertView.findViewById(R.id.todayAmount)).setText("月下单额");
+//                            ((TextView) convertView.findViewById(R.id.today)).setText("月下单次数");
+//
+//                            ((TextView) convertView.findViewById(R.id.todayAmountNum)).setText("" + data.getMonthAmount());
+//                            ((TextView) convertView.findViewById(R.id.categoryAmount)).setText("" + data.getMonthAmount());
+//                        }
                         if (isDay) {
-                            ((TextView) convertView.findViewById(R.id.todayAmount)).setText("" + data.getTodayAmount());
-                            ((TextView) convertView.findViewById(R.id.categoryNum)).setText("" + data.getCategoryNum());
-                        } else {
                             ((TextView) convertView.findViewById(R.id.todayAmount)).setText("月下单额");
                             ((TextView) convertView.findViewById(R.id.today)).setText("月下单次数");
-
-                            ((TextView) convertView.findViewById(R.id.todayAmount)).setText("" + data.getMonthAmount());
-                            ((TextView) convertView.findViewById(R.id.categoryNum)).setText("" + data.getMonthAmount());
                         }
+
+                        ((TextView) convertView.findViewById(R.id.todayAmountNum)).setText("" + data.getTodayAmount());
+                        ((TextView) convertView.findViewById(R.id.categoryAmount)).setText("" + data.getCategoryAmount());
                         ((TextView) convertView.findViewById(R.id.todayTimes)).setText("" + data.getMonthTimes());//日下单次数同月下单次数
                     }
 
@@ -105,7 +138,6 @@ public class StatisticsListFragment extends NetworkFragment {
                     textView.setText(data.getBoss());
                     textView.setTag(data.getMobile());
 
-
                     textView = convertView.findViewById(R.id.tv_driverName);
                     if (TextUtils.isEmpty(data.getDriverName())) {
                         textView.setVisibility(View.GONE);
@@ -114,14 +146,11 @@ public class StatisticsListFragment extends NetworkFragment {
                         textView.setTag(data.getDriverTel());
                     }
 
-
                 })
                 .build(getContext());
         listView.setOnItemClickListener(this::onItemClick);
         listView.setAdapter(adapter);
         listView.setDivider(null);
-
-        return listView;
     }
 
     public void onClick(View view) {
@@ -143,5 +172,9 @@ public class StatisticsListFragment extends NetworkFragment {
         Intent intent = new Intent(getContext(), ClientDetailsActivity.class);
         intent.putExtra("customerId", adapter.getItem(position).getCustomerId() + "");
         startActivity(intent);
+    }
+
+    public void onRefresh(RefreshLayout refreshlayout) {
+        getVMWithFragment().loading(StatisticsDetails.class, getArgs());
     }
 }

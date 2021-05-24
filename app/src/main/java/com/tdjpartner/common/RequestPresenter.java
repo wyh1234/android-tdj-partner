@@ -35,7 +35,7 @@ import com.tdjpartner.model.IntegralShop;
 import com.tdjpartner.model.InvitationHistory;
 import com.tdjpartner.model.IronDayAndMonthData;
 import com.tdjpartner.model.IronHomeTopData;
-import com.tdjpartner.model.IronStatisticsDetails;
+import com.tdjpartner.model.StatisticsDetails;
 import com.tdjpartner.model.MyCountMoney;
 import com.tdjpartner.model.MyTeam;
 import com.tdjpartner.model.NewHomeData;
@@ -398,7 +398,7 @@ public class RequestPresenter {
             observable = (Observable<T>) getApiService().hotelAuditPageList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
         } else if (clazz.isAssignableFrom(IronDayAndMonthData.class)) {
             observable = (Observable<T>) getApiService().ironDayAndMonthData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
-        } else if (clazz.isAssignableFrom(IronStatisticsDetails.class)) {
+        } else if (clazz.isAssignableFrom(StatisticsDetails.class)) {
             observable = (Observable<T>) getApiService().ironStatisticsDetails(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
         } else if (clazz.isAssignableFrom(AfterSaleInfoData.class)) {
             observable = (Observable<T>) getApiService().getafterSalesTask(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());

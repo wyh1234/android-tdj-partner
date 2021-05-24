@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.bigkoo.pickerview.TimePickerView;
 import com.tdjpartner.R;
 import com.tdjpartner.base.NetworkActivity;
-import com.tdjpartner.model.IronStatisticsDetails;
+import com.tdjpartner.model.StatisticsDetails;
 import com.tdjpartner.model.SeachTag;
 import com.tdjpartner.ui.fragment.StatisticsListFragment;
 import com.tdjpartner.utils.GeneralUtils;
@@ -169,8 +169,8 @@ public class StatisticsActivity extends NetworkActivity {
         System.out.println("~~" + getClass().getSimpleName() + ".initData~~");
 
         showLoading();
-        getVM().loadingWithNewLiveData(IronStatisticsDetails.class, getArges(date, 1))
-                .observe(this, ironStatisticsDetails -> {
+        getVM().loadingWithNewLiveData(StatisticsDetails.class, getArges(date, 1))
+                .observe(this, statisticsDetails -> {
 //                    if (userType == 2) {
 //                        titles = Arrays.asList("注册数" + (ironStatisticsDetails.getDayRegisterTimes()),
 //                                "新开数" + ironStatisticsDetails.getFirstOrderNum(),
@@ -184,10 +184,11 @@ public class StatisticsActivity extends NetworkActivity {
 
 
                     if (userType == 1) {//网军
-                        titles = isDay ? Arrays.asList("注册数" + ironStatisticsDetails.getDayRegisterTimes(), "新开数" + ironStatisticsDetails.getFirstOrderNum(), "日活" + ironStatisticsDetails.getActiveNum(), "拜访数" + ironStatisticsDetails.getCallNum()) :
-                                Arrays.asList("注册总数" + ironStatisticsDetails.getDayRegisterTimes(), "新开总数" + ironStatisticsDetails.getFirstOrderNum(), "月活数" + ironStatisticsDetails.getActiveNum(), "拜访总数" + ironStatisticsDetails.getCallNum());
+                        titles = isDay ? Arrays.asList("注册数" + statisticsDetails.getDayRegisterTimes(), "新开数" + statisticsDetails.getFirstOrderNum(), "日活" + statisticsDetails.getActiveNum(), "拜访数" + statisticsDetails.getCallNum()) :
+                                Arrays.asList("注册总数" + statisticsDetails.getDayRegisterTimes(), "新开总数" + statisticsDetails.getFirstOrderNum(), "月活数" + statisticsDetails.getActiveNum(), "拜访总数" + statisticsDetails.getCallNum());
                     } else {//铁军
-//                        titles = isDay ? Arrays.asList("注册数", "新开数", "新鲜蔬菜") : Arrays.asList("注册总数", "新开总数", "新鲜蔬菜");
+                        titles = isDay ? Arrays.asList("注册数" + statisticsDetails.getDayRegisterTimes(), "新开数" + statisticsDetails.getFirstOrderNum(), "新鲜蔬菜" + statisticsDetails.getCategoryNum()) :
+                                Arrays.asList("注册总数" + statisticsDetails.getDayRegisterTimes(), "新开总数" + statisticsDetails.getFirstOrderNum(), "新鲜蔬菜" + statisticsDetails.getCategoryNum());
                     }
 
                     viewPager.getAdapter().notifyDataSetChanged();
@@ -200,7 +201,7 @@ public class StatisticsActivity extends NetworkActivity {
         showLoading();
         ViewModelProviders.of(this)
                 .get(NetworkViewModel.class)
-                .loading(IronStatisticsDetails.class, getArges(date, wtab.getSelectedTabPosition() + 1));
+                .loading(StatisticsDetails.class, getArges(date, wtab.getSelectedTabPosition() + 1));
     }
 
     private Map<String, Object> getArges(Date date, int i) {
