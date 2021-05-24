@@ -55,6 +55,20 @@
                 android:layout_marginStart="4dp"
                 android:textSize="@dimen/sp_12"
                 android:text="D92区72-58"/>
+
+            <TextView
+                android:id="@+id/tv_driverName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/gray_66"
+                android:drawableEnd="@mipmap/tel"
+                android:paddingEnd="4dp"
+                android:layout_marginStart="4dp"
+                android:textSize="@dimen/sp_12"
+                android:layout_weight="2"
+                android:gravity="end"
+                android:text="王五"/>
         </LinearLayout>
 
         <LinearLayout
@@ -69,54 +83,22 @@
                 android:layout_weight="1">
 
                 <TextView
+                    android:id="@+id/todayAmountNum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/gray_69"
+                    android:textSize="@dimen/sp_12"
+                    android:text="0"/>
+
+                <TextView
                     android:id="@+id/todayAmount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textColor="@color/gray_69"
                     android:textSize="@dimen/sp_12"
-                    android:text="0"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textColor="@color/gray_69"
-                    android:textSize="@dimen/sp_12"
                     android:text="日下单额" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:layout_gravity="center_vertical"
-                android:background="@color/gray_f2" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/categoryNum"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textColor="@color/gray_69"
-                    android:textSize="@dimen/sp_12"
-                    android:text="0"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textColor="@color/gray_69"
-                    android:textSize="@dimen/sp_12"
-                    android:text="新鲜蔬菜" />
-
             </LinearLayout>
 
             <View
@@ -143,12 +125,80 @@
                     android:text="0" />
 
                 <TextView
+                    android:id="@+id/today"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="日下单次数"
                     android:textColor="@color/gray_69"
                     android:textSize="@dimen/sp_12" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/gray_f2" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/afterSaleAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/gray_69"
+                    android:textSize="@dimen/sp_12"
+                    android:text="0"/>
+
+                <TextView
+                    android:id="@+id/afterSale"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/gray_69"
+                    android:textSize="@dimen/sp_12"
+                    android:text="日退款金额" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/gray_f2" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/callNum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/gray_69"
+                    android:textSize="@dimen/sp_12"
+                    android:text="0"/>
+
+                <TextView
+                    android:id="@+id/call"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/gray_69"
+                    android:textSize="@dimen/sp_12"
+                    android:text="拜访数" />
 
             </LinearLayout>
         </LinearLayout>

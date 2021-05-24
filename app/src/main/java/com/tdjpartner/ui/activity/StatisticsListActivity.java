@@ -1,9 +1,7 @@
 package com.tdjpartner.ui.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 
 import com.tdjpartner.R;
 import com.tdjpartner.base.NetworkActivity;
@@ -42,13 +40,13 @@ public class StatisticsListActivity extends NetworkActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.iron_list_activity;
+        return R.layout.statistics_list_activity;
     }
 
     private Map<String, Object> getArges(Date date, boolean isDay, boolean isNext) {
         Map<String, Object> map = new HashMap<>();
         map.put("loginId", UserUtils.getInstance().getLoginBean().getLoginUserId());
-        map.put("userId", UserUtils.getInstance().getLoginBean().getLoginUserId());
+        map.put("userId", map.get("loginId"));
         map.put("grade", UserUtils.getInstance().getLoginBean().getGrade());
         map.put("type", isNext ? "next" : "up");
         if (isDay) {

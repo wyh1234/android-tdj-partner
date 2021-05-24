@@ -19,13 +19,11 @@ import com.tdjpartner.R;
 import com.tdjpartner.base.NetworkActivity;
 import com.tdjpartner.model.IronStatisticsDetails;
 import com.tdjpartner.model.SeachTag;
-import com.tdjpartner.ui.fragment.IronDayListDetailFragment;
+import com.tdjpartner.ui.fragment.StatisticsListFragment;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.viewmodel.NetworkViewModel;
 import com.tdjpartner.widget.tablayout.WTabLayout;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -41,7 +39,7 @@ import butterknife.OnClick;
 /**
  * Created by LFM on 2021/3/15.
  */
-public class NetStatisticsActivity extends NetworkActivity {
+public class StatisticsActivity extends NetworkActivity {
     @BindView(R.id.tv_title)
     TextView tv_title;
     @BindView(R.id.wtab)
@@ -67,7 +65,7 @@ public class NetStatisticsActivity extends NetworkActivity {
     private Date date;
     private TimePickerView pvTime;
     public SeachTag seachTag = new SeachTag();
-    public String title;
+    public String title, keyword;
     public List<String> titles;
 
     @OnClick({R.id.btn_back, R.id.tv_time, R.id.tv_list_type})
@@ -79,10 +77,9 @@ public class NetStatisticsActivity extends NetworkActivity {
             case R.id.tv_list_type:
                 if (GeneralUtils.isNullOrZeroLenght(search_text.getText().toString())) {
                     GeneralUtils.showToastshort("请输入门店名称或者手机号");
-
                 } else {
-                    seachTag.setTag(search_text.getText().toString());
-                    EventBus.getDefault().post(seachTag);
+                    keyword = search_text.getText().toString();
+                    refresh(date);
                 }
                 break;
             case R.id.tv_time:
@@ -93,7 +90,7 @@ public class NetStatisticsActivity extends NetworkActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.iron_statistics_activity;
+        return R.layout.statistics_activity;
     }
 
     protected void initView() {
@@ -110,7 +107,7 @@ public class NetStatisticsActivity extends NetworkActivity {
         pvTime = new TimePickerView.Builder(this, new TimePickerView.OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                NetStatisticsActivity.this.date = date;
+                StatisticsActivity.this.date = date;
                 ((TextView) v).setText(isDay ? GeneralUtils.getTimes(date) : GeneralUtils.getTime(date));
                 refresh(date);
             }
@@ -131,7 +128,7 @@ public class NetStatisticsActivity extends NetworkActivity {
 
             @Override
             public Fragment getItem(int i) {
-                IronDayListDetailFragment fragment = new IronDayListDetailFragment();
+                StatisticsListFragment fragment = new StatisticsListFragment();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("args", (Serializable) getArges(date, i + 1));
                 fragment.setArguments(bundle);
@@ -146,17 +143,11 @@ public class NetStatisticsActivity extends NetworkActivity {
 
             @Override
             public int getCount() {
-                if (titles == null) {
-                    if (userType == 2) {
-                        titles = Arrays.asList("注册数",
-                                "新开数",
-                                "新鲜蔬菜");
-                    } else {
-                        titles = Arrays.asList("注册总数",
-                                "新开总数",
-                                "日活数",
-                                "拜访总数");
-                    }
+                if (titles != null) return titles.size();
+                if (userType == 1) {//网军
+                    titles = isDay ? Arrays.asList("注册数", "新开数", "日活数", "拜访数") : Arrays.asList("注册总数", "新开总数", "月活数", "拜访总数");
+                } else {//铁军
+                    titles = isDay ? Arrays.asList("注册数", "新开数", "新鲜蔬菜") : Arrays.asList("注册总数", "新开总数", "新鲜蔬菜");
                 }
                 return titles.size();
             }
@@ -170,8 +161,8 @@ public class NetStatisticsActivity extends NetworkActivity {
             }
         });
 
-//        wtab.setxTabDisplayNum(4);
         wtab.setupWithViewPager(viewPager);
+        viewPager.setCurrentItem(getIntent().getIntExtra("position", 0));
     }
 
     protected void initData() {
@@ -180,30 +171,23 @@ public class NetStatisticsActivity extends NetworkActivity {
         showLoading();
         getVM().loadingWithNewLiveData(IronStatisticsDetails.class, getArges(date, 1))
                 .observe(this, ironStatisticsDetails -> {
-                    if (userType == 1) {
-                        if (isDay) {
-                            titles = Arrays.asList("注册数" + ironStatisticsDetails.getDayRegisterTimes(),
-                                    "新开数" + ironStatisticsDetails.getFirstOrderNum(),
-                                    "日活数" + ironStatisticsDetails.getActiveNum(),
-                                    "拜访数" + ironStatisticsDetails.getCallNum(),
-                                    "新鲜蔬菜" + ironStatisticsDetails.getCategoryNum());
-                        } else {
-                            titles = Arrays.asList("注册总数" + ironStatisticsDetails.getDayRegisterTimes(),
-                                    "新开总数" + ironStatisticsDetails.getFirstOrderNum(),
-                                    "日活数" + ironStatisticsDetails.getActiveNum(),
-                                    "拜访总数" + ironStatisticsDetails.getCallNum());
-                        }
+//                    if (userType == 2) {
+//                        titles = Arrays.asList("注册数" + (ironStatisticsDetails.getDayRegisterTimes()),
+//                                "新开数" + ironStatisticsDetails.getFirstOrderNum(),
+//                                "新鲜蔬菜" + ironStatisticsDetails.getCategoryNum());
+//                    } else {
+//                        titles = Arrays.asList("注册总数" + (isDay ? ironStatisticsDetails.getDayRegisterTimes() : ironStatisticsDetails.getMonthRegisterNum()),
+//                                "新开总数" + ironStatisticsDetails.getFirstOrderNum(),
+//                                "日活数" + ironStatisticsDetails.getActiveNum(),
+//                                "拜访总数" + ironStatisticsDetails.getCallNum());
+//                    }
 
-                    } else {
-                        if (isDay) {
-                            titles = Arrays.asList("注册数" + ironStatisticsDetails.getDayRegisterTimes(),
-                                    "新开数" + ironStatisticsDetails.getFirstOrderNum(),
-                                    "新鲜蔬菜" + ironStatisticsDetails.getCategoryNum());
-                        } else {
-                            titles = Arrays.asList("注册总数" + ironStatisticsDetails.getDayRegisterTimes(),
-                                    "新开总数" + ironStatisticsDetails.getFirstOrderNum(),
-                                    "新鲜蔬菜" + ironStatisticsDetails.getCategoryNum());
-                        }
+
+                    if (userType == 1) {//网军
+                        titles = isDay ? Arrays.asList("注册数" + ironStatisticsDetails.getDayRegisterTimes(), "新开数" + ironStatisticsDetails.getFirstOrderNum(), "日活" + ironStatisticsDetails.getActiveNum(), "拜访数" + ironStatisticsDetails.getCallNum()) :
+                                Arrays.asList("注册总数" + ironStatisticsDetails.getDayRegisterTimes(), "新开总数" + ironStatisticsDetails.getFirstOrderNum(), "月活数" + ironStatisticsDetails.getActiveNum(), "拜访总数" + ironStatisticsDetails.getCallNum());
+                    } else {//铁军
+//                        titles = isDay ? Arrays.asList("注册数", "新开数", "新鲜蔬菜") : Arrays.asList("注册总数", "新开总数", "新鲜蔬菜");
                     }
 
                     viewPager.getAdapter().notifyDataSetChanged();
@@ -227,7 +211,7 @@ public class NetStatisticsActivity extends NetworkActivity {
         } else {
             map.put("monthTime", GeneralUtils.getMonthFilter(date));
         }
-        map.put("keyword", "");
+        map.put("keyword", keyword);
         map.put("userType", i);
         map.put("pn", 1);
         map.put("ps", 999);

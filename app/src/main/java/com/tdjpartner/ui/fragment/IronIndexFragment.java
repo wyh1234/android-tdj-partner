@@ -24,7 +24,7 @@ import com.tdjpartner.model.V3HomeData;
 import com.tdjpartner.ui.activity.ApprovalActivity;
 import com.tdjpartner.ui.activity.CommonFollowUpActivity;
 import com.tdjpartner.ui.activity.DropOutingActivity;
-import com.tdjpartner.ui.activity.IronStatisticsActivity;
+import com.tdjpartner.ui.activity.StatisticsActivity;
 import com.tdjpartner.ui.activity.StatisticsListActivity;
 import com.tdjpartner.ui.activity.TeamMemberActivity;
 import com.tdjpartner.utils.GeneralUtils;
@@ -135,32 +135,32 @@ public class IronIndexFragment extends NetworkFragment
         if (grade == 3) {
             switch (view.getId()) {
                 case R.id.ll_day_register:
-                    startIronStatisticsActivity(true, 0);
+                    startStatisticsActivity(true, 0);
                     break;
                 case R.id.ll_day_open:
-                    startIronStatisticsActivity(true, 1);
+                    startStatisticsActivity(true, 1);
                     break;
                 case R.id.ll_day_vegetables:
-                    startIronStatisticsActivity(true, 2);
+                    startStatisticsActivity(true, 2);
                     break;
             }
 
             switch (view.getId()) {
                 case R.id.ll_month_register:
-                    startIronStatisticsActivity(false, 0);
+                    startStatisticsActivity(false, 0);
                     break;
                 case R.id.ll_month_open:
-                    startIronStatisticsActivity(false, 1);
+                    startStatisticsActivity(false, 1);
                     break;
                 case R.id.ll_month_vegetables:
-                    startIronStatisticsActivity(false, 2);
+                    startStatisticsActivity(false, 2);
                     break;
             }
         }
     }
 
-    private void startIronStatisticsActivity(boolean isDay, int position) {
-        Intent intent = new Intent(getContext(), IronStatisticsActivity.class);
+    private void startStatisticsActivity(boolean isDay, int position) {
+        Intent intent = new Intent(getContext(), StatisticsActivity.class);
         intent.putExtra("isDay", isDay);
         intent.putExtra("position", position);
         startActivity(intent);

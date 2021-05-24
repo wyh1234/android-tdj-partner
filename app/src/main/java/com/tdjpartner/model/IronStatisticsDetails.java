@@ -6,15 +6,15 @@ public class IronStatisticsDetails {
 
 
     /**
-     *  "list": [],
-     *  "notOrderCustomerNum": 0,
-     *  "orderCustomerNum": 0,
-     *  "totalCustomerNum": 0,
-     *  "dayRegisterTimes": 0,
-     *  "firstOrderNum": 0,
-     *  "activeNum": 0,
-     *  "callNum": 0,
-     *  "categoryNum": 0
+     * "list": [],
+     * "notOrderCustomerNum": 0,
+     * "orderCustomerNum": 0,
+     * "totalCustomerNum": 0,
+     * "dayRegisterTimes": 0,
+     * "firstOrderNum": 0,
+     * "activeNum": 0,
+     * "callNum": 0,
+     * "categoryNum": 0
      */
 
 
@@ -185,6 +185,8 @@ public class IronStatisticsDetails {
         private Object userType;
         private double monthAmount;
         private int afterSaleTimes;
+        private int afterSaleAmount;
+        private int monthAfterSaleAmount;
         private Object noCallDay;
         private Object receiveName;
         private Object receiveMobile;
@@ -198,7 +200,7 @@ public class IronStatisticsDetails {
         private Object headUrl;
         private Object lastMonthActiveNum;
         private Object activeNum;
-        private Object callNum;
+        private int callNum;
         private Object monthRegisterNum;
         private Object monthActiveNum;
         private Object monthCallNum;
@@ -212,6 +214,13 @@ public class IronStatisticsDetails {
         private int thirtyTimesNum;
         private Object createTime;
         private int categoryNum;
+        private float categoryAmount; //null,
+        private String gradeNextName; //null,
+        private int grade; //0,
+        private String driverName; //"testLT01",
+        private String driverTel; //"12345678010",
+        private String partnerPhone; //null,
+        private int licenceDrlCheckStatus; //0
 
         @Override
         public String toString() {
@@ -239,6 +248,8 @@ public class IronStatisticsDetails {
                     ", userType=" + userType +
                     ", monthAmount=" + monthAmount +
                     ", afterSaleTimes=" + afterSaleTimes +
+                    ", afterSaleAmount=" + afterSaleAmount +
+                    ", monthAfterSaleAmount=" + monthAfterSaleAmount +
                     ", noCallDay=" + noCallDay +
                     ", receiveName=" + receiveName +
                     ", receiveMobile=" + receiveMobile +
@@ -265,7 +276,87 @@ public class IronStatisticsDetails {
                     ", monthAfterSaleTimes=" + monthAfterSaleTimes +
                     ", thirtyTimesNum=" + thirtyTimesNum +
                     ", createTime=" + createTime +
+                    ", categoryNum=" + categoryNum +
+                    ", categoryAmount=" + categoryAmount +
+                    ", gradeNextName='" + gradeNextName + '\'' +
+                    ", grade=" + grade +
+                    ", driverName='" + driverName + '\'' +
+                    ", driverTel='" + driverTel + '\'' +
+                    ", partnerPhone='" + partnerPhone + '\'' +
+                    ", licenceDrlCheckStatus=" + licenceDrlCheckStatus +
                     '}';
+        }
+
+        public int getAfterSaleAmount() {
+            return afterSaleAmount;
+        }
+
+        public void setAfterSaleAmount(int afterSaleAmount) {
+            this.afterSaleAmount = afterSaleAmount;
+        }
+
+        public int getMonthAfterSaleAmount() {
+            return monthAfterSaleAmount;
+        }
+
+        public void setMonthAfterSaleAmount(int monthAfterSaleAmount) {
+            this.monthAfterSaleAmount = monthAfterSaleAmount;
+        }
+
+        public float getCategoryAmount() {
+            return categoryAmount;
+        }
+
+        public void setCategoryAmount(float categoryAmount) {
+            this.categoryAmount = categoryAmount;
+        }
+
+        public String getGradeNextName() {
+            return gradeNextName;
+        }
+
+        public void setGradeNextName(String gradeNextName) {
+            this.gradeNextName = gradeNextName;
+        }
+
+        public int getGrade() {
+            return grade;
+        }
+
+        public void setGrade(int grade) {
+            this.grade = grade;
+        }
+
+        public String getDriverName() {
+            return driverName;
+        }
+
+        public void setDriverName(String driverName) {
+            this.driverName = driverName;
+        }
+
+        public String getDriverTel() {
+            return driverTel;
+        }
+
+        public void setDriverTel(String driverTel) {
+            this.driverTel = driverTel;
+        }
+
+        public String getPartnerPhone() {
+            return partnerPhone;
+        }
+
+        public void setPartnerPhone(String partnerPhone) {
+            this.partnerPhone = partnerPhone;
+        }
+
+        public int getLicenceDrlCheckStatus() {
+            return licenceDrlCheckStatus;
+        }
+
+        public void setLicenceDrlCheckStatus(int licenceDrlCheckStatus) {
+            this.licenceDrlCheckStatus = licenceDrlCheckStatus;
         }
 
         public int getCategoryNum() {
@@ -285,7 +376,7 @@ public class IronStatisticsDetails {
         }
 
         public Integer getAuth() {
-            return auth==null?0:auth;
+            return auth == null ? 0 : auth;
         }
 
         public void setAuth(Integer auth) {
@@ -325,7 +416,7 @@ public class IronStatisticsDetails {
         }
 
         public String getPartnerName() {
-            return partnerName==null?"无":partnerName;
+            return partnerName == null ? "无" : partnerName;
         }
 
         public void setPartnerName(String partnerName) {
@@ -564,11 +655,11 @@ public class IronStatisticsDetails {
             this.activeNum = activeNum;
         }
 
-        public Object getCallNum() {
+        public int getCallNum() {
             return callNum;
         }
 
-        public void setCallNum(Object callNum) {
+        public void setCallNum(int callNum) {
             this.callNum = callNum;
         }
 

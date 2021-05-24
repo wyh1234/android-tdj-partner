@@ -219,10 +219,7 @@
             android:name=".ui.activity.StatisticsListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.IronStatisticsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activity.NetStatisticsActivity"
+            android:name=".ui.activity.StatisticsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.ApprovalActivity"
