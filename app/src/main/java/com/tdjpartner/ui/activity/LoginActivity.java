@@ -33,38 +33,44 @@ public class LoginActivity extends BaseActivity<LoginActivityPresnter> {
     Button btn_login;
     @BindView(R.id.forget_password)
     TextView forget_password;
-    @OnClick({R.id.iv_way_password,R.id.btn_login,R.id.forget_password})
-    public void onClick(View view){
-        switch (view.getId()){
+    @BindView(R.id.tv_welcome)
+    TextView tv_welcome;
+
+    @OnClick({R.id.iv_way_password, R.id.btn_login, R.id.forget_password, R.id.btn_back})
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.iv_way_password:
 
-                if (iv_way_password.isSelected()){
+                if (iv_way_password.isSelected()) {
                     iv_way_password.setSelected(false);
                     ed_password.setTransformationMethod(PasswordTransformationMethod.getInstance());//显示
-                }else {
+                } else {
                     ed_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());//隐藏
                     iv_way_password.setSelected(true);
                 }
                 ed_password.setSelection(ed_password.getText().length());
                 break;
             case R.id.btn_login:
-                if (GeneralUtils.isNullOrZeroLenght(ed_phone.getText().toString())){
-                  GeneralUtils.showToastshort("手机号不能为空");
-               }
-                if (!GeneralUtils.isTel(ed_phone.getText().toString())){
+                if (GeneralUtils.isNullOrZeroLenght(ed_phone.getText().toString())) {
+                    GeneralUtils.showToastshort("手机号不能为空");
+                }
+                if (!GeneralUtils.isTel(ed_phone.getText().toString())) {
                     GeneralUtils.showToastshort("您输入的手机号码格式不正确");
                     return;
                 }
-                if (GeneralUtils.isNullOrZeroLenght(ed_password.getText().toString())){
+                if (GeneralUtils.isNullOrZeroLenght(ed_password.getText().toString())) {
                     GeneralUtils.showToastshort("密码不能为空");
                     return;
                 }
-                mPresenter.login(ed_phone.getText().toString(),ed_password.getText().toString(),"0");
+                mPresenter.login(ed_phone.getText().toString(), ed_password.getText().toString(), "0", getIntent().getIntExtra("type", 1));
                 break;
             case R.id.forget_password:
-                Intent intent=new Intent(this, ForgetPasswordActivity.class);
-                intent.putExtra("forgetpassword","forgetpassword");
+                Intent intent = new Intent(this, ForgetPasswordActivity.class);
+                intent.putExtra("forgetpassword", "forgetpassword");
                 startActivity(intent);
+                break;
+            case R.id.btn_back:
+                finish();
                 break;
         }
     }
@@ -83,7 +89,12 @@ public class LoginActivity extends BaseActivity<LoginActivityPresnter> {
     @Override
     protected void initView() {
         Eyes.setStatusBarColor(this, GeneralUtils.getColor(this, R.color.white));
-
+        if (getIntent().getIntExtra("type", 1) == 1) {
+            tv_welcome.setText("你好，网军！");
+        } else {
+            tv_welcome.setText("你好，铁军！");
+            btn_login.setBackgroundResource(R.drawable.bg_gradient_blue);
+        }
     }
 
     @Override
@@ -92,7 +103,7 @@ public class LoginActivity extends BaseActivity<LoginActivityPresnter> {
     }
 
     public static void start(Context context) {
-        Intent intent=new Intent(context,LoginActivity.class);
+        Intent intent = new Intent(context, LoginActivity.class);
         context.startActivity(intent);
 
     }
@@ -102,9 +113,9 @@ public class LoginActivity extends BaseActivity<LoginActivityPresnter> {
     }
 
     public void getlogin(UserInfo userInfo) {
-        if (userInfo!=null){
+        if (userInfo != null) {
             UserUtils.getInstance().login(userInfo);
-            Intent intent=new Intent(this, MainTabActivity.class);
+            Intent intent = new Intent(this, MainTabActivity.class);
             startActivity(intent);
             finish();
         }

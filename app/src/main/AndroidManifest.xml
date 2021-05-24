@@ -65,6 +65,9 @@
             android:name=".ui.activity.ForgetPasswordActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.activity.V3LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.activity.LoginActivity"
             android:screenOrientation="portrait" />
         <activity

@@ -364,7 +364,6 @@ public class NetIndexFragment extends NetworkFragment
         Map<String, Object> map = new HashMap<>();
 
         map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
-        System.out.println("userId is " + UserUtils.getInstance().getLoginBean().getEntityId());
         map.put("dayDate", GeneralUtils.getTimeFilter(new Date()));
         map.put("monthTime", GeneralUtils.getMonthFilter(new Date()));
         map.put("websiteId", UserUtils.getInstance().getLoginBean().getSite());
