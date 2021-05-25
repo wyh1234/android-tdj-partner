@@ -1,5 +1,7 @@
 package com.tdjpartner.ui.fragment;
 
+import android.app.Dialog;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,15 +13,19 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.google.gson.reflect.TypeToken;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.ListViewAdapter;
 import com.tdjpartner.base.NetworkFragment;
+import com.tdjpartner.model.CustomerPhone;
 import com.tdjpartner.model.NewHomeData;
+import com.tdjpartner.model.UserInfo;
 import com.tdjpartner.model.V3HomeData;
 import com.tdjpartner.ui.activity.ApprovalActivity;
 import com.tdjpartner.ui.activity.CommonFollowUpActivity;
@@ -27,13 +33,16 @@ import com.tdjpartner.ui.activity.DropOutingActivity;
 import com.tdjpartner.ui.activity.StatisticsActivity;
 import com.tdjpartner.ui.activity.StatisticsListActivity;
 import com.tdjpartner.ui.activity.TeamMemberActivity;
+import com.tdjpartner.utils.DialogUtils;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
 import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.glide.ImageLoad;
+import com.tdjpartner.viewmodel.NetworkViewModel;
 import com.tdjpartner.widget.tablayout.WTabLayout;
 
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -91,14 +100,28 @@ public class IronIndexFragment extends NetworkFragment
     private List<NewHomeData.RegisterTimesTopListBean> registerlist = new ArrayList<>();
     private List<NewHomeData.OrdersTimesTopList> orderList = new ArrayList<>();
     List<String> titles;
+    Dialog dialog;
 
-    @OnClick({R.id.tv_team, R.id.tv_day, R.id.tv_month, R.id.tv_day_sink, R.id.tv_month_sink})
+    @OnClick({R.id.tv_city, R.id.tv_team, R.id.tv_day, R.id.tv_month, R.id.tv_day_sink, R.id.tv_month_sink})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_team:
                 Intent intent = new Intent(getContext(), TeamMemberActivity.class);
                 intent.putExtra("userId", UserUtils.getInstance().getLoginBean().getEntityId() + "");
                 startActivity(intent);
+                break;
+            case R.id.tv_city:
+                Map<String, Object> map = new HashMap<>();
+                map.put("entityId", UserUtils.getInstance().getLoginBean().getEntityId());
+                getVMWithFragment().loadingWithNewLiveData(CustomerPhone.class, map)
+                        .observe(this, customerPhone -> {
+                            stop();
+                            System.out.println("customerPhone = " + customerPhone);
+                        });
+
+//                if (dialog == null)
+//                    dialog = DialogUtils.getResourceDialog(getContext(), R.layout.common_dialog, this::onClick, this::onClick);
+//                dialog.show();
                 break;
 
             case R.id.tv_month:
@@ -117,6 +140,26 @@ public class IronIndexFragment extends NetworkFragment
                 tv_month.setTextColor(Color.BLACK);
                 isDay = true;
                 ranking_vp.getAdapter().notifyDataSetChanged();
+                break;
+
+            case R.id.dialog_btn_yes:
+                String refuse = ((EditText) dialog.findViewById(R.id.et_content)).getText().toString();
+                if (dialog.isShowing() && !refuse.isEmpty()) {
+                    dialog.dismiss();
+
+//                    map.clear();
+//                    map.put("api", "hotelAuditReject");
+//                    map.put("markCode", hotelAuditInfo.mark_code);
+//                    map.put("userId", UserUtils.getInstance().getLoginBean().getLoginUserId());
+//                    map.put("verifyInfo", refuse);
+//                    ViewModelProviders.of(this)
+//                            .get(NetworkViewModel.class)
+//                            .loadingWithNewLiveData(String.class, map)
+//                            .observe(this, GeneralUtils::showToastshort);
+                }
+                break;
+            case R.id.dialog_btn_no:
+                if (dialog.isShowing()) dialog.dismiss();
                 break;
         }
 
@@ -180,7 +223,7 @@ public class IronIndexFragment extends NetworkFragment
         //初始化顶部UI
         tv_username.setText("你好," + UserUtils.getInstance().getLoginBean().getRealname() + "!");
         tv_time.setText(GeneralUtils.getCurrDay() + "\t\t" + GeneralUtils.getWeekDay(System.currentTimeMillis()));
-        tv_city.setText(tv_city.getText() + "武汉");
+        tv_city.setText(tv_city.getText() + UserUtils.getInstance().getLoginBean().getSiteName());
 
 
         //初始日月统计

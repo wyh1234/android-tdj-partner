@@ -1,6 +1,7 @@
 package com.tdjpartner.common;
 
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.tdjpartner.http.BaseObserver;
 import com.tdjpartner.http.RetrofitServiceManager;
 import com.tdjpartner.http.RxUtils;
@@ -34,7 +35,8 @@ import com.tdjpartner.model.HotelAuditPageList;
 import com.tdjpartner.model.IntegralShop;
 import com.tdjpartner.model.InvitationHistory;
 import com.tdjpartner.model.IronDayAndMonthData;
-import com.tdjpartner.model.IronHomeTopData;
+import com.tdjpartner.model.HomeTopData;
+import com.tdjpartner.model.CustomerPhone;
 import com.tdjpartner.model.StatisticsDetails;
 import com.tdjpartner.model.MyCountMoney;
 import com.tdjpartner.model.MyTeam;
@@ -388,7 +390,7 @@ public class RequestPresenter {
             } else {
                 observable = null;
             }
-        } else if (clazz.isAssignableFrom(IronHomeTopData.class)) {
+        } else if (clazz.isAssignableFrom(HomeTopData.class)) {
             observable = (Observable<T>) getApiService().ironHomeTopData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
         } else if (clazz.isAssignableFrom(V3HomeData.class)) {
             observable = (Observable<T>) getApiService().v3HomeData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
@@ -404,7 +406,9 @@ public class RequestPresenter {
             observable = (Observable<T>) getApiService().getafterSalesTask(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
         } else if (clazz.isAssignableFrom(AfterDetailData.class)) {
             observable = (Observable<T>) getApiService().afterDetail(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
-        } else {
+        }else if (clazz.isAssignableFrom(CustomerPhone.class)) {
+            observable = (Observable<T>) getApiService().listByCustomerPhone(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
+        }else {
             observable = null;
         }
         return observable;

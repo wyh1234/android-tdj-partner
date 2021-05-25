@@ -2,7 +2,7 @@ package com.tdjpartner.model;
 
 import java.util.List;
 
-public class IronHomeTopData {
+public class HomeTopData {
     private List<RegisterTimesTopListBean> registerTimesTopList;
     private List<OrdersTimesTopList> ordersTimesTopList;
 
