@@ -120,15 +120,6 @@
             android:paddingStart="4dp"
             android:text="商品单号：921012200067"
             android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/create_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:paddingStart="4dp"
-            android:text="退货时间：2021-01-21 09:00"
-            android:textSize="12sp" />
     </LinearLayout>
 
 </LinearLayout>

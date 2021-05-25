@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.view.View;
@@ -47,6 +48,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static android.text.Html.FROM_HTML_MODE_LEGACY;
 import static com.tdjpartner.ui.fragment.NetSupportFragment.REFUND;
 import static com.tdjpartner.ui.fragment.NetSupportFragment.REPLACE;
 import static com.tdjpartner.ui.fragment.NetSupportFragment.REPLENISH;
@@ -74,16 +76,20 @@ public class NetSupportDetailActivity extends NetworkActivity {
     TextView order_pay_time;
     @BindView(R.id.order_no)
     TextView order_no;
-    @BindView(R.id.create_time)
-    TextView create_time;
     @BindView(R.id.original)
     TextView original;
     @BindView(R.id.amount)
     TextView amount;
     @BindView(R.id.money)
     TextView money;
+    @BindView(R.id.unit)
+    TextView unit;
+    @BindView(R.id.price)
+    TextView price;
     @BindView(R.id.num_title)
     TextView num_title;
+    @BindView(R.id.num_unit)
+    TextView num_unit;
     @BindView(R.id.price_title)
     TextView price_title;
     @BindView(R.id.difficulty)
@@ -236,6 +242,7 @@ public class NetSupportDetailActivity extends NetworkActivity {
         original.setText("平台下单：" + getIntent().getStringExtra("original"));
         money.setText("折算后单价：" + getIntent().getStringExtra("money"));
         num_title.setText("实际数量：");
+        num_unit.setText(getIntent().getStringExtra("amount").substring(getIntent().getStringExtra("amount").length() - 1));
         price_title.setText("实际金额：");
 
         switch (type) {
@@ -300,7 +307,6 @@ public class NetSupportDetailActivity extends NetworkActivity {
     @Override
     protected void initData() {
         entityId = getIntent().getIntExtra("entityId", -1);
-//        entityId = 72084;
         if (entityId == -1) return;
 
         imageUrl = new ArrayMap<>();
@@ -323,18 +329,27 @@ public class NetSupportDetailActivity extends NetworkActivity {
                     supplier_tel.setText("供应商电话：" + afterDetailData.order.supplier_tel);
                     order_pay_time.setText("下单时间：" + afterDetailData.order.order_pay_time);
                     order_no.setText("商品单号：" + afterDetailData.order.order_no);
-                    create_time.setText("退货时间：" + afterDetailData.order.create_time);
+
+                    String level3 = TextUtils.isEmpty(afterDetailData.order.level_3_unit) ? "" : "*" + afterDetailData.order.level_3_value + afterDetailData.order.level_3_unit;
+                    String level2 = TextUtils.isEmpty(afterDetailData.order.level_2_unit) ? "" : "（" + afterDetailData.order.level_2_value + afterDetailData.order.level_2_unit + level3 + "）";
+                    String value = afterDetailData.order.price + "元/" + afterDetailData.order.unit + (afterDetailData.order.level_type == 3 ? "" : level2);
+                    String styledText = "<font color='grey'>" + value + "</font>" + "<font color='red'>×" + afterDetailData.order.original_amount + "</font>";
+                    unit.setText(Html.fromHtml(styledText, FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+
+
+                    value = afterDetailData.order.original_amount + afterDetailData.order.unit + "/共" + (afterDetailData.order.price * afterDetailData.order.original_amount) + "元";
+                    price.setText(value);
+
+
 
                     ((TextView) findViewById(R.id.product_criteria)).setText(afterDetailData.order.product_criteria.equals("1") ? "通" : "精");
                     ((TextView) findViewById(R.id.name)).setText(afterDetailData.order.name + (afterDetailData.order.nick_name.isEmpty() ? "" : "（" + afterDetailData.order.nick_name + "）"));
-                    ((TextView) findViewById(R.id.store_name)).setText(afterDetailData.order.store_name.length() > 3 ? afterDetailData.order.store_name.substring(0, 3) : afterDetailData.order.store_name);
+                    ((TextView) findViewById(R.id.store_name)).setText(afterDetailData.order.store_name);
                     findViewById(R.id.type).setVisibility(View.GONE);
-                    ImageLoad.loadImageViewLoding(afterDetailData.order.product_img, findViewById(R.id.product_img));
+                    ImageLoad.loadRoundImage(afterDetailData.order.product_img, 25, findViewById(R.id.product_img), R.mipmap.baifangjiudain_bg);
 
                     if (type.equals(REPLACE))
                         adapter.setNewData(Arrays.asList(afterDetailData.order.certificate_photos.split(",")));
-//                    adapter.setNewData(Arrays.asList("http://tsp-img.oss-cn-hangzhou.aliyuncs.com/2104101404050e4db32e.jpg", "http://tsp-img.oss-cn-hangzhou.aliyuncs.com/190805144018b97ed293.jpg"));
-
 
                     switch (type) {
                         case REPLENISH:

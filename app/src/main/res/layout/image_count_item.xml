@@ -17,10 +17,10 @@
         android:layout_width="18dp"
         android:layout_height="18dp"
         android:layout_gravity="end|top"
-        android:background="@drawable/bg_ring_orange"
+        android:background="@drawable/bg_ring_grey"
         android:gravity="center"
         android:padding="2dp"
         android:text="0"
-        android:textColor="@color/view_bg1"
+        android:textColor="@color/gray_c2c2c2"
         android:textSize="7sp" />
 </FrameLayout>

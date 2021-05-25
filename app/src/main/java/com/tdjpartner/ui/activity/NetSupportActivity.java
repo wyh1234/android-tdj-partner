@@ -8,7 +8,6 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.bigkoo.pickerview.TimePickerView;
 import com.tdjpartner.R;
 import com.tdjpartner.base.NetworkActivity;
 import com.tdjpartner.model.SeachTag;
@@ -19,7 +18,6 @@ import com.tdjpartner.widget.tablayout.WTabLayout;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,8 +37,6 @@ public class NetSupportActivity extends NetworkActivity {
     @BindView(R.id.btn_back)
     ImageView btn_back;
 
-    private Calendar selectedDate, endDate, startDate;
-    private TimePickerView pvTime;
     public SeachTag seachTag = new SeachTag();
     public String title;
     public List<String> titles = new ArrayList<>();

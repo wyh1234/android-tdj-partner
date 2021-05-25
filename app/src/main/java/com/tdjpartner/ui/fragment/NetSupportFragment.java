@@ -1,9 +1,12 @@
 package com.tdjpartner.ui.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.Html;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -21,6 +24,8 @@ import com.tdjpartner.utils.glide.ImageLoad;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static android.text.Html.FROM_HTML_MODE_LEGACY;
+
 /**
  * Created by LFM on 2021/3/15.
  */
@@ -35,6 +40,7 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
     @BindView(R.id.ll_refund)
     LinearLayout ll_refund;
     AfterSaleInfoData afterSaleInfoData;
+    View current;
     String type;
     public final static String REPLENISH = "上门补货", REPLACE = "上门换货", REFUND = "上门退货";
 
@@ -49,7 +55,7 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         type = REPLENISH;
-
+        updateTextView( current = ll_replenish, R.color.orange_red, R.drawable.bg_ring_orange);
         ((ImageView) ll_replenish.findViewById(R.id.image)).setImageResource(R.mipmap.replenish);
         ((ImageView) ll_replace.findViewById(R.id.image)).setImageResource(R.mipmap.replace);
         ((ImageView) ll_refund.findViewById(R.id.image)).setImageResource(R.mipmap.refund);
@@ -59,14 +65,26 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
                 .setInitView((data, convertView) -> {
 
                     ((TextView) convertView.findViewById(R.id.customer_name)).setText(data.customer_name);
-                    ((TextView) convertView.findViewById(R.id.operator_user_name)).setText("专员：" + data.operator_user_name);
+                    ((TextView) convertView.findViewById(R.id.pick_user_name)).setText("专员：" + data.pick_user_name);
                     ((TextView) convertView.findViewById(R.id.dispatch_time)).setText(data.dispatch_time);
                     ((TextView) convertView.findViewById(R.id.commissioner_name)).setText("指派人：" + data.commissioner_name);
 
                     ((TextView) convertView.findViewById(R.id.product_criteria)).setText(data.product_criteria.equals("1") ? "通" : "精");
 
-                    ((TextView) convertView.findViewById(R.id.name)).setText(data.name + (data.nick_name.isEmpty() ? "" : "（" + data.nick_name + "）"));
-                    ((TextView) convertView.findViewById(R.id.store_name)).setText(data.store_name.length() > 3 ? data.store_name.substring(0, 3) : data.store_name);
+                    String level3 = TextUtils.isEmpty(data.level_3_unit) ? "" : "*" + data.level_3_value + data.level_3_unit;
+                    String level2 = TextUtils.isEmpty(data.level_2_unit) ? "" : "（" + data.level_2_value + data.level_2_unit + level3 + "）";
+                    String value = data.price + "元/" + data.unit + (data.level_type == 3 ? "" : level2);
+                    String styledText = "<font color='grey'>" + value + "</font>" + "<font color='red'>×" + data.original_amount + "</font>";
+                    ((TextView) convertView.findViewById(R.id.unit)).setText(Html.fromHtml(styledText, FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+
+
+                    value = data.original_amount + data.unit + "/共" + (data.price * data.original_amount) + "元";
+                    ((TextView) convertView.findViewById(R.id.price)).setText(value);
+
+                    styledText = "<font color='black'>" + data.name + "</font>" + "<font color='grey'><small>（" + data.nick_name + "）</small></font>";
+                    ((TextView) convertView.findViewById(R.id.name)).setText(Html.fromHtml(styledText, FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+//                    ((TextView) convertView.findViewById(R.id.store_name)).setText(data.store_name.length() > 3 ? data.store_name.substring(0, 3) : data.store_name);
+                    ((TextView) convertView.findViewById(R.id.store_name)).setText(data.store_name);
 
                     String amount = "";
                     switch (type) {
@@ -96,7 +114,7 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
                             break;
                     }
 
-                    ImageLoad.loadImageViewLoding(data.product_img, convertView.findViewById(R.id.product_img), R.mipmap.baifangjiudain_bg);
+                    ImageLoad.loadRoundImage(data.product_img, 25, convertView.findViewById(R.id.product_img), R.mipmap.baifangjiudain_bg);
 
                 })
                 .build(getContext());
@@ -142,6 +160,9 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
 
     @OnClick({R.id.ll_refund, R.id.ll_replace, R.id.ll_replenish})
     public void onClick(View view) {
+        updateTextView(current, R.color.gray_c2c2c2, R.drawable.bg_ring_grey);
+        updateTextView(current = view, R.color.orange_red, R.drawable.bg_ring_orange);
+
         switch (view.getId()) {
             case R.id.ll_replenish:
                 listViewAdapter.clear();
@@ -159,6 +180,15 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
                 type = REFUND;
                 break;
         }
+    }
+
+    private void updateTextView(View current, int colorId, int drawableId) {
+        TextView textView;
+        textView = current.findViewById(R.id.tab);
+        textView.setTextColor(getResources().getColor(colorId, null));
+        textView = current.findViewById(R.id.count);
+        textView.setTextColor(getResources().getColor(colorId, null));
+        textView.setBackground(getResources().getDrawable(drawableId, null));
     }
 
     @Override

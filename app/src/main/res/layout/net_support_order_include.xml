@@ -30,6 +30,7 @@
                 android:gravity="center"
                 android:padding="6dp"
                 android:text="通"
+                android:textColor="@color/red"
                 android:textSize="12sp" />
 
             <TextView
@@ -44,6 +45,7 @@
 
 
         <TextView
+            android:id="@+id/unit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -77,7 +79,11 @@
                 android:text="2斤/共1元"
                 android:textColor="@color/orange_red"
                 android:textSize="12sp" />
-
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp">
             <TextView
                 android:id="@+id/store_name"
                 android:layout_width="wrap_content"
@@ -90,7 +96,6 @@
                 android:text="保险蔬"
                 android:textColor="@color/red"
                 android:textSize="12sp" />
-
             <TextView
                 android:id="@+id/type"
                 android:layout_width="wrap_content"
