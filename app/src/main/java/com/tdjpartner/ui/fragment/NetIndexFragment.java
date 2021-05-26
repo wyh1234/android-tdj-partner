@@ -302,7 +302,6 @@ public class NetIndexFragment extends NetworkFragment
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("args", (Serializable) map);
 
-
                 android.support.v4.app.Fragment fragment = new NetRankingFragment();
                 fragment.setArguments(bundle);
                 return fragment;
@@ -369,6 +368,7 @@ public class NetIndexFragment extends NetworkFragment
         map.put("websiteId", UserUtils.getInstance().getLoginBean().getSite());
 
         getVMWithFragment().loading(V3HomeData.class, map);
+        ranking_vp.getAdapter().notifyDataSetChanged();
     }
 
     public void stop() {

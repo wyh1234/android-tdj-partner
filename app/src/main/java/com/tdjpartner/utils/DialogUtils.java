@@ -18,6 +18,10 @@ import com.tdjpartner.R;
  */
 public class DialogUtils {
 
+    public static Dialog getResourceDialog(Context context, int resourceId) {
+        return getResourceDialog(context, resourceId, null, null, null, null);
+    }
+
     public static Dialog getResourceDialog(Context context, int resourceId, @Nullable View.OnClickListener ok, @Nullable View.OnClickListener deny) {
         return getResourceDialog(context, resourceId, null, null, ok, deny);
     }

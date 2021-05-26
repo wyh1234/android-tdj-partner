@@ -103,7 +103,7 @@ public class LoginActivity extends BaseActivity<LoginActivityPresnter> {
     }
 
     public static void start(Context context) {
-        Intent intent = new Intent(context, LoginActivity.class);
+        Intent intent = new Intent(context, V3LoginActivity.class);
         context.startActivity(intent);
 
     }

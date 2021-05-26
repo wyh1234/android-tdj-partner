@@ -63,6 +63,7 @@ import com.tdjpartner.model.WithdrawDetalis;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -253,9 +254,11 @@ public class RequestPresenter {
     public static Disposable hotelMap(Map<String, Object> map, BaseObserver<List<ClientInfo>> callback) {
         return getApiService().hotelMap(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
+
     public static Disposable mapData(Map<String, Object> map, BaseObserver<List<ClientInfo>> callback) {
         return getApiService().mapData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
+
     public static Disposable listData(Map<String, Object> map, BaseObserver<CustomerInfo> callback) {
         return getApiService().listData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
@@ -385,8 +388,16 @@ public class RequestPresenter {
                 observable = (Observable<T>) getApiService().hotelAuditPass(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
             } else if (api.equals("modifyAfterSalePhoto")) {
                 observable = (Observable<T>) getApiService().modifyAfterSalePhoto(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
-            }  else if (api.equals("difficulty")) {
+            } else if (api.equals("difficulty")) {
                 observable = (Observable<T>) getApiService().difficulty(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
+            } else {
+                observable = null;
+            }
+        }
+        if (clazz.isAssignableFrom(ArrayList.class) && map.containsKey("elementType")) {
+            Class eClass = (Class) map.remove("elementType");
+            if (eClass.equals(CustomerPhone.class)) {
+                observable = (Observable<T>) getApiService().listByCustomerPhone(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
             } else {
                 observable = null;
             }
@@ -400,15 +411,15 @@ public class RequestPresenter {
             observable = (Observable<T>) getApiService().hotelAuditPageList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
         } else if (clazz.isAssignableFrom(IronDayAndMonthData.class)) {
             observable = (Observable<T>) getApiService().ironDayAndMonthData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
+        }  else if (clazz.isAssignableFrom(UserInfo.class)) {
+            observable = (Observable<T>) getApiService().loginData(map).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
         } else if (clazz.isAssignableFrom(StatisticsDetails.class)) {
             observable = (Observable<T>) getApiService().ironStatisticsDetails(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
         } else if (clazz.isAssignableFrom(AfterSaleInfoData.class)) {
             observable = (Observable<T>) getApiService().getafterSalesTask(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
         } else if (clazz.isAssignableFrom(AfterDetailData.class)) {
             observable = (Observable<T>) getApiService().afterDetail(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
-        }else if (clazz.isAssignableFrom(CustomerPhone.class)) {
-            observable = (Observable<T>) getApiService().listByCustomerPhone(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
-        }else {
+        } else {
             observable = null;
         }
         return observable;

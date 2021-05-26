@@ -27,6 +27,7 @@ public class NetRankingFragment extends NetworkFragment {
     private int grade = UserUtils.getInstance().getLoginBean().getGrade();//用户级别
     private boolean isEntire, allowSkip;
     private int upNum = 6, offset;
+    TextView footerView;
 
     @Override
     protected int getLayoutId() {
@@ -39,9 +40,30 @@ public class NetRankingFragment extends NetworkFragment {
 
         //初始化View
         if (getArgs().get("timeType").equals("day")) {
-            ((TextView) view.findViewById(R.id.tv_ranking_four)).setText("GMV");
+
+            switch ((int) getArgs().get("type")) {
+                case 1:
+                    ((TextView) view.findViewById(R.id.tv_ranking_four)).setText("GMV");
+                    break;
+                case 2:
+                    ((TextView) view.findViewById(R.id.tv_ranking_four)).setText("注册数");
+                    break;
+                case 3:
+                    ((TextView) view.findViewById(R.id.tv_ranking_four)).setText("新开");
+                    break;
+            }
         } else {
-            ((TextView) view.findViewById(R.id.tv_ranking_four)).setText(grade == 3 ? "月日活" : "月活");
+            switch ((int) getArgs().get("type")) {
+                case 1:
+                    ((TextView) view.findViewById(R.id.tv_ranking_four)).setText("月活");
+                    break;
+                case 2:
+                    ((TextView) view.findViewById(R.id.tv_ranking_four)).setText("月均日活");
+                    break;
+                case 3:
+                    ((TextView) view.findViewById(R.id.tv_ranking_four)).setText("月GMV");
+                    break;
+            }
         }
 
         arrayAdapter = new ArrayAdapter<HomeTopData.RegisterTimesTopListBean>(getContext(), R.layout.adapter_ranking) {
@@ -91,18 +113,19 @@ public class NetRankingFragment extends NetworkFragment {
         ListView listView = view.findViewById(R.id.lv);
         listView.setAdapter(arrayAdapter);
         listView.setNestedScrollingEnabled(true);
+
         //增加脚部
-        TextView textView = new TextView(getContext());
-        textView.setGravity(CENTER);
-        textView.setPadding(24, 24, 24, 24);
-        textView.setText("展开全部");
-        textView.setTextSize(16);
-        listView.addFooterView(textView);
+        footerView = new TextView(getContext());
+        footerView.setGravity(CENTER);
+        footerView.setPadding(24, 24, 24, 24);
+        footerView.setText("展开全部");
+        footerView.setTextSize(16);
+        listView.addFooterView(footerView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 System.out.println("parent = " + parent + ", view = " + view + ", position = " + position + ", id = " + id);
-                if (id != -1) return;
+                if (!view.equals(footerView)) return;
                 ((TextView) view).setText(isEntire ? "展开全部" : "收起全部");
                 isEntire = !isEntire;
                 getVMWithFragment().loading(HomeTopData.class, getArgs());
@@ -114,14 +137,18 @@ public class NetRankingFragment extends NetworkFragment {
         getVMWithFragment().loadingWithNewLiveData(HomeTopData.class, getArgs())
                 .observe(this, homeTopData -> {
                     dismissLoading();
-                    arrayAdapter.clear();
                     offset = 0;
                     allowSkip = true;
+                    arrayAdapter.clear();
+                    if (homeTopData.getRegisterTimesTopList().isEmpty()) {
+                        footerView.setText("暂无数据");
+                        return;
+                    }
+
                     if (isEntire) {
                         arrayAdapter.addAll(homeTopData.getRegisterTimesTopList());
                     } else {
-
-                        for (int i = 0, j = 0; j < 6; i++) {
+                        for (int i = 0, j = 0; j < 6 && j < homeTopData.getRegisterTimesTopList().size(); i++) {
                             if (allowSkip && i >= upNum && homeTopData.getRegisterTimesTopList().get(i).customerId != entityId) {
                                 offset++;
                                 System.out.println("one|i = " + i + ", j = " + j);
@@ -131,10 +158,9 @@ public class NetRankingFragment extends NetworkFragment {
                             if (homeTopData.getRegisterTimesTopList().get(i).customerId == entityId)
                                 allowSkip = false;
                             arrayAdapter.add(homeTopData.getRegisterTimesTopList().get(i));
-                            if(++j > 4 && !allowSkip) break;
+                            if (++j > 4 && !allowSkip) break;
                         }
                     }
                 });
-
     }
 }

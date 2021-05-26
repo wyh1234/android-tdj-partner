@@ -16,6 +16,7 @@ import com.tdjpartner.model.LoginLoseEfficacyEvent;
 import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.mvp.view.IView;
 import com.tdjpartner.ui.activity.LoginActivity;
+import com.tdjpartner.ui.activity.V3LoginActivity;
 import com.tdjpartner.utils.ActivityManager;
 import com.tdjpartner.utils.Density;
 import com.tdjpartner.utils.GeneralUtils;
@@ -223,7 +224,7 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
             if (baseActivity == null) return;
             ActivityManager.removeAllActivity();//删除所有activity
             Intent intent = new Intent();
-            intent.setClass(this, LoginActivity.class);
+            intent.setClass(this, V3LoginActivity.class);
             startActivity(intent);//这里的Activity是弹出登录的
         }else {
             ActivityManager.setTopActivity(LoginActivity.class);//设置置顶

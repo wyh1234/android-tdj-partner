@@ -150,13 +150,13 @@ public class IronRankingFragment extends NetworkFragment {
                     if (isEntire) {
                         arrayAdapter.addAll(homeTopData.getRegisterTimesTopList());
                     } else {
-                        for (int i = 0; i < 5; i++) {
+                        for (int i = 0; i < 5 && i < homeTopData.getRegisterTimesTopList().size(); i++) {
                             if (homeTopData.getRegisterTimesTopList().size() > 4 && i > 4 && homeTopData.getRegisterTimesTopList().get(i).customerId != entityId)continue;
                             arrayAdapter.add(homeTopData.getRegisterTimesTopList().get(i));
                         }
 
 
-                        for (int i = 0, j = 0; j < 6; i++) {
+                        for (int i = 0, j = 0; j < 6 && j < homeTopData.getRegisterTimesTopList().size(); i++) {
                             if (allowSkip && i >= upNum && homeTopData.getRegisterTimesTopList().get(i).customerId != entityId) {
                                 offset++;
                                 System.out.println("one|i = " + i + ", j = " + j);

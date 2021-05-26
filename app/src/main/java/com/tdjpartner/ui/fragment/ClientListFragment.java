@@ -152,10 +152,12 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
                 arrayMap.put("register", "按注册时间最近排序");
                 arrayMap.put("gmv", "按GMV最大排序");
                 arrayMap.put("first", "按首字母排序");
+                tv_search.setText(arrayMap.get("order"));
                 sortPopuWindow = new SortPopuWindow(getContext(), arrayMap);
                 sortPopuWindow.setPopupWindowFullScreen(true);
                 sortPopuWindow.setDayPopuWindowListener(n -> {
                     sort = arrayMap.keySet().toArray(new String[0])[n];
+                    tv_search.setText(arrayMap.get(sort));
                     onRefresh(null);
                 });
                 break;
@@ -390,13 +392,21 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
     }
 
     public void punchDistanceSuccess(String distance) {
+        tv_search.setText("打卡范围" + distance + "米内");
         Map<String, String> arrayMap = new ArrayMap<>(2);
         arrayMap.put(distance, "打卡范围" + distance + "米内");
         arrayMap.put("zero", "不限制范围");
         sortPopuWindow = new SortPopuWindow(getContext(), arrayMap);
         sortPopuWindow.setPopupWindowFullScreen(true);
         sortPopuWindow.setDayPopuWindowListener(n -> {
-            scope = n == 1 ? "" : (String) arrayMap.keySet().toArray()[n];
+            if (n == 1) {
+                scope = "";
+                tv_search.setText("不限制范围");
+            } else {
+                scope = (String) arrayMap.keySet().toArray()[n];
+                tv_search.setText(arrayMap.get(scope));
+            }
+
             onRefresh(null);
         });
     }

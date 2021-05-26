@@ -244,6 +244,8 @@ public class NetSupportDetailActivity extends NetworkActivity {
         num_title.setText("实际数量：");
         num_unit.setText(getIntent().getStringExtra("amount").substring(getIntent().getStringExtra("amount").length() - 1));
         price_title.setText("实际金额：");
+        et_num.setOnFocusChangeListener(this::onFocusChange);
+        et_price.setOnFocusChangeListener(this::onFocusChange);
 
         switch (type) {
             case REPLENISH:
@@ -489,4 +491,25 @@ public class NetSupportDetailActivity extends NetworkActivity {
         }
     }
 
+    public void onFocusChange(View v, boolean hasFocus) {
+        System.out.println("v = " + v + ", hasFocus = " + hasFocus);
+
+        switch (v.getId()) {
+            case R.id.et_num:
+//                if(TextUtils.isEmpty(et_num.getText()))return;
+//                Float.parseFloat(et_num.getText().toString())
+                break;
+
+            case R.id.et_price:
+//                if(TextUtils.isEmpty(et_price.getText()))return;
+                break;
+        }
+
+        if ((!TextUtils.isEmpty(et_num.getText())) && (!TextUtils.isEmpty(et_price.getText()))) {
+            System.out.println("xxxxxxxxxxxxxxxxxxxx");
+            float a = Float.parseFloat(et_num.getText().toString());
+            float b = Float.parseFloat(et_price.getText().toString());
+            money.setText((a * b) + "");
+        }
+    }
 }
