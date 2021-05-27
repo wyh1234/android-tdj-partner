@@ -395,14 +395,6 @@ public class RequestPresenter {
             } else {
                 observable = null;
             }
-        }
-        if (clazz.isAssignableFrom(ArrayList.class) && map.containsKey("elementType")) {
-            Class eClass = (Class) map.remove("elementType");
-            if (eClass.equals(CustomerPhone.class)) {
-                observable = (Observable<T>) getApiService().listByCustomerPhone(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
-            } else {
-                observable = null;
-            }
         } else if (clazz.isAssignableFrom(HomeTopData.class)) {
             observable = (Observable<T>) getApiService().ironHomeTopData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
         } else if (clazz.isAssignableFrom(V3HomeData.class)) {

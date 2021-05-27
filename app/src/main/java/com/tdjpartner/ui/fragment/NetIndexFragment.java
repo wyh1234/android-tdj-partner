@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -44,6 +45,8 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static android.text.Html.FROM_HTML_MODE_LEGACY;
 
 /**
  * Created by LFM on 2021/4/20.
@@ -196,8 +199,18 @@ public class NetIndexFragment extends NetworkFragment
                 .addChildId(R.id.ll_day_register, R.id.ll_day_open, R.id.ll_day_active, R.id.ll_day_call)
                 .setInitView((data, convertView) -> {
                     System.out.println("view = " + view + ", savedInstanceState = " + savedInstanceState);
-                    if (grade == 3) {
-                        TextView textView;
+
+                    ((TextView) convertView.findViewById(R.id.dayRegisterTimes)).setText("" + data.getTodayData().dayRegisterTimes);
+                    ((TextView) convertView.findViewById(R.id.firstOrderNum)).setText("" + data.getTodayData().firstOrderNum);
+                    ((TextView) convertView.findViewById(R.id.activeNum)).setText("" + data.getTodayData().activeNum);
+                    ((TextView) convertView.findViewById(R.id.callNum)).setText("" + data.getTodayData().callNum);
+                    ((TextView) convertView.findViewById(R.id.todayAmount)).setText("" + data.getTodayData().todayAmount);
+                    ((TextView) convertView.findViewById(R.id.averageAmount)).setText("" + data.getTodayData().averageAmount);
+                    ((TextView) convertView.findViewById(R.id.afterSaleAmount)).setText("" + data.getTodayData().afterSaleAmount);
+
+                    int n = data.getTodayData().yesterdayActiveNum;
+                    TextView textView;
+                    if (grade == 3) {//DB
                         textView = convertView.findViewById(R.id.dayRegister);
                         textView.setText(textView.getText() + ">");
                         textView = convertView.findViewById(R.id.firstOrder);
@@ -206,18 +219,14 @@ public class NetIndexFragment extends NetworkFragment
                         textView.setText(textView.getText() + ">");
                         textView = convertView.findViewById(R.id.call);
                         textView.setText(textView.getText() + ">");
+
+                        ((TextView) convertView.findViewById(R.id.yesterdayActiveNum)).setText(Html.fromHtml(n == 0 ? n + "" : n > 0 ? "+" + n + "<font color='red'>↑</font>" : n + "<font color='green'>↓</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+
+                    } else {
+                        ((TextView) convertView.findViewById(R.id.yesterdayActiveNum)).setText(Html.fromHtml(n == 0 ? n + "" : n < 0 ? n + "<font color='red'>↓</font>" : "+" + n + "<font color='green'>↑</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+                        ((TextView) convertView.findViewById(R.id.todayAfterSaleTimes)).setText("" + data.getTodayData().todayAfterSaleTimes);
                     }
 
-                    ((TextView) convertView.findViewById(R.id.dayRegisterTimes)).setText("" + data.getTodayData().dayRegisterTimes);
-                    ((TextView) convertView.findViewById(R.id.firstOrderNum)).setText("" + data.getTodayData().firstOrderNum);
-                    ((TextView) convertView.findViewById(R.id.activeNum)).setText("" + data.getTodayData().activeNum);
-                    ((TextView) convertView.findViewById(R.id.yesterdayActiveNum)).setText("" + data.getTodayData().yesterdayActiveNum);
-                    ((TextView) convertView.findViewById(R.id.callNum)).setText("" + data.getTodayData().callNum);
-                    ((TextView) convertView.findViewById(R.id.todayAmount)).setText("" + data.getTodayData().todayAmount);
-                    ((TextView) convertView.findViewById(R.id.averageAmount)).setText("" + data.getTodayData().averageAmount);
-                    ((TextView) convertView.findViewById(R.id.afterSaleAmount)).setText("" + data.getTodayData().afterSaleAmount);
-                    if (grade != 3)
-                        ((TextView) convertView.findViewById(R.id.todayAfterSaleTimes)).setText("" + data.getTodayData().todayAfterSaleTimes);
                 })
                 .build(getContext());
         day_listView.setAdapter(netDayAdapter);
@@ -230,6 +239,18 @@ public class NetIndexFragment extends NetworkFragment
                 .addChildId(R.id.ll_month_register, R.id.ll_month_open, R.id.ll_month_active, R.id.ll_month_call)
                 .setInitView((data, convertView) -> {
                     System.out.println("view = " + view + ", savedInstanceState = " + savedInstanceState);
+
+                    ((TextView) convertView.findViewById(R.id.monthRegisterNum)).setText("" + data.getMonthData().monthRegisterNum);
+                    ((TextView) convertView.findViewById(R.id.monthFirstOrderNum)).setText("" + data.getMonthData().monthFirstOrderNum);
+                    ((TextView) convertView.findViewById(R.id.monthActiveNum)).setText("" + data.getMonthData().monthActiveNum);
+                    ((TextView) convertView.findViewById(R.id.monthAvgActiveNum)).setText("" + data.getMonthData().monthAvgActiveNum);
+                    ((TextView) convertView.findViewById(R.id.monthCallNum)).setText("" + data.getMonthData().monthCallNum);
+                    ((TextView) convertView.findViewById(R.id.monthAmount)).setText("" + data.getMonthData().monthAmount);
+                    ((TextView) convertView.findViewById(R.id.monthAverageAmount)).setText("" + data.getMonthData().monthAverageAmount);
+                    ((TextView) convertView.findViewById(R.id.monthAfterSaleAmount)).setText("" + data.getMonthData().monthAfterSaleAmount);
+                    float n = data.getMonthData().addMonthAmount;
+                    ((TextView) convertView.findViewById(R.id.addMonthAmount)).setText(Html.fromHtml(n == 0 ? n + "" : n < 0 ? "<font color='red'>" + n + "</font>" : "<font color='green'>" + n + "</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+
                     if (grade == 3) {
                         TextView textView;
                         textView = convertView.findViewById(R.id.monthRegister);
@@ -240,18 +261,11 @@ public class NetIndexFragment extends NetworkFragment
                         textView.setText(textView.getText() + ">");
                         textView = convertView.findViewById(R.id.monthCall);
                         textView.setText(textView.getText() + ">");
-                    }
-                    ((TextView) convertView.findViewById(R.id.monthRegisterNum)).setText("" + data.getMonthData().monthRegisterNum);
-                    ((TextView) convertView.findViewById(R.id.monthFirstOrderNum)).setText("" + data.getMonthData().monthFirstOrderNum);
-                    ((TextView) convertView.findViewById(R.id.monthActiveNum)).setText("" + data.getMonthData().monthActiveNum);
-                    ((TextView) convertView.findViewById(R.id.monthAvgActiveNum)).setText("" + data.getMonthData().monthAvgActiveNum);
-                    ((TextView) convertView.findViewById(R.id.monthCallNum)).setText("" + data.getMonthData().monthCallNum);
-                    ((TextView) convertView.findViewById(R.id.monthAmount)).setText("" + data.getMonthData().monthAmount);
-                    ((TextView) convertView.findViewById(R.id.addMonthAmount)).setText("" + data.getMonthData().addMonthAmount);
-                    ((TextView) convertView.findViewById(R.id.monthAverageAmount)).setText("" + data.getMonthData().monthAverageAmount);
-                    ((TextView) convertView.findViewById(R.id.monthAfterSaleAmount)).setText("" + data.getMonthData().monthAfterSaleAmount);
-                    if (grade != 3)
+
+                    } else {
                         ((TextView) convertView.findViewById(R.id.monthAfterSaleTimes)).setText("" + data.getMonthData().monthAfterSaleTimes);
+                    }
+
                 })
                 .build(getContext());
         month_listView.setAdapter(netMonthAdapter);

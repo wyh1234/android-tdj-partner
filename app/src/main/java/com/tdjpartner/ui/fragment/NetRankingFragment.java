@@ -76,10 +76,10 @@ public class NetRankingFragment extends NetworkFragment {
                 HomeTopData.RegisterTimesTopListBean bean = getItem(position);
                 System.out.println("bean = " + bean);
 
-
+                TextView textView;
                 if (bean.customerId == entityId) {
-                    TextView textView = convertView.findViewById(R.id.tv_ranking);
-                    textView.setText("" + (position >= upNum && offset > 0 ? position + 1 + offset : position + 1));
+                    textView = convertView.findViewById(R.id.tv_ranking);
+                    textView.setText("" + (position == upNum ? position + 1 + offset : position + 1));
                     textView.setTextColor(getResources().getColor(R.color.orange_red, null));
 
                     textView = convertView.findViewById(R.id.tv_db);
@@ -91,11 +91,10 @@ public class NetRankingFragment extends NetworkFragment {
                     textView.setTextColor(getResources().getColor(R.color.orange_red, null));
 
                     textView = convertView.findViewById(R.id.tv_action);
-                    textView.setText("" + bean.monthAmount);
                     textView.setTextColor(getResources().getColor(R.color.orange_red, null));
                 } else {
-                    TextView textView = convertView.findViewById(R.id.tv_ranking);
-                    textView.setText("" + (position >= upNum && offset > 0 ? position + 1 + offset : position + 1));
+                    textView = convertView.findViewById(R.id.tv_ranking);
+                    textView.setText("" + (position == upNum ? position + 1 + offset : position + 1));
 
                     textView = convertView.findViewById(R.id.tv_db);
                     textView.setText(bean.partnerName);
@@ -104,7 +103,32 @@ public class NetRankingFragment extends NetworkFragment {
                     textView.setText(bean.name);
 
                     textView = convertView.findViewById(R.id.tv_action);
-                    textView.setText("" + bean.monthAmount);
+                }
+
+                if (getArgs().get("timeType").equals("day")) {
+                    switch ((int) getArgs().get("type")) {
+                        case 1:
+                            textView.setText("" + bean.monthAmount);
+                            break;
+                        case 2:
+                            textView.setText("" + bean.dayRegisterTimes);
+                            break;
+                        case 3:
+                            textView.setText("" + bean.firstOrderNum);
+                            break;
+                    }
+                } else {
+                    switch ((int) getArgs().get("type")) {
+                        case 1:
+                            textView.setText("" + bean.monthActiveNum);
+                            break;
+                        case 2:
+                            textView.setText("" + bean.monthAvgActiveNum);
+                            break;
+                        case 3:
+                            textView.setText("" + bean.monthAmount);
+                            break;
+                    }
                 }
 
                 return convertView;
@@ -148,18 +172,36 @@ public class NetRankingFragment extends NetworkFragment {
                     if (isEntire) {
                         arrayAdapter.addAll(homeTopData.getRegisterTimesTopList());
                     } else {
-                        for (int i = 0, j = 0; j < 6 && j < homeTopData.getRegisterTimesTopList().size(); i++) {
-                            if (allowSkip && i >= upNum && homeTopData.getRegisterTimesTopList().get(i).customerId != entityId) {
-                                offset++;
-                                System.out.println("one|i = " + i + ", j = " + j);
-                                continue;
-                            }
-                            System.out.println("two|i = " + i + ", j = " + j);
-                            if (homeTopData.getRegisterTimesTopList().get(i).customerId == entityId)
+
+                        for (int i = 0; i < homeTopData.getRegisterTimesTopList().size(); i++) {
+
+
+                            if (homeTopData.getRegisterTimesTopList().get(i).customerId == entityId) {
                                 allowSkip = false;
+                            } else {
+                                if (i >= 5) {
+                                    offset++;
+                                    upNum = i;
+                                    continue;
+                                }
+                            }
+                            System.out.println("arrayAdapter.getCount() is " + arrayAdapter.getCount());
                             arrayAdapter.add(homeTopData.getRegisterTimesTopList().get(i));
-                            if (++j > 4 && !allowSkip) break;
+                            if (arrayAdapter.getCount() == (i < 5 && !allowSkip ? 5 : 6)) break;
                         }
+
+//                        for (int i = 0, j = 0; j < 6 && j < homeTopData.getRegisterTimesTopList().size(); i++) {
+//                            if (allowSkip && i >= upNum && homeTopData.getRegisterTimesTopList().get(i).customerId != entityId) {
+//                                offset++;
+//                                System.out.println("one|i = " + i + ", j = " + j);
+//                                continue;
+//                            }
+//                            System.out.println("two|i = " + i + ", j = " + j);
+//                            if (homeTopData.getRegisterTimesTopList().get(i).customerId == entityId)
+//                                allowSkip = false;
+//                            arrayAdapter.add(homeTopData.getRegisterTimesTopList().get(i));
+//                            if (++j > 4 && !allowSkip) break;
+//                        }
                     }
                 });
     }

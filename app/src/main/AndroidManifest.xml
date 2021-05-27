@@ -115,6 +115,9 @@
         <activity
             android:name=".ui.activity.MenberPaifangHistoryActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.AfterSalePageActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.activity.PartnerCheckActivity"

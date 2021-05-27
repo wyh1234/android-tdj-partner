@@ -128,22 +128,36 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
                     dismissLoading();
                     this.afterSaleInfoData = afterSaleInfoData;
                     listViewAdapter.clear();
+
+                    switch ((int)getArgs().get("tab")) {
+                        case 0:
+                            listViewAdapter.addAll(afterSaleInfoData.buGeting_list);
+                            break;
+                        case 1:
+                            listViewAdapter.addAll(afterSaleInfoData.huanGeting_list);
+                            break;
+                        case 2:
+                            listViewAdapter.addAll(afterSaleInfoData.tuiGeting_list);
+                            break;
+                    }
+
                     listViewAdapter.addAll(afterSaleInfoData.buGeting_list);
 
-                    if (afterSaleInfoData.buTotalNum > 0) {
-                        ((TextView) ll_replenish.findViewById(R.id.count)).setText(afterSaleInfoData.buTotalNum + "");
+                    int n;
+                    if ((n = afterSaleInfoData.buTotalNum - afterSaleInfoData.buFinishNum) > 0) {
+                        ((TextView) ll_replenish.findViewById(R.id.count)).setText(n + "");
                     } else {
                         ll_replenish.findViewById(R.id.count).setVisibility(View.GONE);
                     }
 
-                    if (afterSaleInfoData.huanTotalNum > 0) {
-                        ((TextView) ll_replace.findViewById(R.id.count)).setText(afterSaleInfoData.huanTotalNum + "");
+                    if ((n = afterSaleInfoData.huanTotalNum - afterSaleInfoData.huanFinishNum) > 0) {
+                        ((TextView) ll_replace.findViewById(R.id.count)).setText(n + "");
                     } else {
                         ll_replace.findViewById(R.id.count).setVisibility(View.GONE);
                     }
 
-                    if (afterSaleInfoData.tuiTotalNum > 0) {
-                        ((TextView) ll_refund.findViewById(R.id.count)).setText(afterSaleInfoData.tuiTotalNum + "");
+                    if ((n = afterSaleInfoData.tuiTotalNum - afterSaleInfoData.tuiFinishNum) > 0) {
+                        ((TextView) ll_refund.findViewById(R.id.count)).setText(n + "");
                     } else {
                         ll_refund.findViewById(R.id.count).setVisibility(View.GONE);
                     }
@@ -155,6 +169,8 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        System.out.println("getArgs() = " + getArgs());
+        showLoading();
         getVMWithFragment().loading(AfterSaleInfoData.class, getArgs());
     }
 
@@ -168,16 +184,19 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
                 listViewAdapter.clear();
                 listViewAdapter.addAll(afterSaleInfoData.buGeting_list);
                 type = REPLENISH;
+                getArgs().put("tab", 0);
                 break;
             case R.id.ll_replace:
                 listViewAdapter.clear();
                 listViewAdapter.addAll(afterSaleInfoData.huanGeting_list);
                 type = REPLACE;
+                getArgs().put("tab", 1);
                 break;
             case R.id.ll_refund:
                 listViewAdapter.clear();
                 listViewAdapter.addAll(afterSaleInfoData.tuiGeting_list);
                 type = REFUND;
+                getArgs().put("tab", 2);
                 break;
         }
     }
@@ -198,7 +217,8 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
         intent.putExtra("entityId", listViewAdapter.getItem(position).entity_id);
         intent.putExtra("type", type);
         intent.putExtra("original", listViewAdapter.getItem(position).original_amount + listViewAdapter.getItem(position).unit);
-        intent.putExtra("amount", listViewAdapter.getItem(position).amount + listViewAdapter.getItem(position).avg_unit);
+        intent.putExtra("amount", listViewAdapter.getItem(position).amount);
+        intent.putExtra("avg_unit", listViewAdapter.getItem(position).avg_unit);
         intent.putExtra("money", listViewAdapter.getItem(position).discount_price + "元/" + listViewAdapter.getItem(position).unit);
         startActivityForResult(intent, 1);
     }
