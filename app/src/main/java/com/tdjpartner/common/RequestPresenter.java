@@ -3,6 +3,7 @@ package com.tdjpartner.common;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.tdjpartner.http.BaseObserver;
+import com.tdjpartner.http.BaseResponse;
 import com.tdjpartner.http.RetrofitServiceManager;
 import com.tdjpartner.http.RxUtils;
 import com.tdjpartner.http.interceptor.PostJsonBody;
@@ -63,6 +64,7 @@ import com.tdjpartner.model.WithdrawDetalis;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -411,7 +413,7 @@ public class RequestPresenter {
             observable = (Observable<T>) getApiService().hotelAuditPageList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
         } else if (clazz.isAssignableFrom(IronDayAndMonthData.class)) {
             observable = (Observable<T>) getApiService().ironDayAndMonthData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
-        }  else if (clazz.isAssignableFrom(UserInfo.class)) {
+        } else if (clazz.isAssignableFrom(UserInfo.class)) {
             observable = (Observable<T>) getApiService().loginData(map).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
         } else if (clazz.isAssignableFrom(StatisticsDetails.class)) {
             observable = (Observable<T>) getApiService().ironStatisticsDetails(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
@@ -428,6 +430,20 @@ public class RequestPresenter {
     //图片上传
     public static <T> Observable<T> uploading(String fileName, byte[] bytes) {
         return (Observable<T>) getApiService().imageUpload(getMultipartBody_part(fileName, bytes)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
+    }
+
+    public static <T> Observable<T> loading(TypeToken typeToken, Map<String, Object> map) {
+        Observable<T> observable;
+        ParameterizedType parameterized = (ParameterizedType) typeToken.getType();
+        Class rawClass = typeToken.getRawType();
+        Class elementClass = TypeToken.get(parameterized.getActualTypeArguments()[0]).getRawType();
+
+        if (rawClass.equals(ArrayList.class) && elementClass.equals(CustomerPhone.class)) {
+            observable = (Observable<T>) getApiService().listByCustomerPhone(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
+        } else {
+            observable = null;
+        }
+        return observable;
     }
 
 }

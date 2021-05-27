@@ -8,6 +8,7 @@ import com.apkfuns.logutils.LogUtils;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializer;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import com.tdjpartner.common.RequestPresenter;
 import com.tdjpartner.http.ApiException;
 import com.tdjpartner.utils.GeneralUtils;
@@ -16,8 +17,10 @@ import org.apache.http.conn.ConnectTimeoutException;
 import org.json.JSONException;
 
 import java.io.NotSerializableException;
+import java.lang.reflect.ParameterizedType;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +35,7 @@ import retrofit2.HttpException;
 public class NetworkViewModel extends ViewModel {
 
     private Map<Class, MediatorLiveData> register;
+    private Map<TypeToken, MediatorLiveData> registerForTypeToken;
     private CompositeDisposable compositeDisposable;
 
     public <D> MediatorLiveData<D> loadingWithNewLiveData(Class<D> dClass, @Nullable Map<String, Object> map) {
@@ -41,10 +45,10 @@ public class NetworkViewModel extends ViewModel {
         return mediatorLiveData;
     }
 
-    public <D> MediatorLiveData<D> loadingWithNewLiveData1(Class<D> dClass, @Nullable Map<String, Object> map) {
-        loadData(dClass, map);
-        MediatorLiveData<D> mediatorLiveData = new MediatorLiveData<>();
-        getRegister().put(dClass, mediatorLiveData); //每次都使用新实例替换注册器中的旧实例
+    public MediatorLiveData loadingWithNewLiveData(TypeToken typeToken, @Nullable Map<String, Object> map) {
+        loadData(typeToken, map);
+        MediatorLiveData mediatorLiveData = new MediatorLiveData();
+        getRegisterForTypeToken().put(typeToken, mediatorLiveData); //每次都使用新实例替换注册器中的旧实例
         return mediatorLiveData;
     }
 
@@ -64,6 +68,10 @@ public class NetworkViewModel extends ViewModel {
         } else {
             return loadingWithNewLiveData(dClass, map);
         }
+    }
+
+    private <D> void loadData(TypeToken typeToken, @Nullable Map<String, Object> map) {
+        getCompositeDisposable().add(RequestPresenter.loading(typeToken, map).subscribe(this::onNext, this::onError));
     }
 
     private <D> void loadData(Class<D> dClass, @Nullable Map<String, Object> map) {
@@ -87,8 +95,13 @@ public class NetworkViewModel extends ViewModel {
         return register;
     }
 
+    public Map<TypeToken, MediatorLiveData> getRegisterForTypeToken() {
+        if (registerForTypeToken == null) registerForTypeToken = new HashMap<>();
+        return registerForTypeToken;
+    }
+
     public void onError(Throwable e) {
-//        LogUtils.e(e);
+        LogUtils.e(e);
 
         if (e instanceof ApiException) {
             //处理API错误
@@ -135,8 +148,49 @@ public class NetworkViewModel extends ViewModel {
     }
 
     public <T> void onNext(T t) {
+
         if (getRegister().containsKey(t.getClass()) && getRegister().get(t.getClass()).hasObservers()) {
             getRegister().get(t.getClass()).postValue(t);
+        } else if (!getRegisterForTypeToken().isEmpty()) {
+
+            boolean isSuccess = false;
+            for (TypeToken typeToken : getRegisterForTypeToken().keySet()) {
+                if (t.getClass().equals(typeToken.getRawType())) {
+                    //Collection
+                    if (Collection.class.isAssignableFrom(t.getClass())) {
+                        Collection collection = (Collection) t;
+                        if (!collection.isEmpty()) {
+                            ParameterizedType parameterized = (ParameterizedType) typeToken.getType();
+                            if (collection.toArray()[0].getClass().equals(parameterized.getActualTypeArguments()[0])) {
+                                getRegisterForTypeToken().get(typeToken).postValue(t);
+                                isSuccess = true;
+                                break;
+                            } else {
+                                continue;
+                            }
+                        }
+                    }
+
+                    //Map
+//                    if (Collection.class.isAssignableFrom(t.getClass())) {
+//                        Collection collection = (Collection) t;
+//                        if (!collection.isEmpty()) {
+//                            ParameterizedType parameterized = (ParameterizedType) typeToken.getType();
+//                            if (collection.toArray()[0].getClass().equals(parameterized.getActualTypeArguments()[0])) {
+//                                getRegisterForTypeToken().get(typeToken).postValue(t);
+//                                isSuccess = true;
+//                                break;
+//                            } else {
+//                                continue;
+//                            }
+//                        }
+//                    }
+
+                }
+                break;
+            }
+            if (!isSuccess) GeneralUtils.showToastshort("操作失败，未知数据");
+
         } else {
             GeneralUtils.showToastshort("操作失败，未知数据");
         }

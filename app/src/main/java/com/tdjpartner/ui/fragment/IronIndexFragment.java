@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.google.gson.reflect.TypeToken;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.ListViewAdapter;
 import com.tdjpartner.base.NetworkFragment;
@@ -160,13 +161,12 @@ public class IronIndexFragment extends NetworkFragment
 
                     Map<String, Object> map = new HashMap<>();
                     map.put("entityId", UserUtils.getInstance().getLoginBean().getEntityId());
-                    map.put("elementType", CustomerPhone.class);
                     showLoading();
-                    getVMWithFragment().loadingWithNewLiveData(ArrayList.class, map)
-                            .observe(this, customerPhones -> {
+                    getVMWithFragment().loadingWithNewLiveData(new TypeToken<ArrayList<CustomerPhone>>() {}, map)
+                            .observe(this, list -> {
                                 dismissLoading();
                                 adapter.clear();
-                                adapter.addAll(customerPhones);
+                                adapter.addAll((ArrayList) list);
                                 dialog.show();
                             });
                 } else {
