@@ -249,7 +249,7 @@ public class NetIndexFragment extends NetworkFragment
                     ((TextView) convertView.findViewById(R.id.monthAverageAmount)).setText("" + data.getMonthData().monthAverageAmount);
                     ((TextView) convertView.findViewById(R.id.monthAfterSaleAmount)).setText("" + data.getMonthData().monthAfterSaleAmount);
                     float n = data.getMonthData().addMonthAmount;
-                    ((TextView) convertView.findViewById(R.id.addMonthAmount)).setText(Html.fromHtml(n == 0 ? n + "" : n < 0 ? "<font color='red'>" + n + "</font>" : "<font color='green'>" + n + "</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+                    ((TextView) convertView.findViewById(R.id.addMonthAmount)).setText(Html.fromHtml("<font color='red'>" + n + "</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
 
                     if (grade == 3) {
                         TextView textView;

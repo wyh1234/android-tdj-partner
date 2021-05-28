@@ -10,7 +10,7 @@ public class AfterDetailData {
     public int entityId; //71969
 //    public List<Order> order;
     public AfterSaleInfoData.AfterSaleInfo order;
-    public List<AfterSale> afterSale;
+    public AfterSale afterSale;
 
     public static class Order{
         public String store_name = ""; //测试环境店铺

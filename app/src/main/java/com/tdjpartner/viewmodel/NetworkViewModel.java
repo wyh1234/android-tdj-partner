@@ -61,6 +61,15 @@ public class NetworkViewModel extends ViewModel {
         return mediatorLiveData;
     }
 
+    public MediatorLiveData loading(TypeToken typeToken, @Nullable Map<String, Object> map) {
+        if (getRegisterForTypeToken().containsKey(typeToken)) {
+            if (getRegisterForTypeToken().get(typeToken).hasObservers()) loadData(typeToken, map);
+            return getRegister().get(typeToken);
+        } else {
+            return loadingWithNewLiveData(typeToken, map);
+        }
+    }
+
     public <D> MediatorLiveData<D> loading(Class<D> dClass, @Nullable Map<String, Object> map) {
         if (getRegister().containsKey(dClass)) {
             if (getRegister().get(dClass).hasObservers()) loadData(dClass, map);
@@ -153,7 +162,6 @@ public class NetworkViewModel extends ViewModel {
             getRegister().get(t.getClass()).postValue(t);
         } else if (!getRegisterForTypeToken().isEmpty()) {
 
-            boolean isSuccess = false;
             for (TypeToken typeToken : getRegisterForTypeToken().keySet()) {
                 if (t.getClass().equals(typeToken.getRawType())) {
                     //Collection
@@ -163,11 +171,13 @@ public class NetworkViewModel extends ViewModel {
                             ParameterizedType parameterized = (ParameterizedType) typeToken.getType();
                             if (collection.toArray()[0].getClass().equals(parameterized.getActualTypeArguments()[0])) {
                                 getRegisterForTypeToken().get(typeToken).postValue(t);
-                                isSuccess = true;
-                                break;
+                                return;
                             } else {
                                 continue;
                             }
+                        } else {
+                            getRegisterForTypeToken().get(typeToken).postValue(t);
+                            return;
                         }
                     }
 
@@ -187,9 +197,7 @@ public class NetworkViewModel extends ViewModel {
 //                    }
 
                 }
-                break;
             }
-            if (!isSuccess) GeneralUtils.showToastshort("操作失败，未知数据");
 
         } else {
             GeneralUtils.showToastshort("操作失败，未知数据");

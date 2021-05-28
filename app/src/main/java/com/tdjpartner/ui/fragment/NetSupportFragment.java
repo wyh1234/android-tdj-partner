@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
@@ -18,8 +19,15 @@ import com.tdjpartner.R;
 import com.tdjpartner.adapter.ListViewAdapter;
 import com.tdjpartner.base.NetworkFragment;
 import com.tdjpartner.model.AfterSaleInfoData;
+import com.tdjpartner.model.V3HomeData;
 import com.tdjpartner.ui.activity.NetSupportDetailActivity;
+import com.tdjpartner.utils.GeneralUtils;
+import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.glide.ImageLoad;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -31,6 +39,8 @@ import static android.text.Html.FROM_HTML_MODE_LEGACY;
  */
 public class NetSupportFragment extends NetworkFragment implements AdapterView.OnItemClickListener {
 
+    @BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.listView)
     ListView listView;
     @BindView(R.id.ll_replenish)
@@ -55,6 +65,10 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //初始化刷新布局
+        swipeRefreshLayout.setColorSchemeResources(R.color.bbl_ff0000);
+        swipeRefreshLayout.setOnRefreshListener(this::onRefresh);
+
         type = REPLENISH;
         updateTextView(current = ll_replenish, R.color.orange_red, R.drawable.bg_ring_orange);
         ((ImageView) ll_replenish.findViewById(R.id.image)).setImageResource(R.mipmap.replenish);
@@ -84,21 +98,25 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
 
                     styledText = "<font color='black'>" + data.name + "</font>" + "<font color='grey'><small>（" + data.nick_name + "）</small></font>";
                     ((TextView) convertView.findViewById(R.id.name)).setText(Html.fromHtml(styledText, FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
-//                    ((TextView) convertView.findViewById(R.id.store_name)).setText(data.store_name.length() > 3 ? data.store_name.substring(0, 3) : data.store_name);
                     ((TextView) convertView.findViewById(R.id.store_name)).setText(data.store_name);
 
                     String amount = "";
+                    TextView textView = convertView.findViewById(R.id.type);
+                    if (title == 1) {
+                        textView.setBackground(getResources().getDrawable(R.drawable.bg_grey_4, null));
+                        textView.setTextColor(Color.GRAY);
+                    }
                     switch (type) {
                         case REPLENISH:
-                            ((TextView) convertView.findViewById(R.id.type)).setText(REPLENISH);
+                            textView.setText(REPLENISH);
                             amount = REPLENISH.substring(2, 3);
                             break;
                         case REPLACE:
-                            ((TextView) convertView.findViewById(R.id.type)).setText(REPLACE);
+                            textView.setText(REPLACE);
                             amount = REPLACE.substring(2, 3);
                             break;
                         case REFUND:
-                            ((TextView) convertView.findViewById(R.id.type)).setText(REFUND);
+                            textView.setText(REFUND);
                             amount = REFUND.substring(2, 3);
                             break;
                     }
@@ -129,6 +147,7 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
         getVMWithFragment().loadingWithNewLiveData(AfterSaleInfoData.class, getArgs())
                 .observe(this, afterSaleInfoData -> {
                     dismissLoading();
+                    stop();
                     this.afterSaleInfoData = afterSaleInfoData;
                     listViewAdapter.clear();
 
@@ -145,19 +164,19 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
                     }
 
                     int n;
-                    if ((n = afterSaleInfoData.buTotalNum - afterSaleInfoData.buFinishNum) > 0) {
+                    if ((n = title == 0 ? afterSaleInfoData.buTotalNum - afterSaleInfoData.buFinishNum : afterSaleInfoData.buOver_list.size()) > 0) {
                         ((TextView) ll_replenish.findViewById(R.id.count)).setText(n + "");
                     } else {
                         ll_replenish.findViewById(R.id.count).setVisibility(View.GONE);
                     }
 
-                    if ((n = afterSaleInfoData.huanTotalNum - afterSaleInfoData.huanFinishNum) > 0) {
+                    if ((n = title == 0 ? afterSaleInfoData.huanTotalNum - afterSaleInfoData.huanFinishNum : afterSaleInfoData.huanOver_list.size()) > 0) {
                         ((TextView) ll_replace.findViewById(R.id.count)).setText(n + "");
                     } else {
                         ll_replace.findViewById(R.id.count).setVisibility(View.GONE);
                     }
 
-                    if ((n = afterSaleInfoData.tuiTotalNum - afterSaleInfoData.tuiFinishNum) > 0) {
+                    if ((n = title == 0 ? afterSaleInfoData.tuiTotalNum - afterSaleInfoData.tuiFinishNum : afterSaleInfoData.tuiOver_list.size()) > 0) {
                         ((TextView) ll_refund.findViewById(R.id.count)).setText(n + "");
                     } else {
                         ll_refund.findViewById(R.id.count).setVisibility(View.GONE);
@@ -183,19 +202,19 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
         switch (view.getId()) {
             case R.id.ll_replenish:
                 listViewAdapter.clear();
-                listViewAdapter.addAll(afterSaleInfoData.buGeting_list);
+                listViewAdapter.addAll(title == 0 ? afterSaleInfoData.buGeting_list : afterSaleInfoData.buOver_list);
                 type = REPLENISH;
                 getArgs().put("tab", 0);
                 break;
             case R.id.ll_replace:
                 listViewAdapter.clear();
-                listViewAdapter.addAll(afterSaleInfoData.huanGeting_list);
+                listViewAdapter.addAll(title == 0 ? afterSaleInfoData.huanGeting_list : afterSaleInfoData.huanOver_list);
                 type = REPLACE;
                 getArgs().put("tab", 1);
                 break;
             case R.id.ll_refund:
                 listViewAdapter.clear();
-                listViewAdapter.addAll(afterSaleInfoData.tuiGeting_list);
+                listViewAdapter.addAll(title == 0 ? afterSaleInfoData.tuiGeting_list : afterSaleInfoData.tuiOver_list);
                 type = REFUND;
                 getArgs().put("tab", 2);
                 break;
@@ -217,10 +236,36 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
         Intent intent = new Intent(getContext(), NetSupportDetailActivity.class);
         intent.putExtra("entityId", listViewAdapter.getItem(position).entity_id);
         intent.putExtra("type", type);
+        intent.putExtra("title", title);
         intent.putExtra("original", listViewAdapter.getItem(position).original_amount + listViewAdapter.getItem(position).unit);
+
+//        switch (listViewAdapter.getItem(position).level_type) {
+//            case 1:
+//                ((TextView) convertView.findViewById(R.id.tv_amount)).setText(amount + data.amount + data.unit);
+//                break;
+//            case 2:
+//                ((TextView) convertView.findViewById(R.id.tv_amount)).setText(amount + data.level_2_value + data.level_2_unit);
+//                break;
+//            case 3:
+//                ((TextView) convertView.findViewById(R.id.tv_amount)).setText(amount + data.level_3_value + data.level_3_unit);
+//                break;
+//        }
+
+
         intent.putExtra("amount", listViewAdapter.getItem(position).amount);
         intent.putExtra("avg_unit", listViewAdapter.getItem(position).avg_unit);
+
         intent.putExtra("money", listViewAdapter.getItem(position).discount_price + "元/" + listViewAdapter.getItem(position).unit);
         startActivityForResult(intent, 1);
+    }
+
+    public void onRefresh() {
+        getVMWithFragment().loading(AfterSaleInfoData.class, getArgs());
+    }
+
+    public void stop() {
+        if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 }

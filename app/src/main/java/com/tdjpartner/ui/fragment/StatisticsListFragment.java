@@ -82,21 +82,6 @@ public class StatisticsListFragment extends NetworkFragment implements OnRefresh
                     System.out.println("data = " + data + ", convertView = " + convertView);
 
                     if (userType == 1) {//网军
-//                        if (isDay) {
-//                            ((TextView) convertView.findViewById(R.id.todayAmountNum)).setText("" + data.getTodayAmount());
-//                            ((TextView) convertView.findViewById(R.id.afterSaleAmount)).setText("" + data.getAfterSaleAmount());
-//                            ((TextView) convertView.findViewById(R.id.callNum)).setText("" + data.getCallNum());
-//                        } else {
-//                            ((TextView) convertView.findViewById(R.id.todayAmount)).setText("月GMV");
-//                            ((TextView) convertView.findViewById(R.id.today)).setText("月下单次数");
-//                            ((TextView) convertView.findViewById(R.id.afterSale)).setText("月退款金额");
-//                            ((TextView) convertView.findViewById(R.id.call)).setText("月拜访数");
-//
-//                            ((TextView) convertView.findViewById(R.id.todayAmountNum)).setText("" + data.getMonthAmount());
-//                            ((TextView) convertView.findViewById(R.id.afterSaleAmount)).setText("" + data.getMonthAfterSaleAmount());
-//                            ((TextView) convertView.findViewById(R.id.callNum)).setText("" + data.getMonthCallNum());
-//                        }
-
                         if (!isDay) {
                             ((TextView) convertView.findViewById(R.id.todayAmount)).setText("月GMV");
                             ((TextView) convertView.findViewById(R.id.today)).setText("月下单次数");
@@ -108,17 +93,7 @@ public class StatisticsListFragment extends NetworkFragment implements OnRefresh
                         ((TextView) convertView.findViewById(R.id.callNum)).setText("" + data.getCallNum());
                         ((TextView) convertView.findViewById(R.id.todayTimes)).setText("" + data.getMonthTimes());//日下单次数同月下单次数
                     } else {//铁军
-//                        if (isDay) {
-//                            ((TextView) convertView.findViewById(R.id.todayAmountNum)).setText("" + data.getTodayAmount());
-//                            ((TextView) convertView.findViewById(R.id.categoryAmount)).setText("" + data.getCategoryAmount());
-//                        } else {
-//                            ((TextView) convertView.findViewById(R.id.todayAmount)).setText("月下单额");
-//                            ((TextView) convertView.findViewById(R.id.today)).setText("月下单次数");
-//
-//                            ((TextView) convertView.findViewById(R.id.todayAmountNum)).setText("" + data.getMonthAmount());
-//                            ((TextView) convertView.findViewById(R.id.categoryAmount)).setText("" + data.getMonthAmount());
-//                        }
-                        if (isDay) {
+                        if (!isDay) {
                             ((TextView) convertView.findViewById(R.id.todayAmount)).setText("月下单额");
                             ((TextView) convertView.findViewById(R.id.today)).setText("月下单次数");
                         }

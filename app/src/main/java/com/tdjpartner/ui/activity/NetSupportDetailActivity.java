@@ -17,7 +17,6 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.ArrayMap;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -127,6 +126,7 @@ public class NetSupportDetailActivity extends NetworkActivity {
     File captureFile;
     float amountFloatExtra;
     String avgUnitStringExtra, originalStringExtra;
+    int title;
 
     @OnClick({R.id.tv_title, R.id.receive_user_name, R.id.supplier_tel, R.id.button, R.id.upload_1, R.id.upload_2, R.id.upload_3, R.id.tv_remove, R.id.difficulty})
     public void onClick(View view) {
@@ -168,7 +168,7 @@ public class NetSupportDetailActivity extends NetworkActivity {
                 map.put("entityId", entityId);
 
                 System.out.println("imageUrl = " + imageUrl);
-                if (imageUrl.isEmpty()) {
+                if (type.equals(REPLENISH) && imageUrl.isEmpty()) {
                     error = "请至少上传一张图片";
                 } else {
                     map.put("images", TextUtils.join(",", imageUrl.values()));
@@ -249,6 +249,7 @@ public class NetSupportDetailActivity extends NetworkActivity {
     @Override
     protected void initView() {
         type = getIntent().getStringExtra("type");
+        title = getIntent().getIntExtra("title", 0);
         amountFloatExtra = getIntent().getFloatExtra("amount", 0);
         avgUnitStringExtra = getIntent().getStringExtra("avg_unit");
         originalStringExtra = getIntent().getStringExtra("original");
@@ -338,6 +339,17 @@ public class NetSupportDetailActivity extends NetworkActivity {
                 refund_amount.setText(Html.fromHtml("商品退货：<font color='red'>" + amountFloatExtra + "</font>" + avgUnitStringExtra, FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
                 break;
         }
+
+        if (title == 1) {
+            findViewById(R.id.ll_uplaod).setVisibility(View.GONE);
+            findViewById(R.id.button).setVisibility(View.GONE);
+            difficulty.setVisibility(View.GONE);
+            et_num.setEnabled(false);
+            et_price.setEnabled(false);
+            remark.setEnabled(false);
+            money.setText("折算后单价：");
+        }
+
     }
 
     @Override
