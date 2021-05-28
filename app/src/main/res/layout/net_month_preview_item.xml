@@ -16,14 +16,6 @@ android:background="@drawable/client_item_sahp"
             android:layout_margin="4dp"
             android:orientation="vertical"
             android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="注册总数"
-                android:textColor="@color/gray_66"
-                android:textSize="12sp" />
-
             <TextView
                 android:id="@+id/monthRegisterNum"
                 android:layout_width="wrap_content"
@@ -32,6 +24,12 @@ android:background="@drawable/client_item_sahp"
                 android:textColor="@color/gray_69"
                 android:textSize="12sp"
                 android:text="0" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="注册总数"
+                android:textColor="@color/gray_66"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <View
@@ -49,14 +47,6 @@ android:background="@drawable/client_item_sahp"
             android:layout_margin="4dp"
             android:orientation="vertical"
             android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="新开总数"
-                android:textColor="@color/gray_66"
-                android:textSize="12sp" />
-
             <TextView
                 android:id="@+id/monthFirstOrderNum"
                 android:layout_width="wrap_content"
@@ -65,6 +55,13 @@ android:background="@drawable/client_item_sahp"
                 android:textColor="@color/gray_69"
                 android:textSize="12sp"
                 android:text="0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="新开总数"
+                android:textColor="@color/gray_66"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <View
@@ -82,14 +79,6 @@ android:background="@drawable/client_item_sahp"
             android:layout_margin="4dp"
             android:orientation="vertical"
             android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="日活数"
-                android:textColor="@color/gray_66"
-                android:textSize="12sp" />
-
             <TextView
                 android:id="@+id/monthActiveNum"
                 android:layout_width="wrap_content"
@@ -98,6 +87,13 @@ android:background="@drawable/client_item_sahp"
                 android:textColor="@color/gray_69"
                 android:textSize="12sp"
                 android:text="0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="日活数"
+                android:textColor="@color/gray_66"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <View
@@ -115,14 +111,6 @@ android:background="@drawable/client_item_sahp"
             android:layout_margin="4dp"
             android:orientation="vertical"
             android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="月均日活"
-                android:textColor="@color/gray_66"
-                android:textSize="12sp" />
-
             <TextView
                 android:id="@+id/monthAvgActiveNum"
                 android:layout_width="wrap_content"
@@ -131,6 +119,13 @@ android:background="@drawable/client_item_sahp"
                 android:textColor="@color/gray_69"
                 android:textSize="12sp"
                 android:text="0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="月均日活"
+                android:textColor="@color/gray_66"
+                android:textSize="12sp" />
         </LinearLayout>
 
     </LinearLayout>
@@ -146,14 +141,6 @@ android:background="@drawable/client_item_sahp"
             android:layout_margin="4dp"
             android:orientation="vertical"
             android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="拜访总数"
-                android:textColor="@color/gray_66"
-                android:textSize="12sp" />
-
             <TextView
                 android:id="@+id/monthCallNum"
                 android:layout_width="wrap_content"
@@ -162,6 +149,12 @@ android:background="@drawable/client_item_sahp"
                 android:textColor="@color/gray_69"
                 android:textSize="12sp"
                 android:text="0" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="拜访总数"
+                android:textColor="@color/gray_66"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <View
@@ -179,14 +172,6 @@ android:background="@drawable/client_item_sahp"
             android:layout_margin="4dp"
             android:orientation="vertical"
             android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="月GMV"
-                android:textColor="@color/gray_66"
-                android:textSize="12sp" />
-
             <TextView
                 android:id="@+id/monthAmount"
                 android:layout_width="wrap_content"
@@ -195,6 +180,14 @@ android:background="@drawable/client_item_sahp"
                 android:textColor="@color/gray_69"
                 android:textSize="12sp"
                 android:text="0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="月GMV"
+                android:textColor="@color/gray_66"
+                android:textSize="12sp" />
+
         </LinearLayout>
 
         <View
@@ -214,13 +207,6 @@ android:background="@drawable/client_item_sahp"
             android:gravity="center">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="增量GMV"
-                android:textColor="@color/gray_66"
-                android:textSize="12sp" />
-
-            <TextView
                 android:id="@+id/addMonthAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -228,6 +214,13 @@ android:background="@drawable/client_item_sahp"
                 android:textColor="@color/gray_69"
                 android:textSize="12sp"
                 android:text="0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="增量GMV"
+                android:textColor="@color/gray_66"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <View
@@ -247,13 +240,6 @@ android:background="@drawable/client_item_sahp"
             android:gravity="center">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="月客单价"
-                android:textColor="@color/gray_66"
-                android:textSize="12sp" />
-
-            <TextView
                 android:id="@+id/monthAverageAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -261,6 +247,13 @@ android:background="@drawable/client_item_sahp"
                 android:textColor="@color/gray_69"
                 android:textSize="12sp"
                 android:text="0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="月客单价"
+                android:textColor="@color/gray_66"
+                android:textSize="12sp" />
         </LinearLayout>
 
     </LinearLayout>
@@ -277,14 +270,6 @@ android:background="@drawable/client_item_sahp"
             android:layout_margin="4dp"
             android:orientation="vertical"
             android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="总售后"
-                android:textColor="@color/gray_66"
-                android:textSize="12sp" />
-
             <TextView
                 android:id="@+id/monthAfterSaleTimes"
                 android:layout_width="wrap_content"
@@ -293,6 +278,12 @@ android:background="@drawable/client_item_sahp"
                 android:textColor="@color/gray_69"
                 android:textSize="12sp"
                 android:text="0" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="总售后"
+                android:textColor="@color/gray_66"
+                android:textSize="12sp" />
         </LinearLayout>
 
         <View
@@ -309,14 +300,6 @@ android:background="@drawable/client_item_sahp"
             android:layout_margin="4dp"
             android:orientation="vertical"
             android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="售后总金额"
-                android:textColor="@color/gray_66"
-                android:textSize="12sp" />
-
             <TextView
                 android:id="@+id/monthAfterSaleAmount"
                 android:layout_width="wrap_content"
@@ -325,6 +308,14 @@ android:background="@drawable/client_item_sahp"
                 android:textColor="@color/gray_69"
                 android:textSize="12sp"
                 android:text="0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="售后总金额"
+                android:textColor="@color/gray_66"
+                android:textSize="12sp" />
+
         </LinearLayout>
 
         <View

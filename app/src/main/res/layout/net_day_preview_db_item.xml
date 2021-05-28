@@ -25,9 +25,10 @@ android:background="@drawable/client_item_sahp"
                 android:textSize="12sp"
                 android:text="0" />
             <TextView
+                android:id="@+id/dayRegister"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="注册数>"
+                android:text="注册数"
                 android:textColor="@color/gray_66"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -58,9 +59,10 @@ android:background="@drawable/client_item_sahp"
                 android:text="0" />
 
             <TextView
+                android:id="@+id/firstOrder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="新开>"
+                android:text="新开"
                 android:textColor="@color/gray_66"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -90,9 +92,10 @@ android:background="@drawable/client_item_sahp"
                 android:text="0" />
 
             <TextView
+                android:id="@+id/active"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="日活>"
+                android:text="日活"
                 android:textColor="@color/gray_66"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -152,9 +155,10 @@ android:background="@drawable/client_item_sahp"
                 android:text="0" />
 
             <TextView
+                android:id="@+id/call"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="拜访数>"
+                android:text="拜访数"
                 android:textColor="@color/gray_66"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -238,7 +242,7 @@ android:background="@drawable/client_item_sahp"
             android:orientation="vertical"
             android:gravity="center">
             <TextView
-                android:id="@+id/todayAfterSaleTimes"
+                android:id="@+id/afterSaleAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -256,118 +260,6 @@ android:background="@drawable/client_item_sahp"
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:id="@+id/ll_day_vegetables"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:orientation="vertical"
-            android:gravity="center">
-            <TextView
-                android:id="@+id/afterSaleAmount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textColor="@color/gray_69"
-                android:textSize="12sp"
-                android:text="0" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="新鲜蔬菜>"
-                android:textColor="@color/gray_66"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/gray_66"
-                android:textSize="12sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textColor="@color/gray_69"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/gray_66"
-                android:textSize="12sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textColor="@color/gray_69"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_margin="4dp"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/gray_66"
-                android:textSize="12sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textColor="@color/gray_69"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-    </LinearLayout>
 </LinearLayout>

@@ -19,7 +19,7 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/operator_user_name"
+            android:id="@+id/pick_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -45,7 +45,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp">
+        android:layout_margin="4dp"
+        android:background="@color/bg_color">
 
         <TextView
             android:id="@+id/dispatch_time"

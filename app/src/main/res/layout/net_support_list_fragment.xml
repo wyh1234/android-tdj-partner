@@ -32,9 +32,11 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
+                    android:id="@+id/tab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="补货"
+                    android:textColor="@color/gray_c2c2c2"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -52,9 +54,11 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
+                    android:id="@+id/tab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="换货"
+                    android:textColor="@color/gray_c2c2c2"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -72,9 +76,11 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
+                    android:id="@+id/tab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="退货"
+                    android:textColor="@color/gray_c2c2c2"
                     android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>

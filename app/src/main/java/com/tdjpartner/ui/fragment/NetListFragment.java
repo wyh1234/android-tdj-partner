@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,11 +19,14 @@ import com.tdjpartner.R;
 import com.tdjpartner.base.NetworkFragment;
 import com.tdjpartner.model.IronDayAndMonthData;
 import com.tdjpartner.utils.GeneralUtils;
+import com.tdjpartner.utils.cache.UserUtils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -98,8 +102,7 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
 
         getVMWithActivity().loadingWithNewLiveData(IronDayAndMonthData.class, getArgs())
                 .observe(this, ironDayAndMonthData -> {
-                    tv_title.setText(ironDayAndMonthData.teamView.gradeChineseName + (isDay ? "日" : "月") + "统计");
-                    System.out.println("~~observe~~");
+                    tv_title.setText(ironDayAndMonthData.headGrade);
                     //头部统计
                     if (isDay) {
                         ((TextView) ll_header_include.findViewById(R.id.dayRegisterTimes)).setText("" + ironDayAndMonthData.teamView.registerNum);
@@ -123,8 +126,10 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
                         ((TextView) ll_header_include.findViewById(R.id.monthAfterSaleTimes)).setText("" + ironDayAndMonthData.teamView.afterSaleTimes);
                         ((TextView) ll_header_include.findViewById(R.id.monthAfterSaleAmount)).setText("" + ironDayAndMonthData.teamView.afterSaleAmount);
                     }
-
-                    adapter.setNewData(ironDayAndMonthData.teamView.teamViewList);
+                    List<IronDayAndMonthData.TeamView> list = new ArrayList<>(ironDayAndMonthData.teamViewList);
+                    if (ironDayAndMonthData.othersTeamView != null)
+                        list.add(ironDayAndMonthData.othersTeamView);
+                    adapter.setNewData(list);
                     dismissLoading();
                 });
         showLoading();
@@ -133,7 +138,6 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        isDay = getArguments().getBoolean("isDay", true);
         tv_time.setText(isDay ? GeneralUtils.getTimes(new Date()) : GeneralUtils.getTime(new Date()));
 
         selectedDate = Calendar.getInstance();
@@ -159,7 +163,7 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
             adapter = new BaseQuickAdapter<IronDayAndMonthData.TeamView, BaseViewHolder>(R.layout.net_day_list_member_layout) {
                 @Override
                 protected void convert(BaseViewHolder baseViewHolder, IronDayAndMonthData.TeamView teamView) {
-
+                    System.out.println("baseViewHolder = " + baseViewHolder + ", teamView = " + teamView);
                     baseViewHolder.addOnClickListener(R.id.tv_day_sink);
 
                     baseViewHolder.setText(R.id.dayRegisterTimes, "" + teamView.registerNum)
@@ -171,8 +175,8 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
                             .setText(R.id.averageAmount, "" + teamView.averageAmount)
                             .setText(R.id.todayAfterSaleTimes, "" + teamView.afterSaleTimes)
                             .setText(R.id.afterSaleAmount, "" + teamView.afterSaleAmount)
-                            .setText(R.id.tv_name, "" + teamView.gradeName + "：" + teamView.nickName)
-                            .setText(R.id.tv_day_sink, "" + teamView.gradeChineseName + (teamView.gradeChineseName.equals("BD") ? "" : " >"));
+                            .setText(R.id.tv_name, TextUtils.isEmpty(teamView.gradeChineseName) ? "其他" : ("" + teamView.gradeChineseName + "：" + teamView.nickName))
+                            .setText(R.id.tv_day_sink, TextUtils.isEmpty(teamView.gradeName) ? "" : teamView.gradeName + (teamView.gradeName.equals("BD") ? "" : " >"));
                 }
             };
         } else {
@@ -193,7 +197,7 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
                 @Override
                 protected void convert(BaseViewHolder baseViewHolder, IronDayAndMonthData.TeamView teamView) {
 
-                    baseViewHolder.addOnClickListener(R.id.tv_day_sink);
+                    baseViewHolder.addOnClickListener(R.id.tv_month_sink);
                     baseViewHolder.setText(R.id.monthRegisterNum, "" + teamView.registerNum)
                             .setText(R.id.monthFirstOrderNum, "" + teamView.firstOrderNum)
                             .setText(R.id.monthActiveNum, "" + teamView.activeNum)
@@ -204,8 +208,8 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
                             .setText(R.id.monthAverageAmount, "" + teamView.averageAmount)
                             .setText(R.id.monthAfterSaleTimes, "" + teamView.afterSaleTimes)
                             .setText(R.id.monthAfterSaleAmount, "" + teamView.afterSaleAmount)
-                            .setText(R.id.tv_name, "" + teamView.gradeName + "：" + teamView.nickName)
-                            .setText(R.id.tv_day_sink, "" + teamView.gradeChineseName + (teamView.gradeChineseName.equals("BD") ? "" : " >"));
+                            .setText(R.id.tv_name, TextUtils.isEmpty(teamView.gradeChineseName) ? "其他" : ("" + teamView.gradeChineseName + "：" + teamView.nickName))
+                            .setText(R.id.tv_month_sink, TextUtils.isEmpty(teamView.gradeName) ? "" : teamView.gradeName + (teamView.gradeName.equals("BD") ? "" : " >"));
                 }
             };
         }
@@ -232,9 +236,11 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
         getVMWithActivity().loading(IronDayAndMonthData.class, getArgs());
     }
 
-    private Map<String, Object> makeArges(int userId, Date date, boolean isDay, boolean isNext) {
+    private Map<String, Object> makeArges(int userId, int grade, Date date, boolean isDay, boolean isNext) {
         Map<String, Object> map = new HashMap<>();
+        map.put("loginId", UserUtils.getInstance().getLoginBean().getLoginUserId());
         map.put("userId", userId);
+        map.put("grade", grade);
         map.put("type", isNext ? "next" : "up");
         if (isDay) {
             map.put("startTime", GeneralUtils.getTimeFilter(date));
@@ -247,9 +253,9 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
         return map;
     }
 
-    private void leak(int userId, boolean isNext) {
+    private void leak(int userId, int grade, boolean isNext) {
         Bundle bundle = new Bundle();
-        Map<String, Object> map = makeArges(userId, new Date(), isDay, isNext);
+        Map<String, Object> map = makeArges(userId, grade, new Date(), isDay, isNext);
         bundle.putSerializable("args", (Serializable) map);
         bundle.putBoolean("isDay", isDay);
         NetListFragment fragment = new NetListFragment();
@@ -266,11 +272,17 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
         System.out.println("~~" + getClass().getSimpleName() + ".onItemClick~~");
         System.out.println("baseQuickAdapter = " + baseQuickAdapter + ", view = " + view + ", i = " + i);
 
+        IronDayAndMonthData.TeamView teamView;
         switch (view.getId()) {
             case R.id.tv_day_sink:
-                IronDayAndMonthData.TeamView teamView = (IronDayAndMonthData.TeamView) baseQuickAdapter.getItem(i);
-                if (teamView.gradeChineseName.equals("BD")) return;
-                leak(teamView.partnerId, true);
+                teamView = (IronDayAndMonthData.TeamView) baseQuickAdapter.getItem(i);
+                if (TextUtils.isEmpty(teamView.gradeName)) return;
+                leak(teamView.partnerId, teamView.grade, true);
+                break;
+            case R.id.tv_month_sink:
+                teamView = (IronDayAndMonthData.TeamView) baseQuickAdapter.getItem(i);
+                if (TextUtils.isEmpty(teamView.gradeName)) return;
+                leak(teamView.partnerId, teamView.grade, true);
                 break;
         }
     }

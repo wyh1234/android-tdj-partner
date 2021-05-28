@@ -4,6 +4,14 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:src="@mipmap/left_arrow_gary" />
+
     <TextView
         android:layout_width="match_parent"
         android:textSize="19sp"
@@ -13,6 +21,7 @@
         android:textColor="@color/black_63"
         android:layout_height="wrap_content" />
     <TextView
+        android:id="@+id/tv_welcome"
         android:layout_width="match_parent"
         android:textSize="12sp"
         android:layout_marginTop="9dp"
@@ -80,19 +89,21 @@
         android:layout_width="match_parent"
         android:background="@color/view_bg"
         android:layout_height="0.5dp"/>
+
     <Button
         android:id="@+id/btn_login"
-        android:background="@mipmap/login_btn"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="29dp"
-        android:layout_marginRight="29dp"
         android:layout_marginTop="88dp"
+        android:layout_marginRight="29dp"
+        android:background="@mipmap/login_btn"
         android:text="登录"
         android:textColor="@color/white"
-        android:textSize="16sp"
-        android:layout_height="@dimen/dp_40" />
+        android:textSize="16sp" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_marginRight="29dp"

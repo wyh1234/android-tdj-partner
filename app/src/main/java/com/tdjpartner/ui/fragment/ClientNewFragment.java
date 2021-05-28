@@ -15,6 +15,7 @@ import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.ui.activity.ClientListSeachActivity;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.LocationUtils;
+import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.widget.tablayout.WTabLayout;
 
 import org.greenrobot.eventbus.EventBus;
@@ -85,7 +86,7 @@ public class ClientNewFragment extends Fragment {
         List<String> titles = new ArrayList<>();
         titles.add("我的客户");
         titles.add("公海客户");
-        titles.add("他人客户");
+        if (UserUtils.getInstance().getLoginBean().getType() == 1) titles.add("他人客户");
         FragmentAdapter adatper = new FragmentAdapter(getActivity().getSupportFragmentManager(), titles);
         viewPager.setAdapter(adatper);
 //        viewPager.setOffscreenPageLimit(3);

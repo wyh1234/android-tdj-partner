@@ -195,6 +195,14 @@ public class ImageLoad {
         Glide.with(mContext).asBitmap().load(path).into(mImageView);
     }
 
+    public static void loadRoundImage(String path, int roundRadius, ImageView mImageView, int resourceId) {
+        Glide.with(mImageView.getContext())
+                .load(path)
+                .apply(RequestOptions.placeholderOf(resourceId)
+                        .transforms(new CenterCrop(), new RoundedCorners(roundRadius)))
+                .into(mImageView);
+    }
+
     public static void loadRoundImageWithListen(Context mContext, String path, int roundRadius, ImageView mImageView, RequestListener<Drawable> listener) {
         Glide.with(mContext)
                 .load(path)

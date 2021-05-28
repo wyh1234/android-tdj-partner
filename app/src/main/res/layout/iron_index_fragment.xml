@@ -285,11 +285,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:layout_marginBottom="2dp"
-                        android:background="@drawable/bg_grey_left_semi_4"
                         android:paddingStart="8dp"
                         android:paddingEnd="8dp"
-                        android:text="月"
+                        android:background="@drawable/bg_grey_left_semi_4"
                         android:textColor="@color/gray_66"
+                        android:text="月"
                         android:textSize="12sp" />
 
                     <TextView
@@ -298,11 +298,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:layout_marginBottom="2dp"
-                        android:background="@drawable/bg_orange_right_semi_4"
                         android:paddingStart="8dp"
                         android:paddingEnd="8dp"
-                        android:text="日"
+                        android:background="@drawable/bg_orange_right_semi_4"
                         android:textColor="@color/white"
+                        android:text="日"
                         android:textSize="12sp" />
                 </LinearLayout>
 

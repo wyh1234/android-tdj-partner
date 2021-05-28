@@ -12,8 +12,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.Html;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.ArrayMap;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -47,6 +52,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static android.text.Html.FROM_HTML_MODE_LEGACY;
 import static com.tdjpartner.ui.fragment.NetSupportFragment.REFUND;
 import static com.tdjpartner.ui.fragment.NetSupportFragment.REPLACE;
 import static com.tdjpartner.ui.fragment.NetSupportFragment.REPLENISH;
@@ -74,18 +80,24 @@ public class NetSupportDetailActivity extends NetworkActivity {
     TextView order_pay_time;
     @BindView(R.id.order_no)
     TextView order_no;
-    @BindView(R.id.create_time)
-    TextView create_time;
     @BindView(R.id.original)
     TextView original;
     @BindView(R.id.amount)
     TextView amount;
     @BindView(R.id.money)
     TextView money;
+    @BindView(R.id.unit)
+    TextView unit;
+    @BindView(R.id.price)
+    TextView price;
     @BindView(R.id.num_title)
     TextView num_title;
+    @BindView(R.id.num_unit)
+    TextView num_unit;
     @BindView(R.id.price_title)
     TextView price_title;
+    @BindView(R.id.refund_amount)
+    TextView refund_amount;
     @BindView(R.id.difficulty)
     TextView difficulty;
     @BindView(R.id.remark)
@@ -113,6 +125,8 @@ public class NetSupportDetailActivity extends NetworkActivity {
     int uploadIndex;
     int entityId;
     File captureFile;
+    float amountFloatExtra;
+    String avgUnitStringExtra, originalStringExtra;
 
     @OnClick({R.id.tv_title, R.id.receive_user_name, R.id.supplier_tel, R.id.button, R.id.upload_1, R.id.upload_2, R.id.upload_3, R.id.tv_remove, R.id.difficulty})
     public void onClick(View view) {
@@ -183,7 +197,10 @@ public class NetSupportDetailActivity extends NetworkActivity {
 
                 if (error.isEmpty()) {
                     getVM().loadingWithNewLiveData(String.class, map)
-                            .observe(this, GeneralUtils::showToastshort);
+                            .observe(this, s -> {
+                                GeneralUtils.showToastshort(s);
+                                finish();
+                            });
                 } else {
                     GeneralUtils.showToastshort(error);
                 }
@@ -232,22 +249,44 @@ public class NetSupportDetailActivity extends NetworkActivity {
     @Override
     protected void initView() {
         type = getIntent().getStringExtra("type");
-
+        amountFloatExtra = getIntent().getFloatExtra("amount", 0);
+        avgUnitStringExtra = getIntent().getStringExtra("avg_unit");
+        originalStringExtra = getIntent().getStringExtra("original");
         original.setText("平台下单：" + getIntent().getStringExtra("original"));
         money.setText("折算后单价：" + getIntent().getStringExtra("money"));
         num_title.setText("实际数量：");
+        num_unit.setText(avgUnitStringExtra);
         price_title.setText("实际金额：");
+        et_num.setOnFocusChangeListener(this::onFocusChange);
+        et_num.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                System.out.println("s = " + s + ", start = " + start + ", before = " + before + ", count = " + count);
+                if (!TextUtils.isEmpty(s) && s.charAt(s.length() - 1) != '.' && Float.parseFloat(s.toString()) > amountFloatExtra * 2)
+                    GeneralUtils.showToastshort("实际数量不能超过要求数量2倍，请重新输入！");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        et_price.setOnFocusChangeListener(this::onFocusChange);
 
         switch (type) {
             case REPLENISH:
                 tv_title.setText(REPLENISH.substring(2, 4) + "详情");
-                amount.setText("要求补货：" + getIntent().getStringExtra("amount"));
+                amount.setText(Html.fromHtml("要求补货：<font color='red'>" + amountFloatExtra + avgUnitStringExtra + "</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
                 et_num.setHint("请输入实际补货数量");
                 et_price.setHint("请输入实际补货金额");
                 break;
             case REPLACE:
                 tv_title.setText(REPLACE.substring(2, 4) + "详情");
-                amount.setText("要求换货：" + getIntent().getStringExtra("amount"));
+                amount.setText("要求换货：" + amountFloatExtra + avgUnitStringExtra);
                 et_num.setHint("请输入实际换货数量");
                 et_price.setHint("请输入实际换货金额");
                 difficulty.setPaintFlags(difficulty.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -293,6 +332,10 @@ public class NetSupportDetailActivity extends NetworkActivity {
             case REFUND:
                 tv_title.setText(REFUND.substring(2, 4) + "详情");
                 findViewById(R.id.ll_info).setVisibility(View.GONE);
+                findViewById(R.id.ll_uplaod).setVisibility(View.GONE);
+                refund_amount.setVisibility(View.VISIBLE);
+                difficulty.setVisibility(View.VISIBLE);
+                refund_amount.setText(Html.fromHtml("商品退货：<font color='red'>" + amountFloatExtra + "</font>" + avgUnitStringExtra, FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
                 break;
         }
     }
@@ -300,7 +343,6 @@ public class NetSupportDetailActivity extends NetworkActivity {
     @Override
     protected void initData() {
         entityId = getIntent().getIntExtra("entityId", -1);
-//        entityId = 72084;
         if (entityId == -1) return;
 
         imageUrl = new ArrayMap<>();
@@ -323,18 +365,26 @@ public class NetSupportDetailActivity extends NetworkActivity {
                     supplier_tel.setText("供应商电话：" + afterDetailData.order.supplier_tel);
                     order_pay_time.setText("下单时间：" + afterDetailData.order.order_pay_time);
                     order_no.setText("商品单号：" + afterDetailData.order.order_no);
-                    create_time.setText("退货时间：" + afterDetailData.order.create_time);
+
+                    String level3 = TextUtils.isEmpty(afterDetailData.order.level_3_unit) ? "" : "*" + afterDetailData.order.level_3_value + afterDetailData.order.level_3_unit;
+                    String level2 = TextUtils.isEmpty(afterDetailData.order.level_2_unit) ? "" : "（" + afterDetailData.order.level_2_value + afterDetailData.order.level_2_unit + level3 + "）";
+                    String value = afterDetailData.order.price + "元/" + afterDetailData.order.unit + (afterDetailData.order.level_type == 3 ? "" : level2);
+                    String styledText = "<font color='grey'>" + value + "</font>" + "<font color='red'>×" + afterDetailData.order.original_amount + "</font>";
+                    unit.setText(Html.fromHtml(styledText, FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+
+
+                    value = afterDetailData.order.original_amount + afterDetailData.order.unit + "/共" + (afterDetailData.order.price * afterDetailData.order.original_amount) + "元";
+                    price.setText(value);
+
 
                     ((TextView) findViewById(R.id.product_criteria)).setText(afterDetailData.order.product_criteria.equals("1") ? "通" : "精");
                     ((TextView) findViewById(R.id.name)).setText(afterDetailData.order.name + (afterDetailData.order.nick_name.isEmpty() ? "" : "（" + afterDetailData.order.nick_name + "）"));
-                    ((TextView) findViewById(R.id.store_name)).setText(afterDetailData.order.store_name.length() > 3 ? afterDetailData.order.store_name.substring(0, 3) : afterDetailData.order.store_name);
+                    ((TextView) findViewById(R.id.store_name)).setText(afterDetailData.order.store_name);
                     findViewById(R.id.type).setVisibility(View.GONE);
-                    ImageLoad.loadImageViewLoding(afterDetailData.order.product_img, findViewById(R.id.product_img));
+                    ImageLoad.loadRoundImage(afterDetailData.order.product_img, 25, findViewById(R.id.product_img), R.mipmap.baifangjiudain_bg);
 
                     if (type.equals(REPLACE))
                         adapter.setNewData(Arrays.asList(afterDetailData.order.certificate_photos.split(",")));
-//                    adapter.setNewData(Arrays.asList("http://tsp-img.oss-cn-hangzhou.aliyuncs.com/2104101404050e4db32e.jpg", "http://tsp-img.oss-cn-hangzhou.aliyuncs.com/190805144018b97ed293.jpg"));
-
 
                     switch (type) {
                         case REPLENISH:
@@ -474,4 +524,47 @@ public class NetSupportDetailActivity extends NetworkActivity {
         }
     }
 
+    public void onFocusChange(View v, boolean hasFocus) {
+        System.out.println("v = " + v + ", hasFocus = " + hasFocus);
+        if (!hasFocus) check(v);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View view = getCurrentFocus();
+            System.out.println("view = " + view);
+            if (view != null) check(view);
+            if (GeneralUtils.isHideInput(view, ev)) {
+                GeneralUtils.hideSoftInput(view.getWindowToken(), this);
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    private void check(View v) {
+        switch (v.getId()) {
+            case R.id.et_num:
+                if (TextUtils.isEmpty(et_num.getText())) return;
+                float num = Float.parseFloat(et_num.getText().toString());
+                System.out.println("num = " + num);
+                if (num > amountFloatExtra * 2) {
+                    et_num.setText("");
+                    GeneralUtils.showToastshort("实际数量不能超过要求数量2倍，请重新输入！");
+                }
+                break;
+
+            case R.id.et_price:
+                if (TextUtils.isEmpty(et_price.getText())) return;
+                float price = Float.parseFloat(et_price.getText().toString());
+                System.out.println("price = " + price);
+                break;
+        }
+
+        if (!TextUtils.isEmpty(et_num.getText()) && !TextUtils.isEmpty(et_price.getText())) {
+            float a = Float.parseFloat(et_num.getText().toString());
+            float b = Float.parseFloat(et_price.getText().toString());
+            money.setText("折算后单价：" + ((float) (Math.round(b / a * 100) / 100.0)) + "元/" + originalStringExtra.substring(originalStringExtra.length() - 1));
+        }
+    }
 }

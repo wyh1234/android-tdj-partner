@@ -65,6 +65,9 @@
             android:name=".ui.activity.ForgetPasswordActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.activity.V3LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.activity.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -111,6 +114,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.MenberPaifangHistoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.AfterSalePageActivity"
             android:screenOrientation="portrait" />
 
         <activity
@@ -219,10 +225,7 @@
             android:name=".ui.activity.StatisticsListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.IronStatisticsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.activity.NetStatisticsActivity"
+            android:name=".ui.activity.StatisticsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.ApprovalActivity"

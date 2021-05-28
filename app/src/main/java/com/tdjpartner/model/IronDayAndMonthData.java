@@ -75,8 +75,8 @@ public class IronDayAndMonthData {
      */
 
     public TeamView teamView;
+    public TeamView othersTeamView;
     public List<TeamView> teamViewList;
-    public List<TeamView> othersTeamView;
     public int partnerId; //258333,
     public int parentId; //null,
     public int grade; //4,

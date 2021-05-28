@@ -33,6 +33,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp" />
 
+                <TextView
+                    android:id="@+id/refund_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/bg_color"
+                    android:visibility="gone" />
+
+
                 <LinearLayout
                     android:id="@+id/ll_info"
                     android:layout_width="match_parent"
@@ -105,7 +114,7 @@
                             android:layout_marginEnd="1dp"
                             android:background="@null"
                             android:gravity="center_vertical"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:hint="请输入实际换货数量"
                             android:textColorHint="@color/gray_6b"
                             android:textSize="12sp" />
@@ -136,7 +145,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="1dp"
                             android:background="@null"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:gravity="center_vertical"
                             android:hint="请输入换货金额"
                             android:textColorHint="@color/gray_6b"
@@ -177,6 +186,11 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/ll_uplaod"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -222,7 +236,7 @@
                         android:layout_marginEnd="2dp"
                         android:layout_weight="1" />
                 </LinearLayout>
-
+                </LinearLayout>
             </LinearLayout>
 
             <Button

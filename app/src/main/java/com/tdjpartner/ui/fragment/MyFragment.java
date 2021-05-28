@@ -1,4 +1,6 @@
-package com.tdjpartner.ui.fragment;;
+package com.tdjpartner.ui.fragment;
+
+;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +23,7 @@ import com.tdjpartner.model.MyFragmentBottom;
 import com.tdjpartner.model.UserInfo;
 import com.tdjpartner.mvp.presenter.MyFragmentPresneter;
 import com.tdjpartner.ui.activity.AdministrationPaifangHistoryActivity;
+import com.tdjpartner.ui.activity.AfterSalePageActivity;
 import com.tdjpartner.ui.activity.EarningsActivity;
 import com.tdjpartner.ui.activity.EarningsHistoryActivity;
 import com.tdjpartner.ui.activity.MenberPaifangHistoryActivity;
@@ -44,40 +47,41 @@ import java.util.Map;
 
 import butterknife.BindView;
 
-public class MyFragment extends Fragment<MyFragmentPresneter> implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.OnItemClickListener , View.OnClickListener
-,SetHeadImagePopu.SetHeadImageListener{
+public class MyFragment extends Fragment<MyFragmentPresneter> implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.OnItemClickListener, View.OnClickListener
+        , SetHeadImagePopu.SetHeadImageListener {
     @BindView(R.id.rv_recyclerView)
     RecyclerView rv_recyclerView;
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
-   private RelativeLayout rl_sy,rl_more,rl;
+    private RelativeLayout rl_sy, rl_more, rl;
     private RoundedImageView image;
-    private MyFragmentAdapter  myFragmentAdapter;
-    private List<MyFragmentBottom> list =new ArrayList();
+    private MyFragmentAdapter myFragmentAdapter;
+    private List<MyFragmentBottom> list = new ArrayList();
     private SetHeadImagePopu setHeadImagePopu;
-    private TextView tv_name,tv_phone,tv_money,tv_pmcount;
+    private TextView tv_name, tv_phone, tv_money, tv_pmcount;
     private RxPermissions rxPermissions;
-    public void onClick(View view){
-        switch (view.getId()){
+
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.rl_sy:
-                Intent intent=new Intent(getContext(), EarningsActivity.class);
+                Intent intent = new Intent(getContext(), EarningsActivity.class);
                 startActivity(intent);
                 break;
             case R.id.rl_more:
-                Intent intent1=new Intent(getContext(), EarningsHistoryActivity.class);
+                Intent intent1 = new Intent(getContext(), EarningsHistoryActivity.class);
                 startActivity(intent1);
                 break;
             case R.id.fl:
-                Intent intent2=new Intent(getContext(), MessageActivity.class);
+                Intent intent2 = new Intent(getContext(), MessageActivity.class);
                 startActivity(intent2);
                 break;
             case R.id.image:
-                if (setHeadImagePopu!=null){
-                    if (setHeadImagePopu.isShowing()){
+                if (setHeadImagePopu != null) {
+                    if (setHeadImagePopu.isShowing()) {
                         return;
                     }
                     setHeadImagePopu.showPopupWindow();
-                }else {
+                } else {
 
                     setHeadImagePopu = new SetHeadImagePopu(getContext());
                     setHeadImagePopu.setPopupWindowFullScreen(true);//铺满
@@ -90,48 +94,51 @@ public class MyFragment extends Fragment<MyFragmentPresneter> implements SwipeRe
 
         }
     }
+
     @Override
     protected void initView(View view) {
         rxPermissions = new RxPermissions(getActivity());
         swipeRefreshLayout.setColorSchemeResources(R.color.bbl_ff0000);
         swipeRefreshLayout.setOnRefreshListener(this);
-        if (UserUtils.getInstance().getLoginBean().getGrade()!=3){
-            list.add(new MyFragmentBottom("专员拜访记录",false));
-        }else {
-            list.add(new MyFragmentBottom("拜访记录",false));
+        if (UserUtils.getInstance().getLoginBean().getGrade() != 3) {
+            list.add(new MyFragmentBottom("专员拜访记录", false));
+        } else {
+            list.add(new MyFragmentBottom("拜访记录", false));
         }
 
-        list.add(new MyFragmentBottom("实名认证",false));
-        list.add(new MyFragmentBottom("去赚钱",false));
-        list.add(new MyFragmentBottom("设置",false));
+        list.add(new MyFragmentBottom("实名认证", false));
+        list.add(new MyFragmentBottom("去赚钱", false));
+        list.add(new MyFragmentBottom("设置", false));
+        list.add(new MyFragmentBottom("售后商品须知", false));
         rv_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        myFragmentAdapter = new MyFragmentAdapter(R.layout.my_fragment_item,list);
+        myFragmentAdapter = new MyFragmentAdapter(R.layout.my_fragment_item, list);
         myFragmentAdapter.setOnItemClickListener(this);
         rv_recyclerView.setAdapter(myFragmentAdapter);
         View view1 = ViewUrils.getFragmentView(rv_recyclerView, R.layout.myfragment_head);
-        rl_sy=view1.findViewById(R.id.rl_sy);
-        image=view1.findViewById(R.id.image);
-        tv_name=view1.findViewById(R.id.tv_name);
-        tv_phone=view1.findViewById(R.id.tv_phone);
-        tv_pmcount=view1.findViewById(R.id.tv_pmcount);
-        tv_money=view1.findViewById(R.id.tv_money);
+        rl_sy = view1.findViewById(R.id.rl_sy);
+        image = view1.findViewById(R.id.image);
+        tv_name = view1.findViewById(R.id.tv_name);
+        tv_phone = view1.findViewById(R.id.tv_phone);
+        tv_pmcount = view1.findViewById(R.id.tv_pmcount);
+        tv_money = view1.findViewById(R.id.tv_money);
         image.setOnClickListener(this);
-        rl_more=view1.findViewById(R.id.rl_more);
-        rl=view1.findViewById(R.id.fl);
+        rl_more = view1.findViewById(R.id.rl_more);
+        rl = view1.findViewById(R.id.fl);
         rl_more.setOnClickListener(this);
         rl_sy.setOnClickListener(this);
         rl.setOnClickListener(this);
         myFragmentAdapter.addHeaderView(view1);
 
 
-
     }
+
     @Override
     public void onUserVisible() {//再次可见，不会加载initData
         super.onUserVisible();
         LogUtils.e(222);
 
     }
+
     @Override
     protected void onFragmentFirstVisible() {
         super.onFragmentFirstVisible();
@@ -141,28 +148,28 @@ public class MyFragment extends Fragment<MyFragmentPresneter> implements SwipeRe
         onRefresh();
     }
 
-    public void setMyData(){
+    public void setMyData() {
         LogUtils.e((UserUtils.getInstance().getLoginBean()));
-        if (UserUtils.getInstance().getLoginBean()!=null){
-            if (UserUtils.getInstance().getLoginBean().getGradeName()!=null){
+        if (UserUtils.getInstance().getLoginBean() != null) {
+            if (UserUtils.getInstance().getLoginBean().getGradeName() != null) {
                 tv_name.setText(UserUtils.getInstance().getLoginBean().getGradeName());
             }
 
-            tv_phone.setText(UserUtils.getInstance().getLoginBean().getPhoneNumber().substring(0,3)+"****"+UserUtils.getInstance().getLoginBean().getPhoneNumber()
-                    .substring(7,UserUtils.getInstance().getLoginBean().getPhoneNumber().length()));
-            if (UserUtils.getInstance().getLoginBean().getSurplusAmount()!=null){
-                tv_money.setText(UserUtils.getInstance().getLoginBean().getSurplusAmount()+"");
+            tv_phone.setText(UserUtils.getInstance().getLoginBean().getPhoneNumber().substring(0, 3) + "****" + UserUtils.getInstance().getLoginBean().getPhoneNumber()
+                    .substring(7, UserUtils.getInstance().getLoginBean().getPhoneNumber().length()));
+            if (UserUtils.getInstance().getLoginBean().getSurplusAmount() != null) {
+                tv_money.setText(UserUtils.getInstance().getLoginBean().getSurplusAmount() + "");
 
             }
-            if (UserUtils.getInstance().getLoginBean().getPmCount()!=null&&UserUtils.getInstance().getLoginBean().getPmCount()!=0){
-                    tv_pmcount.setText(UserUtils.getInstance().getLoginBean().getPmCount()+"");
+            if (UserUtils.getInstance().getLoginBean().getPmCount() != null && UserUtils.getInstance().getLoginBean().getPmCount() != 0) {
+                tv_pmcount.setText(UserUtils.getInstance().getLoginBean().getPmCount() + "");
 
-                }else {
-                       tv_pmcount.setText("");
+            } else {
+                tv_pmcount.setText("");
             }
 
 
-            ImageLoad.loadImageViewLoding(UserUtils.getInstance().getLoginBean().getAvatarUrl(),image);
+            ImageLoad.loadImageViewLoding(UserUtils.getInstance().getLoginBean().getAvatarUrl(), image);
         }
 
 
@@ -188,11 +195,11 @@ public class MyFragment extends Fragment<MyFragmentPresneter> implements SwipeRe
     @Override
     public void onRefresh() {
         LogUtils.e(UserUtils.getInstance().getLoginBean());
-        mPresenter.customer_refreshInfo(UserUtils.getInstance().getLoginBean().getEntityId(),UserUtils.getInstance().getLoginBean().getLoginUserId());
-
+        mPresenter.customer_refreshInfo(UserUtils.getInstance().getLoginBean().getEntityId(), UserUtils.getInstance().getLoginBean().getLoginUserId());
 
 
     }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -205,7 +212,7 @@ public class MyFragment extends Fragment<MyFragmentPresneter> implements SwipeRe
         unregisterEventBus(this);
     }
 
-    public void stop(){
+    public void stop() {
         if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
             swipeRefreshLayout.setRefreshing(false);
         }
@@ -214,42 +221,37 @@ public class MyFragment extends Fragment<MyFragmentPresneter> implements SwipeRe
     @Override
     public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
         LogUtils.e(i);
-        if (i==3){
-            Intent intent=new Intent(getContext(), SettingActivity.class);
+        if (i == 3) {
+            Intent intent = new Intent(getContext(), SettingActivity.class);
             startActivity(intent);
-        }else if (i==0){
-            if (UserUtils.getInstance().getLoginBean().getGrade()==3){
-                Intent intent=new Intent(getContext(), MenberPaifangHistoryActivity.class);
+        } else if (i == 0) {
+            if (UserUtils.getInstance().getLoginBean().getGrade() == 3) {
+                Intent intent = new Intent(getContext(), MenberPaifangHistoryActivity.class);
                 startActivity(intent);
-
-            }else {
-                if (UserUtils.getInstance().getLoginBean().getGrade()==1||UserUtils.getInstance().getLoginBean().getGrade()==2){
-                    Intent intent=new Intent(getContext(), AdministrationPaifangHistoryActivity.class);
+            } else {
+                if (UserUtils.getInstance().getLoginBean().getGrade() == 1 || UserUtils.getInstance().getLoginBean().getGrade() == 2) {
+                    Intent intent = new Intent(getContext(), AdministrationPaifangHistoryActivity.class);
                     startActivity(intent);
-                }else {
+                } else {
                     GeneralUtils.showToastshort("暂无访问权限");
                 }
-
-
             }
-
-
-        }else if (i==2){
-            Intent intent=new Intent(getContext(), ToMakeMoneyActivity.class);
+        } else if (i == 2) {
+            Intent intent = new Intent(getContext(), ToMakeMoneyActivity.class);
             startActivity(intent);
 
-        }else {
-                Intent intent=new Intent(getContext(), RealNameAuthenticationActivity.class);
-                startActivity(intent);
-
-
+        } else if (i == 4) {
+            Intent intent = new Intent(getContext(), AfterSalePageActivity.class);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(getContext(), RealNameAuthenticationActivity.class);
+            startActivity(intent);
         }
-
     }
 
     public void getrefreshInfo(UserInfo userInfo) {
         stop();
-        if (userInfo!=null){
+        if (userInfo != null) {
             UserUtils.getInstance().update(userInfo);
             setMyData();
         }
@@ -268,25 +270,22 @@ public class MyFragment extends Fragment<MyFragmentPresneter> implements SwipeRe
     @Override
     public void onCancel() {
         setHeadImagePopu.dismiss();
-
     }
 
     @Override
     public void onUpload() {
-        GeneralUtils.getImage(rxPermissions,getActivity());
+        GeneralUtils.getImage(rxPermissions, getActivity());
         setHeadImagePopu.dismiss();
-
     }
 
-    @Subscribe( threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void eventCode(ImageUploadOk imageUploadOk) {
         LogUtils.e(imageUploadOk);
-        ImageLoad.loadImageViewLoding(imageUploadOk.getPath(),image);
-        Map<String,Object>map=new HashMap<>();
-        map.put("userId",UserUtils.getInstance().getLoginBean().getEntityId());
-        map.put("avatarUrl",imageUploadOk.getPath());
+        ImageLoad.loadImageViewLoding(imageUploadOk.getPath(), image);
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
+        map.put("avatarUrl", imageUploadOk.getPath());
         mPresenter.modifyAvatarUrl(map);
-
     }
 
 }

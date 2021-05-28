@@ -2,7 +2,7 @@ package com.tdjpartner.model;
 
 import java.util.List;
 
-public class IronHomeTopData {
+public class HomeTopData {
     private List<RegisterTimesTopListBean> registerTimesTopList;
     private List<OrdersTimesTopList> ordersTimesTopList;
 
@@ -44,8 +44,6 @@ public class IronHomeTopData {
         public int monthRegisterNum; //null,
         public int monthActiveNum; //100, //月日活
         public int monthCallNum; //null,
-        public int lastMonthAvgActiveNum; //null,
-        public int monthAvgActiveNum; //null, //月均日活
         public int firstOrderNum; //0, //日新开数
         public int lastMonthFirstOrderNum; //null,
         public int monthFirstOrderNum; //null,
@@ -55,6 +53,8 @@ public class IronHomeTopData {
         public float todayAmount; //0.000000, //GMV
         public float averageAmount; //null,
         public float monthAmount; //0.00, //月GMV
+        public float monthAvgActiveNum; //null, //月均日活
+        public float lastMonthAvgActiveNum; //null,
         public float monthAverageAmount; //null,
         public float addMonthAmount; //null,
         public float monthAfterSaleAmount; //null
@@ -102,8 +102,6 @@ public class IronHomeTopData {
                     ", monthRegisterNum=" + monthRegisterNum +
                     ", monthActiveNum=" + monthActiveNum +
                     ", monthCallNum=" + monthCallNum +
-                    ", lastMonthAvgActiveNum=" + lastMonthAvgActiveNum +
-                    ", monthAvgActiveNum=" + monthAvgActiveNum +
                     ", firstOrderNum=" + firstOrderNum +
                     ", lastMonthFirstOrderNum=" + lastMonthFirstOrderNum +
                     ", monthFirstOrderNum=" + monthFirstOrderNum +
@@ -112,6 +110,8 @@ public class IronHomeTopData {
                     ", todayAmount=" + todayAmount +
                     ", averageAmount=" + averageAmount +
                     ", monthAmount=" + monthAmount +
+                    ", monthAvgActiveNum=" + monthAvgActiveNum +
+                    ", lastMonthAvgActiveNum=" + lastMonthAvgActiveNum +
                     ", monthAverageAmount=" + monthAverageAmount +
                     ", addMonthAmount=" + addMonthAmount +
                     ", monthAfterSaleAmount=" + monthAfterSaleAmount +

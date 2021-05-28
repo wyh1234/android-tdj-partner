@@ -15,6 +15,7 @@ import com.tdjpartner.model.ClientInfo;
 import com.tdjpartner.model.ClientSeachInfo;
 import com.tdjpartner.model.CouponsStatistics;
 import com.tdjpartner.model.CustomerInfo;
+import com.tdjpartner.model.CustomerPhone;
 import com.tdjpartner.model.DegreeOfSatisfaction;
 import com.tdjpartner.model.DeleteSalesAppByEntityId;
 import com.tdjpartner.model.DiscountCoupon;
@@ -33,8 +34,8 @@ import com.tdjpartner.model.IntegralShop;
 import com.tdjpartner.model.InvitationHistory;
 import com.tdjpartner.model.IronDayAndMonthData;
 import com.tdjpartner.model.IronHomeData;
-import com.tdjpartner.model.IronHomeTopData;
-import com.tdjpartner.model.IronStatisticsDetails;
+import com.tdjpartner.model.HomeTopData;
+import com.tdjpartner.model.StatisticsDetails;
 import com.tdjpartner.model.MyCountMoney;
 import com.tdjpartner.model.MyTeam;
 import com.tdjpartner.model.NewHomeData;
@@ -666,12 +667,17 @@ public interface ApiService {
     //首页排行榜
     @Headers({"url_type:xuming"})
     @POST("tdj-report/report/teamOverView/homePageTop")
-    Observable<BaseResponse<IronHomeTopData>> ironHomeTopData(@Body RequestBody body);
+    Observable<BaseResponse<HomeTopData>> ironHomeTopData(@Body RequestBody body);
 
     //铁军统计
     @Headers({"url_type:xuming"})
     @POST("tdj-report/report/customer/homeDataDetails")
-    Observable<BaseResponse<IronStatisticsDetails>> ironStatisticsDetails(@Body RequestBody body);
+    Observable<BaseResponse<StatisticsDetails>> ironStatisticsDetails(@Body RequestBody body);
+
+    //铁军DB切换城市
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/userRelations/listByCustomerPhone")
+    Observable<BaseResponse<List<CustomerPhone>>> listByCustomerPhone(@Body RequestBody body);
 
     //日月统计
     @Headers({"url_type:xuming"})

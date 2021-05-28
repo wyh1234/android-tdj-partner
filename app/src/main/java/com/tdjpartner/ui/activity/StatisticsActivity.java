@@ -1,6 +1,5 @@
 package com.tdjpartner.ui.activity;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,17 +17,13 @@ import android.widget.TextView;
 import com.bigkoo.pickerview.TimePickerView;
 import com.tdjpartner.R;
 import com.tdjpartner.base.NetworkActivity;
-import com.tdjpartner.model.IronStatisticsDetails;
+import com.tdjpartner.model.StatisticsDetails;
 import com.tdjpartner.model.SeachTag;
-import com.tdjpartner.ui.fragment.IronDayListDetailFragment;
+import com.tdjpartner.ui.fragment.StatisticsListFragment;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
-import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.viewmodel.NetworkViewModel;
-import com.tdjpartner.widget.ProgressDialog;
 import com.tdjpartner.widget.tablayout.WTabLayout;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -40,13 +34,12 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
  * Created by LFM on 2021/3/15.
  */
-public class IronStatisticsActivity extends NetworkActivity {
+public class StatisticsActivity extends NetworkActivity {
     @BindView(R.id.tv_title)
     TextView tv_title;
     @BindView(R.id.wtab)
@@ -72,7 +65,7 @@ public class IronStatisticsActivity extends NetworkActivity {
     private Date date;
     private TimePickerView pvTime;
     public SeachTag seachTag = new SeachTag();
-    public String title;
+    public String title, keyword;
     public List<String> titles;
 
     @OnClick({R.id.btn_back, R.id.tv_time, R.id.tv_list_type})
@@ -84,10 +77,9 @@ public class IronStatisticsActivity extends NetworkActivity {
             case R.id.tv_list_type:
                 if (GeneralUtils.isNullOrZeroLenght(search_text.getText().toString())) {
                     GeneralUtils.showToastshort("请输入门店名称或者手机号");
-
                 } else {
-                    seachTag.setTag(search_text.getText().toString());
-                    EventBus.getDefault().post(seachTag);
+                    keyword = search_text.getText().toString();
+                    refresh(date);
                 }
                 break;
             case R.id.tv_time:
@@ -98,7 +90,7 @@ public class IronStatisticsActivity extends NetworkActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.iron_statistics_activity;
+        return R.layout.statistics_activity;
     }
 
     protected void initView() {
@@ -115,7 +107,7 @@ public class IronStatisticsActivity extends NetworkActivity {
         pvTime = new TimePickerView.Builder(this, new TimePickerView.OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                IronStatisticsActivity.this.date = date;
+                StatisticsActivity.this.date = date;
                 ((TextView) v).setText(isDay ? GeneralUtils.getTimes(date) : GeneralUtils.getTime(date));
                 refresh(date);
             }
@@ -136,7 +128,7 @@ public class IronStatisticsActivity extends NetworkActivity {
 
             @Override
             public Fragment getItem(int i) {
-                IronDayListDetailFragment fragment = new IronDayListDetailFragment();
+                StatisticsListFragment fragment = new StatisticsListFragment();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("args", (Serializable) getArges(date, i + 1));
                 fragment.setArguments(bundle);
@@ -151,17 +143,11 @@ public class IronStatisticsActivity extends NetworkActivity {
 
             @Override
             public int getCount() {
-                if (titles == null) {
-                    if (userType == 2) {
-                        titles = Arrays.asList("注册数",
-                                "新开数",
-                                "新鲜蔬菜");
-                    } else {
-                        titles = Arrays.asList("注册总数",
-                                "新开总数",
-                                "日活数",
-                                "拜访总数");
-                    }
+                if (titles != null) return titles.size();
+                if (userType == 1) {//网军
+                    titles = isDay ? Arrays.asList("注册数", "新开数", "日活数", "拜访数") : Arrays.asList("注册总数", "新开总数", "月活数", "拜访总数");
+                } else {//铁军
+                    titles = isDay ? Arrays.asList("注册数", "新开数", "新鲜蔬菜") : Arrays.asList("注册总数", "新开总数", "新鲜蔬菜");
                 }
                 return titles.size();
             }
@@ -175,7 +161,6 @@ public class IronStatisticsActivity extends NetworkActivity {
             }
         });
 
-//        wtab.setxTabDisplayNum(4);
         wtab.setupWithViewPager(viewPager);
         viewPager.setCurrentItem(getIntent().getIntExtra("position", 0));
     }
@@ -184,17 +169,26 @@ public class IronStatisticsActivity extends NetworkActivity {
         System.out.println("~~" + getClass().getSimpleName() + ".initData~~");
 
         showLoading();
-        getVM().loadingWithNewLiveData(IronStatisticsDetails.class, getArges(date, 1))
-                .observe(this, ironStatisticsDetails -> {
-                    if (userType == 2) {
-                        titles = Arrays.asList("注册数" + (ironStatisticsDetails.getDayRegisterTimes()),
-                                "新开数" + ironStatisticsDetails.getFirstOrderNum(),
-                                "新鲜蔬菜" + ironStatisticsDetails.getCategoryNum());
-                    } else {
-                        titles = Arrays.asList("注册总数" + (isDay ? ironStatisticsDetails.getDayRegisterTimes() : ironStatisticsDetails.getMonthRegisterNum()),
-                                "新开总数" + ironStatisticsDetails.getFirstOrderNum(),
-                                "日活数" + ironStatisticsDetails.getActiveNum(),
-                                "拜访总数" + ironStatisticsDetails.getCallNum());
+        getVM().loadingWithNewLiveData(StatisticsDetails.class, getArges(date, 1))
+                .observe(this, statisticsDetails -> {
+//                    if (userType == 2) {
+//                        titles = Arrays.asList("注册数" + (ironStatisticsDetails.getDayRegisterTimes()),
+//                                "新开数" + ironStatisticsDetails.getFirstOrderNum(),
+//                                "新鲜蔬菜" + ironStatisticsDetails.getCategoryNum());
+//                    } else {
+//                        titles = Arrays.asList("注册总数" + (isDay ? ironStatisticsDetails.getDayRegisterTimes() : ironStatisticsDetails.getMonthRegisterNum()),
+//                                "新开总数" + ironStatisticsDetails.getFirstOrderNum(),
+//                                "日活数" + ironStatisticsDetails.getActiveNum(),
+//                                "拜访总数" + ironStatisticsDetails.getCallNum());
+//                    }
+
+
+                    if (userType == 1) {//网军
+                        titles = isDay ? Arrays.asList("注册数" + statisticsDetails.getDayRegisterTimes(), "新开数" + statisticsDetails.getFirstOrderNum(), "日活" + statisticsDetails.getActiveNum(), "拜访数" + statisticsDetails.getCallNum()) :
+                                Arrays.asList("注册总数" + statisticsDetails.getDayRegisterTimes(), "新开总数" + statisticsDetails.getFirstOrderNum(), "月活数" + statisticsDetails.getActiveNum(), "拜访总数" + statisticsDetails.getCallNum());
+                    } else {//铁军
+                        titles = isDay ? Arrays.asList("注册数" + statisticsDetails.getDayRegisterTimes(), "新开数" + statisticsDetails.getFirstOrderNum(), "新鲜蔬菜" + statisticsDetails.getCategoryNum()) :
+                                Arrays.asList("注册总数" + statisticsDetails.getDayRegisterTimes(), "新开总数" + statisticsDetails.getFirstOrderNum(), "新鲜蔬菜" + statisticsDetails.getCategoryNum());
                     }
 
                     viewPager.getAdapter().notifyDataSetChanged();
@@ -207,7 +201,7 @@ public class IronStatisticsActivity extends NetworkActivity {
         showLoading();
         ViewModelProviders.of(this)
                 .get(NetworkViewModel.class)
-                .loading(IronStatisticsDetails.class, getArges(date, wtab.getSelectedTabPosition() + 1));
+                .loading(StatisticsDetails.class, getArges(date, wtab.getSelectedTabPosition() + 1));
     }
 
     private Map<String, Object> getArges(Date date, int i) {
@@ -218,7 +212,7 @@ public class IronStatisticsActivity extends NetworkActivity {
         } else {
             map.put("monthTime", GeneralUtils.getMonthFilter(date));
         }
-        map.put("keyword", "");
+        map.put("keyword", keyword);
         map.put("userType", i);
         map.put("pn", 1);
         map.put("ps", 999);

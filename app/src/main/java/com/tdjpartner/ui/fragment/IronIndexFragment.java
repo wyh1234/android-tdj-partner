@@ -1,5 +1,6 @@
 package com.tdjpartner.ui.fragment;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,25 +11,33 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.google.gson.reflect.TypeToken;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.ListViewAdapter;
 import com.tdjpartner.base.NetworkFragment;
+import com.tdjpartner.model.CustomerPhone;
 import com.tdjpartner.model.NewHomeData;
+import com.tdjpartner.model.UserInfo;
 import com.tdjpartner.model.V3HomeData;
 import com.tdjpartner.ui.activity.ApprovalActivity;
 import com.tdjpartner.ui.activity.CommonFollowUpActivity;
 import com.tdjpartner.ui.activity.DropOutingActivity;
-import com.tdjpartner.ui.activity.IronStatisticsActivity;
+import com.tdjpartner.ui.activity.StatisticsActivity;
 import com.tdjpartner.ui.activity.StatisticsListActivity;
 import com.tdjpartner.ui.activity.TeamMemberActivity;
+import com.tdjpartner.utils.DialogUtils;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
+import com.tdjpartner.utils.MD5AndSHA;
 import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.glide.ImageLoad;
 import com.tdjpartner.widget.tablayout.WTabLayout;
@@ -43,6 +52,9 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static android.graphics.Color.BLACK;
+
 
 /**
  * Created by LFM on 2021/3/3.
@@ -91,8 +103,9 @@ public class IronIndexFragment extends NetworkFragment
     private List<NewHomeData.RegisterTimesTopListBean> registerlist = new ArrayList<>();
     private List<NewHomeData.OrdersTimesTopList> orderList = new ArrayList<>();
     List<String> titles;
+    Dialog dialog;
 
-    @OnClick({R.id.tv_team, R.id.tv_day, R.id.tv_month, R.id.tv_day_sink, R.id.tv_month_sink})
+    @OnClick({R.id.tv_city, R.id.tv_team, R.id.tv_day, R.id.tv_month, R.id.tv_day_sink, R.id.tv_month_sink})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_team:
@@ -100,12 +113,79 @@ public class IronIndexFragment extends NetworkFragment
                 intent.putExtra("userId", UserUtils.getInstance().getLoginBean().getEntityId() + "");
                 startActivity(intent);
                 break;
+            case R.id.tv_city:
+
+                if (dialog == null) {
+                    dialog = DialogUtils.getResourceDialog(getContext(), R.layout.site_dialog);
+                    ListViewAdapter<CustomerPhone> adapter = new ListViewAdapter.Builder<CustomerPhone>()
+                            .setResource(android.R.layout.simple_list_item_1)
+                            .setInitView((data, convertView) -> {
+                                ((TextView) convertView).setText(data.siteName + "（" + data.phone.substring(data.phone.length() - 4) + "）");
+                                convertView.setPadding(8, 8, 8, 8);
+                                ((TextView) convertView).setGravity(Gravity.CENTER);
+                                convertView.setTag(data);
+                            })
+                            .build(dialog.getContext());
+                    ListView listView = dialog.findViewById(R.id.lv);
+                    listView.setAdapter(adapter);
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                            CustomerPhone data = (CustomerPhone) view.getTag();
+                            Map<String, Object> map = new HashMap<>();
+                            map.put("sourceType", "android");
+                            map.put("type", "partner");
+                            map.put("account", data.phone);
+                            map.put("password", data.password);
+                            map.put("loginType", 0);//0验证登录/1密码登录
+                            map.put("userRelationsType", userType);
+                            map.put("passWordType", 3);
+
+                            showLoading();
+                            getVMWithFragment().loadingWithNewLiveData(UserInfo.class, map)
+                                    .observe(IronIndexFragment.this, userInfo -> {
+                                        dismissLoading();
+                                        System.out.println("userInfo = " + userInfo);
+                                        UserUtils.getInstance().login(userInfo);
+                                        tv_username.setText("你好," + UserUtils.getInstance().getLoginBean().getRealname() + "!");
+                                        tv_city.setText("所在城市：" + UserUtils.getInstance().getLoginBean().getSiteName());
+                                        onRefresh();
+                                        ranking_vp.getAdapter().notifyDataSetChanged();
+
+                                    });
+                            if (dialog.isShowing()) dialog.dismiss();
+                        }
+                    });
+                    listView.setDivider(null);
+
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("entityId", UserUtils.getInstance().getLoginBean().getEntityId());
+                    showLoading();
+                    getVMWithFragment().loadingWithNewLiveData(new TypeToken<ArrayList<CustomerPhone>>() {}, map)
+                            .observe(this, list -> {
+                                dismissLoading();
+                                adapter.clear();
+                                adapter.addAll((ArrayList) list);
+                                dialog.show();
+                            });
+                } else {
+                    showLoading();
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("entityId", UserUtils.getInstance().getLoginBean().getEntityId());
+                    map.put("elementType", CustomerPhone.class);
+                    getVMWithFragment().loading(ArrayList.class, map);
+                    dialog.show();
+                }
+
+
+                break;
 
             case R.id.tv_month:
                 view.setBackgroundResource(R.drawable.bg_orange_left_semi_4);
                 ((TextView) view).setTextColor(Color.WHITE);
                 tv_day.setBackgroundResource(R.drawable.bg_grey_right_semi_4);
-                tv_day.setTextColor(Color.BLACK);
+                tv_day.setTextColor(BLACK);
                 isDay = false;
                 ranking_vp.getAdapter().notifyDataSetChanged();
                 break;
@@ -114,7 +194,7 @@ public class IronIndexFragment extends NetworkFragment
                 view.setBackgroundResource(R.drawable.bg_orange_right_semi_4);
                 ((TextView) view).setTextColor(Color.WHITE);
                 tv_month.setBackgroundResource(R.drawable.bg_grey_left_semi_4);
-                tv_month.setTextColor(Color.BLACK);
+                tv_month.setTextColor(BLACK);
                 isDay = true;
                 ranking_vp.getAdapter().notifyDataSetChanged();
                 break;
@@ -135,32 +215,32 @@ public class IronIndexFragment extends NetworkFragment
         if (grade == 3) {
             switch (view.getId()) {
                 case R.id.ll_day_register:
-                    startIronStatisticsActivity(true, 0);
+                    startStatisticsActivity(true, 0);
                     break;
                 case R.id.ll_day_open:
-                    startIronStatisticsActivity(true, 1);
+                    startStatisticsActivity(true, 1);
                     break;
                 case R.id.ll_day_vegetables:
-                    startIronStatisticsActivity(true, 2);
+                    startStatisticsActivity(true, 2);
                     break;
             }
 
             switch (view.getId()) {
                 case R.id.ll_month_register:
-                    startIronStatisticsActivity(false, 0);
+                    startStatisticsActivity(false, 0);
                     break;
                 case R.id.ll_month_open:
-                    startIronStatisticsActivity(false, 1);
+                    startStatisticsActivity(false, 1);
                     break;
                 case R.id.ll_month_vegetables:
-                    startIronStatisticsActivity(false, 2);
+                    startStatisticsActivity(false, 2);
                     break;
             }
         }
     }
 
-    private void startIronStatisticsActivity(boolean isDay, int position) {
-        Intent intent = new Intent(getContext(), IronStatisticsActivity.class);
+    private void startStatisticsActivity(boolean isDay, int position) {
+        Intent intent = new Intent(getContext(), StatisticsActivity.class);
         intent.putExtra("isDay", isDay);
         intent.putExtra("position", position);
         startActivity(intent);
@@ -175,20 +255,15 @@ public class IronIndexFragment extends NetworkFragment
         swipeRefreshLayout.setOnRefreshListener(this);
 
 
-        if (grade == 3) {
-            tv_team.setVisibility(View.GONE);
-        } else {
-            tv_team.setVisibility(View.VISIBLE);
-        }
+        if (grade == 3) tv_team.setVisibility(View.GONE);
 
         //初始化顶部UI
         tv_username.setText("你好," + UserUtils.getInstance().getLoginBean().getRealname() + "!");
         tv_time.setText(GeneralUtils.getCurrDay() + "\t\t" + GeneralUtils.getWeekDay(System.currentTimeMillis()));
-        tv_city.setText(tv_city.getText() + "武汉");
+        tv_city.setText(tv_city.getText() + UserUtils.getInstance().getLoginBean().getSiteName());
 
 
         //初始日月统计
-
         ironDayAdapter = new ListViewAdapter.Builder<V3HomeData>()
                 .setOnClickListener(this)
                 .setResource(R.layout.iron_day_preview_item)
@@ -284,7 +359,7 @@ public class IronIndexFragment extends NetworkFragment
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("args", (Serializable) map);
 
-                android.support.v4.app.Fragment fragment = new RankingFragment();
+                android.support.v4.app.Fragment fragment = new IronRankingFragment();
                 fragment.setArguments(bundle);
                 return fragment;
             }
@@ -292,11 +367,7 @@ public class IronIndexFragment extends NetworkFragment
             @Override
             public int getCount() {
 
-                if (userType == 1) {//网军
-                    titles = Arrays.asList("月日活", "月均日活", "月GMV");
-                } else {//铁军
-                    titles = Arrays.asList(isDay ? "日总GMV" : "月总GMV", "注册总数", "新开总数");
-                }
+                titles = Arrays.asList(isDay ? "日总GMV" : "月总GMV", "注册总数", "新开总数");
 
                 return titles.size();
             }
