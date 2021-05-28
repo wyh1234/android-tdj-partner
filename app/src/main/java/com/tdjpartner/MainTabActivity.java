@@ -109,6 +109,9 @@ public class MainTabActivity extends BaseActivity<MainTabPresenter> implements O
     @Override
     protected void initView() {
         Eyes.translucentStatusBar(MainTabActivity.this, true);
+        if (getAppVersion() == null || (!appVersion.getVersion().equals(GeneralUtils.getAppVersionName(AppAplication.getAppContext())))) {
+            mPresenter.version_check();
+        }
     }
 
     private void setStatusBarColor(int position) {
@@ -182,9 +185,6 @@ public class MainTabActivity extends BaseActivity<MainTabPresenter> implements O
     @Override
     protected void onResume() {
         super.onResume();
-        if (getAppVersion() == null || (!appVersion.getVersion().equals(GeneralUtils.getAppVersionName(AppAplication.getAppContext())))) {
-            mPresenter.version_check();
-        }
 
     }
 
