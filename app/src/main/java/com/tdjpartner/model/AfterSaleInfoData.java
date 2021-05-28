@@ -61,8 +61,8 @@ public class AfterSaleInfoData {
         public int website_id = 0; //3
         public int store_id = 0; //2716
         public int customer_id = 0; //258740
-        public int level_2_value = 0; //0
-        public int level_3_value = 0; //
+        public float level_2_value = 0; //0
+        public float level_3_value = 0; //
         public int level_type = 0; //1
         public int pick_user_type = 0; //2
         public int problem_type = 0; //6
@@ -137,7 +137,6 @@ public class AfterSaleInfoData {
         public String store_img = ""; //http://tsp-img.oss-cn-hangzhou.aliyuncs.com/201116151846db9ccb9b.jpg
         public String customer_img = ""; //http://tsp-img.oss-cn-hangzhou.aliyuncs.com/2008141407060fb47167.jpg
         public String product_img = ""; //http://tsp-img.oss-cn-hangzhou.aliyuncs.com/201120151850ddb36961.jpg
-
 
         @Override
         public String toString() {

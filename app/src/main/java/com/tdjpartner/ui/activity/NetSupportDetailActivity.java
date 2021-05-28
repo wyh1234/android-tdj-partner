@@ -125,7 +125,7 @@ public class NetSupportDetailActivity extends NetworkActivity {
     int entityId;
     File captureFile;
     float amountFloatExtra;
-    String avgUnitStringExtra, originalStringExtra;
+    String unitStringExtra, originalStringExtra;
     int title;
 
     @OnClick({R.id.tv_title, R.id.receive_user_name, R.id.supplier_tel, R.id.button, R.id.upload_1, R.id.upload_2, R.id.upload_3, R.id.tv_remove, R.id.difficulty})
@@ -251,12 +251,12 @@ public class NetSupportDetailActivity extends NetworkActivity {
         type = getIntent().getStringExtra("type");
         title = getIntent().getIntExtra("title", 0);
         amountFloatExtra = getIntent().getFloatExtra("amount", 0);
-        avgUnitStringExtra = getIntent().getStringExtra("avg_unit");
+        unitStringExtra = getIntent().getStringExtra("unit");
         originalStringExtra = getIntent().getStringExtra("original");
         original.setText("平台下单：" + getIntent().getStringExtra("original"));
         money.setText("折算后单价：" + getIntent().getStringExtra("money"));
         num_title.setText("实际数量：");
-        num_unit.setText(avgUnitStringExtra);
+        num_unit.setText(unitStringExtra);
         price_title.setText("实际金额：");
         et_num.setOnFocusChangeListener(this::onFocusChange);
         et_num.addTextChangedListener(new TextWatcher() {
@@ -281,19 +281,20 @@ public class NetSupportDetailActivity extends NetworkActivity {
         switch (type) {
             case REPLENISH:
                 tv_title.setText(REPLENISH.substring(2, 4) + "详情");
-                amount.setText(Html.fromHtml("要求补货：<font color='red'>" + amountFloatExtra + avgUnitStringExtra + "</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+                amount.setText(Html.fromHtml("要求补货：<font color='red'>" + amountFloatExtra + unitStringExtra + "</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
                 et_num.setHint("请输入实际补货数量");
                 et_price.setHint("请输入实际补货金额");
                 break;
             case REPLACE:
                 tv_title.setText(REPLACE.substring(2, 4) + "详情");
-                amount.setText("要求换货：" + amountFloatExtra + avgUnitStringExtra);
+                amount.setText("要求换货：" + amountFloatExtra + unitStringExtra);
                 et_num.setHint("请输入实际换货数量");
                 et_price.setHint("请输入实际换货金额");
                 difficulty.setPaintFlags(difficulty.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                 difficulty.setVisibility(View.VISIBLE);
 
                 //换货证明
+                findViewById(R.id.tv_title_replace).setVisibility(View.VISIBLE);
                 adapter = new BaseQuickAdapter<String, BaseViewHolder>(0) {
                     @Override
                     protected BaseViewHolder createBaseViewHolder(ViewGroup parent, int layoutResId) {
@@ -336,7 +337,7 @@ public class NetSupportDetailActivity extends NetworkActivity {
                 findViewById(R.id.ll_uplaod).setVisibility(View.GONE);
                 refund_amount.setVisibility(View.VISIBLE);
                 difficulty.setVisibility(View.VISIBLE);
-                refund_amount.setText(Html.fromHtml("商品退货：<font color='red'>" + amountFloatExtra + "</font>" + avgUnitStringExtra, FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+                refund_amount.setText(Html.fromHtml("商品退货：<font color='red'>" + amountFloatExtra + "</font>" + unitStringExtra, FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
                 break;
         }
 

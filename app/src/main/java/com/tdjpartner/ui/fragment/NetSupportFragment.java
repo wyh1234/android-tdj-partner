@@ -53,6 +53,7 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
     View current;
     String type;
     int title;
+
     public final static String REPLENISH = "上门补货", REPLACE = "上门换货", REFUND = "上门退货";
 
     private ListViewAdapter<AfterSaleInfoData.AfterSaleInfo> listViewAdapter;
@@ -100,36 +101,36 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
                     ((TextView) convertView.findViewById(R.id.name)).setText(Html.fromHtml(styledText, FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
                     ((TextView) convertView.findViewById(R.id.store_name)).setText(data.store_name);
 
-                    String amount = "";
+                    String type = "";
                     TextView textView = convertView.findViewById(R.id.type);
                     if (title == 1) {
                         textView.setBackground(getResources().getDrawable(R.drawable.bg_grey_4, null));
                         textView.setTextColor(Color.GRAY);
                     }
-                    switch (type) {
+                    switch (this.type) {
                         case REPLENISH:
                             textView.setText(REPLENISH);
-                            amount = REPLENISH.substring(2, 3);
+                            type = REPLENISH.substring(2, 3);
                             break;
                         case REPLACE:
                             textView.setText(REPLACE);
-                            amount = REPLACE.substring(2, 3);
+                            type = REPLACE.substring(2, 3);
                             break;
                         case REFUND:
                             textView.setText(REFUND);
-                            amount = REFUND.substring(2, 3);
+                            type = REFUND.substring(2, 3);
                             break;
                     }
 
                     switch (data.level_type) {
                         case 1:
-                            ((TextView) convertView.findViewById(R.id.tv_amount)).setText(amount + data.amount + data.unit);
+                            ((TextView) convertView.findViewById(R.id.tv_amount)).setText(type + data.amount + data.unit);
                             break;
                         case 2:
-                            ((TextView) convertView.findViewById(R.id.tv_amount)).setText(amount + data.level_2_value + data.level_2_unit);
+                            ((TextView) convertView.findViewById(R.id.tv_amount)).setText(type + data.level_2_value + data.level_2_unit);
                             break;
                         case 3:
-                            ((TextView) convertView.findViewById(R.id.tv_amount)).setText(amount + data.level_3_value + data.level_3_unit);
+                            ((TextView) convertView.findViewById(R.id.tv_amount)).setText(type + data.level_3_value + data.level_3_unit);
                             break;
                     }
 
@@ -239,21 +240,23 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
         intent.putExtra("title", title);
         intent.putExtra("original", listViewAdapter.getItem(position).original_amount + listViewAdapter.getItem(position).unit);
 
-//        switch (listViewAdapter.getItem(position).level_type) {
-//            case 1:
-//                ((TextView) convertView.findViewById(R.id.tv_amount)).setText(amount + data.amount + data.unit);
-//                break;
-//            case 2:
-//                ((TextView) convertView.findViewById(R.id.tv_amount)).setText(amount + data.level_2_value + data.level_2_unit);
-//                break;
-//            case 3:
-//                ((TextView) convertView.findViewById(R.id.tv_amount)).setText(amount + data.level_3_value + data.level_3_unit);
-//                break;
-//        }
+
+        switch (listViewAdapter.getItem(position).level_type) {
+            case 1:
+                intent.putExtra("amount", listViewAdapter.getItem(position).amount);
+                intent.putExtra("unit", listViewAdapter.getItem(position).unit);
+                break;
+            case 2:
+                intent.putExtra("amount", listViewAdapter.getItem(position).level_2_value);
+                intent.putExtra("unit", listViewAdapter.getItem(position).level_2_unit);
+                break;
+            case 3:
+                intent.putExtra("amount", listViewAdapter.getItem(position).level_3_value);
+                intent.putExtra("unit", listViewAdapter.getItem(position).level_3_unit);
+                break;
+        }
 
 
-        intent.putExtra("amount", listViewAdapter.getItem(position).amount);
-        intent.putExtra("avg_unit", listViewAdapter.getItem(position).avg_unit);
 
         intent.putExtra("money", listViewAdapter.getItem(position).discount_price + "元/" + listViewAdapter.getItem(position).unit);
         startActivityForResult(intent, 1);

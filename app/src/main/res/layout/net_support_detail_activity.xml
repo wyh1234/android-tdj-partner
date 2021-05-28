@@ -58,9 +58,11 @@
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/tv_title_replace"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
+                        android:visibility="gone"
                         android:text="换货证明："
                         android:textSize="12sp" />
 
