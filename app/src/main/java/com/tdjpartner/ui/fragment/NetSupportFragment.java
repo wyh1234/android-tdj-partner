@@ -42,6 +42,7 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
     AfterSaleInfoData afterSaleInfoData;
     View current;
     String type;
+    int title;
     public final static String REPLENISH = "上门补货", REPLACE = "上门换货", REFUND = "上门退货";
 
     private ListViewAdapter<AfterSaleInfoData.AfterSaleInfo> listViewAdapter;
@@ -55,7 +56,7 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         type = REPLENISH;
-        updateTextView( current = ll_replenish, R.color.orange_red, R.drawable.bg_ring_orange);
+        updateTextView(current = ll_replenish, R.color.orange_red, R.drawable.bg_ring_orange);
         ((ImageView) ll_replenish.findViewById(R.id.image)).setImageResource(R.mipmap.replenish);
         ((ImageView) ll_replace.findViewById(R.id.image)).setImageResource(R.mipmap.replace);
         ((ImageView) ll_refund.findViewById(R.id.image)).setImageResource(R.mipmap.refund);
@@ -121,7 +122,9 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
         listView.setAdapter(listViewAdapter);
         listView.setOnItemClickListener(this);
 
-
+        System.out.println("getArgs() = " + getArgs());
+        title = (int) getArgs().remove("title");
+        System.out.println("title = " + title);
         showLoading();
         getVMWithFragment().loadingWithNewLiveData(AfterSaleInfoData.class, getArgs())
                 .observe(this, afterSaleInfoData -> {
@@ -129,19 +132,17 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
                     this.afterSaleInfoData = afterSaleInfoData;
                     listViewAdapter.clear();
 
-                    switch ((int)getArgs().get("tab")) {
+                    switch ((int) getArgs().get("tab")) {
                         case 0:
-                            listViewAdapter.addAll(afterSaleInfoData.buGeting_list);
+                            listViewAdapter.addAll(title == 0 ? afterSaleInfoData.buGeting_list : afterSaleInfoData.buOver_list);
                             break;
                         case 1:
-                            listViewAdapter.addAll(afterSaleInfoData.huanGeting_list);
+                            listViewAdapter.addAll(title == 0 ? afterSaleInfoData.huanGeting_list : afterSaleInfoData.huanOver_list);
                             break;
                         case 2:
-                            listViewAdapter.addAll(afterSaleInfoData.tuiGeting_list);
+                            listViewAdapter.addAll(title == 0 ? afterSaleInfoData.tuiGeting_list : afterSaleInfoData.tuiOver_list);
                             break;
                     }
-
-                    listViewAdapter.addAll(afterSaleInfoData.buGeting_list);
 
                     int n;
                     if ((n = afterSaleInfoData.buTotalNum - afterSaleInfoData.buFinishNum) > 0) {

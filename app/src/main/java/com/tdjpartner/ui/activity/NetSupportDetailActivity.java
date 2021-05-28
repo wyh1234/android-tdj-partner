@@ -96,6 +96,8 @@ public class NetSupportDetailActivity extends NetworkActivity {
     TextView num_unit;
     @BindView(R.id.price_title)
     TextView price_title;
+    @BindView(R.id.refund_amount)
+    TextView refund_amount;
     @BindView(R.id.difficulty)
     TextView difficulty;
     @BindView(R.id.remark)
@@ -278,7 +280,7 @@ public class NetSupportDetailActivity extends NetworkActivity {
         switch (type) {
             case REPLENISH:
                 tv_title.setText(REPLENISH.substring(2, 4) + "详情");
-                amount.setText("要求补货：" + amountFloatExtra + avgUnitStringExtra);
+                amount.setText(Html.fromHtml("要求补货：<font color='red'>" + amountFloatExtra + avgUnitStringExtra + "</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
                 et_num.setHint("请输入实际补货数量");
                 et_price.setHint("请输入实际补货金额");
                 break;
@@ -330,6 +332,10 @@ public class NetSupportDetailActivity extends NetworkActivity {
             case REFUND:
                 tv_title.setText(REFUND.substring(2, 4) + "详情");
                 findViewById(R.id.ll_info).setVisibility(View.GONE);
+                findViewById(R.id.ll_uplaod).setVisibility(View.GONE);
+                refund_amount.setVisibility(View.VISIBLE);
+                difficulty.setVisibility(View.VISIBLE);
+                refund_amount.setText(Html.fromHtml("商品退货：<font color='red'>" + amountFloatExtra + "</font>" + avgUnitStringExtra, FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
                 break;
         }
     }

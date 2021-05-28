@@ -65,7 +65,8 @@ public class NetSupportActivity extends NetworkActivity {
             public Fragment getItem(int i) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("userId", UserUtils.getInstance().getLoginBean().getLoginUserId());
-                map.put("tab", i);
+                map.put("tab", 0);
+                map.put("title", i);
 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("args", (Serializable) map);
