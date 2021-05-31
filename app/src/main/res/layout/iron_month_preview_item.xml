@@ -25,7 +25,7 @@
             android:id="@+id/register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="注册数 "
+            android:text="注册总数"
             android:textColor="@color/gray_66"
             android:textSize="12sp" />
     </LinearLayout>
@@ -57,7 +57,7 @@
             android:id="@+id/open"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="新开 "
+            android:text="新开总数"
             android:textColor="@color/gray_66"
             android:textSize="12sp" />
     </LinearLayout>
@@ -89,7 +89,7 @@
             android:id="@+id/vegetables"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="新鲜蔬菜 "
+            android:text="新鲜蔬菜"
             android:textColor="@color/gray_66"
             android:textSize="12sp" />
     </LinearLayout>
@@ -121,7 +121,7 @@
             android:id="@+id/gmv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="GMV"
+            android:text="月GMV"
             android:textColor="@color/gray_66"
             android:textSize="12sp" />
     </LinearLayout>

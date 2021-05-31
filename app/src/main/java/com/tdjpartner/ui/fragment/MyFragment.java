@@ -151,8 +151,8 @@ public class MyFragment extends Fragment<MyFragmentPresneter> implements SwipeRe
     public void setMyData() {
         LogUtils.e((UserUtils.getInstance().getLoginBean()));
         if (UserUtils.getInstance().getLoginBean() != null) {
-            if (UserUtils.getInstance().getLoginBean().getGradeName() != null) {
-                tv_name.setText(UserUtils.getInstance().getLoginBean().getGradeName());
+            if (UserUtils.getInstance().getLoginBean().getRealname() != null) {
+                tv_name.setText(UserUtils.getInstance().getLoginBean().getRealname());
             }
 
             tv_phone.setText(UserUtils.getInstance().getLoginBean().getPhoneNumber().substring(0, 3) + "****" + UserUtils.getInstance().getLoginBean().getPhoneNumber()

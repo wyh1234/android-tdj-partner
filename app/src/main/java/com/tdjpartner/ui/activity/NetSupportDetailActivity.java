@@ -451,10 +451,10 @@ public class NetSupportDetailActivity extends NetworkActivity {
                             return;
                         }
 
-                        et_money.setHint(afterDetailData.afterSale.purchaseMoney);
+                        et_money.setHint(afterDetailData.afterSale.purchasePrice);
                         et_num.setHint(afterDetailData.afterSale.purchaseNum);
                         num_unit.setText(unitStringExtra);
-                        updateMoney(afterDetailData.afterSale.purchaseNum, afterDetailData.afterSale.purchaseMoney);
+                        updateMoney(afterDetailData.afterSale.purchaseNum, afterDetailData.afterSale.purchasePrice);
 
 
                         String[] urls = afterDetailData.afterSale.images.split(",");

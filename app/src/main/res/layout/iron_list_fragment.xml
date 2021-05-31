@@ -75,12 +75,11 @@
                     android:textSize="16sp" />
             </LinearLayout>
 
-            <include
-                android:id="@+id/ll_header_include"
-                layout="@layout/iron_day_preview_item"
+            <ViewStub
+                android:id="@+id/viewStub"
+                android:inflatedId="@+id/message_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 

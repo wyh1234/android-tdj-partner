@@ -15,7 +15,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -38,7 +37,6 @@ import com.tdjpartner.ui.activity.TeamMemberActivity;
 import com.tdjpartner.utils.DialogUtils;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
-import com.tdjpartner.utils.MD5AndSHA;
 import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.glide.ImageLoad;
 import com.tdjpartner.widget.tablayout.WTabLayout;
@@ -87,7 +85,7 @@ public class IronIndexFragment extends NetworkFragment
     TextView tv_month;
     @BindView(R.id.tv_month_sink)
     TextView tv_month_sink;
-    @BindView(R.id.tv_day_sink)
+    @BindView(R.id.tv_sink)
     TextView tv_day_sink;
     @BindView(R.id.ranking_vp)
     ViewPager ranking_vp;
@@ -106,7 +104,7 @@ public class IronIndexFragment extends NetworkFragment
     List<String> titles;
     Dialog dialog;
 
-    @OnClick({R.id.tv_city, R.id.tv_team, R.id.tv_day, R.id.tv_month, R.id.tv_day_sink, R.id.tv_month_sink})
+    @OnClick({R.id.tv_city, R.id.tv_team, R.id.tv_day, R.id.tv_month, R.id.tv_sink, R.id.tv_month_sink})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_team:
@@ -206,7 +204,7 @@ public class IronIndexFragment extends NetworkFragment
                 break;
         }
 
-        if (view.getId() == R.id.tv_day_sink) {
+        if (view.getId() == R.id.tv_sink) {
             Intent intent = new Intent(getContext(), StatisticsListActivity.class);
             intent.putExtra("isDay", true);
             startActivity(intent);

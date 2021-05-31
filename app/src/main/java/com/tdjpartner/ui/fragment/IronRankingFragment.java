@@ -156,6 +156,8 @@ public class IronRankingFragment extends NetworkFragment {
                         return;
                     }
 
+                    if (homeTopData.getRegisterTimesTopList().size() <= 5)
+                        listView.removeFooterView(footerView);
                     if (isEntire) {
                         arrayAdapter.addAll(homeTopData.getRegisterTimesTopList());
                     } else {
@@ -174,7 +176,6 @@ public class IronRankingFragment extends NetworkFragment {
                             arrayAdapter.add(homeTopData.getRegisterTimesTopList().get(i));
                             if (arrayAdapter.getCount() == (i < 5 && !allowSkip ? 5 : 6)) break;
                         }
-                        if (arrayAdapter.getCount() <= 5 ) listView.removeFooterView(footerView);
                     }
                 });
 

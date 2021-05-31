@@ -77,7 +77,7 @@ public class NetIndexFragment extends NetworkFragment
     TextView tv_month;
     @BindView(R.id.tv_month_sink)
     TextView tv_month_sink;
-    @BindView(R.id.tv_day_sink)
+    @BindView(R.id.tv_sink)
     TextView tv_day_sink;
 
     @BindView(R.id.ranking_vp)
@@ -94,7 +94,7 @@ public class NetIndexFragment extends NetworkFragment
     private List<NewHomeData.RegisterTimesTopListBean> registerlist = new ArrayList<>();
     private List<NewHomeData.OrdersTimesTopList> orderList = new ArrayList<>();
 
-    @OnClick({R.id.tv_day, R.id.tv_month, R.id.tv_day_sink, R.id.tv_month_sink, R.id.tv_team})
+    @OnClick({R.id.tv_day, R.id.tv_month, R.id.tv_sink, R.id.tv_month_sink, R.id.tv_team})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_team:
@@ -124,7 +124,7 @@ public class NetIndexFragment extends NetworkFragment
                 break;
         }
 
-        if (view.getId() == R.id.tv_day_sink) {
+        if (view.getId() == R.id.tv_sink) {
             Intent intent = new Intent(getContext(), StatisticsListActivity.class);
             intent.putExtra("isDay", true);
             startActivity(intent);

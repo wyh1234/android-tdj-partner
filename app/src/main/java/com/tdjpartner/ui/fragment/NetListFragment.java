@@ -46,8 +46,6 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
     TextView tv_time;
     @BindView(R.id.member_list)
     RecyclerView member_list;
-//    @BindView(R.id.ll_header_include)
-//    LinearLayout ll_header_include;
     @BindView(R.id.viewStub)
     ViewStub viewStub;
     @BindView(R.id.btn_back)
@@ -178,7 +176,7 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
                 @Override
                 protected void convert(BaseViewHolder baseViewHolder, DayAndMonthData.TeamView teamView) {
                     System.out.println("baseViewHolder = " + baseViewHolder + ", teamView = " + teamView);
-                    baseViewHolder.addOnClickListener(R.id.tv_day_sink);
+                    baseViewHolder.addOnClickListener(R.id.tv_sink);
 
                     baseViewHolder.setText(R.id.dayRegisterTimes, "" + teamView.registerNum)
                             .setText(R.id.firstOrderNum, "" + teamView.firstOrderNum)
@@ -189,7 +187,7 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
                             .setText(R.id.todayAfterSaleTimes, "" + teamView.afterSaleTimes)
                             .setText(R.id.afterSaleAmount, "" + teamView.afterSaleAmount)
                             .setText(R.id.tv_name, TextUtils.isEmpty(teamView.gradeChineseName) ? "其他" : ("" + teamView.gradeChineseName + "：" + teamView.nickName))
-                            .setText(R.id.tv_day_sink, TextUtils.isEmpty(teamView.gradeName) ? "" : teamView.gradeName + (teamView.gradeName.equals("BD") ? "" : " >"));
+                            .setText(R.id.tv_sink, TextUtils.isEmpty(teamView.gradeName) ? "" : teamView.gradeName + (teamView.gradeName.equals("BD") ? "" : " >"));
 
                     int n = teamView.yesterdayActiveNum;
                     ((TextView) baseViewHolder.getView(R.id.yesterdayActiveNum)).setText(Html.fromHtml(n == 0 ? n + "" : n > 0 ? "+" + n + "<font color='red'>↑</font>" : n + "<font color='green'>↓</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
@@ -294,7 +292,7 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
 
         DayAndMonthData.TeamView teamView;
         switch (view.getId()) {
-            case R.id.tv_day_sink:
+            case R.id.tv_sink:
                 teamView = (DayAndMonthData.TeamView) baseQuickAdapter.getItem(i);
                 if (TextUtils.isEmpty(teamView.gradeName)) return;
                 leak(teamView.partnerId, teamView.grade, true);

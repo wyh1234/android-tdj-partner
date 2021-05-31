@@ -133,17 +133,18 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
                             break;
                     }
 
-                    switch (data.level_type) {
-                        case 1:
-                            ((TextView) convertView.findViewById(R.id.tv_amount)).setText(type + data.amount + data.unit);
-                            break;
-                        case 2:
-                            ((TextView) convertView.findViewById(R.id.tv_amount)).setText(type + data.level_2_value + data.level_2_unit);
-                            break;
-                        case 3:
-                            ((TextView) convertView.findViewById(R.id.tv_amount)).setText(type + data.level_3_value + data.level_3_unit);
-                            break;
-                    }
+                    ((TextView) convertView.findViewById(R.id.tv_amount)).setText(type + data.amount + data.avg_unit);
+//                    switch (data.level_type) {
+//                        case 1:
+//                            ((TextView) convertView.findViewById(R.id.tv_amount)).setText(type + data.amount + data.unit);
+//                            break;
+//                        case 2:
+//                            ((TextView) convertView.findViewById(R.id.tv_amount)).setText(type + data.level_2_value + data.level_2_unit);
+//                            break;
+//                        case 3:
+//                            ((TextView) convertView.findViewById(R.id.tv_amount)).setText(type + data.level_3_value + data.level_3_unit);
+//                            break;
+//                    }
 
                     ImageLoad.loadRoundImage(data.product_img, 25, convertView.findViewById(R.id.product_img), R.mipmap.baifangjiudain_bg);
 
@@ -197,7 +198,6 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
                         ll_refund.findViewById(R.id.count).setVisibility(View.GONE);
                     }
                 });
-
     }
 
     @Override
@@ -255,22 +255,23 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
         intent.putExtra("title", title);
         intent.putExtra("original", listViewAdapter.getItem(position).original_amount + listViewAdapter.getItem(position).unit);
 
+//        switch (listViewAdapter.getItem(position).level_type) {
+//            case 1:
+//                intent.putExtra("amount", listViewAdapter.getItem(position).amount);
+//                intent.putExtra("unit", listViewAdapter.getItem(position).unit);
+//                break;
+//            case 2:
+//                intent.putExtra("amount", listViewAdapter.getItem(position).level_2_value);
+//                intent.putExtra("unit", listViewAdapter.getItem(position).level_2_unit);
+//                break;
+//            case 3:
+//                intent.putExtra("amount", listViewAdapter.getItem(position).level_3_value);
+//                intent.putExtra("unit", listViewAdapter.getItem(position).level_3_unit);
+//                break;
+//        }
 
-        switch (listViewAdapter.getItem(position).level_type) {
-            case 1:
-                intent.putExtra("amount", listViewAdapter.getItem(position).amount);
-                intent.putExtra("unit", listViewAdapter.getItem(position).unit);
-                break;
-            case 2:
-                intent.putExtra("amount", listViewAdapter.getItem(position).level_2_value);
-                intent.putExtra("unit", listViewAdapter.getItem(position).level_2_unit);
-                break;
-            case 3:
-                intent.putExtra("amount", listViewAdapter.getItem(position).level_3_value);
-                intent.putExtra("unit", listViewAdapter.getItem(position).level_3_unit);
-                break;
-        }
-
+        intent.putExtra("amount", listViewAdapter.getItem(position).amount);
+        intent.putExtra("unit", listViewAdapter.getItem(position).avg_unit);
 
         intent.putExtra("money", listViewAdapter.getItem(position).discount_price + "元/" + listViewAdapter.getItem(position).unit);
         startActivityForResult(intent, 1);
@@ -284,5 +285,10 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
         if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
             swipeRefreshLayout.setRefreshing(false);
         }
+    }
+
+    private String trimZero(String n) {
+        if(n.charAt(n.length()-1) == '0') return n.substring(0, n.length()-2);
+        return n;
     }
 }

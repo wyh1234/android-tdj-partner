@@ -8,8 +8,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.TimePickerView;
@@ -43,8 +43,8 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
     TextView tv_time;
     @BindView(R.id.member_list)
     RecyclerView member_list;
-    @BindView(R.id.ll_header_include)
-    LinearLayout ll_header_include;
+    @BindView(R.id.viewStub)
+    ViewStub viewStub;
     @BindView(R.id.btn_back)
     ImageView btn_back;
 
@@ -98,6 +98,7 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
 
     @Override
     protected int getLayoutId() {
+        isDay = getArguments().getBoolean("isDay", true);
         return R.layout.iron_list_fragment;
     }
 
@@ -107,20 +108,19 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
 
         getVMWithActivity().loadingWithNewLiveData(DayAndMonthData.class, getArgs())
                 .observe(this, dayAndMonthData -> {
-                    tv_title.setText(dayAndMonthData.teamView.gradeChineseName + (isDay ? "日" : "月") + "统计");
+                    tv_title.setText(dayAndMonthData.headGrade);
                     //头部统计
-                    ((TextView) ll_header_include.findViewById(R.id.registerNum)).setText("" + dayAndMonthData.teamView.registerNum);
-                    ((TextView) ll_header_include.findViewById(R.id.openNum)).setText("" + dayAndMonthData.teamView.firstOrderNum);
-                    ((TextView) ll_header_include.findViewById(R.id.vegetablesNum)).setText("" + dayAndMonthData.teamView.categoryNum);
-                    ((TextView) ll_header_include.findViewById(R.id.gmvNum)).setText("" + dayAndMonthData.teamView.amount);
-                    ((TextView) ll_header_include.findViewById(R.id.priceNum)).setText("" + dayAndMonthData.teamView.averageAmount);
+                    ((TextView) getView().findViewById(R.id.registerNum)).setText("" + dayAndMonthData.teamView.registerNum);
+                    ((TextView) getView().findViewById(R.id.openNum)).setText("" + dayAndMonthData.teamView.firstOrderNum);
+                    ((TextView) getView().findViewById(R.id.vegetablesNum)).setText("" + dayAndMonthData.teamView.categoryNum);
+                    ((TextView) getView().findViewById(R.id.gmvNum)).setText("" + dayAndMonthData.teamView.amount);
+                    if (isDay)
+                        ((TextView) getView().findViewById(R.id.priceNum)).setText("" + dayAndMonthData.teamView.averageAmount);
 
                     List<DayAndMonthData.TeamView> list = new ArrayList<>(dayAndMonthData.teamViewList);
-                    list.add(dayAndMonthData.othersTeamView);
+                    if (dayAndMonthData.othersTeamView != null)
+                        list.add(dayAndMonthData.othersTeamView);
                     adapter.setNewData(list);
-//                    adapter.setNewData(ironDayAndMonthData.teamViewList);
-//                    adapter.setNewData(Stream.concat(ironDayAndMonthData.teamViewList.stream(), ironDayAndMonthData.othersTeamView.stream()).collect(Collectors.toList()));
-//                    adapter.addData();
                     dismissLoading();
                 });
         showLoading();
@@ -129,7 +129,10 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        isDay = getArguments().getBoolean("isDay", true);
+        ViewStub viewStub = view.findViewById(R.id.viewStub);
+        viewStub.setLayoutResource(isDay ? R.layout.iron_day_preview_item : R.layout.iron_month_preview_item);
+        viewStub.inflate();
+
         tv_time.setText(isDay ? GeneralUtils.getTimes(new Date()) : GeneralUtils.getTime(new Date()));
 
         selectedDate = Calendar.getInstance();
@@ -140,29 +143,28 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
 
 
         //头部统计
-        ((TextView) ll_header_include.findViewById(R.id.registerNum)).setText("N");
-        ((TextView) ll_header_include.findViewById(R.id.openNum)).setText("N");
-        ((TextView) ll_header_include.findViewById(R.id.vegetablesNum)).setText("N");
-        ((TextView) ll_header_include.findViewById(R.id.gmvNum)).setText("N");
-        ((TextView) ll_header_include.findViewById(R.id.priceNum)).setText("N");
+        ((TextView) view.findViewById(R.id.registerNum)).setText("N");
+        ((TextView) view.findViewById(R.id.openNum)).setText("N");
+        ((TextView) view.findViewById(R.id.vegetablesNum)).setText("N");
+        ((TextView) view.findViewById(R.id.gmvNum)).setText("N");
+        if (isDay) ((TextView) view.findViewById(R.id.priceNum)).setText("N");
 
 
         //列表
-        adapter = new BaseQuickAdapter<DayAndMonthData.TeamView, BaseViewHolder>(R.layout.iron_day_list_member_layout) {
+        adapter = new BaseQuickAdapter<DayAndMonthData.TeamView, BaseViewHolder>(isDay ? R.layout.iron_day_list_member_layout : R.layout.iron_month_list_member_layout) {
             @Override
             protected void convert(BaseViewHolder baseViewHolder, DayAndMonthData.TeamView teamView) {
                 System.out.println("~~" + getClass().getSimpleName() + ".convert~~");
                 System.out.println("baseViewHolder = " + baseViewHolder + ", teamView= " + teamView);
 
-                baseViewHolder.addOnClickListener(R.id.tv_day_sink);
-
+                baseViewHolder.addOnClickListener(R.id.tv_sink);
+                if (isDay) baseViewHolder.setText(R.id.priceNum, "" + teamView.averageAmount);
                 baseViewHolder.setText(R.id.registerNum, "" + teamView.registerNum)
                         .setText(R.id.openNum, "" + teamView.firstOrderNum)
                         .setText(R.id.vegetablesNum, "" + teamView.categoryNum)
                         .setText(R.id.gmvNum, "" + teamView.amount)
-                        .setText(R.id.priceNum, "" + teamView.averageAmount)
-                        .setText(R.id.tv_name, "" + teamView.gradeName + "：" + teamView.nickName)
-                        .setText(R.id.tv_day_sink, "" + teamView.gradeChineseName + ((!TextUtils.isEmpty(teamView.gradeChineseName) && teamView.gradeChineseName.equals("BD")) ? "" : " >"));
+                        .setText(R.id.tv_name, TextUtils.isEmpty(teamView.gradeChineseName) ? "其他" : ("" + teamView.gradeChineseName + "：" + teamView.nickName))
+                        .setText(R.id.tv_sink, TextUtils.isEmpty(teamView.gradeName) ? "" : teamView.gradeName + (teamView.gradeName.equals("BD") ? "" : " >"));
             }
         };
 
@@ -224,11 +226,11 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
         System.out.println("~~" + getClass().getSimpleName() + ".onItemClick~~");
         System.out.println("baseQuickAdapter = " + baseQuickAdapter + ", view = " + view + ", i = " + i);
 
-
+        DayAndMonthData.TeamView teamView;
         switch (view.getId()) {
-            case R.id.tv_day_sink:
-                DayAndMonthData.TeamView teamView = (DayAndMonthData.TeamView) baseQuickAdapter.getItem(i);
-                if (teamView.gradeChineseName.equals("BD")) return;
+            case R.id.tv_sink:
+                teamView = (DayAndMonthData.TeamView) baseQuickAdapter.getItem(i);
+                if (TextUtils.isEmpty(teamView.gradeName)) return;
                 leak(teamView.partnerId, teamView.grade, true);
                 break;
         }
