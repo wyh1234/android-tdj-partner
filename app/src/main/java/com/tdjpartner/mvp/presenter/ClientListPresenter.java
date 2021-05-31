@@ -25,7 +25,11 @@ public class ClientListPresenter extends BasePresenter<Model, ClientListFragment
             protected void onSuccess(List<ClientInfo> clientInfoList) {
                 getIView().hotelMap_Success(clientInfoList);
             }
-
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                getIView().hotelMap_failed();
+            }
             @Override
             protected void onFailed(Throwable e) {
                 getIView().hotelMap_failed();
@@ -42,10 +46,17 @@ public class ClientListPresenter extends BasePresenter<Model, ClientListFragment
             }
 
             @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                getIView().hotelMap_failed();
+            }
+
+            @Override
             protected void onFailed(Throwable e) {
                 getIView().hotelMap_failed();
             }
         }));
+
 
     }
 
@@ -56,9 +67,14 @@ public class ClientListPresenter extends BasePresenter<Model, ClientListFragment
                 GeneralUtils.showToastshort("跟进成功请在24小时内进行拜访");
                 getIView().internationalWatersSuccess();
             }
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                getIView().hotelMap_failed();
+            }
 
             @Override
-            protected void onFailed(Throwable e) {}
+            protected void onFailed(Throwable e) {getIView().hotelMap_failed();}
         }));
 
     }
@@ -69,9 +85,16 @@ public class ClientListPresenter extends BasePresenter<Model, ClientListFragment
             protected void onSuccess(DistanceInfo distance) {
                 getIView().punchDistanceSuccess(distance.distance);
             }
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                getIView().hotelMap_failed();
+            }
 
             @Override
-            protected void onFailed(Throwable e) {}
+            protected void onFailed(Throwable e) {
+                getIView().hotelMap_failed();
+            }
         }));
 
     }

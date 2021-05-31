@@ -108,8 +108,8 @@ public class MyFragment extends Fragment<MyFragmentPresneter> implements SwipeRe
 
         list.add(new MyFragmentBottom("实名认证", false));
         list.add(new MyFragmentBottom("去赚钱", false));
-        list.add(new MyFragmentBottom("设置", false));
         list.add(new MyFragmentBottom("售后商品须知", false));
+        list.add(new MyFragmentBottom("设置", false));
         rv_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         myFragmentAdapter = new MyFragmentAdapter(R.layout.my_fragment_item, list);
         myFragmentAdapter.setOnItemClickListener(this);
@@ -221,7 +221,7 @@ public class MyFragment extends Fragment<MyFragmentPresneter> implements SwipeRe
     @Override
     public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
         LogUtils.e(i);
-        if (i == 3) {
+        if (i == 4) {
             Intent intent = new Intent(getContext(), SettingActivity.class);
             startActivity(intent);
         } else if (i == 0) {
@@ -240,7 +240,7 @@ public class MyFragment extends Fragment<MyFragmentPresneter> implements SwipeRe
             Intent intent = new Intent(getContext(), ToMakeMoneyActivity.class);
             startActivity(intent);
 
-        } else if (i == 4) {
+        } else if (i == 3) {
             Intent intent = new Intent(getContext(), AfterSalePageActivity.class);
             startActivity(intent);
         } else {

@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|center_vertical"
                     android:layout_marginEnd="4dp"
-                    android:text="共计有N家" />
+                    android:text="共计有0家" />
             </FrameLayout>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView_list"

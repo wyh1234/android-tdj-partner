@@ -98,7 +98,7 @@ public class AfterSalePageActivity extends BaseActivity {
                 finish();
             }
         });
-        tv_title.setText("拜访记录");
+        tv_title.setText("售后商品须知");
         wv_program.addJavascriptInterface(new AndroidtoJs(), "android");//AndroidtoJS类对象映射到js的test对象
         initDetailsH5();
     }
