@@ -17,21 +17,17 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.tdjpartner.R;
 import com.tdjpartner.base.NetworkFragment;
-import com.tdjpartner.model.IronDayAndMonthData;
+import com.tdjpartner.model.DayAndMonthData;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -109,18 +105,18 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getVMWithActivity().loadingWithNewLiveData(IronDayAndMonthData.class, getArgs())
-                .observe(this, ironDayAndMonthData -> {
-                    tv_title.setText(ironDayAndMonthData.teamView.gradeChineseName + (isDay ? "日" : "月") + "统计");
+        getVMWithActivity().loadingWithNewLiveData(DayAndMonthData.class, getArgs())
+                .observe(this, dayAndMonthData -> {
+                    tv_title.setText(dayAndMonthData.teamView.gradeChineseName + (isDay ? "日" : "月") + "统计");
                     //头部统计
-                    ((TextView) ll_header_include.findViewById(R.id.registerNum)).setText("" + ironDayAndMonthData.teamView.registerNum);
-                    ((TextView) ll_header_include.findViewById(R.id.openNum)).setText("" + ironDayAndMonthData.teamView.firstOrderNum);
-                    ((TextView) ll_header_include.findViewById(R.id.vegetablesNum)).setText("" + ironDayAndMonthData.teamView.categoryNum);
-                    ((TextView) ll_header_include.findViewById(R.id.gmvNum)).setText("" + ironDayAndMonthData.teamView.amount);
-                    ((TextView) ll_header_include.findViewById(R.id.priceNum)).setText("" + ironDayAndMonthData.teamView.averageAmount);
+                    ((TextView) ll_header_include.findViewById(R.id.registerNum)).setText("" + dayAndMonthData.teamView.registerNum);
+                    ((TextView) ll_header_include.findViewById(R.id.openNum)).setText("" + dayAndMonthData.teamView.firstOrderNum);
+                    ((TextView) ll_header_include.findViewById(R.id.vegetablesNum)).setText("" + dayAndMonthData.teamView.categoryNum);
+                    ((TextView) ll_header_include.findViewById(R.id.gmvNum)).setText("" + dayAndMonthData.teamView.amount);
+                    ((TextView) ll_header_include.findViewById(R.id.priceNum)).setText("" + dayAndMonthData.teamView.averageAmount);
 
-                    List<IronDayAndMonthData.TeamView> list = new ArrayList<>(ironDayAndMonthData.teamViewList);
-                    list.add(ironDayAndMonthData.othersTeamView);
+                    List<DayAndMonthData.TeamView> list = new ArrayList<>(dayAndMonthData.teamViewList);
+                    list.add(dayAndMonthData.othersTeamView);
                     adapter.setNewData(list);
 //                    adapter.setNewData(ironDayAndMonthData.teamViewList);
 //                    adapter.setNewData(Stream.concat(ironDayAndMonthData.teamViewList.stream(), ironDayAndMonthData.othersTeamView.stream()).collect(Collectors.toList()));
@@ -152,9 +148,9 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
 
 
         //列表
-        adapter = new BaseQuickAdapter<IronDayAndMonthData.TeamView, BaseViewHolder>(R.layout.iron_day_list_member_layout) {
+        adapter = new BaseQuickAdapter<DayAndMonthData.TeamView, BaseViewHolder>(R.layout.iron_day_list_member_layout) {
             @Override
-            protected void convert(BaseViewHolder baseViewHolder, IronDayAndMonthData.TeamView teamView) {
+            protected void convert(BaseViewHolder baseViewHolder, DayAndMonthData.TeamView teamView) {
                 System.out.println("~~" + getClass().getSimpleName() + ".convert~~");
                 System.out.println("baseViewHolder = " + baseViewHolder + ", teamView= " + teamView);
 
@@ -188,7 +184,7 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
             map.put("timeType", "month");
         }
 
-        getVMWithActivity().loading(IronDayAndMonthData.class, getArgs());
+        getVMWithActivity().loading(DayAndMonthData.class, getArgs());
     }
 
     private Map<String, Object> makeArges(int userId, int grade, Date date, boolean isDay, boolean isNext) {
@@ -231,7 +227,7 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
 
         switch (view.getId()) {
             case R.id.tv_day_sink:
-                IronDayAndMonthData.TeamView teamView = (IronDayAndMonthData.TeamView) baseQuickAdapter.getItem(i);
+                DayAndMonthData.TeamView teamView = (DayAndMonthData.TeamView) baseQuickAdapter.getItem(i);
                 if (teamView.gradeChineseName.equals("BD")) return;
                 leak(teamView.partnerId, teamView.grade, true);
                 break;
