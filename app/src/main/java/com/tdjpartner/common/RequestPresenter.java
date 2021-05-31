@@ -3,7 +3,6 @@ package com.tdjpartner.common;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.tdjpartner.http.BaseObserver;
-import com.tdjpartner.http.BaseResponse;
 import com.tdjpartner.http.RetrofitServiceManager;
 import com.tdjpartner.http.RxUtils;
 import com.tdjpartner.http.interceptor.PostJsonBody;
@@ -35,7 +34,7 @@ import com.tdjpartner.model.HotelAuditInfo;
 import com.tdjpartner.model.HotelAuditPageList;
 import com.tdjpartner.model.IntegralShop;
 import com.tdjpartner.model.InvitationHistory;
-import com.tdjpartner.model.IronDayAndMonthData;
+import com.tdjpartner.model.DayAndMonthData;
 import com.tdjpartner.model.HomeTopData;
 import com.tdjpartner.model.CustomerPhone;
 import com.tdjpartner.model.StatisticsDetails;
@@ -403,7 +402,7 @@ public class RequestPresenter {
             observable = (Observable<T>) getApiService().hotelAuditInfo(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
         } else if (clazz.isAssignableFrom(HotelAuditPageList.class)) {
             observable = (Observable<T>) getApiService().hotelAuditPageList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
-        } else if (clazz.isAssignableFrom(IronDayAndMonthData.class)) {
+        } else if (clazz.isAssignableFrom(DayAndMonthData.class)) {
             observable = (Observable<T>) getApiService().ironDayAndMonthData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
         } else if (clazz.isAssignableFrom(UserInfo.class)) {
             observable = (Observable<T>) getApiService().loginData(map).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());

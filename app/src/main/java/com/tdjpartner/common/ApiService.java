@@ -32,7 +32,7 @@ import com.tdjpartner.model.HotelAuditInfo;
 import com.tdjpartner.model.HotelAuditPageList;
 import com.tdjpartner.model.IntegralShop;
 import com.tdjpartner.model.InvitationHistory;
-import com.tdjpartner.model.IronDayAndMonthData;
+import com.tdjpartner.model.DayAndMonthData;
 import com.tdjpartner.model.IronHomeData;
 import com.tdjpartner.model.HomeTopData;
 import com.tdjpartner.model.StatisticsDetails;
@@ -682,7 +682,7 @@ public interface ApiService {
     //日月统计
     @Headers({"url_type:xuming"})
     @POST("/tdj-report/report/teamOverView/dayAndMonthData")
-    Observable<BaseResponse<IronDayAndMonthData>> ironDayAndMonthData(@Body RequestBody body);
+    Observable<BaseResponse<DayAndMonthData>> ironDayAndMonthData(@Body RequestBody body);
 
     //酒店审核
     @Headers({"url_type:xuming"})

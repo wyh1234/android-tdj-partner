@@ -91,7 +91,7 @@ android:background="@drawable/client_item_sahp"
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="日活数"
+                android:text="月活"
                 android:textColor="@color/gray_66"
                 android:textSize="12sp" />
         </LinearLayout>

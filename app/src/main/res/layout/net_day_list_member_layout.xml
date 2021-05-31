@@ -44,8 +44,9 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
+
         <include
-            layout="@layout/net_day_preview_db_item"
+            layout="@layout/net_day_preview_item"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
