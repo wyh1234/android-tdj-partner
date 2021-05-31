@@ -28,6 +28,7 @@ public class IronRankingFragment extends NetworkFragment {
     private int grade = UserUtils.getInstance().getLoginBean().getGrade();//用户级别
     private boolean isEntire, allowSkip;
     private int upNum = 6, offset;
+    private TextView footerView;
 
     @Override
     protected int getLayoutId() {
@@ -39,7 +40,32 @@ public class IronRankingFragment extends NetworkFragment {
         super.onViewCreated(view, savedInstanceState);
 
         //初始化View
-        ((TextView) view.findViewById(R.id.tv_ranking_four)).setText(grade == 3 ? "月总GMV" : "月日活");
+        if (getArgs().get("timeType").equals("day")) {
+
+            switch ((int) getArgs().get("type")) {
+                case 1:
+                    ((TextView) view.findViewById(R.id.tv_ranking_four)).setText("GMV");
+                    break;
+                case 2:
+                    ((TextView) view.findViewById(R.id.tv_ranking_four)).setText("注册数");
+                    break;
+                case 3:
+                    ((TextView) view.findViewById(R.id.tv_ranking_four)).setText("新开数");
+                    break;
+            }
+        } else {
+            switch ((int) getArgs().get("type")) {
+                case 1:
+                    ((TextView) view.findViewById(R.id.tv_ranking_four)).setText("月总GMV");
+                    break;
+                case 2:
+                    ((TextView) view.findViewById(R.id.tv_ranking_four)).setText("注册总数");
+                    break;
+                case 3:
+                    ((TextView) view.findViewById(R.id.tv_ranking_four)).setText("新开总数");
+                    break;
+            }
+        }
 
 
         arrayAdapter = new ArrayAdapter<HomeTopData.RegisterTimesTopListBean>(getContext(), R.layout.adapter_ranking) {
@@ -52,89 +78,65 @@ public class IronRankingFragment extends NetworkFragment {
                 HomeTopData.RegisterTimesTopListBean bean = getItem(position);
                 System.out.println("bean = " + bean);
 
-                if (type == 1) {
-                    //网军
-                    if (bean.customerId == entityId) {
-                        TextView textView = convertView.findViewById(R.id.tv_ranking);
-                        textView.setText("" + (position + 1));
-                        textView.setTextColor(getResources().getColor(R.color.orange_red, null));
+                TextView textView;
+                if (bean.customerId == entityId) {
+                    textView = convertView.findViewById(R.id.tv_ranking);
+                    textView.setText("" + (position == upNum ? position + 1 + offset : position + 1));
+                    textView.setTextColor(getResources().getColor(R.color.orange_red, null));
 
-                        textView = convertView.findViewById(R.id.tv_db);
-                        textView.setText(bean.partnerName);
-                        textView.setTextColor(getResources().getColor(R.color.orange_red, null));
+                    textView = convertView.findViewById(R.id.tv_db);
+                    textView.setText(bean.partnerName);
+                    textView.setTextColor(getResources().getColor(R.color.orange_red, null));
 
-                        textView = convertView.findViewById(R.id.tv_higher);
-                        textView.setText(bean.name);
-                        textView.setTextColor(getResources().getColor(R.color.orange_red, null));
+                    textView = convertView.findViewById(R.id.tv_higher);
+                    textView.setText(bean.name);
+                    textView.setTextColor(getResources().getColor(R.color.orange_red, null));
 
-                        textView = convertView.findViewById(R.id.tv_action);
-                        textView.setText("" + bean.monthAmount);
-                        textView.setTextColor(getResources().getColor(R.color.orange_red, null));
-                    } else {
-                        TextView textView = convertView.findViewById(R.id.tv_ranking);
-                        textView.setText("" + (position + 1));
-
-                        textView = convertView.findViewById(R.id.tv_db);
-                        textView.setText(bean.partnerName);
-
-                        textView = convertView.findViewById(R.id.tv_higher);
-                        textView.setText(bean.name);
-
-                        textView = convertView.findViewById(R.id.tv_action);
-                        textView.setText("" + bean.monthAmount);
-                    }
+                    textView = convertView.findViewById(R.id.tv_action);
+                    textView.setTextColor(getResources().getColor(R.color.orange_red, null));
                 } else {
+                    textView = convertView.findViewById(R.id.tv_ranking);
+                    textView.setText("" + (position == upNum ? position + 1 + offset : position + 1));
 
-                    //铁军
-                    if (bean.customerId == entityId) {
-                        TextView textView = convertView.findViewById(R.id.tv_ranking);
-                        textView.setText("" + (position + 1));
-                        textView.setTextColor(getResources().getColor(R.color.orange_red, null));
+                    textView = convertView.findViewById(R.id.tv_db);
+                    textView.setText(bean.partnerName);
 
-                        textView = convertView.findViewById(R.id.tv_db);
-                        textView.setText(bean.partnerName);
-                        textView.setTextColor(getResources().getColor(R.color.orange_red, null));
+                    textView = convertView.findViewById(R.id.tv_higher);
+                    textView.setText(bean.name);
 
-                        textView = convertView.findViewById(R.id.tv_higher);
-                        textView.setText(bean.name);
-                        textView.setTextColor(getResources().getColor(R.color.orange_red, null));
-
-                        textView = convertView.findViewById(R.id.tv_action);
-                        textView.setText("" + bean.monthActiveNum);
-                        textView.setTextColor(getResources().getColor(R.color.orange_red, null));
-                    } else {
-                        TextView textView = convertView.findViewById(R.id.tv_ranking);
-                        textView.setText("" + (position + 1));
-
-                        textView = convertView.findViewById(R.id.tv_db);
-                        textView.setText(bean.partnerName);
-
-                        textView = convertView.findViewById(R.id.tv_higher);
-                        textView.setText(bean.name);
-
-                        textView = convertView.findViewById(R.id.tv_action);
-                        textView.setText("" + bean.monthActiveNum);
-                    }
+                    textView = convertView.findViewById(R.id.tv_action);
                 }
 
+                switch ((int) getArgs().get("type")) {
+                    case 1:
+                        textView.setText("" + bean.monthAmount);
+                        break;
+                    case 2:
+                        textView.setText("" + bean.dayRegisterTimes);
+                        break;
+                    case 3:
+                        textView.setText("" + bean.firstOrderNum);
+                        break;
+                }
                 return convertView;
             }
         };
         ListView listView = view.findViewById(R.id.lv);
         listView.setAdapter(arrayAdapter);
         listView.setNestedScrollingEnabled(true);
+
         //增加脚部
-        TextView textView = new TextView(getContext());
-        textView.setGravity(CENTER);
-        textView.setPadding(24, 24, 24, 24);
-        textView.setText("展开全部");
-        textView.setTextSize(16);
-        listView.addFooterView(textView);
+        footerView = new TextView(getContext());
+        footerView.setGravity(CENTER);
+        footerView.setPadding(24, 24, 24, 24);
+        footerView.setText("展开全部");
+        footerView.setTextSize(16);
+        listView.addFooterView(footerView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 System.out.println("parent = " + parent + ", view = " + view + ", position = " + position + ", id = " + id);
-                if (id != -1) return;
+                if (!view.equals(footerView)) return;
                 ((TextView) view).setText(isEntire ? "展开全部" : "收起全部");
                 isEntire = !isEntire;
                 getVMWithFragment().loading(HomeTopData.class, getArgs());
@@ -146,28 +148,33 @@ public class IronRankingFragment extends NetworkFragment {
         getVMWithFragment().loadingWithNewLiveData(HomeTopData.class, getArgs())
                 .observe(this, homeTopData -> {
                     dismissLoading();
+                    offset = 0;
+                    allowSkip = true;
                     arrayAdapter.clear();
+                    if (homeTopData.getRegisterTimesTopList().isEmpty()) {
+                        footerView.setText("暂无数据");
+                        return;
+                    }
+
                     if (isEntire) {
                         arrayAdapter.addAll(homeTopData.getRegisterTimesTopList());
                     } else {
-                        for (int i = 0; i < 5 && i < homeTopData.getRegisterTimesTopList().size(); i++) {
-                            if (homeTopData.getRegisterTimesTopList().size() > 4 && i > 4 && homeTopData.getRegisterTimesTopList().get(i).customerId != entityId)continue;
-                            arrayAdapter.add(homeTopData.getRegisterTimesTopList().get(i));
-                        }
+                        for (int i = 0; i < homeTopData.getRegisterTimesTopList().size(); i++) {
 
-
-                        for (int i = 0, j = 0; j < 6 && j < homeTopData.getRegisterTimesTopList().size(); i++) {
-                            if (allowSkip && i >= upNum && homeTopData.getRegisterTimesTopList().get(i).customerId != entityId) {
-                                offset++;
-                                System.out.println("one|i = " + i + ", j = " + j);
-                                continue;
-                            }
-                            System.out.println("two|i = " + i + ", j = " + j);
-                            if (homeTopData.getRegisterTimesTopList().get(i).customerId == entityId)
+                            if (homeTopData.getRegisterTimesTopList().get(i).customerId == entityId) {
                                 allowSkip = false;
+                            } else {
+                                if (i >= 5) {
+                                    offset++;
+                                    upNum = i;
+                                    continue;
+                                }
+                            }
+                            System.out.println("arrayAdapter.getCount() is " + arrayAdapter.getCount());
                             arrayAdapter.add(homeTopData.getRegisterTimesTopList().get(i));
-                            if(++j > 4 && !allowSkip) break;
+                            if (arrayAdapter.getCount() == (i < 5 && !allowSkip ? 5 : 6)) break;
                         }
+                        if (arrayAdapter.getCount() <= 5 ) listView.removeFooterView(footerView);
                     }
                 });
 

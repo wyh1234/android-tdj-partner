@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -148,6 +149,9 @@ public class IronIndexFragment extends NetworkFragment
                                         dismissLoading();
                                         System.out.println("userInfo = " + userInfo);
                                         UserUtils.getInstance().login(userInfo);
+                                        userType = UserUtils.getInstance().getLoginBean().getType();//用户类型
+                                        site = UserUtils.getInstance().getLoginBean().getSite();//用户类型
+                                        grade = UserUtils.getInstance().getLoginBean().getGrade();//用户类型
                                         tv_username.setText("你好," + UserUtils.getInstance().getLoginBean().getRealname() + "!");
                                         tv_city.setText("所在城市：" + UserUtils.getInstance().getLoginBean().getSiteName());
                                         onRefresh();
@@ -165,20 +169,22 @@ public class IronIndexFragment extends NetworkFragment
                     getVMWithFragment().loadingWithNewLiveData(new TypeToken<ArrayList<CustomerPhone>>() {}, map)
                             .observe(this, list -> {
                                 dismissLoading();
+                                if (((ArrayList) list).isEmpty()) {
+                                    GeneralUtils.showToastshort("暂无可切换的城市!");
+                                    return;
+                                }
                                 adapter.clear();
                                 adapter.addAll((ArrayList) list);
+                                ranking_vp.getAdapter().notifyDataSetChanged();
                                 dialog.show();
                             });
                 } else {
                     showLoading();
                     Map<String, Object> map = new HashMap<>();
                     map.put("entityId", UserUtils.getInstance().getLoginBean().getEntityId());
-                    map.put("elementType", CustomerPhone.class);
-                    getVMWithFragment().loading(ArrayList.class, map);
+                    getVMWithFragment().loading(new TypeToken<ArrayList<CustomerPhone>>() {}, map);
                     dialog.show();
                 }
-
-
                 break;
 
             case R.id.tv_month:
@@ -250,10 +256,8 @@ public class IronIndexFragment extends NetworkFragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         swipeRefreshLayout.setColorSchemeResources(R.color.bbl_ff0000);
         swipeRefreshLayout.setOnRefreshListener(this);
-
 
         if (grade == 3) tv_team.setVisibility(View.GONE);
 
@@ -330,6 +334,10 @@ public class IronIndexFragment extends NetworkFragment
                 } else {
                     baseViewHolder.getView(R.id.count).setVisibility(View.GONE);
                 }
+
+                ViewGroup.LayoutParams layoutParams = baseViewHolder.itemView.getLayoutParams();
+                layoutParams.width = keyPoint_rv.getWidth() / keyPointAdapter.getData().size();
+                baseViewHolder.itemView.setLayoutParams(layoutParams);
             }
         };
         keyPointAdapter.setOnItemChildClickListener(this);
@@ -366,9 +374,11 @@ public class IronIndexFragment extends NetworkFragment
 
             @Override
             public int getCount() {
-
-                titles = Arrays.asList(isDay ? "日总GMV" : "月总GMV", "注册总数", "新开总数");
-
+                if (isDay) {
+                    titles = Arrays.asList("GMV", "注册数", "新开数");
+                } else {
+                    titles = Arrays.asList("月总GMV", "注册总数", "新开总数");
+                }
                 return titles.size();
             }
 
@@ -405,7 +415,6 @@ public class IronIndexFragment extends NetworkFragment
                     ironMonthAdapter.clear();
                     ironMonthAdapter.add(v3HomeData);
                     ironMonthAdapter.notifyDataSetChanged();
-
 
                     //重点关注
                     keyPointAdapter.setNewData(v3HomeData.getPartnerApproachData());

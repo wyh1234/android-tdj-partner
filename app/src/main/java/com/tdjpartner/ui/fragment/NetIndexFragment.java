@@ -11,7 +11,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -186,6 +188,11 @@ public class NetIndexFragment extends NetworkFragment
         //初始化刷新布局
         swipeRefreshLayout.setColorSchemeResources(R.color.bbl_ff0000);
         swipeRefreshLayout.setOnRefreshListener(this);
+        if (grade == 3) {
+            ViewGroup.LayoutParams layoutParams = swipeRefreshLayout.getLayoutParams();
+            layoutParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 350f, getResources().getDisplayMetrics());
+            swipeRefreshLayout.setLayoutParams(layoutParams);
+        }
 
         //初始化顶部UI
         tv_username.setText("你好," + UserUtils.getInstance().getLoginBean().getRealname() + "!");
@@ -249,7 +256,7 @@ public class NetIndexFragment extends NetworkFragment
                     ((TextView) convertView.findViewById(R.id.monthAverageAmount)).setText("" + data.getMonthData().monthAverageAmount);
                     ((TextView) convertView.findViewById(R.id.monthAfterSaleAmount)).setText("" + data.getMonthData().monthAfterSaleAmount);
                     float n = data.getMonthData().addMonthAmount;
-                    ((TextView) convertView.findViewById(R.id.addMonthAmount)).setText(Html.fromHtml(n == 0 ? n + "" : n < 0 ? "<font color='red'>" + n + "</font>" : "<font color='green'>" + n + "</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+                    ((TextView) convertView.findViewById(R.id.addMonthAmount)).setText(Html.fromHtml("<font color='red'>" + n + "</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
 
                     if (grade == 3) {
                         TextView textView;
@@ -287,6 +294,10 @@ public class NetIndexFragment extends NetworkFragment
                 } else {
                     baseViewHolder.getView(R.id.count).setVisibility(View.GONE);
                 }
+
+                ViewGroup.LayoutParams layoutParams = baseViewHolder.itemView.getLayoutParams();
+                layoutParams.width = keyPoint_rv.getWidth() / keyPointAdapter.getData().size();
+                baseViewHolder.itemView.setLayoutParams(layoutParams);
             }
         };
         keyPointAdapter.setOnItemChildClickListener(this);

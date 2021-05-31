@@ -172,10 +172,7 @@ public class NetRankingFragment extends NetworkFragment {
                     if (isEntire) {
                         arrayAdapter.addAll(homeTopData.getRegisterTimesTopList());
                     } else {
-
                         for (int i = 0; i < homeTopData.getRegisterTimesTopList().size(); i++) {
-
-
                             if (homeTopData.getRegisterTimesTopList().get(i).customerId == entityId) {
                                 allowSkip = false;
                             } else {
@@ -190,18 +187,7 @@ public class NetRankingFragment extends NetworkFragment {
                             if (arrayAdapter.getCount() == (i < 5 && !allowSkip ? 5 : 6)) break;
                         }
 
-//                        for (int i = 0, j = 0; j < 6 && j < homeTopData.getRegisterTimesTopList().size(); i++) {
-//                            if (allowSkip && i >= upNum && homeTopData.getRegisterTimesTopList().get(i).customerId != entityId) {
-//                                offset++;
-//                                System.out.println("one|i = " + i + ", j = " + j);
-//                                continue;
-//                            }
-//                            System.out.println("two|i = " + i + ", j = " + j);
-//                            if (homeTopData.getRegisterTimesTopList().get(i).customerId == entityId)
-//                                allowSkip = false;
-//                            arrayAdapter.add(homeTopData.getRegisterTimesTopList().get(i));
-//                            if (++j > 4 && !allowSkip) break;
-//                        }
+                        if (arrayAdapter.getCount() <= 5 ) listView.removeFooterView(footerView);
                     }
                 });
     }

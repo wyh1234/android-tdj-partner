@@ -1,14 +1,19 @@
 package com.tdjpartner.ui.activity;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +22,7 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.ArrayMap;
-import android.view.KeyEvent;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +30,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -40,12 +46,14 @@ import com.tdjpartner.base.NetworkActivity;
 import com.tdjpartner.model.AfterDetailData;
 import com.tdjpartner.utils.DialogUtils;
 import com.tdjpartner.utils.GeneralUtils;
+import com.tdjpartner.utils.LocationUtils;
 import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.glide.BlurBitmapUtils;
 import com.tdjpartner.utils.glide.ImageLoad;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -78,14 +86,16 @@ public class NetSupportDetailActivity extends NetworkActivity {
     TextView supplier_tel;
     @BindView(R.id.order_pay_time)
     TextView order_pay_time;
+    @BindView(R.id.pick_finish_time)
+    TextView pick_finish_time;
     @BindView(R.id.order_no)
     TextView order_no;
     @BindView(R.id.original)
     TextView original;
     @BindView(R.id.amount)
     TextView amount;
-    @BindView(R.id.money)
-    TextView money;
+    @BindView(R.id.discount_price)
+    TextView discount_price;
     @BindView(R.id.unit)
     TextView unit;
     @BindView(R.id.price)
@@ -105,8 +115,8 @@ public class NetSupportDetailActivity extends NetworkActivity {
 
     @BindView(R.id.et_num)
     EditText et_num;
-    @BindView(R.id.et_price)
-    EditText et_price;
+    @BindView(R.id.et_money)
+    EditText et_money;
 
 
     @BindView(R.id.problem_description)
@@ -126,9 +136,11 @@ public class NetSupportDetailActivity extends NetworkActivity {
     int entityId;
     File captureFile;
     float amountFloatExtra;
-    String avgUnitStringExtra, originalStringExtra;
+    String unitStringExtra, originalStringExtra;
+    int title;
+    AfterDetailData afterDetailData;
 
-    @OnClick({R.id.tv_title, R.id.receive_user_name, R.id.supplier_tel, R.id.button, R.id.upload_1, R.id.upload_2, R.id.upload_3, R.id.tv_remove, R.id.difficulty})
+    @OnClick({R.id.tv_title, R.id.receive_user_name, R.id.customer_address, R.id.supplier_tel, R.id.button, R.id.upload_1, R.id.upload_2, R.id.upload_3, R.id.tv_remove, R.id.difficulty})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_title:
@@ -168,17 +180,17 @@ public class NetSupportDetailActivity extends NetworkActivity {
                 map.put("entityId", entityId);
 
                 System.out.println("imageUrl = " + imageUrl);
-                if (imageUrl.isEmpty()) {
+                if (!type.equals(REFUND) && imageUrl.isEmpty()) {
                     error = "请至少上传一张图片";
                 } else {
                     map.put("images", TextUtils.join(",", imageUrl.values()));
                 }
 
-                if (type.equals(REPLACE) || type.equals(REPLENISH)) {
-                    if (et_price.getText().toString().isEmpty()) {
+                if (!type.equals(REFUND)) {
+                    if (et_money.getText().toString().isEmpty()) {
                         error = "请输入实际金额";
                     } else {
-                        map.put("price", Double.parseDouble(et_price.getText().toString()));
+                        map.put("price", Double.parseDouble(et_money.getText().toString()));
                     }
 
                     if (et_num.getText().toString().isEmpty()) {
@@ -187,7 +199,7 @@ public class NetSupportDetailActivity extends NetworkActivity {
                         map.put("num", Double.parseDouble(et_num.getText().toString()));
                     }
 
-                    String v = money.getText().toString();
+                    String v = discount_price.getText().toString();
                     map.put("money", Double.parseDouble(v.substring(v.indexOf('：') + 1, v.indexOf('元'))));
                     if (type.equals(REPLACE)) map.put("remark", spinnerContent);
                 }
@@ -238,6 +250,23 @@ public class NetSupportDetailActivity extends NetworkActivity {
             case R.id.dialog_btn_no:
                 if (dialog.isShowing()) dialog.dismiss();
                 break;
+            case R.id.customer_address:
+                if (afterDetailData.order.lon == 0.0 || afterDetailData.order.lat == 0.0) return;
+                String uri = "androidamap://route?sourceApplication=" + getString(R.string.app_name);
+                uri += "&dev=1";
+                uri += "&poiname=" + afterDetailData.order.customer_address;
+                uri += "&dlat=" + afterDetailData.order.lat;
+                uri += "&dlon=" + afterDetailData.order.lon;
+                uri += "&name=1";
+                uri += "&style=0";
+                System.out.println("uri = " + uri);
+
+                try {
+                    startActivity(Intent.parseUri(uri, 0));
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+                break;
         }
     }
 
@@ -249,13 +278,14 @@ public class NetSupportDetailActivity extends NetworkActivity {
     @Override
     protected void initView() {
         type = getIntent().getStringExtra("type");
+        title = getIntent().getIntExtra("title", 0);
         amountFloatExtra = getIntent().getFloatExtra("amount", 0);
-        avgUnitStringExtra = getIntent().getStringExtra("avg_unit");
+        unitStringExtra = getIntent().getStringExtra("unit");
         originalStringExtra = getIntent().getStringExtra("original");
         original.setText("平台下单：" + getIntent().getStringExtra("original"));
-        money.setText("折算后单价：" + getIntent().getStringExtra("money"));
+//        money.setText("折算后单价：" + getIntent().getStringExtra("money"));
         num_title.setText("实际数量：");
-        num_unit.setText(avgUnitStringExtra);
+        num_unit.setText(unitStringExtra);
         price_title.setText("实际金额：");
         et_num.setOnFocusChangeListener(this::onFocusChange);
         et_num.addTextChangedListener(new TextWatcher() {
@@ -275,24 +305,25 @@ public class NetSupportDetailActivity extends NetworkActivity {
 
             }
         });
-        et_price.setOnFocusChangeListener(this::onFocusChange);
+        et_money.setOnFocusChangeListener(this::onFocusChange);
 
         switch (type) {
             case REPLENISH:
                 tv_title.setText(REPLENISH.substring(2, 4) + "详情");
-                amount.setText(Html.fromHtml("要求补货：<font color='red'>" + amountFloatExtra + avgUnitStringExtra + "</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+                amount.setText(Html.fromHtml("要求补货：<font color='red'>" + amountFloatExtra + unitStringExtra + "</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
                 et_num.setHint("请输入实际补货数量");
-                et_price.setHint("请输入实际补货金额");
+                et_money.setHint("请输入实际补货金额");
                 break;
             case REPLACE:
                 tv_title.setText(REPLACE.substring(2, 4) + "详情");
-                amount.setText("要求换货：" + amountFloatExtra + avgUnitStringExtra);
+                amount.setText("要求换货：" + amountFloatExtra + unitStringExtra);
                 et_num.setHint("请输入实际换货数量");
-                et_price.setHint("请输入实际换货金额");
+                et_money.setHint("请输入实际换货金额");
                 difficulty.setPaintFlags(difficulty.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                 difficulty.setVisibility(View.VISIBLE);
 
                 //换货证明
+                findViewById(R.id.tv_title_replace).setVisibility(View.VISIBLE);
                 adapter = new BaseQuickAdapter<String, BaseViewHolder>(0) {
                     @Override
                     protected BaseViewHolder createBaseViewHolder(ViewGroup parent, int layoutResId) {
@@ -303,7 +334,7 @@ public class NetSupportDetailActivity extends NetworkActivity {
 
                     @Override
                     protected void convert(BaseViewHolder baseViewHolder, String s) {
-                        ImageLoad.loadImageViewLoding(s, (ImageView) baseViewHolder.itemView);
+                        ImageLoad.loadImageViewLoding(s, (ImageView) baseViewHolder.itemView, R.mipmap.yingyezhao_bg);
                     }
                 };
                 rc_certificate_photos.setVisibility(View.VISIBLE);
@@ -335,9 +366,22 @@ public class NetSupportDetailActivity extends NetworkActivity {
                 findViewById(R.id.ll_uplaod).setVisibility(View.GONE);
                 refund_amount.setVisibility(View.VISIBLE);
                 difficulty.setVisibility(View.VISIBLE);
-                refund_amount.setText(Html.fromHtml("商品退货：<font color='red'>" + amountFloatExtra + "</font>" + avgUnitStringExtra, FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+                refund_amount.setText(Html.fromHtml("商品退货：<font color='red'>" + amountFloatExtra + "</font>" + unitStringExtra, FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
                 break;
         }
+
+        if (title == 1) {
+//            findViewById(R.id.ll_uplaod).setVisibility(View.GONE);
+            findViewById(R.id.button).setVisibility(View.GONE);
+            difficulty.setVisibility(View.GONE);
+            et_num.setEnabled(false);
+            et_money.setEnabled(false);
+            remark.setEnabled(false);
+            discount_price.setText("折算后单价：");
+        } else {
+            pick_finish_time.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -354,8 +398,10 @@ public class NetSupportDetailActivity extends NetworkActivity {
         getVM().loadingWithNewLiveData(AfterDetailData.class, map)
                 .observe(this, afterDetailData -> {
                     dismissLoading();
+                    this.afterDetailData = afterDetailData;
                     receiveUserTel = afterDetailData.order.receive_user_tel;
                     supplierTel = afterDetailData.order.supplier_tel;
+
 
                     customer_name.setText("门店：" + afterDetailData.order.customer_name);
                     shipping_line_code.setText("编号：" + afterDetailData.order.shipping_line_code);
@@ -383,18 +429,49 @@ public class NetSupportDetailActivity extends NetworkActivity {
                     findViewById(R.id.type).setVisibility(View.GONE);
                     ImageLoad.loadRoundImage(afterDetailData.order.product_img, 25, findViewById(R.id.product_img), R.mipmap.baifangjiudain_bg);
 
-                    if (type.equals(REPLACE))
-                        adapter.setNewData(Arrays.asList(afterDetailData.order.certificate_photos.split(",")));
-
                     switch (type) {
                         case REPLENISH:
-                            problem_description.setText(REPLENISH.substring(2, 4) + "原因：" + afterDetailData.order.problem_description);
+                            value = REPLENISH.substring(2, 4);
                             break;
                         case REPLACE:
-                            problem_description.setText(REPLACE.substring(2, 4) + "原因：" + afterDetailData.order.problem_description);
+                            adapter.setNewData(Arrays.asList(afterDetailData.order.certificate_photos.split(",")));
+                            value = REPLACE.substring(2, 4);
                             break;
                         case REFUND:
+                            value = REFUND.substring(2, 4);
                             break;
+                    }
+                    problem_description.setText(value + "原因：" + afterDetailData.order.problem_description);
+                    pick_finish_time.setText(value + "时间：" + afterDetailData.order.pick_finish_time);
+
+                    if (title == 1) {
+                        if (afterDetailData.afterSale == null || TextUtils.isEmpty(afterDetailData.afterSale.images)) {
+                            ((TextView) findViewById(R.id.tv_uplaod_images)).setText("未上传任何价格凭证！");
+                            findViewById(R.id.ll_uplaod_images).setVisibility(View.GONE);
+                            return;
+                        }
+
+                        et_money.setHint(afterDetailData.afterSale.purchaseMoney);
+                        et_num.setHint(afterDetailData.afterSale.purchaseNum);
+                        num_unit.setText(unitStringExtra);
+                        updateMoney(afterDetailData.afterSale.purchaseNum, afterDetailData.afterSale.purchaseMoney);
+
+
+                        String[] urls = afterDetailData.afterSale.images.split(",");
+//                        String[] urls = new String[]{"http://tsp-img.oss-cn-hangzhou.aliyuncs.com/2105282256388484a2d1.png", "http://tsp-img.oss-cn-hangzhou.aliyuncs.com/2105282256388484a2d1.png", "http://tsp-img.oss-cn-hangzhou.aliyuncs.com/2105282256388484a2d1.png"};
+                        LinearLayout linearLayout = findViewById(R.id.ll_uplaod_images);
+                        linearLayout.removeAllViews();
+                        int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 90, getResources().getDisplayMetrics());
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size, size);
+                        if (urls.length == 3) layoutParams.weight = 1;
+
+                        for (String url : urls) {
+                            ImageView imageView = new ImageView(this);
+                            imageView.setLayoutParams(layoutParams);
+                            imageView.setPadding(8, 8, 8, 8);
+                            linearLayout.addView(imageView);
+                            ImageLoad.loadRoundImage(url, 25, imageView, R.mipmap.baifangjiudain_bg);
+                        }
                     }
                 });
     }
@@ -550,21 +627,25 @@ public class NetSupportDetailActivity extends NetworkActivity {
                 System.out.println("num = " + num);
                 if (num > amountFloatExtra * 2) {
                     et_num.setText("");
-                    GeneralUtils.showToastshort("实际数量不能超过要求数量2倍，请重新输入！");
+                    GeneralUtils.showToastshort("实际数量不能超过要求数量的2倍，请重新输入！");
                 }
                 break;
 
-            case R.id.et_price:
-                if (TextUtils.isEmpty(et_price.getText())) return;
-                float price = Float.parseFloat(et_price.getText().toString());
+            case R.id.et_money:
+                if (TextUtils.isEmpty(et_money.getText())) return;
+                float price = Float.parseFloat(et_money.getText().toString());
                 System.out.println("price = " + price);
                 break;
         }
 
-        if (!TextUtils.isEmpty(et_num.getText()) && !TextUtils.isEmpty(et_price.getText())) {
-            float a = Float.parseFloat(et_num.getText().toString());
-            float b = Float.parseFloat(et_price.getText().toString());
-            money.setText("折算后单价：" + ((float) (Math.round(b / a * 100) / 100.0)) + "元/" + originalStringExtra.substring(originalStringExtra.length() - 1));
+        updateMoney(et_num.getText().toString(), et_money.getText().toString());
+    }
+
+    private void updateMoney(String num, String money) {
+        if (!TextUtils.isEmpty(num) && !TextUtils.isEmpty(money)) {
+            float n = Float.parseFloat(num);
+            float m = Float.parseFloat(money);
+            discount_price.setText("折算后单价：" + ((float) (Math.round(m / n * 100) / 100.0)) + "元/" + unitStringExtra);
         }
     }
 }
