@@ -252,7 +252,7 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
     }
 
     protected void getData() {
-        rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION)
+        rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION)
                 .subscribe(new Consumer<Boolean>() {
                     @Override
                     public void accept(Boolean b) throws Exception {
