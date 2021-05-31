@@ -33,7 +33,8 @@ public class ApprovalDetailActivity extends NetworkActivity {
     TextView created_at;
     @BindView(R.id.verify)
     TextView verify;
-
+    @BindView(R.id.btn_back)
+    ImageView btn_back;
     @BindView(R.id.image_url)
     ImageView image_url;
     @BindView(R.id.bzlicence_url)
@@ -42,6 +43,7 @@ public class ApprovalDetailActivity extends NetworkActivity {
     @Override
     protected void initView() {
         tv_title.setText("审核详情");
+        btn_back.setOnClickListener(v -> finish());
     }
 
     @Override
