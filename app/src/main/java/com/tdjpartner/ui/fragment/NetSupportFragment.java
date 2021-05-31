@@ -2,6 +2,7 @@ package com.tdjpartner.ui.fragment;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +16,15 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.Request;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SizeReadyCallback;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.ListViewAdapter;
 import com.tdjpartner.base.NetworkFragment;
@@ -27,6 +37,7 @@ import com.tdjpartner.utils.glide.ImageLoad;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -66,6 +77,7 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         //初始化刷新布局
         swipeRefreshLayout.setColorSchemeResources(R.color.bbl_ff0000);
         swipeRefreshLayout.setOnRefreshListener(this::onRefresh);
@@ -79,7 +91,6 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
         listViewAdapter = new ListViewAdapter.Builder<AfterSaleInfoData.AfterSaleInfo>()
                 .setResource(R.layout.net_support_list_item)
                 .setInitView((data, convertView) -> {
-
                     ((TextView) convertView.findViewById(R.id.customer_name)).setText(data.customer_name);
                     ((TextView) convertView.findViewById(R.id.pick_user_name)).setText("专员：" + data.pick_user_name);
                     ((TextView) convertView.findViewById(R.id.dispatch_time)).setText(data.dispatch_time);
@@ -97,7 +108,7 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
                     value = data.original_amount + data.unit + "/共" + (data.price * data.original_amount) + "元";
                     ((TextView) convertView.findViewById(R.id.price)).setText(value);
 
-                    styledText = "<font color='black'>" + data.name + "</font>" + "<font color='grey'><small>（" + data.nick_name + "）</small></font>";
+                    styledText = "<font color='black'>" + data.name + "</font>" + "<font color='grey'><small> " + (TextUtils.isEmpty(data.nick_name) ? "" : "（" + data.nick_name + "）</small></font>");
                     ((TextView) convertView.findViewById(R.id.name)).setText(Html.fromHtml(styledText, FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
                     ((TextView) convertView.findViewById(R.id.store_name)).setText(data.store_name);
 
@@ -150,19 +161,22 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
                     dismissLoading();
                     stop();
                     this.afterSaleInfoData = afterSaleInfoData;
-                    listViewAdapter.clear();
-
+                    List list = null;
                     switch ((int) getArgs().get("tab")) {
                         case 0:
-                            listViewAdapter.addAll(title == 0 ? afterSaleInfoData.buGeting_list : afterSaleInfoData.buOver_list);
+                            list = title == 0 ? afterSaleInfoData.buGeting_list : afterSaleInfoData.buOver_list;
                             break;
                         case 1:
-                            listViewAdapter.addAll(title == 0 ? afterSaleInfoData.huanGeting_list : afterSaleInfoData.huanOver_list);
+                            list = title == 0 ? afterSaleInfoData.huanGeting_list : afterSaleInfoData.huanOver_list;
                             break;
                         case 2:
-                            listViewAdapter.addAll(title == 0 ? afterSaleInfoData.tuiGeting_list : afterSaleInfoData.tuiOver_list);
+                            list = title == 0 ? afterSaleInfoData.tuiGeting_list : afterSaleInfoData.tuiOver_list;
                             break;
                     }
+
+                    listViewAdapter.clear();
+                    listViewAdapter.addAll(list);
+                    listView.setBackgroundResource(list.isEmpty() ? R.drawable.bitmap_empty : 0);
 
                     int n;
                     if ((n = title == 0 ? afterSaleInfoData.buTotalNum - afterSaleInfoData.buFinishNum : afterSaleInfoData.buOver_list.size()) > 0) {
@@ -220,6 +234,7 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
                 getArgs().put("tab", 2);
                 break;
         }
+        listView.setBackgroundResource(listViewAdapter.isEmpty() ? R.drawable.bitmap_empty : 0);
     }
 
     private void updateTextView(View current, int colorId, int drawableId) {
@@ -255,7 +270,6 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
                 intent.putExtra("unit", listViewAdapter.getItem(position).level_3_unit);
                 break;
         }
-
 
 
         intent.putExtra("money", listViewAdapter.getItem(position).discount_price + "元/" + listViewAdapter.getItem(position).unit);

@@ -75,11 +75,17 @@
                     android:textSize="16sp" />
             </LinearLayout>
 
-            <include
-                android:id="@+id/ll_header_include"
-                layout="@layout/net_day_preview_db_item"
+<!--            <include-->
+<!--                android:id="@+id/ll_header_include"-->
+<!--                layout="@layout/net_day_preview_db_item"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content" />-->
+
+            <ViewStub
+                android:id="@+id/viewStub"
+                android:inflatedId="@+id/message_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
 
 
         </LinearLayout>

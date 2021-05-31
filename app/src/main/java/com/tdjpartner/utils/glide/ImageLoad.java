@@ -81,8 +81,6 @@ public class ImageLoad {
     //设置加载中以及加载失败图片
     public static void loadImageViewLodingError(ImageView mImageView) {
         GlideApp.with(mImageView.getContext()).load(R.mipmap.head_portrait).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(mImageView);
-
-
     }
 
 

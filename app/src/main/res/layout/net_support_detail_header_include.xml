@@ -51,11 +51,11 @@
 
         <TextView
             android:id="@+id/receive_user_name"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp"
             android:drawableStart="@mipmap/receive"
+            android:drawableEnd="@mipmap/phone"
             android:drawablePadding="8dp"
             android:text="收货人：企业720（13995566720）"
             android:textSize="12sp" />
@@ -64,7 +64,6 @@
             android:id="@+id/customer_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp"
             android:drawableStart="@mipmap/adress"
             android:drawablePadding="8dp"
@@ -75,7 +74,6 @@
             android:id="@+id/supplier_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp"
             android:drawableStart="@mipmap/user"
             android:drawablePadding="8dp"
@@ -84,11 +82,11 @@
 
         <TextView
             android:id="@+id/supplier_tel"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="4dp"
             android:drawableStart="@mipmap/tel"
+            android:drawableEnd="@mipmap/phone"
             android:drawablePadding="8dp"
             android:text="供应商电话：12345678009"
             android:textSize="12sp" />
@@ -119,6 +117,15 @@
             android:layout_marginBottom="8dp"
             android:paddingStart="4dp"
             android:text="商品单号：921012200067"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/pick_finish_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:paddingStart="4dp"
+            android:text="退货时间：2021-01-22 10:18"
             android:textSize="12sp" />
     </LinearLayout>
 

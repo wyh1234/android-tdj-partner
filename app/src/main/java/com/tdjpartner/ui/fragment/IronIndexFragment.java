@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -184,8 +185,6 @@ public class IronIndexFragment extends NetworkFragment
                     getVMWithFragment().loading(new TypeToken<ArrayList<CustomerPhone>>() {}, map);
                     dialog.show();
                 }
-
-
                 break;
 
             case R.id.tv_month:
@@ -335,6 +334,10 @@ public class IronIndexFragment extends NetworkFragment
                 } else {
                     baseViewHolder.getView(R.id.count).setVisibility(View.GONE);
                 }
+
+                ViewGroup.LayoutParams layoutParams = baseViewHolder.itemView.getLayoutParams();
+                layoutParams.width = keyPoint_rv.getWidth() / keyPointAdapter.getData().size();
+                baseViewHolder.itemView.setLayoutParams(layoutParams);
             }
         };
         keyPointAdapter.setOnItemChildClickListener(this);

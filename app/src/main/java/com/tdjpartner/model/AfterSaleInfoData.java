@@ -88,6 +88,9 @@ public class AfterSaleInfoData {
         public float pay_amount = 0.0f; //0
         public float commission = 0.0f; //0.8
 
+        public double lat; //"22.539889",
+        public double lon; //114.082696",
+
         public String driver_remark = ""; //
         public String customer_tel = ""; //13995566720
         public String qr_code_id = ""; //9210308000027
@@ -112,7 +115,6 @@ public class AfterSaleInfoData {
         public String nick_name = ""; //
         public String supplier_tel = ""; //12345678009
         public String name = ""; //土鸡蛋
-        public String pick_user_phone = ""; //12345678106
         public String order_no = ""; //67745084142037934084
         public String commissionerName = ""; //101
         public String receive_user_name = ""; //企业720
@@ -129,14 +131,13 @@ public class AfterSaleInfoData {
         public String create_order_time = ""; //2021-03-08 09:57
         public String required_delivery_time = ""; //2021-03-08 08:00
         public String pick_user_name = ""; //张家虎
+        public String pick_finish_time = ""; //2021-03-08 08:00
+        public String pick_user_phone = ""; //12345678106
         public String submitter_tel = ""; //13995566720
         public String avg_unit = ""; //斤
         public String commissioner_name = ""; //吴玲
         public String customer_name = ""; //企业720
         public String certificate_photos = ""; //http://tsp-img.oss-cn-hangzhou.aliyuncs.com/2103081004424009e21f.jpg
-        public String store_img = ""; //http://tsp-img.oss-cn-hangzhou.aliyuncs.com/201116151846db9ccb9b.jpg
-        public String customer_img = ""; //http://tsp-img.oss-cn-hangzhou.aliyuncs.com/2008141407060fb47167.jpg
-        public String product_img = ""; //http://tsp-img.oss-cn-hangzhou.aliyuncs.com/201120151850ddb36961.jpg
 
         @Override
         public String toString() {
@@ -201,7 +202,6 @@ public class AfterSaleInfoData {
                     ", nick_name='" + nick_name + '\'' +
                     ", supplier_tel='" + supplier_tel + '\'' +
                     ", name='" + name + '\'' +
-                    ", pick_user_phone='" + pick_user_phone + '\'' +
                     ", order_no='" + order_no + '\'' +
                     ", commissionerName='" + commissionerName + '\'' +
                     ", receive_user_name='" + receive_user_name + '\'' +
@@ -218,6 +218,8 @@ public class AfterSaleInfoData {
                     ", create_order_time='" + create_order_time + '\'' +
                     ", required_delivery_time='" + required_delivery_time + '\'' +
                     ", pick_user_name='" + pick_user_name + '\'' +
+                    ", pick_finish_time='" + pick_finish_time + '\'' +
+                    ", pick_user_phone='" + pick_user_phone + '\'' +
                     ", submitter_tel='" + submitter_tel + '\'' +
                     ", avg_unit='" + avg_unit + '\'' +
                     ", commissioner_name='" + commissioner_name + '\'' +
@@ -228,5 +230,10 @@ public class AfterSaleInfoData {
                     ", product_img='" + product_img + '\'' +
                     '}';
         }
+
+        public String store_img = ""; //http://tsp-img.oss-cn-hangzhou.aliyuncs.com/201116151846db9ccb9b.jpg
+        public String customer_img = ""; //http://tsp-img.oss-cn-hangzhou.aliyuncs.com/2008141407060fb47167.jpg
+        public String product_img = ""; //http://tsp-img.oss-cn-hangzhou.aliyuncs.com/201120151850ddb36961.jpg
+
     }
 }

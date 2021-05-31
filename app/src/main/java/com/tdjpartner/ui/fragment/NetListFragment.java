@@ -7,7 +7,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -43,8 +46,10 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
     TextView tv_time;
     @BindView(R.id.member_list)
     RecyclerView member_list;
-    @BindView(R.id.ll_header_include)
-    LinearLayout ll_header_include;
+//    @BindView(R.id.ll_header_include)
+//    LinearLayout ll_header_include;
+    @BindView(R.id.viewStub)
+    ViewStub viewStub;
     @BindView(R.id.btn_back)
     ImageView btn_back;
 
@@ -56,6 +61,8 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
 
     private TimePickerView pvTime;
     private Date date;
+
+    int grade = UserUtils.getInstance().getLoginBean().getGrade();//用户类型
 
     @OnClick({R.id.tv_time, R.id.btn_back})
     public void onClick(View view) {
@@ -105,26 +112,30 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
                     tv_title.setText(ironDayAndMonthData.headGrade);
                     //头部统计
                     if (isDay) {
-                        ((TextView) ll_header_include.findViewById(R.id.dayRegisterTimes)).setText("" + ironDayAndMonthData.teamView.registerNum);
-                        ((TextView) ll_header_include.findViewById(R.id.firstOrderNum)).setText("" + ironDayAndMonthData.teamView.firstOrderNum);
-                        ((TextView) ll_header_include.findViewById(R.id.activeNum)).setText("" + ironDayAndMonthData.teamView.activeNum);
-                        ((TextView) ll_header_include.findViewById(R.id.yesterdayActiveNum)).setText("" + ironDayAndMonthData.teamView.yesterdayActiveNum);
-                        ((TextView) ll_header_include.findViewById(R.id.callNum)).setText("" + ironDayAndMonthData.teamView.callNum);
-                        ((TextView) ll_header_include.findViewById(R.id.todayAmount)).setText("" + ironDayAndMonthData.teamView.amount);
-                        ((TextView) ll_header_include.findViewById(R.id.averageAmount)).setText("" + ironDayAndMonthData.teamView.averageAmount);
-                        ((TextView) ll_header_include.findViewById(R.id.todayAfterSaleTimes)).setText("" + ironDayAndMonthData.teamView.afterSaleTimes);
-                        ((TextView) ll_header_include.findViewById(R.id.afterSaleAmount)).setText("" + ironDayAndMonthData.teamView.afterSaleAmount);
+                        System.out.println("viewStub = " + viewStub);
+                        System.out.println("getLayoutResource is " + viewStub.getLayoutResource());
+                        System.out.println("dayRegisterTimes is " + viewStub.findViewById(R.id.dayRegisterTimes));
+
+//                        ((TextView) viewStub.findViewById(R.id.dayRegisterTimes)).setText("" + ironDayAndMonthData.teamView.registerNum);
+//                        ((TextView) viewStub.findViewById(R.id.firstOrderNum)).setText("" + ironDayAndMonthData.teamView.firstOrderNum);
+//                        ((TextView) viewStub.findViewById(R.id.activeNum)).setText("" + ironDayAndMonthData.teamView.activeNum);
+//                        ((TextView) viewStub.findViewById(R.id.yesterdayActiveNum)).setText("" + ironDayAndMonthData.teamView.yesterdayActiveNum);
+//                        ((TextView) viewStub.findViewById(R.id.callNum)).setText("" + ironDayAndMonthData.teamView.callNum);
+//                        ((TextView) viewStub.findViewById(R.id.todayAmount)).setText("" + ironDayAndMonthData.teamView.amount);
+//                        ((TextView) viewStub.findViewById(R.id.averageAmount)).setText("" + ironDayAndMonthData.teamView.averageAmount);
+//                        ((TextView) viewStub.findViewById(R.id.todayAfterSaleTimes)).setText("" + ironDayAndMonthData.teamView.afterSaleTimes);
+//                        ((TextView) viewStub.findViewById(R.id.afterSaleAmount)).setText("" + ironDayAndMonthData.teamView.afterSaleAmount);
                     } else {
-                        ((TextView) ll_header_include.findViewById(R.id.monthRegisterNum)).setText("" + ironDayAndMonthData.teamView.registerNum);
-                        ((TextView) ll_header_include.findViewById(R.id.monthFirstOrderNum)).setText("" + ironDayAndMonthData.teamView.firstOrderNum);
-                        ((TextView) ll_header_include.findViewById(R.id.monthActiveNum)).setText("" + ironDayAndMonthData.teamView.activeNum);
-                        ((TextView) ll_header_include.findViewById(R.id.monthAvgActiveNum)).setText("" + ironDayAndMonthData.teamView.monthAvgActiveNum);
-                        ((TextView) ll_header_include.findViewById(R.id.monthCallNum)).setText("" + ironDayAndMonthData.teamView.callNum);
-                        ((TextView) ll_header_include.findViewById(R.id.monthAmount)).setText("" + ironDayAndMonthData.teamView.amount);
-                        ((TextView) ll_header_include.findViewById(R.id.addMonthAmount)).setText("" + ironDayAndMonthData.teamView.addMonthAmount);
-                        ((TextView) ll_header_include.findViewById(R.id.monthAverageAmount)).setText("" + ironDayAndMonthData.teamView.averageAmount);
-                        ((TextView) ll_header_include.findViewById(R.id.monthAfterSaleTimes)).setText("" + ironDayAndMonthData.teamView.afterSaleTimes);
-                        ((TextView) ll_header_include.findViewById(R.id.monthAfterSaleAmount)).setText("" + ironDayAndMonthData.teamView.afterSaleAmount);
+                        ((TextView) viewStub.findViewById(R.id.monthRegisterNum)).setText("" + ironDayAndMonthData.teamView.registerNum);
+                        ((TextView) viewStub.findViewById(R.id.monthFirstOrderNum)).setText("" + ironDayAndMonthData.teamView.firstOrderNum);
+                        ((TextView) viewStub.findViewById(R.id.monthActiveNum)).setText("" + ironDayAndMonthData.teamView.activeNum);
+                        ((TextView) viewStub.findViewById(R.id.monthAvgActiveNum)).setText("" + ironDayAndMonthData.teamView.monthAvgActiveNum);
+                        ((TextView) viewStub.findViewById(R.id.monthCallNum)).setText("" + ironDayAndMonthData.teamView.callNum);
+                        ((TextView) viewStub.findViewById(R.id.monthAmount)).setText("" + ironDayAndMonthData.teamView.amount);
+                        ((TextView) viewStub.findViewById(R.id.addMonthAmount)).setText("" + ironDayAndMonthData.teamView.addMonthAmount);
+                        ((TextView) viewStub.findViewById(R.id.monthAverageAmount)).setText("" + ironDayAndMonthData.teamView.averageAmount);
+                        ((TextView) viewStub.findViewById(R.id.monthAfterSaleTimes)).setText("" + ironDayAndMonthData.teamView.afterSaleTimes);
+                        ((TextView) viewStub.findViewById(R.id.monthAfterSaleAmount)).setText("" + ironDayAndMonthData.teamView.afterSaleAmount);
                     }
                     List<IronDayAndMonthData.TeamView> list = new ArrayList<>(ironDayAndMonthData.teamViewList);
                     if (ironDayAndMonthData.othersTeamView != null)
@@ -138,6 +149,11 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ViewStub viewStub = view.findViewById(R.id.viewStub);
+        System.out.println("id is " + (grade == 3 ? R.layout.net_day_preview_db_item : R.layout.net_day_preview_item));
+        viewStub.setLayoutResource(grade == 3 ? R.layout.net_day_preview_db_item : R.layout.net_day_preview_item);
+        viewStub.inflate();
+
         tv_time.setText(isDay ? GeneralUtils.getTimes(new Date()) : GeneralUtils.getTime(new Date()));
 
         selectedDate = Calendar.getInstance();
@@ -215,9 +231,9 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
         }
 
         //列表
-        adapter.setOnItemChildClickListener(this);
-        member_list.setLayoutManager(new LinearLayoutManager(getContext()));
-        member_list.setAdapter(adapter);
+//        adapter.setOnItemChildClickListener(this);
+//        member_list.setLayoutManager(new LinearLayoutManager(getContext()));
+//        member_list.setAdapter(adapter);
 
     }
 
