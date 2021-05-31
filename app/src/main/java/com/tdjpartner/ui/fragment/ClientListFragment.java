@@ -3,13 +3,11 @@ package com.tdjpartner.ui.fragment;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.ArrayMap;
-import android.util.TimeUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -31,14 +29,12 @@ import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
 import com.tdjpartner.utils.LocationUtils;
 import com.tdjpartner.utils.cache.UserUtils;
-import com.tdjpartner.utils.popuwindow.DayPopuWindow;
 import com.tdjpartner.utils.popuwindow.FollowUpPopuWindow;
 import com.tdjpartner.utils.popuwindow.SortPopuWindow;
 
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -168,11 +164,11 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
         refreshLayout.autoRefresh();
     }
 
+    private boolean firstInto = true;
+
     @Subscribe
     public void eventCode(LocationBean locationBean) {
-
         if (!locationBean.getTag().contains("LOCATION") || PublicCache.flag != hashCode()) return;
-
 
 //            Map<String, Object> map = new HashMap<>();
 //            map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
@@ -200,8 +196,13 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
         switch (index + 1) {
             case 1:
                 map.put("userType", 1);
-                map.put("scope", "" + scope);
                 map.put("orderBy", "");
+                if (firstInto) {
+                    firstInto = false;
+                    map.put("scope", "500");
+                }else {
+                    map.put("scope", "" + scope);
+                }
                 break;
             case 2:
                 map.put("userType", 2);
@@ -245,6 +246,7 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
 //        LogUtils.e(index);
 //        pageNo=1;
 //        getData(pageNo);
+        data.clear();
         getData();
         PublicCache.flag = hashCode();
     }
@@ -259,8 +261,8 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
                             LocationUtils.getInstance().startLocalService("LOCATION");
                         } else {
                             GeneralUtils.isNullOrZeroLenght("请开启位置信息");
-                            hotelMap_failed();
                         }
+                        hotelMap_failed();
 
                     }
                 });
@@ -290,11 +292,11 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
 
     @Override
     public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-        if (index == 0 || index == 1) {
+//        if (index == 0 || index == 1 ) {
             Intent intent = new Intent(getContext(), ClientDetailsActivity.class);
             intent.putExtra("customerId", data.get(i).getCustomerId() + "");
             startActivity(intent);
-        }
+//        }
 
     }
 
@@ -332,16 +334,16 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
             if (ListUtils.isEmpty(customerInfo.partnerCustomerList)) {
                 //获取不到数据,显示空布局
                 mStateView.showEmpty();
-                tv_count.setText("");
+                tv_count.setText("满足该条件的有0家");
                 return;
             }
             mStateView.showContent();//显示内容
         }
-
         data.addAll(customerInfo.partnerCustomerList);
         clientListAdapter.setIndex(index);
         clientListAdapter.setNewData(data);
-        tv_count.setText("共计有" + customerInfo.count + "家");
+        clientListAdapter.notifyDataSetChanged();
+        tv_count.setText(index == 0? "满足该条件的有" + customerInfo.count + "家" : "共计有" + customerInfo.count + "家");
     }
 
     @Override
@@ -395,13 +397,13 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
         tv_search.setText("打卡范围" + distance + "米内");
         Map<String, String> arrayMap = new ArrayMap<>(2);
         arrayMap.put(distance, "打卡范围" + distance + "米内");
-        arrayMap.put("zero", "不限制范围");
+        arrayMap.put("zero", "全部客户");
         sortPopuWindow = new SortPopuWindow(getContext(), arrayMap);
         sortPopuWindow.setPopupWindowFullScreen(true);
         sortPopuWindow.setDayPopuWindowListener(n -> {
             if (n == 1) {
                 scope = "";
-                tv_search.setText("不限制范围");
+                tv_search.setText("全部客户");
             } else {
                 scope = (String) arrayMap.keySet().toArray()[n];
                 tv_search.setText(arrayMap.get(scope));

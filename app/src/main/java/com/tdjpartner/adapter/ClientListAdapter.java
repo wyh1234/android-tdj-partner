@@ -35,13 +35,13 @@ public class ClientListAdapter extends BaseQuickAdapter<ClientInfo, BaseViewHold
         }
 
         baseViewHolder.setText(R.id.tv_regionCollNo,clientInfo.getRegionCollNo());
-        if (index==2){
-            baseViewHolder.setText(R.id.tv_num,"**");
-            baseViewHolder.setText(R.id.tv_num1,"**");
-        }else {
+//        if (index==2){
+//            baseViewHolder.setText(R.id.tv_num,"**");
+//            baseViewHolder.setText(R.id.tv_num1,"**");
+//        }else {
             baseViewHolder.setText(R.id.tv_num,clientInfo.getTodayAmount()+"");
             baseViewHolder.setText(R.id.tv_num1,clientInfo.getAverageAmount()+"");
-        }
+//        }
 
         baseViewHolder.setText(R.id.tv_num2,clientInfo.getTodayTimes()+"");
         baseViewHolder.setText(R.id.tv_num3,clientInfo.getTodayAfterSaleTimes()+"");
