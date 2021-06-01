@@ -44,7 +44,7 @@ public class ClientListAdapter extends BaseQuickAdapter<ClientInfo, BaseViewHold
 //        }
 
         baseViewHolder.setText(R.id.tv_num2,clientInfo.getTodayTimes()+"");
-        baseViewHolder.setText(R.id.tv_num3,clientInfo.getTodayAfterSaleTimes()+"");
+        baseViewHolder.setText(R.id.tv_num3,clientInfo.getMonthAfterSaleTimes()+"");
 
         baseViewHolder.setText(R.id.tv_username,clientInfo.getBoss());
 

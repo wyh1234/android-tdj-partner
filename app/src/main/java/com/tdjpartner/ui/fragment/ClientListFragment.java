@@ -55,7 +55,8 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
     TextView tv_count;
 
     private int index = 0;
-    String sort, scope;
+    String sort = "order";
+    String scope;
     public int pageNo = 1;//翻页计数器
     private ClientListAdapter clientListAdapter;
     private List<ClientInfo> data = new ArrayList<>();
@@ -147,7 +148,7 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
                 arrayMap.put("order", "按下单时间最近排序");
                 arrayMap.put("register", "按注册时间最近排序");
                 arrayMap.put("gmv", "按GMV最大排序");
-                arrayMap.put("first", "按首字母排序");
+                arrayMap.put("letter", "按首字母排序");
                 tv_search.setText(arrayMap.get("order"));
                 ArrayList<String> list = new ArrayList<>();
                 list.add("按下单时间最近排序");
@@ -166,7 +167,7 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
                     }else if (s.equals("按GMV最大排序")){
                         sort = "gmv";
                     }else if (s.equals("按首字母排序")){
-                        sort = "first";
+                        sort = "letter";
                     }
                     tv_search.setText(arrayMap.get(sort));
                     onRefresh(null);
