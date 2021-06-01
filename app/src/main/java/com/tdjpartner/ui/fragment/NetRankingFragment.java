@@ -31,7 +31,7 @@ public class NetRankingFragment extends NetworkFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_ranking;
+        return R.layout.ranking_fragment;
     }
 
     @Override

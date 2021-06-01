@@ -48,7 +48,7 @@ public class ApprovalHandleActivity extends NetworkActivity {
     HotelAuditInfo hotelAuditInfo;
     Map<String, Object> map = new ArrayMap<>();
 
-    @OnClick({R.id.btn_yes, R.id.btn_no})
+    @OnClick({R.id.btn_yes, R.id.btn_no, R.id.btn_back})
     public void onClick(View view) {
         System.out.println("~~" + getClass().getSimpleName() + ".onClick~~");
         System.out.println("view = " + view);
@@ -87,6 +87,10 @@ public class ApprovalHandleActivity extends NetworkActivity {
                 break;
             case R.id.dialog_btn_no:
                 if (dialog.isShowing()) dialog.dismiss();
+                break;
+
+            case R.id.btn_back:
+                finish();
                 break;
         }
     }

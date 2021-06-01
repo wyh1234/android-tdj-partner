@@ -5,29 +5,23 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.bigkoo.pickerview.TimePickerView;
 import com.tdjpartner.R;
 import com.tdjpartner.base.NetworkActivity;
-import com.tdjpartner.model.SeachTag;
-import com.tdjpartner.ui.fragment.ApprovalPendingFragment;
+import com.tdjpartner.ui.fragment.ApprovalListFragment;
 import com.tdjpartner.utils.cache.UserUtils;
-import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.widget.tablayout.WTabLayout;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -61,7 +55,7 @@ public class ApprovalActivity extends NetworkActivity {
 
             @Override
             public Fragment getItem(int i) {
-                ApprovalPendingFragment fragment = new ApprovalPendingFragment();
+                ApprovalListFragment fragment = new ApprovalListFragment();
                 Bundle bundle = new Bundle();
                 Map<String, Object> map = new HashMap<>();
                 map.put("userId", UserUtils.getInstance().getLoginBean().getLoginUserId());

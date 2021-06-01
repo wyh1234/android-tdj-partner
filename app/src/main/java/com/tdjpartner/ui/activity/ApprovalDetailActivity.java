@@ -1,6 +1,7 @@
 package com.tdjpartner.ui.activity;
 
 import android.util.ArrayMap;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,6 +13,7 @@ import com.tdjpartner.utils.glide.ImageLoad;
 import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by LFM on 2021/3/16.
@@ -33,6 +35,8 @@ public class ApprovalDetailActivity extends NetworkActivity {
     TextView created_at;
     @BindView(R.id.verify)
     TextView verify;
+    @BindView(R.id.btn_back)
+    ImageView btn_back;
 
     @BindView(R.id.image_url)
     ImageView image_url;
@@ -42,14 +46,15 @@ public class ApprovalDetailActivity extends NetworkActivity {
     @Override
     protected void initView() {
         tv_title.setText("审核详情");
+        btn_back.setOnClickListener(v -> finish());
     }
 
     @Override
     protected void initData() {
 
         Map<String, Object> map = new ArrayMap<>();
-        map.put("customerId", getIntent().getLongExtra("customerId", -1));
-        map.put("customerId", 258693);
+        map.put("customerId", getIntent().getIntExtra("customerId", -1));
+//        map.put("customerId", 258693);
 
         getVM().loadingWithNewLiveData(HotelAuditInfo.class, map)
                 .observe(this, hotelAuditInfo -> {
@@ -74,8 +79,8 @@ public class ApprovalDetailActivity extends NetworkActivity {
                     person_name.setText(hotelAuditInfo.nick_name + "：" + "" + hotelAuditInfo.phone);
                     enterprise_msg.setText("" + hotelAuditInfo.enterprise_msg);
 
-                    ImageLoad.loadImageViewLoding(hotelAuditInfo.image_url, image_url);
-                    ImageLoad.loadImageViewLoding(hotelAuditInfo.bzlicence_url, bzlicence_url);
+                    ImageLoad.loadImageViewLoding(hotelAuditInfo.image_url, image_url, R.mipmap.yingyezhao_bg);
+                    ImageLoad.loadImageViewLoding(hotelAuditInfo.bzlicence_url, bzlicence_url, R.mipmap.yingyezhao_bg);
 
 
                     created_at.setText("提交时间：" + hotelAuditInfo.created_at);

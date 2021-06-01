@@ -101,13 +101,24 @@
             android:layout_marginBottom="8dp"
             android:background="@color/gray_f2" />
 
-        <ListView
-            android:id="@+id/listView"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/bitmap_empty"
-            android:nestedScrollingEnabled="true"/>
+            android:layout_height="match_parent">
 
+            <ImageView
+                android:id="@+id/iv_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@mipmap/layout_empty" />
+
+            <ListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:nestedScrollingEnabled="true"
+                android:visibility="gone"/>
+        </FrameLayout>
 
     </LinearLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

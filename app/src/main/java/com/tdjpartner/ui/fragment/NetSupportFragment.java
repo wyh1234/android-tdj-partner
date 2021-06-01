@@ -52,6 +52,8 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
 
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.iv_empty)
+    ImageView iv_empty;
     @BindView(R.id.listView)
     ListView listView;
     @BindView(R.id.ll_replenish)
@@ -177,7 +179,7 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
 
                     listViewAdapter.clear();
                     listViewAdapter.addAll(list);
-                    listView.setBackgroundResource(list.isEmpty() ? R.drawable.bitmap_empty : 0);
+                    showListView(list.isEmpty());
 
                     int n;
                     if ((n = title == 0 ? afterSaleInfoData.buTotalNum - afterSaleInfoData.buFinishNum : afterSaleInfoData.buOver_list.size()) > 0) {
@@ -234,7 +236,17 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
                 getArgs().put("tab", 2);
                 break;
         }
-        listView.setBackgroundResource(listViewAdapter.isEmpty() ? R.drawable.bitmap_empty : 0);
+        showListView(listViewAdapter.isEmpty());
+    }
+
+    private void showListView(boolean empty) {
+        if (empty) {
+            listView.setVisibility(View.GONE);
+            iv_empty.setVisibility(View.VISIBLE);
+        } else {
+            listView.setVisibility(View.VISIBLE);
+            iv_empty.setVisibility(View.GONE);
+        }
     }
 
     private void updateTextView(View current, int colorId, int drawableId) {
@@ -288,7 +300,7 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
     }
 
     private String trimZero(String n) {
-        if(n.charAt(n.length()-1) == '0') return n.substring(0, n.length()-2);
+        if (n.charAt(n.length() - 1) == '0') return n.substring(0, n.length() - 2);
         return n;
     }
 }
