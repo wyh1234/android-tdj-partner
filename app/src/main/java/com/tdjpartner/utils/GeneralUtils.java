@@ -505,4 +505,8 @@ public class GeneralUtils {
         return format;
     }
 
+    public static String trimZero(float v) {
+        String n = v + "";
+        return n.charAt(n.length()-1)=='0'? n.substring(0, n.length()-2) : n;
+    }
 }

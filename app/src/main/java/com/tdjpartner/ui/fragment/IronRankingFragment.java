@@ -77,6 +77,8 @@ public class IronRankingFragment extends NetworkFragment {
 
                 HomeTopData.RegisterTimesTopListBean bean = getItem(position);
                 System.out.println("bean = " + bean);
+                System.out.println("upNum = " + upNum);
+                System.out.println("offset = " + offset);
 
                 TextView textView;
                 if (bean.customerId == entityId) {

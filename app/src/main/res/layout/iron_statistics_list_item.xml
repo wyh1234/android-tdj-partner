@@ -68,7 +68,8 @@
                 android:textSize="@dimen/sp_12"
                 android:layout_weight="2"
                 android:gravity="end"
-                android:text="王五"/>
+                android:text="王五"
+                android:visibility="gone"/>
         </LinearLayout>
 
         <LinearLayout

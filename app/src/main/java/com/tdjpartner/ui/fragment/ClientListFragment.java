@@ -35,6 +35,7 @@ import com.tdjpartner.utils.popuwindow.SortPopuWindow;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -137,23 +138,26 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
         if (compositeDisposable != null) {
             compositeDisposable.clear();
         }
+        sort = "order";
+        scope = "500";
 
+        Map<String, Object> arrayMap = new ArrayMap<>(5);
         switch (index) {
             case 0:
-                if (TextUtils.isEmpty(scope)) mPresenter.punchDistance(new ArrayMap<>());
+                ClientListFragment.this.punchDistanceSuccess("500");
                 break;
             case 1:
-                Map<String, String> arrayMap = new ArrayMap<>(5);
-                arrayMap.put("order", "按下单时间最近排序");
+                arrayMap.put("letter", "按首字母排序");
                 arrayMap.put("register", "按注册时间最近排序");
+                arrayMap.put("order", "按下单时间最近排序");
                 arrayMap.put("gmv", "按GMV最大排序");
-                arrayMap.put("first", "按首字母排序");
-                tv_search.setText(arrayMap.get("order"));
+
+                tv_search.setText(arrayMap.get("order").toString());
                 sortPopuWindow = new SortPopuWindow(getContext(), arrayMap);
                 sortPopuWindow.setPopupWindowFullScreen(true);
                 sortPopuWindow.setDayPopuWindowListener(n -> {
                     sort = arrayMap.keySet().toArray(new String[0])[n];
-                    tv_search.setText(arrayMap.get(sort));
+                    tv_search.setText(arrayMap.get(sort).toString());
                     onRefresh(null);
                 });
                 break;
@@ -163,8 +167,6 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
 
         refreshLayout.autoRefresh();
     }
-
-    private boolean firstInto = true;
 
     @Subscribe
     public void eventCode(LocationBean locationBean) {
@@ -197,17 +199,12 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
             case 1:
                 map.put("userType", 1);
                 map.put("orderBy", "");
-                if (firstInto) {
-                    firstInto = false;
-                    map.put("scope", "500");
-                }else {
-                    map.put("scope", "" + scope);
-                }
+                map.put("scope", scope);
                 break;
             case 2:
                 map.put("userType", 2);
                 map.put("scope", "");
-                map.put("orderBy", "" + sort);
+                map.put("orderBy", TextUtils.isEmpty(sort) ? "order" : sort);
                 break;
             case 3:
                 map.put("userType", 3);
@@ -252,7 +249,7 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
     }
 
     protected void getData() {
-        rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION)
+        rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
                 .subscribe(new Consumer<Boolean>() {
                     @Override
                     public void accept(Boolean b) throws Exception {
@@ -261,8 +258,8 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
                             LocationUtils.getInstance().startLocalService("LOCATION");
                         } else {
                             GeneralUtils.isNullOrZeroLenght("请开启位置信息");
+                            hotelMap_failed();
                         }
-                        hotelMap_failed();
 
                     }
                 });
@@ -293,9 +290,9 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
     @Override
     public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
 //        if (index == 0 || index == 1 ) {
-            Intent intent = new Intent(getContext(), ClientDetailsActivity.class);
-            intent.putExtra("customerId", data.get(i).getCustomerId() + "");
-            startActivity(intent);
+        Intent intent = new Intent(getContext(), ClientDetailsActivity.class);
+        intent.putExtra("customerId", data.get(i).getCustomerId() + "");
+        startActivity(intent);
 //        }
 
     }
@@ -329,10 +326,10 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
 
     public void listData_Success(CustomerInfo customerInfo) {
         stop();
-
         if (ListUtils.isEmpty(data)) {
             if (ListUtils.isEmpty(customerInfo.partnerCustomerList)) {
                 //获取不到数据,显示空布局
+                clientListAdapter.setNewData(Collections.emptyList());
                 mStateView.showEmpty();
                 tv_count.setText("满足该条件的有0家");
                 return;
@@ -343,7 +340,7 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
         clientListAdapter.setIndex(index);
         clientListAdapter.setNewData(data);
         clientListAdapter.notifyDataSetChanged();
-        tv_count.setText(index == 0? "满足该条件的有" + customerInfo.count + "家" : "共计有" + customerInfo.count + "家");
+        tv_count.setText(index == 0 ? "满足该条件的有" + customerInfo.count + "家" : "共计有" + customerInfo.count + "家");
     }
 
     @Override
@@ -395,7 +392,7 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
 
     public void punchDistanceSuccess(String distance) {
         tv_search.setText("打卡范围" + distance + "米内");
-        Map<String, String> arrayMap = new ArrayMap<>(2);
+        Map<String, Object> arrayMap = new ArrayMap<>(2);
         arrayMap.put(distance, "打卡范围" + distance + "米内");
         arrayMap.put("zero", "全部客户");
         sortPopuWindow = new SortPopuWindow(getContext(), arrayMap);
@@ -406,7 +403,7 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
                 tv_search.setText("全部客户");
             } else {
                 scope = (String) arrayMap.keySet().toArray()[n];
-                tv_search.setText(arrayMap.get(scope));
+                tv_search.setText(arrayMap.get(scope).toString());
             }
 
             onRefresh(null);

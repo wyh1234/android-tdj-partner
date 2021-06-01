@@ -54,8 +54,8 @@
                 <View
                     android:layout_width="1dp"
                     android:layout_height="60dp"
-                    android:layout_marginStart="11dp"
-                    android:background="@drawable/line_orange_16"/>
+                    android:layout_marginStart="12dp"
+                    android:background="@color/bg_color"/>
                 <TextView
                     android:id="@+id/verify"
                     android:layout_width="wrap_content"

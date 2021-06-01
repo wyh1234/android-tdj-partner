@@ -75,6 +75,8 @@ public class NetRankingFragment extends NetworkFragment {
 
                 HomeTopData.RegisterTimesTopListBean bean = getItem(position);
                 System.out.println("bean = " + bean);
+                System.out.println((position == upNum) + "|upNum = " + upNum);
+                System.out.println("offset = " + offset);
 
                 TextView textView;
                 if (bean.customerId == entityId) {
@@ -179,6 +181,7 @@ public class NetRankingFragment extends NetworkFragment {
                             } else {
                                 if (i >= 5) {
                                     offset++;
+                                    System.out.println("offset = " + offset);
                                     upNum = i;
                                     continue;
                                 }

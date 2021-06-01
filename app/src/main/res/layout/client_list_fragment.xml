@@ -23,17 +23,19 @@
             android:orientation="vertical">
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_margin="4dp">
 
                 <TextView
                     android:id="@+id/tv_search"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_gravity="center_vertical"
                     android:text="统计中，请稍等..."
-                    android:background="@drawable/bg_orange_12"
-                    android:textColor="@color/white"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="16dp"
+                    android:background="@mipmap/selector"
                     android:textSize="10sp" />
 
                 <TextView
@@ -41,7 +43,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|center_vertical"
-                    android:layout_marginEnd="4dp"
                     android:text="共计有0家" />
             </FrameLayout>
             <android.support.v7.widget.RecyclerView

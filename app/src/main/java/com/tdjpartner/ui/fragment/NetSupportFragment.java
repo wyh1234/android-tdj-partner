@@ -100,14 +100,14 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
 
                     ((TextView) convertView.findViewById(R.id.product_criteria)).setText(data.product_criteria.equals("1") ? "通" : "精");
 
-                    String level3 = TextUtils.isEmpty(data.level_3_unit) ? "" : "*" + data.level_3_value + data.level_3_unit;
-                    String level2 = TextUtils.isEmpty(data.level_2_unit) ? "" : "（" + data.level_2_value + data.level_2_unit + level3 + "）";
-                    String value = data.price + "元/" + data.unit + (data.level_type == 3 ? "" : level2);
-                    String styledText = "<font color='grey'>" + value + "</font>" + "<font color='red'>×" + data.original_amount + "</font>";
+                    String level3 = TextUtils.isEmpty(data.level_3_unit) ? "" : "*" + GeneralUtils.trimZero(data.level_3_value) + data.level_3_unit;
+                    String level2 = TextUtils.isEmpty(data.level_2_unit) ? "" : "（" + GeneralUtils.trimZero(data.level_2_value) + data.level_2_unit + level3 + "）";
+                    String value = GeneralUtils.trimZero(data.price) + "元/" + data.unit + (data.level_type == 3 ? "" : level2);
+                    String styledText = "<font color='grey'>" + value + "</font>" + "<font color='red'>×" + GeneralUtils.trimZero(data.original_amount) + "</font>";
                     ((TextView) convertView.findViewById(R.id.unit)).setText(Html.fromHtml(styledText, FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
 
 
-                    value = data.original_amount + data.unit + "/共" + (data.price * data.original_amount) + "元";
+                    value = GeneralUtils.trimZero(data.original_amount) + data.unit + "/共" + GeneralUtils.trimZero(data.price * data.original_amount) + "元";
                     ((TextView) convertView.findViewById(R.id.price)).setText(value);
 
                     styledText = "<font color='black'>" + data.name + "</font>" + "<font color='grey'><small> " + (TextUtils.isEmpty(data.nick_name) ? "" : "（" + data.nick_name + "）</small></font>");
@@ -135,7 +135,7 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
                             break;
                     }
 
-                    ((TextView) convertView.findViewById(R.id.tv_amount)).setText(type + data.amount + data.avg_unit);
+                    ((TextView) convertView.findViewById(R.id.tv_amount)).setText(type + GeneralUtils.trimZero(data.amount) + data.avg_unit);
 //                    switch (data.level_type) {
 //                        case 1:
 //                            ((TextView) convertView.findViewById(R.id.tv_amount)).setText(type + data.amount + data.unit);
@@ -265,7 +265,7 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
         intent.putExtra("entityId", listViewAdapter.getItem(position).entity_id);
         intent.putExtra("type", type);
         intent.putExtra("title", title);
-        intent.putExtra("original", listViewAdapter.getItem(position).original_amount + listViewAdapter.getItem(position).unit);
+        intent.putExtra("original", GeneralUtils.trimZero(listViewAdapter.getItem(position).original_amount) + listViewAdapter.getItem(position).unit);
 
 //        switch (listViewAdapter.getItem(position).level_type) {
 //            case 1:
@@ -284,6 +284,7 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
 
         intent.putExtra("amount", listViewAdapter.getItem(position).amount);
         intent.putExtra("unit", listViewAdapter.getItem(position).avg_unit);
+        intent.putExtra("original_amount", listViewAdapter.getItem(position).original_amount);
 
         intent.putExtra("money", listViewAdapter.getItem(position).discount_price + "元/" + listViewAdapter.getItem(position).unit);
         startActivityForResult(intent, 1);
@@ -297,10 +298,5 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
         if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
             swipeRefreshLayout.setRefreshing(false);
         }
-    }
-
-    private String trimZero(String n) {
-        if (n.charAt(n.length() - 1) == '0') return n.substring(0, n.length() - 2);
-        return n;
     }
 }

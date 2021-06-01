@@ -135,7 +135,7 @@ public class NetSupportDetailActivity extends NetworkActivity {
     int uploadIndex;
     int entityId;
     File captureFile;
-    float amountFloatExtra;
+    float amountFloatExtra, originalAmountFloatExtra;
     String unitStringExtra, originalStringExtra;
     int title;
     AfterDetailData afterDetailData;
@@ -282,6 +282,7 @@ public class NetSupportDetailActivity extends NetworkActivity {
         amountFloatExtra = getIntent().getFloatExtra("amount", 0);
         unitStringExtra = getIntent().getStringExtra("unit");
         originalStringExtra = getIntent().getStringExtra("original");
+        originalAmountFloatExtra = getIntent().getFloatExtra("original_amount", 0);
         original.setText("平台下单：" + getIntent().getStringExtra("original"));
 //        money.setText("折算后单价：" + getIntent().getStringExtra("money"));
         num_title.setText("实际数量：");
@@ -306,11 +307,29 @@ public class NetSupportDetailActivity extends NetworkActivity {
             }
         });
         et_money.setOnFocusChangeListener(this::onFocusChange);
+//        et_money.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                if(TextUtils.isEmpty(et_num.getText()))return;
+//                if (!TextUtils.isEmpty(s) && s.charAt(s.length() - 1) != '.' && Float.parseFloat(s.toString()) > originalAmountFloatExtra * Float.parseFloat(et_num.getText().toString()) * 3)
+//                    GeneralUtils.showToastshort("实际金额不能超过3倍，请重新输入！");
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        });
 
         switch (type) {
             case REPLENISH:
                 tv_title.setText(REPLENISH.substring(2, 4) + "详情");
-                amount.setText(Html.fromHtml("要求补货：<font color='red'>" + amountFloatExtra + unitStringExtra + "</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+                amount.setText(Html.fromHtml("要求补货：<font color='red'>" + GeneralUtils.trimZero(amountFloatExtra) + unitStringExtra + "</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
                 et_num.setHint("请输入实际补货数量");
                 et_money.setHint("请输入实际补货金额");
                 break;
@@ -412,14 +431,14 @@ public class NetSupportDetailActivity extends NetworkActivity {
                     order_pay_time.setText("下单时间：" + afterDetailData.order.order_pay_time);
                     order_no.setText("商品单号：" + afterDetailData.order.order_no);
 
-                    String level3 = TextUtils.isEmpty(afterDetailData.order.level_3_unit) ? "" : "*" + afterDetailData.order.level_3_value + afterDetailData.order.level_3_unit;
-                    String level2 = TextUtils.isEmpty(afterDetailData.order.level_2_unit) ? "" : "（" + afterDetailData.order.level_2_value + afterDetailData.order.level_2_unit + level3 + "）";
+                    String level3 = TextUtils.isEmpty(afterDetailData.order.level_3_unit) ? "" : "*" + GeneralUtils.trimZero(afterDetailData.order.level_3_value) + afterDetailData.order.level_3_unit;
+                    String level2 = TextUtils.isEmpty(afterDetailData.order.level_2_unit) ? "" : "（" + GeneralUtils.trimZero(afterDetailData.order.level_2_value) + afterDetailData.order.level_2_unit + level3 + "）";
                     String value = afterDetailData.order.price + "元/" + afterDetailData.order.unit + (afterDetailData.order.level_type == 3 ? "" : level2);
-                    String styledText = "<font color='grey'>" + value + "</font>" + "<font color='red'>×" + afterDetailData.order.original_amount + "</font>";
+                    String styledText = "<font color='grey'>" + value + "</font>" + "<font color='red'>×" + GeneralUtils.trimZero(afterDetailData.order.original_amount) + "</font>";
                     unit.setText(Html.fromHtml(styledText, FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
 
 
-                    value = afterDetailData.order.original_amount + afterDetailData.order.unit + "/共" + (afterDetailData.order.price * afterDetailData.order.original_amount) + "元";
+                    value = GeneralUtils.trimZero(afterDetailData.order.original_amount) + afterDetailData.order.unit + "/共" + GeneralUtils.trimZero(afterDetailData.order.price * afterDetailData.order.original_amount) + "元";
                     price.setText(value);
 
 
@@ -632,9 +651,13 @@ public class NetSupportDetailActivity extends NetworkActivity {
                 break;
 
             case R.id.et_money:
-                if (TextUtils.isEmpty(et_money.getText())) return;
-                float price = Float.parseFloat(et_money.getText().toString());
-                System.out.println("price = " + price);
+//                if (TextUtils.isEmpty(et_money.getText())) return;
+//                float price = Float.parseFloat(et_money.getText().toString());
+//                System.out.println("price = " + price);
+//                if (!TextUtils.isEmpty(et_num.getText().toString()) && price > originalAmountFloatExtra * Float.parseFloat(et_num.getText().toString()) * 3) {
+//                    et_money.setText("");
+//                    GeneralUtils.showToastshort("实际金额不能超过3倍，请重新输入！");
+//                }
                 break;
         }
 
@@ -645,7 +668,7 @@ public class NetSupportDetailActivity extends NetworkActivity {
         if (!TextUtils.isEmpty(num) && !TextUtils.isEmpty(money)) {
             float n = Float.parseFloat(num);
             float m = Float.parseFloat(money);
-            discount_price.setText("折算后单价：" + ((float) (Math.round(m / n * 100) / 100.0)) + "元/" + unitStringExtra);
+            discount_price.setText("折算后单价：" + GeneralUtils.trimZero((float) (Math.round(m / n * 100) / 100.0)) + "元/" + unitStringExtra);
         }
     }
 }

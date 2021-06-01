@@ -34,7 +34,7 @@ public class SortPopuWindow extends BasePopupWindow {
         void onOk(int s);
     }
 
-    public SortPopuWindow(Context context, Map<String, String> arrayMap) {
+    public SortPopuWindow(Context context, Map<String, Object> arrayMap) {
         super(context);
         dayPicker = popupView.findViewById(R.id.day);
         tv_type = popupView.findViewById(R.id.tv_type);

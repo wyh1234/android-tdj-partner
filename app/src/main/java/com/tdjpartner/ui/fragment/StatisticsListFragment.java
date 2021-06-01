@@ -32,7 +32,7 @@ import butterknife.BindView;
 /**
  * Created by LFM on 2021/3/15.
  */
-public class StatisticsListFragment extends NetworkFragment implements OnRefreshListener{
+public class StatisticsListFragment extends NetworkFragment implements OnRefreshListener {
 
     @BindView(R.id.refreshLayout)
     RefreshLayout refreshLayout;
@@ -60,7 +60,8 @@ public class StatisticsListFragment extends NetworkFragment implements OnRefresh
                     if (refreshLayout.isRefreshing()) {
                         refreshLayout.finishRefresh();
                     }
-                    if(ironStatisticsDetails.getList().size() > 0)iv_empty.setVisibility(View.GONE);
+                    if (ironStatisticsDetails.getList().size() > 0)
+                        iv_empty.setVisibility(View.GONE);
                     adapter.clear();
                     adapter.addAll(ironStatisticsDetails.getList());
                     dismissLoading();
@@ -80,22 +81,37 @@ public class StatisticsListFragment extends NetworkFragment implements OnRefresh
                 .addChildId(R.id.ll_call, R.id.tv_driverName)
                 .setInitView((data, convertView) -> {
                     System.out.println("data = " + data + ", convertView = " + convertView);
-
+                    TextView textView;
                     if (userType == 1) {//网军
                         if (!isDay) {
                             ((TextView) convertView.findViewById(R.id.todayAmount)).setText("月GMV");
                             ((TextView) convertView.findViewById(R.id.today)).setText("月下单次数");
                             ((TextView) convertView.findViewById(R.id.afterSale)).setText("月退款金额");
                             ((TextView) convertView.findViewById(R.id.call)).setText("月拜访数");
+                        } else {
+                            if (!TextUtils.isEmpty(data.getDriverName())) {
+                                textView = convertView.findViewById(R.id.tv_driverName);
+                                textView.setVisibility(View.VISIBLE);
+                                textView.setText(data.getDriverName());
+                                textView.setTag(data.getDriverTel());
+                            }
                         }
                         ((TextView) convertView.findViewById(R.id.todayAmountNum)).setText("" + data.getTodayAmount());
                         ((TextView) convertView.findViewById(R.id.afterSaleAmount)).setText("" + data.getAfterSaleAmount());
                         ((TextView) convertView.findViewById(R.id.callNum)).setText("" + data.getCallNum());
                         ((TextView) convertView.findViewById(R.id.todayTimes)).setText("" + data.getMonthTimes());//日下单次数同月下单次数
+
                     } else {//铁军
                         if (!isDay) {
                             ((TextView) convertView.findViewById(R.id.todayAmount)).setText("月下单额");
                             ((TextView) convertView.findViewById(R.id.today)).setText("月下单次数");
+                        } else {
+                            if (!TextUtils.isEmpty(data.getDriverName())) {
+                                textView = convertView.findViewById(R.id.tv_driverName);
+                                textView.setVisibility(View.VISIBLE);
+                                textView.setText(data.getDriverName());
+                                textView.setTag(data.getDriverTel());
+                            }
                         }
 
                         ((TextView) convertView.findViewById(R.id.todayAmountNum)).setText("" + data.getTodayAmount());
@@ -108,18 +124,10 @@ public class StatisticsListFragment extends NetworkFragment implements OnRefresh
                     ((TextView) convertView.findViewById(R.id.tv_regionCollNo)).setText(data.getRegionCollNo());
                     ((TextView) convertView.findViewById(R.id.tv_address)).setText(data.getAddress());
 
-                    TextView textView;
+
                     textView = convertView.findViewById(R.id.tv_boss);
                     textView.setText(data.getBoss());
                     textView.setTag(data.getMobile());
-
-                    textView = convertView.findViewById(R.id.tv_driverName);
-                    if (TextUtils.isEmpty(data.getDriverName())) {
-                        textView.setVisibility(View.GONE);
-                    } else {
-                        textView.setText(data.getDriverName());
-                        textView.setTag(data.getDriverTel());
-                    }
 
                 })
                 .build(getContext());

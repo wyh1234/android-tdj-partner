@@ -181,7 +181,6 @@ public class IronIndexFragment extends NetworkFragment
                     Map<String, Object> map = new HashMap<>();
                     map.put("entityId", UserUtils.getInstance().getLoginBean().getEntityId());
                     getVMWithFragment().loading(new TypeToken<ArrayList<CustomerPhone>>() {}, map);
-                    dialog.show();
                 }
                 break;
 
