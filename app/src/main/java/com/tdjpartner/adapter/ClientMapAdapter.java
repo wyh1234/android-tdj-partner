@@ -26,9 +26,15 @@ public class ClientMapAdapter extends BaseQuickAdapter<ClientInfo, BaseViewHolde
         }else if (clientMapInfo.getUserType()==3){
             baseViewHolder.setGone(R.id.tv_boss,false);
             baseViewHolder.setImageResource(R.id.iv,R.mipmap.jiudianthree_bg);
-        }else {
+        }else if (clientMapInfo.getUserType()==4){
+            baseViewHolder.setGone(R.id.tv_boss,true);
+            baseViewHolder.setImageResource(R.id.iv,R.mipmap.heise);
+        }else if (clientMapInfo.getUserType()==5){
             baseViewHolder.setGone(R.id.tv_boss,true);
             baseViewHolder.setImageResource(R.id.iv,R.mipmap.huangse);
+        }else {
+            baseViewHolder.setGone(R.id.tv_boss,true);
+            baseViewHolder.setImageResource(R.id.iv,R.mipmap.jiudiantwo_bg);
         }
         baseViewHolder.setText(R.id.tv_tiltle,clientMapInfo.getName());
         baseViewHolder.setText(R.id.tv_regionCollNo,clientMapInfo.getRegionCollNo());

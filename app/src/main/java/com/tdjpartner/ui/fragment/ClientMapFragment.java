@@ -255,7 +255,7 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
         map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
         map.put("latitude", getLocationBean().getLatitude());
         map.put("longitude", getLocationBean().getLongitude());
-        map.put("keyword", "");
+//        map.put("keyword", "");
 //        mPresenter.hotelMap(map);
         mPresenter.mapData(map);
     }
@@ -308,8 +308,9 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
             imageView.setImageResource(R.mipmap.jiudiantwo_bg);
         } else if (clientInfo.getUserType() == 3) {
             imageView.setImageResource(R.mipmap.jiudianthree_bg);
+        }else if (clientInfo.getUserType() == 4){
+            imageView.setImageResource(R.mipmap.heise);
         } else {
-
             imageView.setImageResource(R.mipmap.huangse);
         }
 
