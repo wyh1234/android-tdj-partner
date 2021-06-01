@@ -170,25 +170,6 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
     public void eventCode(LocationBean locationBean) {
         if (!locationBean.getTag().contains("LOCATION") || PublicCache.flag != hashCode()) return;
 
-//            Map<String, Object> map = new HashMap<>();
-//            map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
-//            map.put("userType", index + 1);
-//            map.put("latitude", locationBean.getLatitude());
-//            map.put("longitude", locationBean.getLongitude());
-//            map.put("keyword", "");
-//            mPresenter.hotelMap(map);
-
-
-        //
-//            Map<String, Object> map = new HashMap<>();
-//            map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
-//            map.put("latitude", locationBean.getLatitude());
-//            map.put("longitude", locationBean.getLongitude());
-////            map.put("userId", 25165);
-////            map.put("latitude", 30.59379611545139d);
-////            map.put("longitude", 114.3373291015625d);
-//            mPresenter.mapData(map);
-
         Map<String, Object> map = new HashMap<>();
         map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
         map.put("latitude", locationBean.getLatitude());
@@ -198,7 +179,6 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
                 map.put("userType", 1);
                 map.put("orderBy", "");
                 if (firstInto) {
-                    firstInto = false;
                     map.put("scope", "500");
                 }else {
                     map.put("scope", "" + scope);
@@ -236,17 +216,14 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
         return R.layout.client_list_fragment;
     }
 
-/*    @Override
-    public void onLoadmore(RefreshLayout refreshlayout) {
-//        getData(++pageNo);
-    }*/
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
-//        LogUtils.e(index);
-//        pageNo=1;
-//        getData(pageNo);
-        data.clear();
+
+        if(!ListUtils.isEmpty(data)) {
+            data.clear();
+            clientListAdapter.notifyDataSetChanged();
+        }
         getData();
         PublicCache.flag = hashCode();
     }
@@ -401,6 +378,7 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
         sortPopuWindow = new SortPopuWindow(getContext(), arrayMap);
         sortPopuWindow.setPopupWindowFullScreen(true);
         sortPopuWindow.setDayPopuWindowListener(n -> {
+            firstInto = false;
             if (n == 1) {
                 scope = "";
                 tv_search.setText("全部客户");
