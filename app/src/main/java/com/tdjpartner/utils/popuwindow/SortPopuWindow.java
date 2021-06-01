@@ -10,10 +10,6 @@ import com.tdjpartner.R;
 import com.tdjpartner.widget.view.WheelView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 import razerdp.basepopup.BasePopupWindow;
 
@@ -34,15 +30,15 @@ public class SortPopuWindow extends BasePopupWindow {
         void onOk(int s);
     }
 
-    public SortPopuWindow(Context context, Map<String, String> arrayMap) {
+    public SortPopuWindow(Context context,ArrayList<String> list) {
         super(context);
         dayPicker = popupView.findViewById(R.id.day);
         tv_type = popupView.findViewById(R.id.tv_type);
         bt_cancel = popupView.findViewById(R.id.bt_cancel);
         bt_ok = popupView.findViewById(R.id.bt_ok);
 
-        text = (String) arrayMap.values().toArray()[0];
-        dayPicker.setItems(new ArrayList(arrayMap.values()), 0);
+        text = (String) list.get(0);
+        dayPicker.setItems(list, 0);
         dayPicker.setOnItemSelectedListener(new WheelView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int selectedIndex, String item) {

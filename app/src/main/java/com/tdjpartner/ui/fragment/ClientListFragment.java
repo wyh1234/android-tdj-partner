@@ -149,10 +149,25 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
                 arrayMap.put("gmv", "按GMV最大排序");
                 arrayMap.put("first", "按首字母排序");
                 tv_search.setText(arrayMap.get("order"));
-                sortPopuWindow = new SortPopuWindow(getContext(), arrayMap);
+                ArrayList<String> list = new ArrayList<>();
+                list.add("按下单时间最近排序");
+                list.add("按注册时间最近排序");
+                list.add("按GMV最大排序");
+                list.add("按首字母排序");
+                sortPopuWindow = new SortPopuWindow(getContext(), list);
                 sortPopuWindow.setPopupWindowFullScreen(true);
                 sortPopuWindow.setDayPopuWindowListener(n -> {
-                    sort = arrayMap.keySet().toArray(new String[0])[n];
+//                    sort = arrayMap.keySet().toArray(new String[0])[n];
+                    String s = list.get(n);
+                    if (s.equals("按下单时间最近排序")){
+                        sort = "order";
+                    }else if (s.equals("按注册时间最近排序")){
+                        sort = "register";
+                    }else if (s.equals("按GMV最大排序")){
+                        sort = "gmv";
+                    }else if (s.equals("按首字母排序")){
+                        sort = "first";
+                    }
                     tv_search.setText(arrayMap.get(sort));
                     onRefresh(null);
                 });
@@ -375,7 +390,10 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
         Map<String, String> arrayMap = new ArrayMap<>(2);
         arrayMap.put(distance, "打卡范围" + distance + "米内");
         arrayMap.put("zero", "全部客户");
-        sortPopuWindow = new SortPopuWindow(getContext(), arrayMap);
+        ArrayList<String> list = new ArrayList<>();
+        list.add("打卡范围" + distance + "米内");
+        list.add("全部客户");
+        sortPopuWindow = new SortPopuWindow(getContext(), list);
         sortPopuWindow.setPopupWindowFullScreen(true);
         sortPopuWindow.setDayPopuWindowListener(n -> {
             firstInto = false;
@@ -383,7 +401,7 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
                 scope = "";
                 tv_search.setText("全部客户");
             } else {
-                scope = (String) arrayMap.keySet().toArray()[n];
+                scope = distance;
                 tv_search.setText(arrayMap.get(scope));
             }
 
