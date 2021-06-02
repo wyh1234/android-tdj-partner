@@ -55,6 +55,7 @@ import com.tdjpartner.model.RentingInfos;
 import com.tdjpartner.model.SelectPerson;
 import com.tdjpartner.model.SettingPerson;
 import com.tdjpartner.model.StoreInfo;
+import com.tdjpartner.model.TeamMemberData;
 import com.tdjpartner.model.TeamOverView;
 import com.tdjpartner.model.ToMakeMoney;
 import com.tdjpartner.model.UserInfo;
@@ -412,6 +413,8 @@ public class RequestPresenter {
             observable = (Observable<T>) getApiService().getafterSalesTask(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
         } else if (clazz.isAssignableFrom(AfterDetailData.class)) {
             observable = (Observable<T>) getApiService().afterDetail(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
+        }else if (clazz.isAssignableFrom(TeamMemberData.class)) {
+            observable = (Observable<T>) getApiService().teamMember(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
         } else {
             observable = null;
         }

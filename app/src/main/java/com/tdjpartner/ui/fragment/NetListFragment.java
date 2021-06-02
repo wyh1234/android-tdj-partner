@@ -69,7 +69,8 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
                 setTime(isDay);
                 break;
             case R.id.btn_back:
-                getActivity().finish();
+                getFragmentManager().popBackStack();
+                if (getFragmentManager().getBackStackEntryCount() == 0) getActivity().finish();
                 break;
         }
     }

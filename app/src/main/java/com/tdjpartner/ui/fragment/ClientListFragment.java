@@ -141,23 +141,29 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
         sort = "order";
         scope = "500";
 
-        Map<String, Object> arrayMap = new ArrayMap<>(5);
+        Map<String, String> arrayMap = new ArrayMap<>(5);
+        ArrayList<String> list = new ArrayList<>(5);
         switch (index) {
             case 0:
                 ClientListFragment.this.punchDistanceSuccess("500");
                 break;
             case 1:
-                arrayMap.put("letter", "按首字母排序");
-                arrayMap.put("register", "按注册时间最近排序");
-                arrayMap.put("order", "按下单时间最近排序");
-                arrayMap.put("gmv", "按GMV最大排序");
+                tv_search.setText("按下单时间最近排序");
+                arrayMap.put("按首字母排序", "letter");
+                arrayMap.put("按注册时间最近排序", "register");
+                arrayMap.put("按下单时间最近排序", "order");
+                arrayMap.put("按GMV最大排序", "gmv");
 
-                tv_search.setText(arrayMap.get("order").toString());
-                sortPopuWindow = new SortPopuWindow(getContext(), arrayMap);
+                list.add("按下单时间最近排序");
+                list.add("按注册时间最近排序");
+                list.add("按GMV最大排序");
+                list.add("按首字母排序");
+                sortPopuWindow = new SortPopuWindow(getContext(), list);
                 sortPopuWindow.setPopupWindowFullScreen(true);
                 sortPopuWindow.setDayPopuWindowListener(n -> {
-                    sort = arrayMap.keySet().toArray(new String[0])[n];
-                    tv_search.setText(arrayMap.get(sort).toString());
+                    sort = arrayMap.get(list.get(n));
+                    System.out.println("n = " + n + ", sort = " + sort);
+                    tv_search.setText(list.get(n));
                     onRefresh(null);
                 });
                 break;
@@ -395,7 +401,10 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
         Map<String, Object> arrayMap = new ArrayMap<>(2);
         arrayMap.put(distance, "打卡范围" + distance + "米内");
         arrayMap.put("zero", "全部客户");
-        sortPopuWindow = new SortPopuWindow(getContext(), arrayMap);
+        ArrayList<String> list = new ArrayList<>();
+        list.add("打卡范围" + distance + "米内");
+        list.add("全部客户");
+        sortPopuWindow = new SortPopuWindow(getContext(), list);
         sortPopuWindow.setPopupWindowFullScreen(true);
         sortPopuWindow.setDayPopuWindowListener(n -> {
             if (n == 1) {

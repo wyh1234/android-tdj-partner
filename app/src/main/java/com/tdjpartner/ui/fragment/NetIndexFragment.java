@@ -33,6 +33,7 @@ import com.tdjpartner.ui.activity.NetSupportActivity;
 import com.tdjpartner.ui.activity.StatisticsActivity;
 import com.tdjpartner.ui.activity.StatisticsListActivity;
 import com.tdjpartner.ui.activity.TeamMemberActivity;
+import com.tdjpartner.ui.activity.V3TeamMemberActivity;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
 import com.tdjpartner.utils.cache.UserUtils;
@@ -100,8 +101,7 @@ public class NetIndexFragment extends NetworkFragment
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_team:
-                Intent intent = new Intent(getContext(), TeamMemberActivity.class);
-                intent.putExtra("userId", UserUtils.getInstance().getLoginBean().getEntityId() + "");
+                Intent intent = new Intent(getContext(), V3TeamMemberActivity.class);
                 startActivity(intent);
                 break;
 
@@ -197,7 +197,7 @@ public class NetIndexFragment extends NetworkFragment
         }
 
         //初始化顶部UI
-        tv_username.setText("你好," + UserUtils.getInstance().getLoginBean().getRealname() + "!");
+        tv_username.setText("你好，" + UserUtils.getInstance().getLoginBean().getRealname() + "!");
         tv_time.setText(GeneralUtils.getCurrDay() + "\t\t" + GeneralUtils.getWeekDay(System.currentTimeMillis()));
 
 

@@ -53,6 +53,7 @@ import com.tdjpartner.model.RentingInfos;
 import com.tdjpartner.model.SelectPerson;
 import com.tdjpartner.model.SettingPerson;
 import com.tdjpartner.model.StoreInfo;
+import com.tdjpartner.model.TeamMemberData;
 import com.tdjpartner.model.TeamOverView;
 import com.tdjpartner.model.ToMakeMoney;
 import com.tdjpartner.model.UserInfo;
@@ -678,6 +679,11 @@ public interface ApiService {
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/userRelations/listByCustomerPhone")
     Observable<BaseResponse<List<CustomerPhone>>> listByCustomerPhone(@Body RequestBody body);
+
+    //铁军当前成员
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/userRelations/teamMember")
+    Observable<BaseResponse<TeamMemberData>> teamMember(@Body RequestBody body);
 
     //日月统计
     @Headers({"url_type:xuming"})

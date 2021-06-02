@@ -242,6 +242,9 @@
         <activity
             android:name=".ui.activity.NetSupportDetailActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.V3TeamMemberActivity"
+            android:screenOrientation="portrait" />
 
 
 

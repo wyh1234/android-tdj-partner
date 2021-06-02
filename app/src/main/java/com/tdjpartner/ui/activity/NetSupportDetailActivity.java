@@ -335,6 +335,7 @@ public class NetSupportDetailActivity extends NetworkActivity {
                 amount.setText(Html.fromHtml("要求补货：<font color='red'>" + GeneralUtils.trimZero(amountFloatExtra) + unitStringExtra + "</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
                 et_num.setHint("请输入实际补货数量");
                 et_money.setHint("请输入实际补货金额");
+                ((TextView) findViewById(R.id.button)).setText("补货完成");
                 break;
             case REPLACE:
                 tv_title.setText(REPLACE.substring(2, 4) + "详情");
@@ -380,7 +381,7 @@ public class NetSupportDetailActivity extends NetworkActivity {
 
                     }
                 });
-
+                ((TextView) findViewById(R.id.button)).setText("确认换货完成");
                 break;
             case REFUND:
                 tv_title.setText(REFUND.substring(2, 4) + "详情");
@@ -425,26 +426,23 @@ public class NetSupportDetailActivity extends NetworkActivity {
                     receiveUserTel = afterDetailData.order.receive_user_tel;
                     supplierTel = afterDetailData.order.supplier_tel;
 
-
-                    customer_name.setText("门店：" + afterDetailData.order.customer_name);
+                    customer_name.setText("门店：" + afterDetailData.order.hotel_name);
                     shipping_line_code.setText("编号：" + afterDetailData.order.shipping_line_code);
                     receive_user_name.setText("收货人：" + afterDetailData.order.receive_user_name + "（" + afterDetailData.order.receive_user_tel + "）");
                     customer_address.setText("地址：" + afterDetailData.order.customer_address);
                     supplier_name.setText("供应商名称：" + afterDetailData.order.store_name);
                     supplier_tel.setText("供应商电话：" + afterDetailData.order.supplier_tel);
                     order_pay_time.setText("下单时间：" + afterDetailData.order.order_pay_time);
-                    order_no.setText("商品单号：" + afterDetailData.order.order_no);
+                    order_no.setText("商品单号：" + afterDetailData.order.qr_code_id);
 
                     String level3 = TextUtils.isEmpty(afterDetailData.order.level_3_unit) ? "" : "*" + GeneralUtils.trimZero(afterDetailData.order.level_3_value) + afterDetailData.order.level_3_unit;
                     String level2 = TextUtils.isEmpty(afterDetailData.order.level_2_unit) ? "" : "（" + GeneralUtils.trimZero(afterDetailData.order.level_2_value) + afterDetailData.order.level_2_unit + level3 + "）";
-                    String value = afterDetailData.order.price + "元/" + afterDetailData.order.unit + (afterDetailData.order.level_type == 3 ? "" : level2);
+                    String value = GeneralUtils.trimZero(afterDetailData.order.price) + "元/" + afterDetailData.order.unit + (afterDetailData.order.level_type == 3 ? "" : level2);
                     String styledText = "<font color='grey'>" + value + "</font>" + "<font color='red'>×" + GeneralUtils.trimZero(afterDetailData.order.original_amount) + "</font>";
                     unit.setText(Html.fromHtml(styledText, FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
 
-
                     value = GeneralUtils.trimZero(afterDetailData.order.original_amount) + afterDetailData.order.unit + "/共" + GeneralUtils.trimZero(afterDetailData.order.price * afterDetailData.order.original_amount) + "元";
                     price.setText(value);
-
 
                     ((TextView) findViewById(R.id.product_criteria)).setText(afterDetailData.order.product_criteria.equals("1") ? "通" : "精");
                     ((TextView) findViewById(R.id.name)).setText(afterDetailData.order.name + (afterDetailData.order.nick_name.isEmpty() ? "" : "（" + afterDetailData.order.nick_name + "）"));
@@ -467,7 +465,7 @@ public class NetSupportDetailActivity extends NetworkActivity {
                             break;
                     }
                     problem_description.setText(value + "原因：" + afterDetailData.order.problem_description);
-                    pick_finish_time.setText(value + "时间：" + afterDetailData.order.pick_finish_time);
+                    pick_finish_time.setText(value + "时间：" + (TextUtils.isEmpty(afterDetailData.order.pick_finish_time) ? "" : afterDetailData.order.pick_finish_time));
 
                     if (title == 1) {
                         if (afterDetailData.afterSale == null || TextUtils.isEmpty(afterDetailData.afterSale.images)) {
