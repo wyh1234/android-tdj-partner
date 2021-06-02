@@ -1,6 +1,5 @@
 package com.tdjpartner.base;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.apkfuns.logutils.LogUtils;
 import com.github.nukc.stateview.StateView;
 import com.tdjpartner.R;
 import com.tdjpartner.mvp.presenter.IPresenter;
@@ -30,7 +28,7 @@ public abstract class Fragment<P extends IPresenter> extends LazyLoadFragment im
     protected View view;
     protected P mPresenter;
     public CompositeDisposable compositeDisposable;
-    protected Activity mActivity;
+    protected BaseActivity mActivity;
     protected StateView mStateView;//用于显示加载中、网络异常，空布局、内容布局
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,7 +88,7 @@ public abstract class Fragment<P extends IPresenter> extends LazyLoadFragment im
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mActivity = (Activity) context;
+        mActivity = (BaseActivity) context;
     }
 
 

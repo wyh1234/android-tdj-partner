@@ -1,5 +1,6 @@
 package com.tdjpartner.ui.fragment;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -25,6 +26,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.ClientMapAdapter;
+import com.tdjpartner.adapter.CustomInfoWindowAdapter;
 import com.tdjpartner.base.Fragment;
 import com.tdjpartner.model.ClientFragmentType;
 import com.tdjpartner.model.ClientInfo;
@@ -35,6 +37,7 @@ import com.tdjpartner.ui.activity.ClientListSeachActivity;
 import com.tdjpartner.utils.ListUtils;
 import com.tdjpartner.utils.LocationUtils;
 import com.tdjpartner.utils.cache.UserUtils;
+import com.tdjpartner.widget.TipsDialogFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -47,6 +50,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
 
 public class ClientMapFragment extends Fragment<ClientMapPresenter> implements LocationSource, AMap.OnMapLoadedListener, BaseQuickAdapter.OnItemClickListener {
     @BindView(R.id.recyclerview)
@@ -66,7 +70,7 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
     private Marker screenMarker;
     private MarkerOptions markerOption;
     private LocationBean locationBean;
-
+    private List<Marker> mMarkers;
     public LocationBean getLocationBean() {
         return locationBean;
     }
@@ -77,7 +81,7 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
 
     private List<ClientInfo> clientMapInfoList = new ArrayList<>();
 
-    @OnClick({R.id.tv_list_type, R.id.search_text})
+    @OnClick({R.id.tv_list_type, R.id.search_text,R.id.iv_wenhao})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_list_type:
@@ -88,19 +92,31 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
                 Intent intent = new Intent(getContext(), ClientListSeachActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.iv_wenhao:
+                showNormalDialog();
+                break;
+        }
+    }
+    private void showNormalDialog(){
+        TipsDialogFragment fragment = TipsDialogFragment.newInstance(UserUtils.getInstance().getLoginBean().getGrade());
+        if (!fragment.isAdded()){
+            mActivity.getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(fragment,"tipsDialog")
+                    .commitAllowingStateLoss();
         }
     }
 
     @Override
     protected void initView(View view) {
-//        rxPermissions=new RxPermissions(getActivity());
+        rxPermissions=new RxPermissions(getActivity());
         LinearLayoutManager layout = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
         recyclerview.setLayoutManager(layout);
         clientMapAdapter = new ClientMapAdapter(R.layout.map_info_list_layout, clientMapInfoList);
         clientMapAdapter.setOnItemClickListener(this);
         recyclerview.setAdapter(clientMapAdapter);
-
+        getLocationData();
     }
 
     @Override
@@ -110,27 +126,11 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
         if (aMap == null) {
             aMap = mapView.getMap();
         }
-
-
     }
 
     @Override
     public void onUserVisible() {
         super.onUserVisible();
-    /*    rxPermissions.request( Manifest.permission.ACCESS_COARSE_LOCATION).subscribe(new Consumer<Boolean>() {
-            @Override
-            public void accept(Boolean b) throws Exception {
-                aBoolean=b;
-                if (b){
-                    if (getLocationBean()==null){
-                        LocationUtils.getInstance().startLocalService("MAP");
-                    }
-
-                }
-
-            }
-        });*/
-
 
     }
 
@@ -139,6 +139,22 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
 
     }
 
+    private void getLocationData(){
+        rxPermissions.request( Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION)
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean b) throws Exception {
+
+                        aBoolean=b;
+                        if (b){
+                            if (getLocationBean()==null){
+
+                                LocationUtils.getInstance().startLocalService("MAP");
+                            }
+                        }
+                    }
+                });
+    }
 
     @Override
     public void onResume() {
@@ -215,9 +231,8 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
             aMap.moveCamera(CameraUpdateFactory.zoomTo(17));
 
             aMap.setOnMapLoadedListener(this);//覆盖物监听
+            onMapLoaded();
         }
-
-
     }
 
     @Override
@@ -235,18 +250,18 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
     @Override
     public void onMapLoaded() {
 
-
+        LogUtils.e("getLocationData来请求数据了");
         Map<String, Object> map = new HashMap<>();
         map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
         map.put("latitude", getLocationBean().getLatitude());
         map.put("longitude", getLocationBean().getLongitude());
-        map.put("keyword", "");
+//        map.put("keyword", "");
 //        mPresenter.hotelMap(map);
         mPresenter.mapData(map);
-
     }
 
     private void addMarkerInScreenCenter() {
+        mMarkers = new ArrayList<>();
         //多个覆盖物用for循环
         for (ClientInfo clientInfo : clientMapInfoList) {
             LatLng latLng = new LatLng(Double.parseDouble(clientInfo.getLat()), Double.parseDouble(clientInfo.getLon()));
@@ -261,9 +276,27 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
             markerOption.setFlat(true);//设置marker平贴地图效果
             Point screenPosition = aMap.getProjection().toScreenLocation(latLng);
             screenMarker = aMap.addMarker(markerOption);
+            mMarkers.add(screenMarker);
         }
+        aMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(mActivity));
+        aMap.setOnInfoWindowClickListener(new AMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                if (marker.isInfoWindowShown()) {
+                    marker.hideInfoWindow();//再次点击窗口就隐藏窗口
+                }
+            }
+        });//弹框窗口点击事件
+        aMap.setOnMapClickListener(new AMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                //点击地图区域关闭所有窗口
+                for (Marker marker : mMarkers) {
+                    marker.hideInfoWindow();
+                }
 
-
+            }
+        });//地图点击事件
     }
 
     public View getMarkerCountView(ClientInfo clientInfo) {
@@ -275,13 +308,14 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
             imageView.setImageResource(R.mipmap.jiudiantwo_bg);
         } else if (clientInfo.getUserType() == 3) {
             imageView.setImageResource(R.mipmap.jiudianthree_bg);
+        }else if (clientInfo.getUserType() == 4){
+            imageView.setImageResource(R.mipmap.heise);
         } else {
-
             imageView.setImageResource(R.mipmap.huangse);
         }
 
         TextView txt_count = (TextView) view.findViewById(R.id.txt_count);
-        txt_count.setText(clientInfo.getName());
+//        txt_count.setText(clientInfo.getName());
         return view;
     }
 
@@ -293,7 +327,7 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
             recyclerview.setVisibility(View.VISIBLE);
             clientMapInfoList.addAll(clientInfoList);
             addMarkerInScreenCenter();
-            clientMapAdapter.setNewData(clientMapInfoList);
+            clientMapAdapter.notifyDataSetChanged();
         } else {
             recyclerview.setVisibility(View.GONE);
         }
