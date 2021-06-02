@@ -273,6 +273,15 @@
                 android:text="换货说明：" />
 
             <TextView
+                android:id="@+id/problem_info"
+                android:textSize="12sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:minHeight="30dp"
+                />
+            <TextView
                 android:id="@+id/description"
                 android:textSize="12sp"
                 android:layout_width="match_parent"
@@ -283,17 +292,6 @@
                 android:minHeight="30dp"
                 android:padding="5dp"
                 android:text="菜品质量有问题" />
-            <TextView
-                android:id="@+id/problem_info"
-                android:textSize="12sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:textColor="#ff0000"
-                android:minHeight="30dp"
-                android:padding="5dp"
-                />
 
 
             <TextView

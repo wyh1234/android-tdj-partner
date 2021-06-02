@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.view.View;
 import android.widget.TextView;
@@ -56,7 +55,7 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
 
     private int index = 0;
     String sort = "order";
-    String scope;
+    String scope = "500";
     public int pageNo = 1;//翻页计数器
     private ClientListAdapter clientListAdapter;
     private List<ClientInfo> data = new ArrayList<>();
@@ -141,7 +140,7 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
 
         switch (index) {
             case 0:
-                if (TextUtils.isEmpty(scope)) mPresenter.punchDistance(new ArrayMap<>());
+                mPresenter.punchDistance(new ArrayMap<>());
                 break;
             case 1:
                 Map<String, String> arrayMap = new ArrayMap<>(5);
@@ -180,8 +179,6 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
         refreshLayout.autoRefresh();
     }
 
-    private boolean firstInto = true;
-
     @Subscribe
     public void eventCode(LocationBean locationBean) {
         if (!locationBean.getTag().contains("LOCATION") || PublicCache.flag != hashCode()) return;
@@ -193,12 +190,8 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
         switch (index + 1) {
             case 1:
                 map.put("userType", 1);
-                map.put("orderBy", "");
-                if (firstInto) {
-                    map.put("scope", "500");
-                }else {
-                    map.put("scope", "" + scope);
-                }
+                map.put("orderBy", "order");
+                map.put("scope", "" + scope);
                 break;
             case 2:
                 map.put("userType", 2);
@@ -344,26 +337,12 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
         LogUtils.e(data.get(i).getName());
         if (view.getId() == R.id.tv_gj_status) {
             setCustomerId(data.get(i).getCustomerId());
-
-     /*       if (followUpPopuWindow!=null){
-                if (followUpPopuWindow.isShowing()){
-                    return;
-                }
-                followUpPopuWindow = new FollowUpPopuWindow(getContext(),data.get(i).getName());
-                followUpPopuWindow.setDismissWhenTouchOutside(false);
-                followUpPopuWindow.setInterceptTouchEvent(false);
-                followUpPopuWindow.setPopupWindowFullScreen(true);//铺满
-                followUpPopuWindow.showPopupWindow();
-                followUpPopuWindow.setFollowUpListener(this);
-            }else {*/
-
             followUpPopuWindow = new FollowUpPopuWindow(getContext(), data.get(i).getName());
             followUpPopuWindow.setDismissWhenTouchOutside(false);
             followUpPopuWindow.setInterceptTouchEvent(false);
             followUpPopuWindow.setPopupWindowFullScreen(true);//铺满
             followUpPopuWindow.showPopupWindow();
             followUpPopuWindow.setFollowUpListener(this);
-//            }
 
         }
     }
@@ -397,7 +376,6 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
         sortPopuWindow = new SortPopuWindow(getContext(), list);
         sortPopuWindow.setPopupWindowFullScreen(true);
         sortPopuWindow.setDayPopuWindowListener(n -> {
-            firstInto = false;
             if (n == 1) {
                 scope = "";
                 tv_search.setText("全部客户");
@@ -414,5 +392,28 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
         clientListAdapter.remove(getPos());
         followUpPopuWindow.dismiss();
 
+    }
+
+    public void punchDistance_failed() {
+        hotelMap_failed();
+        tv_search.setText("打卡范围500米内");
+        Map<String, String> arrayMap = new ArrayMap<>(2);
+        arrayMap.put("500", "打卡范围500米内");
+        arrayMap.put("zero", "全部客户");
+        ArrayList<String> list = new ArrayList<>();
+        list.add("打卡范围500米内");
+        list.add("全部客户");
+        sortPopuWindow = new SortPopuWindow(getContext(), list);
+        sortPopuWindow.setPopupWindowFullScreen(true);
+        sortPopuWindow.setDayPopuWindowListener(n -> {
+            if (n == 1) {
+                scope = "";
+                tv_search.setText("全部客户");
+            } else {
+                scope = "500";
+                tv_search.setText(arrayMap.get(scope));
+            }
+            onRefresh(null);
+        });
     }
 }

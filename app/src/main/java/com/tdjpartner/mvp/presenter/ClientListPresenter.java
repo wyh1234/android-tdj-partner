@@ -88,12 +88,12 @@ public class ClientListPresenter extends BasePresenter<Model, ClientListFragment
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                getIView().hotelMap_failed();
+                getIView().punchDistance_failed();
             }
 
             @Override
             protected void onFailed(Throwable e) {
-                getIView().hotelMap_failed();
+                getIView().punchDistance_failed();
             }
         }));
 
