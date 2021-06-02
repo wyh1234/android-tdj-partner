@@ -1,5 +1,6 @@
 package com.tdjpartner.ui.fragment;
 
+import android.arch.lifecycle.MediatorLiveData;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,7 +14,10 @@ import android.widget.TextView;
 import com.tdjpartner.R;
 import com.tdjpartner.base.NetworkFragment;
 import com.tdjpartner.model.HomeTopData;
+import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
+
+import butterknife.BindView;
 
 import static android.view.Gravity.CENTER;
 
@@ -21,14 +25,20 @@ import static android.view.Gravity.CENTER;
  * Created by LFM on 2021/4/22.
  */
 public class IronRankingFragment extends NetworkFragment {
+    @BindView(R.id.listView)
+    ListView listView;
 
     private ArrayAdapter<HomeTopData.RegisterTimesTopListBean> arrayAdapter;
     private int entityId = UserUtils.getInstance().getLoginBean().getEntityId();//用户站点
-    private int type = UserUtils.getInstance().getLoginBean().getType();//用户级别
-    private int grade = UserUtils.getInstance().getLoginBean().getGrade();//用户级别
     private boolean isEntire, allowSkip;
-    private int upNum = 6, offset;
+    private int upNum, offset;
     private TextView footerView;
+
+    MediatorLiveData<Integer> liveData;
+
+    public void setLiveData(MediatorLiveData<Integer> liveData) {
+        this.liveData = liveData;
+    }
 
     @Override
     protected int getLayoutId() {
@@ -77,13 +87,11 @@ public class IronRankingFragment extends NetworkFragment {
 
                 HomeTopData.RegisterTimesTopListBean bean = getItem(position);
                 System.out.println("bean = " + bean);
-                System.out.println("upNum = " + upNum);
-                System.out.println("offset = " + offset);
 
                 TextView textView;
                 if (bean.customerId == entityId) {
                     textView = convertView.findViewById(R.id.tv_ranking);
-                    textView.setText("" + (position == upNum ? position + 1 + offset : position + 1));
+                    textView.setText("" + (position >= upNum ? position + 1 + offset : position + 1));
                     textView.setTextColor(getResources().getColor(R.color.orange_red, null));
 
                     textView = convertView.findViewById(R.id.tv_db);
@@ -98,7 +106,7 @@ public class IronRankingFragment extends NetworkFragment {
                     textView.setTextColor(getResources().getColor(R.color.orange_red, null));
                 } else {
                     textView = convertView.findViewById(R.id.tv_ranking);
-                    textView.setText("" + (position == upNum ? position + 1 + offset : position + 1));
+                    textView.setText("" + (position >= upNum ? position + 1 + offset : position + 1));
 
                     textView = convertView.findViewById(R.id.tv_db);
                     textView.setText(bean.partnerName);
@@ -123,7 +131,7 @@ public class IronRankingFragment extends NetworkFragment {
                 return convertView;
             }
         };
-        ListView listView = view.findViewById(R.id.lv);
+
         listView.setAdapter(arrayAdapter);
         listView.setNestedScrollingEnabled(true);
 
@@ -139,10 +147,10 @@ public class IronRankingFragment extends NetworkFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 System.out.println("parent = " + parent + ", view = " + view + ", position = " + position + ", id = " + id);
                 if (!view.equals(footerView)) return;
+                showLoading();
                 ((TextView) view).setText(isEntire ? "展开全部" : "收起全部");
                 isEntire = !isEntire;
                 getVMWithFragment().loading(HomeTopData.class, getArgs());
-                showLoading();
             }
         });
 
@@ -153,8 +161,10 @@ public class IronRankingFragment extends NetworkFragment {
                     offset = 0;
                     allowSkip = true;
                     arrayAdapter.clear();
+
                     if (homeTopData.getRegisterTimesTopList().isEmpty()) {
                         footerView.setText("暂无数据");
+                        updateListViewLayout();
                         return;
                     }
 
@@ -169,17 +179,23 @@ public class IronRankingFragment extends NetworkFragment {
                                 allowSkip = false;
                             } else {
                                 if (i >= 5) {
-                                    offset++;
-                                    upNum = i;
+                                    if (++offset == 1) upNum = i;
                                     continue;
                                 }
                             }
-                            System.out.println("arrayAdapter.getCount() is " + arrayAdapter.getCount());
                             arrayAdapter.add(homeTopData.getRegisterTimesTopList().get(i));
                             if (arrayAdapter.getCount() == (i < 5 && !allowSkip ? 5 : 6)) break;
                         }
                     }
+                    updateListViewLayout();
                 });
 
+    }
+
+    private void updateListViewLayout() {
+        ViewGroup.LayoutParams layoutParams = listView.getLayoutParams();
+        layoutParams.height = Math.min(GeneralUtils.dipToPx(getContext(), 300), 160 * (arrayAdapter.getCount() + 1));
+        listView.setLayoutParams(layoutParams);
+        liveData.postValue(layoutParams.height);
     }
 }

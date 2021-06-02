@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,6 +32,7 @@ import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
+import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -174,7 +176,9 @@ public class GeneralUtils {
         return AppAplication.getMainThreadHandler();
     }
 
-
+    public static int dipToPx(Context context, int dip) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dip, context.getResources().getDisplayMetrics());
+    }
 
     /**
      * dip-->px
@@ -505,8 +509,20 @@ public class GeneralUtils {
         return format;
     }
 
+    public static void startIntent(Intent intent, Context context, String error) {
+        PackageManager packageManager = context.getPackageManager();
+        if (intent.resolveActivity(packageManager) != null) {
+            context.startActivity(intent);
+        } else {
+            GeneralUtils.showToastshort(error);
+        }
+    }
+
     public static String trimZero(float v) {
         String n = v + "";
         return n.charAt(n.length()-1)=='0'? n.substring(0, n.length()-2) : n;
     }
+
+
+
 }

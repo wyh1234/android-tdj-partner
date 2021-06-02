@@ -1,5 +1,7 @@
 package com.tdjpartner.ui.fragment;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MediatorLiveData;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -309,6 +311,8 @@ public class NetIndexFragment extends NetworkFragment
         tv_day.setOnClickListener(this);
         tv_month.setOnClickListener(this);
         isDay = (boolean) getArgs().get("isDay");
+        MediatorLiveData<Integer> liveData = new MediatorLiveData<>();
+        liveData.observe(this, this::updateLayout);
         ranking_vp.setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
 
             @Override
@@ -327,7 +331,8 @@ public class NetIndexFragment extends NetworkFragment
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("args", (Serializable) map);
 
-                android.support.v4.app.Fragment fragment = new NetRankingFragment();
+                NetRankingFragment fragment = new NetRankingFragment();
+                fragment.setLiveData(liveData);
                 fragment.setArguments(bundle);
                 return fragment;
             }
@@ -425,5 +430,12 @@ public class NetIndexFragment extends NetworkFragment
                     break;
             }
         }
+    }
+
+    public void updateLayout(Integer integer) {
+        System.out.println("integer = " + integer);
+        ViewGroup.LayoutParams layoutParams = ranking_vp.getLayoutParams();
+        layoutParams.height = Math.min(GeneralUtils.dipToPx(getContext(), 350), integer + 150);
+        ranking_vp.setLayoutParams(layoutParams);
     }
 }

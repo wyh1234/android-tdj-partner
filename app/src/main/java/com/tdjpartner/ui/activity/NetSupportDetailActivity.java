@@ -262,7 +262,7 @@ public class NetSupportDetailActivity extends NetworkActivity {
                 System.out.println("uri = " + uri);
 
                 try {
-                    startActivity(Intent.parseUri(uri, 0));
+                    GeneralUtils.startIntent(Intent.parseUri(uri, 0), this, "无法启动高德地图");
                 } catch (URISyntaxException e) {
                     e.printStackTrace();
                 }
@@ -385,7 +385,8 @@ public class NetSupportDetailActivity extends NetworkActivity {
                 findViewById(R.id.ll_uplaod).setVisibility(View.GONE);
                 refund_amount.setVisibility(View.VISIBLE);
                 difficulty.setVisibility(View.VISIBLE);
-                refund_amount.setText(Html.fromHtml("商品退货：<font color='red'>" + amountFloatExtra + "</font>" + unitStringExtra, FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+                refund_amount.setText(Html.fromHtml("商品退货：<font color='red'>" + GeneralUtils.trimZero(amountFloatExtra) + "</font>" + unitStringExtra, FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+                ((TextView) findViewById(R.id.button)).setText("确认收到退货");
                 break;
         }
 
@@ -426,7 +427,7 @@ public class NetSupportDetailActivity extends NetworkActivity {
                     shipping_line_code.setText("编号：" + afterDetailData.order.shipping_line_code);
                     receive_user_name.setText("收货人：" + afterDetailData.order.receive_user_name + "（" + afterDetailData.order.receive_user_tel + "）");
                     customer_address.setText("地址：" + afterDetailData.order.customer_address);
-                    supplier_name.setText("供应商名称：" + afterDetailData.order.supplier_name);
+                    supplier_name.setText("供应商名称：" + afterDetailData.order.store_name);
                     supplier_tel.setText("供应商电话：" + afterDetailData.order.supplier_tel);
                     order_pay_time.setText("下单时间：" + afterDetailData.order.order_pay_time);
                     order_no.setText("商品单号：" + afterDetailData.order.order_no);
@@ -445,19 +446,21 @@ public class NetSupportDetailActivity extends NetworkActivity {
                     ((TextView) findViewById(R.id.product_criteria)).setText(afterDetailData.order.product_criteria.equals("1") ? "通" : "精");
                     ((TextView) findViewById(R.id.name)).setText(afterDetailData.order.name + (afterDetailData.order.nick_name.isEmpty() ? "" : "（" + afterDetailData.order.nick_name + "）"));
                     ((TextView) findViewById(R.id.store_name)).setText(afterDetailData.order.store_name);
-                    findViewById(R.id.type).setVisibility(View.GONE);
                     ImageLoad.loadRoundImage(afterDetailData.order.product_img, 25, findViewById(R.id.product_img), R.mipmap.baifangjiudain_bg);
 
                     switch (type) {
                         case REPLENISH:
                             value = REPLENISH.substring(2, 4);
+                            findViewById(R.id.type).setVisibility(View.GONE);
                             break;
                         case REPLACE:
                             adapter.setNewData(Arrays.asList(afterDetailData.order.certificate_photos.split(",")));
                             value = REPLACE.substring(2, 4);
+                            findViewById(R.id.type).setVisibility(View.GONE);
                             break;
                         case REFUND:
                             value = REFUND.substring(2, 4);
+                            ((TextView) findViewById(R.id.type)).setText("退货");
                             break;
                     }
                     problem_description.setText(value + "原因：" + afterDetailData.order.problem_description);
