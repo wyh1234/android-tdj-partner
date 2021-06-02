@@ -10,10 +10,13 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -22,6 +25,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.apkfuns.logutils.LogUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.AppAplication;
 import com.tdjpartner.R;
@@ -32,6 +36,8 @@ import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -521,6 +527,34 @@ public class GeneralUtils {
     public static String trimZero(float v) {
         String n = v + "";
         return n.charAt(n.length()-1)=='0'? n.substring(0, n.length()-2) : n;
+    }
+
+    public static File startCamera(Activity activity) {
+        Intent capture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File captureFile = null;
+        try {
+            captureFile = File.createTempFile("JPEG_", null, activity.getCacheDir());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //判断版本 如果在Android7.0以上,使用FileProvider获取Uri
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            capture.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            LogUtils.e(activity.getPackageName());
+            Uri contentUri = FileProvider.getUriForFile(activity, activity.getPackageName() + ".fileProvider", captureFile);
+            System.out.println("contentUri = " + contentUri + ", captureFile = " + captureFile);
+            capture.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
+
+        } else {
+            //否则使用Uri.fromFile(file)方法获取Uri
+            capture.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(captureFile));
+        }
+
+        Intent chooser = Intent.createChooser(capture, "请选择方式");
+        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)});
+        activity.startActivityForResult(chooser, GeneralUtils.REQUEST_CODE_CHOOSE);
+        return captureFile;
     }
 
 

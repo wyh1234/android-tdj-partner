@@ -41,6 +41,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
 import com.tdjpartner.base.NetworkActivity;
 import com.tdjpartner.model.AfterDetailData;
@@ -59,6 +60,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
 
 import static android.text.Html.FROM_HTML_MODE_LEGACY;
 import static com.tdjpartner.ui.fragment.NetSupportFragment.REFUND;
@@ -125,6 +127,7 @@ public class NetSupportDetailActivity extends NetworkActivity {
     @BindView(R.id.rc_certificate_photos)
     RecyclerView rc_certificate_photos;
 
+    RxPermissions rxPermissions;
     BaseQuickAdapter adapter;
     ArrayAdapter<String> arrayAdapter;
 
@@ -510,7 +513,29 @@ public class NetSupportDetailActivity extends NetworkActivity {
             if (data == null) {
                 file = captureFile.toString().substring(captureFile.toString().lastIndexOf("/") + 1).replace("tmp", "png");
                 System.out.println("file = " + file);
-                getVM().loadingWithNewLiveData(String.class, file, BlurBitmapUtils.bitmapTobyte(BlurBitmapUtils.getSmallBitmap(captureFile.toString()), true));
+                getVM().loadingWithNewLiveData(String.class, file, BlurBitmapUtils.bitmapTobyte(BlurBitmapUtils.getSmallBitmap(captureFile.toString()), true))
+                        .observe(this, url -> {
+                            ImageLoad.loadRoundImageWithListen(this, url, 12, updateUploadImage(),
+                                    new RequestListener<Drawable>() {
+                                        @Override
+                                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                            dismissLoading();
+                                            isLoading = false;
+                                            GeneralUtils.showToastshort("图片上传失败！");
+                                            LogUtils.e("upload failure, file is " + url);
+                                            return false;
+                                        }
+
+                                        @Override
+                                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                            dismissLoading();
+                                            isLoading = false;
+                                            imageUrl.put(uploadIndex, url);
+                                            getParent(uploadIndex).findViewById(R.id.tv_remove).setVisibility(View.VISIBLE);
+                                            return false;
+                                        }
+                                    });
+                        });
             } else {
                 file = Uri.decode(data.getData().getEncodedPath());
                 System.out.println("file = " + file);
@@ -559,30 +584,19 @@ public class NetSupportDetailActivity extends NetworkActivity {
             GeneralUtils.showToastshort("正在上传，请稍等...");
             return;
         }
+        if (rxPermissions == null) rxPermissions = new RxPermissions(this);
+        rxPermissions.request(Manifest.permission.CAMERA)
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean b) throws Exception {
+                        if (b) {
+                            captureFile = GeneralUtils.startCamera(NetSupportDetailActivity.this);
+                        } else {
+                            GeneralUtils.showToastshort("摄像头启动失败，请从相册中选择图片！");
+                        }
 
-        Intent capture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        try {
-            captureFile = File.createTempFile("JPEG_", null, getCacheDir());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //判断版本 如果在Android7.0以上,使用FileProvider获取Uri
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            capture.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-            LogUtils.e(getPackageName());
-            Uri contentUri = FileProvider.getUriForFile(this, getPackageName() + ".fileProvider", captureFile);
-            System.out.println("contentUri = " + contentUri + ", captureFile = " + captureFile);
-            capture.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
-
-        } else {
-            //否则使用Uri.fromFile(file)方法获取Uri
-            capture.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(captureFile));
-        }
-
-        Intent chooser = Intent.createChooser(capture, "请选择方式");
-        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)});
-        startActivityForResult(chooser, GeneralUtils.REQUEST_CODE_CHOOSE);
+                    }
+                });
     }
 
     private ImageView updateUploadImage() {
