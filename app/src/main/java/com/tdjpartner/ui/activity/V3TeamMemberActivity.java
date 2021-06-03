@@ -8,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.view.View;
 import android.widget.EditText;
@@ -47,14 +48,55 @@ public class V3TeamMemberActivity extends NetworkActivity {
 
     @BindView(R.id.tv_title)
     TextView tv_title;
+    @BindView(R.id.search_text)
+    EditText search_text;
+    int searchNum = 0;
 
     private int userId = UserUtils.getInstance().getLoginBean().getLoginUserId();
+
+    @OnClick({R.id.btn_back, R.id.tv_list_type})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_back:
+                if (searchNum-- > 0) {
+                    getSupportFragmentManager().popBackStack();
+                    if(searchNum == 0) tv_title.setText("我的团队");
+                } else {
+                    finish();
+                }
+                break;
+            case R.id.tv_list_type:
+                searchNum++;
+                tv_title.setText("搜索我的团队");
+                if (TextUtils.isEmpty(search_text.getText())) return;
+                Map<String, Object> map = new HashMap<>();
+                map.put("userId", UserUtils.getInstance().getLoginBean().getLoginUserId());
+                map.put("grade", UserUtils.getInstance().getLoginBean().getGrade());
+                map.put("other", false);
+                System.out.println("search_text.getText() = " + search_text.getText());
+                map.put("nickName", search_text.getText().toString());
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("args", (Serializable) map);
+
+                TeamMemberFragment fragment = new TeamMemberFragment();
+                fragment.setArguments(bundle);
+
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fl, fragment)
+                        .addToBackStack(null)
+                        .commit();
+                break;
+        }
+    }
+
     @Override
     protected void initView() {
         Map<String, Object> map = new HashMap<>();
         map.put("userId", UserUtils.getInstance().getLoginBean().getLoginUserId());
         map.put("grade", UserUtils.getInstance().getLoginBean().getGrade());
-        map.put("other", "other");
+        map.put("other", false);
+        System.out.println("map = " + map);
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("args", (Serializable) map);

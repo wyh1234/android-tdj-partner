@@ -245,6 +245,9 @@
         <activity
             android:name=".ui.activity.V3TeamMemberActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.MemberStatisticsActivity"
+            android:screenOrientation="portrait" />
 
 
 

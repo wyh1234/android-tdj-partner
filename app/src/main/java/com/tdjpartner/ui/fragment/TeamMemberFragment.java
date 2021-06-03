@@ -13,30 +13,27 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.ListViewAdapter;
 import com.tdjpartner.base.NetworkFragment;
 import com.tdjpartner.model.TeamMemberData;
-import com.tdjpartner.model.V3HomeData;
-import com.tdjpartner.ui.activity.HomePageActivity;
-import com.tdjpartner.ui.activity.MenberHomepageActivity;
-import com.tdjpartner.utils.glide.ImageLoad;
+import com.tdjpartner.ui.activity.MemberStatisticsActivity;
+import com.tdjpartner.utils.GeneralUtils;
+import com.tdjpartner.utils.cache.UserUtils;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 import static android.support.v4.app.FragmentManager.POP_BACK_STACK_INCLUSIVE;
 import static android.text.Html.FROM_HTML_MODE_LEGACY;
@@ -57,6 +54,10 @@ public class TeamMemberFragment extends NetworkFragment {
 
     private ListViewAdapter<TeamMemberData.Data> adapter;
     private BaseQuickAdapter<String, BaseViewHolder> menuAdapter;
+    private RxPermissions rxPermissions;
+
+    String siteName = UserUtils.getInstance().getLoginBean().getSiteName(),
+            realname = UserUtils.getInstance().getLoginBean().getRealname();//用户级别
 
     @Override
     protected int getLayoutId() {
@@ -70,29 +71,75 @@ public class TeamMemberFragment extends NetworkFragment {
         swipeRefreshLayout.setColorSchemeResources(R.color.bbl_ff0000);
         swipeRefreshLayout.setOnRefreshListener(this::onRefresh);
 
-        //标题
-        int n = getFragmentManager().getBackStackEntryCount();
-        System.out.println("n = " + n);
-        for (int i = 0; i < n; i++) {
-            FragmentManager.BackStackEntry entry = getFragmentManager().getBackStackEntryAt(i);
-            System.out.println("getBreadCrumbShortTitle is " + entry.getBreadCrumbTitle());
+
+        //初始列表
+        adapter = new ListViewAdapter.Builder<TeamMemberData.Data>()
+                .setResource(R.layout.team_member_list_item)
+                .addChildId(R.id.tv_user, R.id.tv_phone)
+                .setOnClickListener(this::onClick)
+                .setInitView((data, convertView) -> {
+                    System.out.println("view = " + view + ", savedInstanceState = " + savedInstanceState);
+                    TextView textView;
+                    textView = convertView.findViewById(R.id.tv_user);
+                    String html = data.nickName + (data.size <= 0 ? "" : "<small>（" + data.size + "）</small>") + "<br/><font color='#dddddd'>" + data.abbreviation + "</font>";
+                    textView.setText(Html.fromHtml(html, FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+                    textView.setTag(data.userId + "|" + data.nickName);
+
+                    if (TextUtils.isEmpty(data.phone)) {
+                        convertView.findViewById(R.id.tv_phone).setVisibility(View.GONE);
+                    }else {
+                        ((TextView)convertView.findViewById(R.id.tv_phone)).setText(data.phone);
+                    }
+
+                    if (data.size == 0 || getArgs().containsKey("nickName"))
+                        convertView.findViewById(R.id.tv_sink).setVisibility(View.GONE);
+
+                    convertView.setTag(data.size);
+                })
+                .build(getContext());
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                System.out.println("parent = " + parent + ", view = " + view + ", position = " + position + ", id = " + id);
+                TeamMemberData.Data data = (TeamMemberData.Data) parent.getAdapter().getItem(position);
+                leak(data.userId, data.other, data.grade, data.nickName);
+            }
+        });
+        listView.setAdapter(adapter);
+
+        showLoading();
+        getVMWithFragment().loadingWithNewLiveData(TeamMemberData.class, getArgs())
+                .observe(this, teamMemberData -> {
+                    System.out.println("teamMemberData = " + teamMemberData);
+                    adapter.clear();
+                    adapter.addAll(teamMemberData.teamMembers);
+                    title = teamMemberData.title;
+                    dismissLoading();
+                    stop();
+                });
+
+
+        //初始化标题
+        if (getArgs().containsKey("nickName")) {
+            menu.setVisibility(View.GONE);
+            getView().findViewById(R.id.divider).setVisibility(View.GONE);
+            return;
         }
-
         menuAdapter = new BaseQuickAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1) {
-
             @Override
             protected void convert(BaseViewHolder baseViewHolder, String data) {
                 TextView textView = (TextView) baseViewHolder.itemView;
                 textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 textView.setPadding(0, 8, 8, 0);
-//                textView.setBackgroundColor(getResources().getColor(R.color.blue, null));
-                textView.setText(Html.fromHtml(" <font color='#dddddd'>></font> " + data.substring(0, data.indexOf('|')), FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+                textView.setText(Html.fromHtml(" <font color='#dddddd'>></font> " + data.substring(data.indexOf("|") + 1), FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
             }
         };
         menuAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
                 System.out.println("baseQuickAdapter = " + baseQuickAdapter + ", view = " + view + ", i = " + i);
+                System.out.println(baseQuickAdapter.getItem(i));
                 getFragmentManager().popBackStack(baseQuickAdapter.getItem(i).toString(), 0);
             }
         });
@@ -106,60 +153,6 @@ public class TeamMemberFragment extends NetworkFragment {
             System.out.println("name = " + getFragmentManager().getBackStackEntryAt(i).getName());
             menuAdapter.addData(getFragmentManager().getBackStackEntryAt(i).getName());
         }
-
-
-        //列表
-        adapter = new ListViewAdapter.Builder<TeamMemberData.Data>()
-                .setResource(R.layout.team_member_list_item)
-                .addChildId(R.id.tv_sink)
-                .setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        System.out.println("v = " + v);
-//                        if (myTeam.get(i).getGrade()==3){
-//                            Intent intent=new Intent(this, HomePageActivity.class);
-//                            intent.putExtra("userId",myTeam.get(i).getPartnerId()+"");
-//                            startActivity(intent);
-//                        }else {
-//                            Intent show=new Intent(this, MenberHomepageActivity.class);
-//                            show.putExtra("userId",myTeam.get(i).getPartnerId());
-//                            startActivity(show);
-//                        }
-                    }
-                })
-                .setInitView((data, convertView) -> {
-                    System.out.println("view = " + view + ", savedInstanceState = " + savedInstanceState);
-                    String html = data.roleName + "<small>（" + data.size + "）</small><br/><font color='#dddddd'>" + data.abbreviation + "</font>";
-                    ((TextView) convertView.findViewById(R.id.user)).setText(Html.fromHtml(html, FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
-                    if (TextUtils.isEmpty(data.phone))
-                        convertView.findViewById(R.id.phone).setVisibility(View.GONE);
-                    convertView.setTag(data.size);
-
-                })
-                .build(getContext());
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("parent = " + parent + ", view = " + view + ", position = " + position + ", id = " + id);
-                TeamMemberData.Data data = (TeamMemberData.Data) parent.getAdapter().getItem(position);
-                if ((int) view.getTag() > 0) leak(data.userId, data.other, data.grade, null);
-            }
-        });
-        listView.setAdapter(adapter);
-
-
-        showLoading();
-        getVMWithFragment().loadingWithNewLiveData(TeamMemberData.class, getArgs())
-                .observe(this, teamMemberData -> {
-                    System.out.println("teamMemberData = " + teamMemberData);
-                    adapter.clear();
-                    adapter.addAll(teamMemberData.teamMembers);
-                    title = teamMemberData.title;
-                    dismissLoading();
-                    stop();
-                });
-
     }
 
     public void onRefresh() {
@@ -171,7 +164,6 @@ public class TeamMemberFragment extends NetworkFragment {
         map.put("userId", userId);
         map.put("grade", grade);
         map.put("other", other);
-        if (!TextUtils.isEmpty(nickName)) map.put("nickName", nickName);
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("args", (Serializable) map);
@@ -181,8 +173,7 @@ public class TeamMemberFragment extends NetworkFragment {
 
         getFragmentManager().beginTransaction()
                 .replace(R.id.fl, fragment)
-//                .setBreadCrumbTitle(title)
-                .addToBackStack(title + "|" + userId)
+                .addToBackStack(System.currentTimeMillis() + "|" + nickName)
                 .commit();
     }
 
@@ -198,13 +189,36 @@ public class TeamMemberFragment extends NetworkFragment {
         layoutParams.gravity = CENTER;
         textView.setLayoutParams(layoutParams);
         textView.setPadding(40, 40, 8, 40);
-        textView.setText(Html.fromHtml("<b>战区</b>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
-//        textView.setBackgroundColor(getResources().getColor(R.color.orange_red, null));
+        textView.setCompoundDrawables(getResources().getDrawable(R.drawable.umeng_socialize_sina, null), null, null, null);
+//        textView.setCompoundDrawables(getResources().getDrawable(R.mipmap.city_one, null), null, null, null);
+//        textView.setCompoundDrawablePadding(4);
+        textView.setText(Html.fromHtml("<b>" + siteName.substring(0, siteName.length() - 1) + "战区</b><small>（" + realname + "</samll>）", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
         textView.setOnClickListener(v -> {
             for (int i = 0; i < getFragmentManager().getBackStackEntryCount(); i++) {
                 getFragmentManager().popBackStack(i, POP_BACK_STACK_INCLUSIVE);
             }
         });
         return textView;
+    }
+
+    public RxPermissions getRxPermissions() {
+        if (rxPermissions == null) rxPermissions = new RxPermissions(getActivity());
+        return rxPermissions;
+    }
+
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_user:
+                Intent intent = new Intent(getContext(), MemberStatisticsActivity.class);
+                String data = (String) v.getTag();
+                intent.putExtra("userId", Integer.parseInt(data.substring(0, data.indexOf("|"))));
+                intent.putExtra("nickName", data.substring(data.indexOf("|") + 1));
+                startActivity(intent);
+                break;
+            case R.id.tv_phone:
+                GeneralUtils.action_call(getRxPermissions(), ((TextView) v).getText().toString(), getContext());
+                break;
+        }
+
     }
 }

@@ -19,7 +19,7 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp">
+            android:layout_marginTop="48dp">
 
             <ImageView
                 android:id="@+id/btn_back"
@@ -85,7 +85,7 @@
                         android:textSize="16sp" />
 
                     <TextView
-                        android:id="@+id/tv_sink"
+                        android:id="@+id/tv_day_sink"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
