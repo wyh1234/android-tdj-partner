@@ -22,7 +22,6 @@ import com.tdjpartner.model.AfterSales;
 import com.tdjpartner.model.DeleteSalesAppByEntityId;
 import com.tdjpartner.model.RefundDetail;
 import com.tdjpartner.mvp.presenter.AfterSalesDetailPresenter;
-import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.utils.CustomerData;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.GridSpacingItemDecoration;
@@ -167,7 +166,9 @@ public class AfterSalesDetailActivity extends BaseActivity<AfterSalesDetailPrese
         refundDetail = data;
         handler.sendEmptyMessage(send_msg_code);
 //                loadingDimss();
-        if (data.getProblem_info()==1){
+        if (null == data.getProblem_info()){
+            problem_info.setText("售后责任归属：其他");
+        }else if (data.getProblem_info()==1){
             problem_info.setText("售后责任归属：物流责任");
         }else if (data.getProblem_info()==2){
             problem_info.setText("售后责任归属：客户责任");

@@ -23,6 +23,7 @@ import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.popuwindow.CheckHeadImagePopuWindow;
 import com.tdjpartner.utils.statusbar.Eyes;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -156,7 +157,7 @@ public class MenberPaifangHistoryActivity extends BaseActivity<MenberPaifangHist
     public void getDistinctList(DistinctList distinctList){
         tv_num.setText(distinctList.getCall_num()+"");
         tv_num1.setText(distinctList.getConversion_num()+"");
-        tv_num2.setText(distinctList.getOrder_total_money().toString());
+        tv_num2.setText(distinctList.getOrder_total_money().setScale(2, BigDecimal.ROUND_HALF_UP).toString());
         if (distinctList.getList().size()>0){
             rl.setVisibility(View.GONE);
         }else {

@@ -1,19 +1,14 @@
 package com.tdjpartner.adapter;
 
 import android.graphics.Color;
-import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.tdjpartner.R;
-import com.tdjpartner.model.BaiFangHistory;
 import com.tdjpartner.model.DistinctList;
-import com.tdjpartner.model.OrderList;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.glide.ImageLoad;
-
-import java.util.List;
 
 public class MenberPaifangHistoryAdapter extends BaseQuickAdapter<DistinctList.ListBean, BaseViewHolder> {
     private String time;
@@ -27,7 +22,7 @@ public class MenberPaifangHistoryAdapter extends BaseQuickAdapter<DistinctList.L
     protected void convert(BaseViewHolder baseViewHolder, DistinctList.ListBean listBean) {
         baseViewHolder.setText(R.id.tv_name,listBean.getBuy_name());
         baseViewHolder.setText(R.id.tv_address,listBean.getAddress());
-        baseViewHolder.setText(R.id.tv_time,listBean.getCall_date().substring(11,16));
+        baseViewHolder.setText(R.id.tv_time,listBean.getCall_date().substring(11,19));
         ImageLoad.loadImageView(baseViewHolder.getView(R.id.iv).getContext(),listBean.getCall_pic(),baseViewHolder.getView(R.id.iv));
         baseViewHolder.addOnClickListener(R.id.iv);
         baseViewHolder.addOnClickListener(R.id.tv_notification);

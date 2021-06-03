@@ -12,6 +12,7 @@ import com.tdjpartner.base.BaseActivity;
 import com.tdjpartner.model.SeachTag;
 import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.utils.GeneralUtils;
+import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.widget.tablayout.WTabLayout;
 
@@ -67,6 +68,7 @@ public class ClientListSeachActivity extends BaseActivity {
         List<String> titles = new ArrayList<>();
         titles.add("我的客户");
         titles.add("公海客户");
+        if (UserUtils.getInstance().getLoginBean().getType() == 1) titles.add("他人客户");
         ClientListSeachFragmentAdapter adatper = new ClientListSeachFragmentAdapter(getSupportFragmentManager(), titles);
         viewPager.setAdapter(adatper);
 //        viewPager.setOffscreenPageLimit(3);

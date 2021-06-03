@@ -113,7 +113,7 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
         LinearLayoutManager layout = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
         recyclerview.setLayoutManager(layout);
-        clientMapAdapter = new ClientMapAdapter(R.layout.map_info_list_layout, clientMapInfoList);
+        clientMapAdapter = new ClientMapAdapter(R.layout.map_info_list_layout, clientMapInfoList,mActivity);
         clientMapAdapter.setOnItemClickListener(this);
         recyclerview.setAdapter(clientMapAdapter);
         getLocationData();
@@ -310,10 +310,11 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
             imageView.setImageResource(R.mipmap.jiudianthree_bg);
         }else if (clientInfo.getUserType() == 4){
             imageView.setImageResource(R.mipmap.heise);
-        } else {
+        } else if (clientInfo.getUserType() == 5){
             imageView.setImageResource(R.mipmap.huangse);
+        }else {
+            imageView.setImageResource(R.mipmap.jiudiantwo_bg);
         }
-
         TextView txt_count = (TextView) view.findViewById(R.id.txt_count);
 //        txt_count.setText(clientInfo.getName());
         return view;
@@ -321,7 +322,7 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
 
 
     public void hotelMap_Success(List<ClientInfo> clientInfoList) {
-
+        clientMapInfoList.clear();
         if (!ListUtils.isEmpty(clientInfoList)) {
             LogUtils.e("aMap");
             recyclerview.setVisibility(View.VISIBLE);

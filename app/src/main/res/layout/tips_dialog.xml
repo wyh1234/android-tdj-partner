@@ -5,9 +5,9 @@
     android:layout_width="wrap_content"
     android:orientation="vertical"
     android:gravity="center"
-    android:minWidth="200dp"
-    android:minHeight="230dp"
-    android:background="#fff"
+    android:minWidth="180dp"
+    android:minHeight="200dp"
+    android:background="@drawable/teampreview_shap_dialog"
     android:layout_height="wrap_content">
 
     <TextView
@@ -24,10 +24,10 @@
         android:layout_height="1px"
         android:background="@color/gray_6a"/>
     <TextView
-        android:padding="20dp"
+        android:padding="15dp"
         android:id="@+id/textView4"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="关闭" />
+        android:text="确认" />
 </LinearLayout>
