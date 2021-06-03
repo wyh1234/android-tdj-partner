@@ -1,5 +1,6 @@
 package com.tdjpartner.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,6 +27,8 @@ import com.tdjpartner.adapter.ListViewAdapter;
 import com.tdjpartner.base.NetworkFragment;
 import com.tdjpartner.model.TeamMemberData;
 import com.tdjpartner.model.V3HomeData;
+import com.tdjpartner.ui.activity.HomePageActivity;
+import com.tdjpartner.ui.activity.MenberHomepageActivity;
 import com.tdjpartner.utils.glide.ImageLoad;
 
 import java.io.Serializable;
@@ -108,6 +111,22 @@ public class TeamMemberFragment extends NetworkFragment {
         //列表
         adapter = new ListViewAdapter.Builder<TeamMemberData.Data>()
                 .setResource(R.layout.team_member_list_item)
+                .addChildId(R.id.tv_sink)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        System.out.println("v = " + v);
+//                        if (myTeam.get(i).getGrade()==3){
+//                            Intent intent=new Intent(this, HomePageActivity.class);
+//                            intent.putExtra("userId",myTeam.get(i).getPartnerId()+"");
+//                            startActivity(intent);
+//                        }else {
+//                            Intent show=new Intent(this, MenberHomepageActivity.class);
+//                            show.putExtra("userId",myTeam.get(i).getPartnerId());
+//                            startActivity(show);
+//                        }
+                    }
+                })
                 .setInitView((data, convertView) -> {
                     System.out.println("view = " + view + ", savedInstanceState = " + savedInstanceState);
                     String html = data.roleName + "<small>（" + data.size + "）</small><br/><font color='#dddddd'>" + data.abbreviation + "</font>";

@@ -15,8 +15,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawableStart="@mipmap/tel"
-        android:drawableEnd="@mipmap/right_bg"
-        android:drawablePadding="8dp"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:text="1234567890" />
+
+    <TextView
+        android:id="@+id/tv_sink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableEnd="@mipmap/right_bg"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:drawablePadding="8dp" />
 </LinearLayout>
