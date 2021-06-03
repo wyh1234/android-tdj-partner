@@ -3,105 +3,97 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/gray_f2">
+    android:background="@color/gray_f2"
+    android:orientation="vertical">
 
 
+    <!--头部-->
+    <FrameLayout
+        android:id="@+id/fl"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="@mipmap/home_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <!--头部-->
-        <FrameLayout
-            android:id="@+id/fl"
-            android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:background="@mipmap/home_bg"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="15dp"
+            android:src="@mipmap/back_home_one" />
 
-            <ImageView
-                android:id="@+id/btn_back"
-                android:layout_width="@dimen/dp_40"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_marginStart="15dp"
-                android:src="@mipmap/back_home_one" />
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="Mn日统计"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
 
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:text="Mn日统计"
-                android:textColor="@color/white"
-                android:textSize="17sp" />
+    </FrameLayout>
 
-        </FrameLayout>
+    <!--月总统计-->
+    <LinearLayout
+        android:id="@+id/ll_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fl">
 
-        <!--月总统计-->
         <LinearLayout
-            android:id="@+id/ll_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fl">
+            android:layout_marginBottom="4dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <View
+                android:layout_width="2dp"
+                android:layout_height="17dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/view_bg1" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp">
-
-                <View
-                    android:layout_width="2dp"
-                    android:layout_height="17dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@color/view_bg1" />
-
-                <TextView
-                    android:id="@+id/tv_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="6dp"
-                    android:drawableRight="@mipmap/xiala_bg"
-                    android:gravity="center"
-                    android:text="n月n日 "
-                    android:textColor="@color/black_63"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-<!--            <include-->
-<!--                android:id="@+id/ll_header_include"-->
-<!--                layout="@layout/net_day_preview_db_item"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content" />-->
-
-            <ViewStub
-                android:id="@+id/viewStub"
-                android:inflatedId="@+id/message_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-
+                android:layout_marginLeft="6dp"
+                android:drawableRight="@mipmap/xiala_bg"
+                android:gravity="center"
+                android:text="n月n日 "
+                android:textColor="@color/black_63"
+                android:textSize="16sp" />
         </LinearLayout>
 
-
-        <!--人员列表-->
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/member_list"
+        <ViewStub
+            android:id="@+id/viewStub"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:divider="@null"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ll_header" />
+            android:layout_height="wrap_content"
+            android:inflatedId="@+id/message_layout" />
+
+    </LinearLayout>
+
+
+    <!--人员列表-->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/member_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:divider="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_header" />
 
 </LinearLayout>

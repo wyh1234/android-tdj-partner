@@ -3,41 +3,57 @@ package com.tdjpartner.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.ListViewAdapter;
 import com.tdjpartner.base.NetworkFragment;
 import com.tdjpartner.model.TeamMemberData;
-import com.tdjpartner.utils.GeneralUtils;
-import com.tdjpartner.utils.cache.UserUtils;
+import com.tdjpartner.model.V3HomeData;
+import com.tdjpartner.utils.glide.ImageLoad;
+
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 
+import static android.support.v4.app.FragmentManager.POP_BACK_STACK_INCLUSIVE;
 import static android.text.Html.FROM_HTML_MODE_LEGACY;
+import static android.view.Gravity.CENTER;
 
 /**
  * Created by LFM on 2021/3/15.
  */
-public class TeamMemberFragment extends NetworkFragment implements OnRefreshListener {
+public class TeamMemberFragment extends NetworkFragment {
 
+    @BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.menu)
     RecyclerView menu;
     @BindView(R.id.listView)
     ListView listView;
+    String title;
 
     private ListViewAdapter<TeamMemberData.Data> adapter;
-
-    int userType = UserUtils.getInstance().getLoginBean().getType();//用户类型
-    int site = UserUtils.getInstance().getLoginBean().getSite();//用户站点
-    int grade = UserUtils.getInstance().getLoginBean().getGrade();//用户级别
+    private BaseQuickAdapter<String, BaseViewHolder> menuAdapter;
 
     @Override
     protected int getLayoutId() {
@@ -48,23 +64,69 @@ public class TeamMemberFragment extends NetworkFragment implements OnRefreshList
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        Map<String, Object> map = new ArrayMap<>();
-//        map.put("userId", UserUtils.getInstance().getLoginBean().getLoginUserId());
-//        map.put("grade", UserUtils.getInstance().getLoginBean().getGrade());
-//        map.put("other", "other");
+        swipeRefreshLayout.setColorSchemeResources(R.color.bbl_ff0000);
+        swipeRefreshLayout.setOnRefreshListener(this::onRefresh);
 
+        //标题
+        int n = getFragmentManager().getBackStackEntryCount();
+        System.out.println("n = " + n);
+        for (int i = 0; i < n; i++) {
+            FragmentManager.BackStackEntry entry = getFragmentManager().getBackStackEntryAt(i);
+            System.out.println("getBreadCrumbShortTitle is " + entry.getBreadCrumbTitle());
+        }
+
+        menuAdapter = new BaseQuickAdapter<String, BaseViewHolder>(android.R.layout.simple_list_item_1) {
+
+            @Override
+            protected void convert(BaseViewHolder baseViewHolder, String data) {
+                TextView textView = (TextView) baseViewHolder.itemView;
+                textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                textView.setPadding(0, 8, 8, 0);
+//                textView.setBackgroundColor(getResources().getColor(R.color.blue, null));
+                textView.setText(Html.fromHtml(" <font color='#dddddd'>></font> " + data.substring(0, data.indexOf('|')), FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+            }
+        };
+        menuAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                System.out.println("baseQuickAdapter = " + baseQuickAdapter + ", view = " + view + ", i = " + i);
+                getFragmentManager().popBackStack(baseQuickAdapter.getItem(i).toString(), 0);
+            }
+        });
+        menuAdapter.addHeaderView(getTextView(), 0, LinearLayoutManager.HORIZONTAL);
+
+        menu.setAdapter(menuAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        menu.setLayoutManager(linearLayoutManager);
+        for (int i = 0; i < getFragmentManager().getBackStackEntryCount(); i++) {
+            System.out.println("name = " + getFragmentManager().getBackStackEntryAt(i).getName());
+            menuAdapter.addData(getFragmentManager().getBackStackEntryAt(i).getName());
+        }
+
+
+        //列表
         adapter = new ListViewAdapter.Builder<TeamMemberData.Data>()
                 .setResource(R.layout.team_member_list_item)
                 .setInitView((data, convertView) -> {
                     System.out.println("view = " + view + ", savedInstanceState = " + savedInstanceState);
-
-                    String html = "<b>" + data.roleName + "</b><small>（" + data.size + "）</small><br/><font color='#dddddd'>" + data.abbreviation + "</font>";
+                    String html = data.roleName + "<small>（" + data.size + "）</small><br/><font color='#dddddd'>" + data.abbreviation + "</font>";
                     ((TextView) convertView.findViewById(R.id.user)).setText(Html.fromHtml(html, FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
-                    ((TextView) convertView.findViewById(R.id.phone)).setText(TextUtils.isEmpty(data.phone)? "其他" : data.phone);
+                    if (TextUtils.isEmpty(data.phone))
+                        convertView.findViewById(R.id.phone).setVisibility(View.GONE);
+                    convertView.setTag(data.size);
 
                 })
                 .build(getContext());
-//        listView.setOnItemClickListener(this::onItemClick);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                System.out.println("parent = " + parent + ", view = " + view + ", position = " + position + ", id = " + id);
+                TeamMemberData.Data data = (TeamMemberData.Data) parent.getAdapter().getItem(position);
+                if ((int) view.getTag() > 0) leak(data.userId, data.other, data.grade, null);
+            }
+        });
         listView.setAdapter(adapter);
 
 
@@ -72,58 +134,58 @@ public class TeamMemberFragment extends NetworkFragment implements OnRefreshList
         getVMWithFragment().loadingWithNewLiveData(TeamMemberData.class, getArgs())
                 .observe(this, teamMemberData -> {
                     System.out.println("teamMemberData = " + teamMemberData);
-
                     adapter.clear();
                     adapter.addAll(teamMemberData.teamMembers);
-
-//        Map<String, Object> map = makeArges(userId, grade, new Date(), isDay, isNext);
-//        bundle.putSerializable("args", (Serializable) map);
-//        bundle.putBoolean("isDay", isDay);
-//        NetListFragment fragment = new NetListFragment();
-//        fragment.setArguments(bundle);
-//
-//        getFragmentManager().beginTransaction()
-//                .add(R.id.fl, fragment)
-//                .addToBackStack(tag += userId + "")
-//                .commit();
+                    title = teamMemberData.title;
                     dismissLoading();
+                    stop();
                 });
 
     }
 
-    public void onRefresh(RefreshLayout refreshlayout) {
-//        getVMWithFragment().loading(StatisticsDetails.class, getArgs());
+    public void onRefresh() {
+        getVMWithFragment().loading(TeamMemberData.class, getArgs());
     }
 
+    private void leak(int userId, boolean other, int grade, String nickName) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", userId);
+        map.put("grade", grade);
+        map.put("other", other);
+        if (!TextUtils.isEmpty(nickName)) map.put("nickName", nickName);
 
-//    private Map<String, Object> makeArges(int userId, int grade, Date date, boolean isDay, boolean isNext) {
-//        Map<String, Object> map = new HashMap<>();
-//        map.put("loginId", UserUtils.getInstance().getLoginBean().getLoginUserId());
-//        map.put("userId", userId);
-//        map.put("grade", grade);
-//        map.put("type", isNext ? "next" : "up");
-//        if (isDay) {
-//            map.put("startTime", GeneralUtils.getTimeFilter(date));
-//            map.put("timeType", "day");
-//        } else {
-//            map.put("startTime", GeneralUtils.getMonthFilter(date));
-//            map.put("timeType", "month");
-//        }
-//        System.out.println("map = " + map);
-//        return map;
-//    }
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("args", (Serializable) map);
 
-//    private void leak(int userId, int grade, boolean isNext) {
-//        Bundle bundle = new Bundle();
-//        Map<String, Object> map = makeArges(userId, grade, new Date(), isDay, isNext);
-//        bundle.putSerializable("args", (Serializable) map);
-//        bundle.putBoolean("isDay", isDay);
-//        NetListFragment fragment = new NetListFragment();
-//        fragment.setArguments(bundle);
-//
-//        getFragmentManager().beginTransaction()
-//                .add(R.id.fl, fragment)
-//                .addToBackStack(tag += userId + "")
-//                .commit();
-//    }
+        TeamMemberFragment fragment = new TeamMemberFragment();
+        fragment.setArguments(bundle);
+
+        getFragmentManager().beginTransaction()
+                .replace(R.id.fl, fragment)
+//                .setBreadCrumbTitle(title)
+                .addToBackStack(title + "|" + userId)
+                .commit();
+    }
+
+    public void stop() {
+        if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
+    private TextView getTextView() {
+        TextView textView = new TextView(getContext());
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.gravity = CENTER;
+        textView.setLayoutParams(layoutParams);
+        textView.setPadding(40, 40, 8, 40);
+        textView.setText(Html.fromHtml("<b>战区</b>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+//        textView.setBackgroundColor(getResources().getColor(R.color.orange_red, null));
+        textView.setOnClickListener(v -> {
+            for (int i = 0; i < getFragmentManager().getBackStackEntryCount(); i++) {
+                getFragmentManager().popBackStack(i, POP_BACK_STACK_INCLUSIVE);
+            }
+        });
+        return textView;
+    }
 }

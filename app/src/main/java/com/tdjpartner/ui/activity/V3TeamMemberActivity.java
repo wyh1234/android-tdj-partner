@@ -64,7 +64,6 @@ public class V3TeamMemberActivity extends NetworkActivity {
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fl, fragment)
-                .addToBackStack("V3TeamMember" + userId)
                 .commit();
     }
 

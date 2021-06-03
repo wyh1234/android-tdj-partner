@@ -237,10 +237,4 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
                 break;
         }
     }
-
-    private void back() {
-
-
-    }
-
 }
