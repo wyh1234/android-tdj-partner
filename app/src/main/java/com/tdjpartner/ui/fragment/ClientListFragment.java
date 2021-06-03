@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.ArrayMap;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.apkfuns.logutils.LogUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -337,6 +338,7 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
         LogUtils.e(data.get(i).getName());
         if (view.getId() == R.id.tv_gj_status) {
             setCustomerId(data.get(i).getCustomerId());
+            setPos(i);
             followUpPopuWindow = new FollowUpPopuWindow(getContext(), data.get(i).getName());
             followUpPopuWindow.setDismissWhenTouchOutside(false);
             followUpPopuWindow.setInterceptTouchEvent(false);
@@ -390,8 +392,9 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
 
     public void internationalWatersSuccess() {
         clientListAdapter.remove(getPos());
+        clientListAdapter.notifyDataSetChanged();
         followUpPopuWindow.dismiss();
-
+        tv_count.setText(index == 0? "满足该条件的有" + clientListAdapter.getData().size() + "家" : "共计有" + clientListAdapter.getData().size() + "家");
     }
 
     public void punchDistance_failed() {
@@ -415,5 +418,10 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
             }
             onRefresh(null);
         });
+    }
+
+    public void internationalWaterFailed() {
+        hotelMap_failed();
+        Toast.makeText(mActivity,"跟进失败",Toast.LENGTH_SHORT).show();
     }
 }
