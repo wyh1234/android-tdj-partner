@@ -55,7 +55,7 @@
         android:id="@+id/wtab"
         android:layout_width="match_parent"
         android:background="@color/white"
-        app:xTabDisplayNum="2"
+        app:xTabDisplayNum="3"
         app:xTabIndicatorColor="@color/view_bg1"
         app:xTabIndicatorHeight="2dp"
         app:xTabIndicatorWidth="23dp"
