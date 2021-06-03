@@ -70,11 +70,11 @@ public class ClientListPresenter extends BasePresenter<Model, ClientListFragment
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
-                getIView().hotelMap_failed();
+                getIView().internationalWaterFailed();
             }
 
             @Override
-            protected void onFailed(Throwable e) {getIView().hotelMap_failed();}
+            protected void onFailed(Throwable e) {getIView().internationalWaterFailed();}
         }));
 
     }
