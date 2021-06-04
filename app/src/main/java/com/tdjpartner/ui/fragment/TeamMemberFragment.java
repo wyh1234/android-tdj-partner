@@ -105,7 +105,8 @@ public class TeamMemberFragment extends NetworkFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 System.out.println("parent = " + parent + ", view = " + view + ", position = " + position + ", id = " + id);
                 TeamMemberData.Data data = (TeamMemberData.Data) parent.getAdapter().getItem(position);
-                leak(data.userId, data.other, data.grade, data.nickName);
+                if (data.size != 0 && !getArgs().containsKey("nickName"))
+                    leak(data.userId, data.other, data.grade, data.nickName);
             }
         });
         listView.setAdapter(adapter);

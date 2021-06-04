@@ -22,6 +22,15 @@ public class UserInfo {
     private String cardUrlPositive;//身份证正面
     private String cardUrlNegative;//身份证反面
     private String verifyCode;
+    private String makerName;
+
+    public String getMakerName() {
+        return makerName;
+    }
+
+    public void setMakerName(String makerName) {
+        this.makerName = makerName;
+    }
 
     public void setType(int type) {
         this.type = type;

@@ -93,7 +93,7 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
         listViewAdapter = new ListViewAdapter.Builder<AfterSaleInfoData.AfterSaleInfo>()
                 .setResource(R.layout.net_support_list_item)
                 .setInitView((data, convertView) -> {
-                    ((TextView) convertView.findViewById(R.id.customer_name)).setText(data.customer_name);
+                    ((TextView) convertView.findViewById(R.id.customer_name)).setText(data.hotel_name);
                     ((TextView) convertView.findViewById(R.id.pick_user_name)).setText("专员：" + data.pick_user_name);
                     ((TextView) convertView.findViewById(R.id.dispatch_time)).setText(data.dispatch_time);
                     ((TextView) convertView.findViewById(R.id.commissioner_name)).setText("指派人：" + data.commissioner_name);
@@ -183,18 +183,21 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
 
                     int n;
                     if ((n = title == 0 ? afterSaleInfoData.buTotalNum - afterSaleInfoData.buFinishNum : afterSaleInfoData.buOver_list.size()) > 0) {
+                        ll_replenish.findViewById(R.id.count).setVisibility(View.VISIBLE);
                         ((TextView) ll_replenish.findViewById(R.id.count)).setText(n + "");
                     } else {
                         ll_replenish.findViewById(R.id.count).setVisibility(View.GONE);
                     }
 
                     if ((n = title == 0 ? afterSaleInfoData.huanTotalNum - afterSaleInfoData.huanFinishNum : afterSaleInfoData.huanOver_list.size()) > 0) {
+                        ll_replace.findViewById(R.id.count).setVisibility(View.VISIBLE);
                         ((TextView) ll_replace.findViewById(R.id.count)).setText(n + "");
                     } else {
                         ll_replace.findViewById(R.id.count).setVisibility(View.GONE);
                     }
 
                     if ((n = title == 0 ? afterSaleInfoData.tuiTotalNum - afterSaleInfoData.tuiFinishNum : afterSaleInfoData.tuiOver_list.size()) > 0) {
+                        ll_refund.findViewById(R.id.count).setVisibility(View.VISIBLE);
                         ((TextView) ll_refund.findViewById(R.id.count)).setText(n + "");
                     } else {
                         ll_refund.findViewById(R.id.count).setVisibility(View.GONE);

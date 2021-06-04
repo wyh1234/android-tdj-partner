@@ -104,6 +104,7 @@ public class IronIndexFragment extends NetworkFragment
     private List<NewHomeData.OrdersTimesTopList> orderList = new ArrayList<>();
     List<String> titles;
     Dialog dialog;
+    long timestamp = 0L;
 
     @OnClick({R.id.tv_city, R.id.tv_team, R.id.tv_day, R.id.tv_month, R.id.tv_sink, R.id.tv_month_sink})
     public void onClick(View view) {
@@ -114,7 +115,8 @@ public class IronIndexFragment extends NetworkFragment
                 startActivity(intent);
                 break;
             case R.id.tv_city:
-
+                if (timestamp != 0 && System.currentTimeMillis() - timestamp < 3500L) return;
+                timestamp = System.currentTimeMillis();
                 if (dialog == null) {
                     dialog = DialogUtils.getResourceDialog(getContext(), R.layout.site_dialog);
                     ListViewAdapter<CustomerPhone> adapter = new ListViewAdapter.Builder<CustomerPhone>()
@@ -165,7 +167,8 @@ public class IronIndexFragment extends NetworkFragment
                     Map<String, Object> map = new HashMap<>();
                     map.put("entityId", UserUtils.getInstance().getLoginBean().getEntityId());
                     showLoading();
-                    getVMWithFragment().loadingWithNewLiveData(new TypeToken<ArrayList<CustomerPhone>>() {}, map)
+                    getVMWithFragment().loadingWithNewLiveData(new TypeToken<ArrayList<CustomerPhone>>() {
+                    }, map)
                             .observe(this, list -> {
                                 dismissLoading();
                                 if (((ArrayList) list).isEmpty()) {
@@ -181,7 +184,8 @@ public class IronIndexFragment extends NetworkFragment
                     showLoading();
                     Map<String, Object> map = new HashMap<>();
                     map.put("entityId", UserUtils.getInstance().getLoginBean().getEntityId());
-                    getVMWithFragment().loading(new TypeToken<ArrayList<CustomerPhone>>() {}, map);
+                    getVMWithFragment().loading(new TypeToken<ArrayList<CustomerPhone>>() {
+                    }, map);
                 }
                 break;
 
@@ -460,6 +464,11 @@ public class IronIndexFragment extends NetworkFragment
                     break;
             }
         } else {
+            switch (((V3HomeData.PartnerApproachDataBean) baseQuickAdapter.getItem(i)).getSort()) {
+                case 1:
+                    if (grade != 3) GeneralUtils.showToastshort("暂未开发此功能！");
+                    break;
+            }
             switch (((V3HomeData.PartnerApproachDataBean) baseQuickAdapter.getItem(i)).getSort()) {
                 case 2:
                     getActivity().startActivity(new Intent(getContext(), ApprovalActivity.class));

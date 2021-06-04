@@ -3,18 +3,11 @@ package com.tdjpartner.ui.activity;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
-import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.ParcelFileDescriptor;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -47,7 +40,6 @@ import com.tdjpartner.base.NetworkActivity;
 import com.tdjpartner.model.AfterDetailData;
 import com.tdjpartner.utils.DialogUtils;
 import com.tdjpartner.utils.GeneralUtils;
-import com.tdjpartner.utils.LocationUtils;
 import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.glide.BlurBitmapUtils;
 import com.tdjpartner.utils.glide.ImageLoad;
@@ -213,7 +205,7 @@ public class NetSupportDetailActivity extends NetworkActivity {
                 if (error.isEmpty()) {
                     getVM().loadingWithNewLiveData(String.class, map)
                             .observe(this, s -> {
-                                GeneralUtils.showToastshort(s);
+                                GeneralUtils.showToastshort("操作成功！");
                                 finish();
                             });
                 } else {
@@ -287,7 +279,6 @@ public class NetSupportDetailActivity extends NetworkActivity {
         originalStringExtra = getIntent().getStringExtra("original");
         originalAmountFloatExtra = getIntent().getFloatExtra("original_amount", 0);
         original.setText("平台下单：" + getIntent().getStringExtra("original"));
-//        money.setText("折算后单价：" + getIntent().getStringExtra("money"));
         num_title.setText("实际数量：");
         num_unit.setText(unitStringExtra);
         price_title.setText("实际金额：");
@@ -339,7 +330,7 @@ public class NetSupportDetailActivity extends NetworkActivity {
                 break;
             case REPLACE:
                 tv_title.setText(REPLACE.substring(2, 4) + "详情");
-                amount.setText("要求换货：" + amountFloatExtra + unitStringExtra);
+                amount.setText(Html.fromHtml("要求换货：<font color='red'>" + GeneralUtils.trimZero(amountFloatExtra) + unitStringExtra + "</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
                 et_num.setHint("请输入实际换货数量");
                 et_money.setHint("请输入实际换货金额");
                 difficulty.setPaintFlags(difficulty.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -540,8 +531,8 @@ public class NetSupportDetailActivity extends NetworkActivity {
                 file = file.substring(file.lastIndexOf("/") + 1);
                 System.out.println("file = " + file);
                 if (!file.endsWith(".jpg") && !file.endsWith(".gif") && !file.endsWith(".png")) {
-                    GeneralUtils.showToastshort("文件格式不正确");
-                    return;
+//                    GeneralUtils.showToastshort("文件格式不正确");
+                    if(file.lastIndexOf('.') == -1) file += ".tmp";
                 }
 
                 try (ParcelFileDescriptor pfd = getContentResolver().openFileDescriptor(data.getData(), "r")) {

@@ -2,7 +2,9 @@ package com.tdjpartner.ui.activity;
 
 import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.ArrayMap;
 import android.view.View;
 import android.widget.EditText;
@@ -73,8 +75,32 @@ public class ApprovalHandleActivity extends NetworkActivity {
                         .observe(this, GeneralUtils::showToastshort);
                 break;
             case R.id.btn_no:
-                if (dialog == null)
+                if (dialog == null) {
                     dialog = DialogUtils.getResourceDialog(this, R.layout.common_dialog, this::onClick, this::onClick);
+                    EditText editText = dialog.findViewById(R.id.et_content);
+                    editText.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                            int n = 30;
+                            if (s.length() > n) {
+                                editText.setText(s.subSequence(0, n));
+                                editText.setSelection(editText.getText().length());
+                                GeneralUtils.showToastshort("字数不能超过30！");
+                            }
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+
+                        }
+                    });
+                }
+
                 dialog.show();
                 break;
             case R.id.dialog_btn_yes:
@@ -90,7 +116,10 @@ public class ApprovalHandleActivity extends NetworkActivity {
                     ViewModelProviders.of(this)
                             .get(NetworkViewModel.class)
                             .loadingWithNewLiveData(String.class, map)
-                            .observe(this, GeneralUtils::showToastshort);
+                            .observe(this, s -> {
+                                GeneralUtils.showToastshort("操作成功！");
+                                finish();
+                            });
                 }
                 break;
             case R.id.dialog_btn_no:
@@ -105,7 +134,8 @@ public class ApprovalHandleActivity extends NetworkActivity {
 
 
     @Override
-    protected void initView() {}
+    protected void initView() {
+    }
 
     @Override
     protected void initData() {
@@ -113,7 +143,6 @@ public class ApprovalHandleActivity extends NetworkActivity {
 
         Map<String, Object> map = new ArrayMap<>();
         map.put("customerId", getIntent().getIntExtra("customerId", -1));
-//        map.put("customerId", 258693);
 
         getVM().loadingWithNewLiveData(HotelAuditInfo.class, map)
                 .observe(this, hotelAuditInfo -> {
@@ -139,13 +168,15 @@ public class ApprovalHandleActivity extends NetworkActivity {
 
                     bd.setText("BD：" + hotelAuditInfo.BD);
                     nick_name.setText(hotelAuditInfo.nick_name);
-                    verify_customer.setText("负责人：" + hotelAuditInfo.verify_nick_name + " " + hotelAuditInfo.verify_phone);
+                    verify_customer.setText("负责人：" + hotelAuditInfo.nick_name + " " + hotelAuditInfo.phone);
                     region_name.setText("区域：" + hotelAuditInfo.region_name);
                     enterprise_msg.setText("地址：" + hotelAuditInfo.enterprise_msg);
                     delivered_time_info.setText("收货时间：" + hotelAuditInfo.delivered_time_info);
 
-                    if(!TextUtils.isEmpty(hotelAuditInfo.image_url))ImageLoad.loadImageViewLoding(hotelAuditInfo.image_url, image_url);
-                    if(!TextUtils.isEmpty(hotelAuditInfo.bzlicence_url))ImageLoad.loadImageViewLoding(hotelAuditInfo.bzlicence_url, bzlicence_url);
+                    if (!TextUtils.isEmpty(hotelAuditInfo.image_url))
+                        ImageLoad.loadImageViewLoding(hotelAuditInfo.image_url, image_url);
+                    if (!TextUtils.isEmpty(hotelAuditInfo.bzlicence_url))
+                        ImageLoad.loadImageViewLoding(hotelAuditInfo.bzlicence_url, bzlicence_url);
 
                 });
     }
