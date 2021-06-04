@@ -6,7 +6,7 @@ android {
         applicationId "com.tdjpartner"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 2
+        versionCode 20210603
         versionName '2.1'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {

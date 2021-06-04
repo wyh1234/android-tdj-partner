@@ -1,7 +1,5 @@
 package com.tdjpartner.ui.fragment;
 
-;
-
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.apkfuns.logutils.LogUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -26,11 +25,11 @@ import com.tdjpartner.ui.activity.AdministrationPaifangHistoryActivity;
 import com.tdjpartner.ui.activity.AfterSalePageActivity;
 import com.tdjpartner.ui.activity.EarningsActivity;
 import com.tdjpartner.ui.activity.EarningsHistoryActivity;
+import com.tdjpartner.ui.activity.InvitationActivity;
 import com.tdjpartner.ui.activity.MenberPaifangHistoryActivity;
 import com.tdjpartner.ui.activity.MessageActivity;
 import com.tdjpartner.ui.activity.RealNameAuthenticationActivity;
 import com.tdjpartner.ui.activity.SettingActivity;
-import com.tdjpartner.ui.activity.ToMakeMoneyActivity;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ViewUrils;
 import com.tdjpartner.utils.cache.UserUtils;
@@ -46,6 +45,8 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+
+;
 
 public class MyFragment extends Fragment<MyFragmentPresneter> implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.OnItemClickListener, View.OnClickListener
         , SetHeadImagePopu.SetHeadImageListener {
@@ -107,9 +108,10 @@ public class MyFragment extends Fragment<MyFragmentPresneter> implements SwipeRe
         }
 
         list.add(new MyFragmentBottom("实名认证", false));
-        list.add(new MyFragmentBottom("去赚钱", false));
+        list.add(new MyFragmentBottom("去邀请", false));
         list.add(new MyFragmentBottom("售后商品须知", false));
         list.add(new MyFragmentBottom("设置", false));
+        list.add(new MyFragmentBottom("当前版本号", false));
         rv_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         myFragmentAdapter = new MyFragmentAdapter(R.layout.my_fragment_item, list);
         myFragmentAdapter.setOnItemClickListener(this);
@@ -151,7 +153,7 @@ public class MyFragment extends Fragment<MyFragmentPresneter> implements SwipeRe
     public void setMyData() {
         LogUtils.e((UserUtils.getInstance().getLoginBean()));
         if (UserUtils.getInstance().getLoginBean() != null) {
-            if (UserUtils.getInstance().getLoginBean().getRealname() != null) {
+            if (UserUtils.getInstance().getLoginBean().getGradeName() != null) {
                 tv_name.setText(UserUtils.getInstance().getLoginBean().getRealname());
             }
 
@@ -237,13 +239,17 @@ public class MyFragment extends Fragment<MyFragmentPresneter> implements SwipeRe
                 }
             }
         } else if (i == 2) {
-            Intent intent = new Intent(getContext(), ToMakeMoneyActivity.class);
+//            Intent intent = new Intent(getContext(), ToMakeMoneyActivity.class);
+//            startActivity(intent);
+            Intent intent = new Intent(getContext(), InvitationActivity.class);
             startActivity(intent);
-
         } else if (i == 3) {
             Intent intent = new Intent(getContext(), AfterSalePageActivity.class);
             startActivity(intent);
-        } else {
+        } else if (i == 5){
+            Toast.makeText(mActivity,"当前版本号: "+GeneralUtils.getVersionName()+GeneralUtils.getVersionCode(),Toast.LENGTH_SHORT).show();
+        }
+        else {
             Intent intent = new Intent(getContext(), RealNameAuthenticationActivity.class);
             startActivity(intent);
         }
