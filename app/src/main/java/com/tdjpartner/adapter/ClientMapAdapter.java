@@ -29,7 +29,7 @@ public class ClientMapAdapter extends BaseQuickAdapter<ClientInfo, BaseViewHolde
             baseViewHolder.setImageResource(R.id.iv,R.mipmap.jiudiantwo_bg);
             baseViewHolder.setGone(R.id.tv_boss,true);
         }else if (clientMapInfo.getUserType()==3){
-            baseViewHolder.setGone(R.id.tv_boss,false);
+            baseViewHolder.setGone(R.id.tv_boss,true);
             baseViewHolder.setImageResource(R.id.iv,R.mipmap.jiudianthree_bg);
         }else if (clientMapInfo.getUserType()==4){
             baseViewHolder.setGone(R.id.tv_boss,true);

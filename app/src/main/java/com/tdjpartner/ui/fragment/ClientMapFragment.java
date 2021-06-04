@@ -113,7 +113,7 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
         LinearLayoutManager layout = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
         recyclerview.setLayoutManager(layout);
-        clientMapAdapter = new ClientMapAdapter(R.layout.map_info_list_layout, clientMapInfoList,mActivity);
+        clientMapAdapter = new ClientMapAdapter(R.layout.map_info_list_layout_new, clientMapInfoList,mActivity);
         clientMapAdapter.setOnItemClickListener(this);
         recyclerview.setAdapter(clientMapAdapter);
         getLocationData();
@@ -216,11 +216,11 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
         if (locationBean.getTag().contains("MAP")) {
             setLocationBean(locationBean);
             myLocationStyle = new MyLocationStyle();//初始化定位蓝点样式类
-            aMap.setMyLocationStyle(myLocationStyle);
             aMap.setLocationSource(this);
             aMap.setMyLocationEnabled(true);
             myLocationStyle.strokeColor(Color.argb(0, 0, 0, 0));// 设置圆形的边框颜色
             myLocationStyle.radiusFillColor(Color.argb(0, 0, 0, 0));// 设置圆形的填充颜
+            aMap.setMyLocationStyle(myLocationStyle);
             mlistener.onLocationChanged(locationBean.getaMapLocation());
 
 
@@ -337,11 +337,11 @@ public class ClientMapFragment extends Fragment<ClientMapPresenter> implements L
 
     @Override
     public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-        if (clientMapInfoList.get(i).getUserType() == 1 || clientMapInfoList.get(i).getUserType() == 2) {
+//        if (clientMapInfoList.get(i).getUserType() == 1 || clientMapInfoList.get(i).getUserType() == 2) {
             Intent intent = new Intent(getContext(), ClientDetailsActivity.class);
             intent.putExtra("customerId", clientMapInfoList.get(i).getCustomerId() + "");
             startActivity(intent);
-        }
+//        }
 
     }
 }

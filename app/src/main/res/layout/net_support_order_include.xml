@@ -39,6 +39,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:gravity="center"
+                android:maxLines="2"
+                android:ellipsize="end"
                 android:text="冰红茶(惠友冰红茶特价促销)"
                 android:textSize="12sp" />
         </LinearLayout>
