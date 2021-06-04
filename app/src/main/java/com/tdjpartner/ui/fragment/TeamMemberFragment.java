@@ -1,6 +1,7 @@
 package com.tdjpartner.ui.fragment;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -87,8 +89,8 @@ public class TeamMemberFragment extends NetworkFragment {
 
                     if (TextUtils.isEmpty(data.phone)) {
                         convertView.findViewById(R.id.tv_phone).setVisibility(View.GONE);
-                    }else {
-                        ((TextView)convertView.findViewById(R.id.tv_phone)).setText(data.phone);
+                    } else {
+                        ((TextView) convertView.findViewById(R.id.tv_phone)).setText(data.phone);
                     }
 
                     if (data.size == 0 || getArgs().containsKey("nickName"))
@@ -188,15 +190,15 @@ public class TeamMemberFragment extends NetworkFragment {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.gravity = CENTER;
         textView.setLayoutParams(layoutParams);
-        textView.setPadding(40, 40, 8, 40);
-        textView.setCompoundDrawables(getResources().getDrawable(R.drawable.umeng_socialize_sina, null), null, null, null);
-//        textView.setCompoundDrawables(getResources().getDrawable(R.mipmap.city_one, null), null, null, null);
-//        textView.setCompoundDrawablePadding(4);
+        textView.setPadding(16, 16, 8, 16);
         textView.setText(Html.fromHtml("<b>" + siteName.substring(0, siteName.length() - 1) + "战区</b><small>（" + realname + "</samll>）", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+
+        Drawable drawable = getResources().getDrawable(R.mipmap.city_one, null);
+        drawable.setBounds(0, 0, 40, 40);
+        textView.setCompoundDrawables(drawable, null, null, null);
+        textView.setCompoundDrawablePadding(GeneralUtils.dipToPx(getContext(), 4));
         textView.setOnClickListener(v -> {
-            for (int i = 0; i < getFragmentManager().getBackStackEntryCount(); i++) {
-                getFragmentManager().popBackStack(i, POP_BACK_STACK_INCLUSIVE);
-            }
+            getFragmentManager().popBackStack(null, POP_BACK_STACK_INCLUSIVE);
         });
         return textView;
     }

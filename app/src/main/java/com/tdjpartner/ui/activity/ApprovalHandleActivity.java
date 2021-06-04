@@ -30,14 +30,21 @@ public class ApprovalHandleActivity extends NetworkActivity {
 
     @BindView(R.id.tv_title)
     TextView tv_title;
-    @BindView(R.id.enterprise_code)
-    TextView enterprise_code;
+
     @BindView(R.id.authStatus)
     TextView authStatus;
-    @BindView(R.id.person_name)
-    TextView person_name;
+    @BindView(R.id.bd)
+    TextView bd;
+    @BindView(R.id.nick_name)
+    TextView nick_name;
+    @BindView(R.id.verify_customer)
+    TextView verify_customer;
+    @BindView(R.id.region_name)
+    TextView region_name;
     @BindView(R.id.enterprise_msg)
     TextView enterprise_msg;
+    @BindView(R.id.delivered_time_info)
+    TextView delivered_time_info;
 
     @BindView(R.id.image_url)
     ImageView image_url;
@@ -129,9 +136,12 @@ public class ApprovalHandleActivity extends NetworkActivity {
                             authStatus.setText("未知状态");
                     }
 
-                    enterprise_code.setText("" + hotelAuditInfo.enterprise_code);
-                    person_name.setText(hotelAuditInfo.nick_name + "：" + "" + hotelAuditInfo.phone);
-                    enterprise_msg.setText("" + hotelAuditInfo.enterprise_msg);
+                    bd.setText("BD：" + hotelAuditInfo.BD);
+                    nick_name.setText(hotelAuditInfo.nick_name);
+                    verify_customer.setText("负责人：" + hotelAuditInfo.verify_customer);
+                    region_name.setText("区域：" + hotelAuditInfo.region_name);
+                    enterprise_msg.setText("地址：" + hotelAuditInfo.enterprise_msg);
+                    delivered_time_info.setText("收货时间：" + hotelAuditInfo.delivered_time_info);
 
                     ImageLoad.loadImageViewLoding(hotelAuditInfo.image_url, image_url);
                     ImageLoad.loadImageViewLoding(hotelAuditInfo.bzlicence_url, bzlicence_url);

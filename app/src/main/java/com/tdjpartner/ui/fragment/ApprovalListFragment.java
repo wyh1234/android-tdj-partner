@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,7 +17,6 @@ import com.tdjpartner.R;
 import com.tdjpartner.adapter.ListViewAdapter;
 import com.tdjpartner.base.NetworkFragment;
 import com.tdjpartner.model.HotelAuditPageList;
-import com.tdjpartner.model.V3HomeData;
 import com.tdjpartner.ui.activity.ApprovalDetailActivity;
 import com.tdjpartner.ui.activity.ApprovalHandleActivity;
 import com.tdjpartner.utils.GeneralUtils;
@@ -85,15 +85,15 @@ public class ApprovalListFragment extends NetworkFragment {
                             authStatus = "未知状态";
                     }
 
-                    ((TextView) convertView.findViewById(R.id.enterprise_code)).setText("" + item.enterprise_code);
-                    ((TextView) convertView.findViewById(R.id.commissioner_name)).setText("DB:" + item.commissioner_name);
+                    ((TextView) convertView.findViewById(R.id.bd)).setText("" + item.enterprise_code);
+                    ((TextView) convertView.findViewById(R.id.commissioner_name)).setText("DB：" + (TextUtils.isEmpty(item.commissioner_name) ? "无" : item.commissioner_name));
                     ((TextView) convertView.findViewById(R.id.authStatus)).setText(authStatus);
-                    ((TextView) convertView.findViewById(R.id.person_name)).setText("" + item.nick_name + "：" + "" + item.phone);
+                    ((TextView) convertView.findViewById(R.id.verify_customer)).setText("" + item.nick_name + "：" + "" + item.phone);
                     ((TextView) convertView.findViewById(R.id.created_at)).setText("" + item.created_at);
                     ((TextView) convertView.findViewById(R.id.enterprise_msg)).setText("" + item.enterprise_msg);
 
-                    ImageLoad.loadImageViewLoding(item.image_url, convertView.findViewById(R.id.image_url), R.mipmap.yingyezhao_bg);
-                    ImageLoad.loadImageViewLoding(item.bzlicence_url, convertView.findViewById(R.id.bzlicence_url), R.mipmap.yingyezhao_bg);
+                    if(!TextUtils.isEmpty(item.image_url))ImageLoad.loadImageViewLoding(item.image_url, convertView.findViewById(R.id.image_url), R.mipmap.yingyezhao_bg);
+                    if(!TextUtils.isEmpty(item.bzlicence_url))ImageLoad.loadImageViewLoding(item.bzlicence_url, convertView.findViewById(R.id.bzlicence_url), R.mipmap.yingyezhao_bg);
 
                 })
                 .build(getContext());
