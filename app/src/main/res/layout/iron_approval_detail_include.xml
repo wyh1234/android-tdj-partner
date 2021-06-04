@@ -93,7 +93,7 @@
             android:layout_height="120dp"
             android:layout_weight="1"
             android:padding="8dp"
-            android:src="@color/gray_e1" />
+            android:src="@mipmap/yingyezhao_bg" />
 
         <ImageView
             android:id="@+id/bzlicence_url"
@@ -101,7 +101,7 @@
             android:layout_height="120dp"
             android:layout_weight="1"
             android:padding="8dp"
-            android:src="@color/gray_e1" />
+            android:src="@mipmap/yingyezhao_bg" />
     </LinearLayout>
 
     <LinearLayout

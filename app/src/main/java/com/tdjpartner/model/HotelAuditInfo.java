@@ -15,6 +15,8 @@ public class HotelAuditInfo {
     public String created_at; //2020-07-31 15:11:04",
     public String delivered_time_info; //9:00~10:00",
     public String verify_time; //2020-07-31 15:11:04",
+    public String verify_phone; //"15271967861",
+    public String verify_nick_name; //"胡杰",
     public String verify_info; //审核通过!",
     public String delivered_time_end; //10:00",
     public String verify_customer; //"胡杰(15271967899)",

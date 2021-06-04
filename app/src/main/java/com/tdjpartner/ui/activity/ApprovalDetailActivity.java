@@ -92,7 +92,7 @@ public class ApprovalDetailActivity extends NetworkActivity {
 
                     bd.setText("BD：" + hotelAuditInfo.BD);
                     nick_name.setText(hotelAuditInfo.nick_name);
-                    verify_customer.setText("负责人：" + hotelAuditInfo.nick_name + " " + hotelAuditInfo.phone);
+                    verify_customer.setText("负责人：" + hotelAuditInfo.verify_nick_name + " " + hotelAuditInfo.verify_phone);
                     region_name.setText("区域：" + hotelAuditInfo.region_name);
                     enterprise_msg.setText("地址：" + hotelAuditInfo.enterprise_msg);
                     delivered_time_info.setText("收货时间：" + hotelAuditInfo.delivered_time_info);

@@ -2,6 +2,7 @@ package com.tdjpartner.ui.activity;
 
 import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
+import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.view.View;
 import android.widget.EditText;
@@ -138,13 +139,13 @@ public class ApprovalHandleActivity extends NetworkActivity {
 
                     bd.setText("BD：" + hotelAuditInfo.BD);
                     nick_name.setText(hotelAuditInfo.nick_name);
-                    verify_customer.setText("负责人：" + hotelAuditInfo.verify_customer);
+                    verify_customer.setText("负责人：" + hotelAuditInfo.verify_nick_name + " " + hotelAuditInfo.verify_phone);
                     region_name.setText("区域：" + hotelAuditInfo.region_name);
                     enterprise_msg.setText("地址：" + hotelAuditInfo.enterprise_msg);
                     delivered_time_info.setText("收货时间：" + hotelAuditInfo.delivered_time_info);
 
-                    ImageLoad.loadImageViewLoding(hotelAuditInfo.image_url, image_url);
-                    ImageLoad.loadImageViewLoding(hotelAuditInfo.bzlicence_url, bzlicence_url);
+                    if(!TextUtils.isEmpty(hotelAuditInfo.image_url))ImageLoad.loadImageViewLoding(hotelAuditInfo.image_url, image_url);
+                    if(!TextUtils.isEmpty(hotelAuditInfo.bzlicence_url))ImageLoad.loadImageViewLoding(hotelAuditInfo.bzlicence_url, bzlicence_url);
 
                 });
     }

@@ -88,7 +88,7 @@ public class ApprovalListFragment extends NetworkFragment {
                     ((TextView) convertView.findViewById(R.id.bd)).setText("" + item.enterprise_code);
                     ((TextView) convertView.findViewById(R.id.commissioner_name)).setText("DB：" + (TextUtils.isEmpty(item.commissioner_name) ? "无" : item.commissioner_name));
                     ((TextView) convertView.findViewById(R.id.authStatus)).setText(authStatus);
-                    ((TextView) convertView.findViewById(R.id.verify_customer)).setText("" + item.nick_name + "：" + "" + item.phone);
+                    ((TextView) convertView.findViewById(R.id.verify_customer)).setText("" + item.nick_name + " " + item.phone);
                     ((TextView) convertView.findViewById(R.id.created_at)).setText("" + item.created_at);
                     ((TextView) convertView.findViewById(R.id.enterprise_msg)).setText("" + item.enterprise_msg);
 
