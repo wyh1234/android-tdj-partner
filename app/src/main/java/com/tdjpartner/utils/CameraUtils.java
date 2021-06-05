@@ -45,11 +45,19 @@ public class CameraUtils {
                     if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                         return;
                     }
-                    rootFile = new File(PIC_PATH);
+                    rootFile = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ? context.getCacheDir() :new File(PIC_PATH);
                     if (!rootFile.exists()) {
                         rootFile.mkdirs();
                     }
                     captureFile = new File(rootFile, "temp.jpg");
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+                        rootFile = context.getCacheDir();
+                        try {
+                            captureFile = File.createTempFile("JPEG_", null, rootFile);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     //跳转到调用系统相机
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     //判断版本 如果在Android7.0以上,使用FileProvider获取Uri
@@ -99,6 +107,13 @@ public class CameraUtils {
      */
     public static  void cropPhoto(Uri uri,Activity activity) {
         cropFile = new File(rootFile, "temp.jpg");
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            try {
+                cropFile = File.createTempFile("JPEG_", null, activity.getCacheDir());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("crop", "true");

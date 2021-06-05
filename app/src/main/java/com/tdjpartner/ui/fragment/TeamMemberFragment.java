@@ -90,6 +90,7 @@ public class TeamMemberFragment extends NetworkFragment {
                     map.put("userId", data.userId);
                     map.put("nickName", data.nickName);
                     map.put("grade", data.grade);
+                    map.put("other", data.other);
                     textView.setTag(map);
                     if (TextUtils.isEmpty(data.phone)) {
                         convertView.findViewById(R.id.tv_phone).setVisibility(View.GONE);
@@ -216,8 +217,9 @@ public class TeamMemberFragment extends NetworkFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_user:
+                Map<String, Object> map = (Map<String, Object>) v.getTag();
+                if ((boolean) map.get("other")) return;
                 Intent intent = new Intent(getContext(), MemberStatisticsActivity.class);
-                Map<String,Object> map = (Map<String, Object>) v.getTag();
                 intent.putExtra("userId", (Integer) map.get("userId"));
                 intent.putExtra("grade", (Integer) map.get("grade"));
                 intent.putExtra("nickName", (String) map.get("nickName"));
