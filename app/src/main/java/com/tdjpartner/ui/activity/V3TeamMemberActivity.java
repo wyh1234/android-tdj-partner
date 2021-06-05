@@ -53,6 +53,7 @@ public class V3TeamMemberActivity extends NetworkActivity {
     int searchNum = 0;
 
     private int userId = UserUtils.getInstance().getLoginBean().getLoginUserId();
+    private int grade = UserUtils.getInstance().getLoginBean().getGrade();
 
     @OnClick({R.id.btn_back, R.id.tv_list_type})
     public void onClick(View v) {
@@ -60,18 +61,18 @@ public class V3TeamMemberActivity extends NetworkActivity {
             case R.id.btn_back:
                 if (searchNum-- > 0) {
                     getSupportFragmentManager().popBackStack();
-                    if(searchNum == 0) tv_title.setText("我的团队");
+                    if (searchNum == 0) tv_title.setText("我的团队");
                 } else {
                     finish();
                 }
                 break;
             case R.id.tv_list_type:
+                if (TextUtils.isEmpty(search_text.getText())) return;
                 searchNum++;
                 tv_title.setText("搜索我的团队");
-                if (TextUtils.isEmpty(search_text.getText())) return;
                 Map<String, Object> map = new HashMap<>();
-                map.put("userId", UserUtils.getInstance().getLoginBean().getLoginUserId());
-                map.put("grade", UserUtils.getInstance().getLoginBean().getGrade());
+                map.put("userId", userId);
+                map.put("grade", grade);
                 map.put("other", false);
                 System.out.println("search_text.getText() = " + search_text.getText());
                 map.put("nickName", search_text.getText().toString());
@@ -116,5 +117,11 @@ public class V3TeamMemberActivity extends NetworkActivity {
     @Override
     protected int getLayoutId() {
         return R.layout.v3_team_member_layout;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+//        if(--searchNum == 0) tv_title.setText("我的团队");
     }
 }

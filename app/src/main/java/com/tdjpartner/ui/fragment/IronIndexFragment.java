@@ -35,6 +35,7 @@ import com.tdjpartner.ui.activity.DropOutingActivity;
 import com.tdjpartner.ui.activity.StatisticsActivity;
 import com.tdjpartner.ui.activity.StatisticsListActivity;
 import com.tdjpartner.ui.activity.TeamMemberActivity;
+import com.tdjpartner.ui.activity.V3TeamMemberActivity;
 import com.tdjpartner.utils.DialogUtils;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
@@ -110,8 +111,7 @@ public class IronIndexFragment extends NetworkFragment
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_team:
-                Intent intent = new Intent(getContext(), TeamMemberActivity.class);
-                intent.putExtra("userId", UserUtils.getInstance().getLoginBean().getEntityId() + "");
+                Intent intent = new Intent(getContext(), V3TeamMemberActivity.class);
                 startActivity(intent);
                 break;
             case R.id.tv_city:

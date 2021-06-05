@@ -119,9 +119,9 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
                     if (isDay)
                         ((TextView) getView().findViewById(R.id.priceNum)).setText("" + dayAndMonthData.teamView.averageAmount);
 
-                    List<DayAndMonthData.TeamView> list = new ArrayList<>(dayAndMonthData.teamViewList);
-                    if (dayAndMonthData.othersTeamView != null)
-                        list.add(dayAndMonthData.othersTeamView);
+                    List<DayAndMonthData.TeamView> list = new ArrayList<>();
+                    if (dayAndMonthData.teamViewList != null) list.addAll(dayAndMonthData.teamViewList);
+                    if (dayAndMonthData.othersTeamView != null) list.add(dayAndMonthData.othersTeamView);
                     adapter.setNewData(list);
                     dismissLoading();
                 });

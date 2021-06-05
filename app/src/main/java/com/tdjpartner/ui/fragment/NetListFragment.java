@@ -135,7 +135,8 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
                         ((TextView) getView().findViewById(R.id.addMonthAmount)).setText(Html.fromHtml("<font color='red'>" + n + "</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
 
                     }
-                    List<DayAndMonthData.TeamView> list = new ArrayList<>(dayAndMonthData.teamViewList);
+                    List<DayAndMonthData.TeamView> list = new ArrayList<>();
+                    if (dayAndMonthData.teamViewList != null) list.addAll(dayAndMonthData.teamViewList);
                     if (dayAndMonthData.othersTeamView != null)
                         list.add(dayAndMonthData.othersTeamView);
                     adapter.setNewData(list);

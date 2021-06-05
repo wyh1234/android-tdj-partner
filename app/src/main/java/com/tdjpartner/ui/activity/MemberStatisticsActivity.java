@@ -47,8 +47,8 @@ public class MemberStatisticsActivity extends NetworkActivity {
     private List<NewHomeData.RegisterTimesTopListBean> registerlist = new ArrayList<>();
     private List<NewHomeData.OrdersTimesTopList> orderList = new ArrayList<>();
 
-    int grade = UserUtils.getInstance().getLoginBean().getGrade();//用户级别
-    int type = UserUtils.getInstance().getLoginBean().getType();//用户级别
+    int grade = -1;
+    int type = UserUtils.getInstance().getLoginBean().getType();//用户类型;
 
     @OnClick({R.id.btn_back})
     public void onClick(View view) {
@@ -99,7 +99,6 @@ public class MemberStatisticsActivity extends NetworkActivity {
                 })
                 .build(this);
         day_listView.setAdapter(dayAdapter);
-        day_listView.setNestedScrollingEnabled(true);
 
         monthAdapter = new ListViewAdapter.Builder<V3HomeData>()
                 .setResource(R.layout.iron_month_preview_item)
@@ -123,14 +122,13 @@ public class MemberStatisticsActivity extends NetworkActivity {
                 })
                 .build(this);
         month_listView.setAdapter(monthAdapter);
-        month_listView.setNestedScrollingEnabled(true);
     }
 
     private void netInit() {
         dayAdapter = new ListViewAdapter.Builder<V3HomeData>()
 //                .setOnClickListener(grade == 3 ? this : null)
                 .setResource(grade == 3 ? R.layout.net_day_preview_db_item : R.layout.net_day_preview_item)
-//                .addChildId(R.id.ll_day_register, R.id.ll_day_open, R.id.ll_day_active, R.id.ll_day_call)
+                .addChildId(R.id.ll_day_register, R.id.ll_day_open, R.id.ll_day_active, R.id.ll_day_call)
                 .setInitView((data, convertView) -> {
                     ((TextView) convertView.findViewById(R.id.dayRegisterTimes)).setText("" + data.getTodayData().dayRegisterTimes);
                     ((TextView) convertView.findViewById(R.id.firstOrderNum)).setText("" + data.getTodayData().firstOrderNum);
@@ -162,7 +160,6 @@ public class MemberStatisticsActivity extends NetworkActivity {
                 })
                 .build(this);
         day_listView.setAdapter(dayAdapter);
-//        day_listView.setNestedScrollingEnabled(true);
 
 
         monthAdapter = new ListViewAdapter.Builder<V3HomeData>()
@@ -199,7 +196,6 @@ public class MemberStatisticsActivity extends NetworkActivity {
                 })
                 .build(this);
         month_listView.setAdapter(monthAdapter);
-//        month_listView.setNestedScrollingEnabled(true);
     }
 
     @Override
@@ -245,7 +241,10 @@ public class MemberStatisticsActivity extends NetworkActivity {
     private Map<String, Object> getArgs() {
         Map<String, Object> map = new ArrayMap<>();
         int n = getIntent().getIntExtra("userId", -1);
-        if (n == -1) GeneralUtils.showToastshort("用户不存在！");
+        if (n == -1) {
+            GeneralUtils.showToastshort("用户不存在！");
+            return map;
+        }
         map.put("userId", n);
         map.put("dayDate", GeneralUtils.getTimeFilter(new Date()));
         map.put("monthTime", GeneralUtils.getMonthFilter(new Date()));
@@ -255,6 +254,7 @@ public class MemberStatisticsActivity extends NetworkActivity {
 
     @Override
     protected int getLayoutId() {
+        grade = getIntent().getIntExtra("grade", grade);
         return R.layout.team_statistics_layout;
     }
 }

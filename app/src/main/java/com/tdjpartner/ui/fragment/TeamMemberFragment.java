@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.ArrayMap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -59,7 +60,7 @@ public class TeamMemberFragment extends NetworkFragment {
     private RxPermissions rxPermissions;
 
     String siteName = UserUtils.getInstance().getLoginBean().getSiteName(),
-            realname = UserUtils.getInstance().getLoginBean().getRealname();//用户级别
+            realname = UserUtils.getInstance().getLoginBean().getRealname();
 
     @Override
     protected int getLayoutId() {
@@ -85,8 +86,11 @@ public class TeamMemberFragment extends NetworkFragment {
                     textView = convertView.findViewById(R.id.tv_user);
                     String html = data.nickName + (data.size <= 0 ? "" : "<small>（" + data.size + "）</small>") + "<br/><font color='#dddddd'>" + data.abbreviation + "</font>";
                     textView.setText(Html.fromHtml(html, FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
-                    textView.setTag(data.userId + "|" + data.nickName);
-
+                    Map<String, Object> map = new ArrayMap<>(3);
+                    map.put("userId", data.userId);
+                    map.put("nickName", data.nickName);
+                    map.put("grade", data.grade);
+                    textView.setTag(map);
                     if (TextUtils.isEmpty(data.phone)) {
                         convertView.findViewById(R.id.tv_phone).setVisibility(View.GONE);
                     } else {
@@ -213,9 +217,10 @@ public class TeamMemberFragment extends NetworkFragment {
         switch (v.getId()) {
             case R.id.tv_user:
                 Intent intent = new Intent(getContext(), MemberStatisticsActivity.class);
-                String data = (String) v.getTag();
-                intent.putExtra("userId", Integer.parseInt(data.substring(0, data.indexOf("|"))));
-                intent.putExtra("nickName", data.substring(data.indexOf("|") + 1));
+                Map<String,Object> map = (Map<String, Object>) v.getTag();
+                intent.putExtra("userId", (Integer) map.get("userId"));
+                intent.putExtra("grade", (Integer) map.get("grade"));
+                intent.putExtra("nickName", (String) map.get("nickName"));
                 startActivity(intent);
                 break;
             case R.id.tv_phone:
