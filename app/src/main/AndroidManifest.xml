@@ -242,6 +242,7 @@
         <activity
             android:name=".ui.activity.NetSupportDetailActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.InvitationActivityNew"/>
 
 
 

@@ -18,6 +18,8 @@ import com.tdjpartner.model.ClientInfo;
 import com.tdjpartner.model.ClientSeachInfo;
 import com.tdjpartner.model.CouponsStatistics;
 import com.tdjpartner.model.CustomerInfo;
+import com.tdjpartner.model.CustomerPhone;
+import com.tdjpartner.model.DayAndMonthData;
 import com.tdjpartner.model.DegreeOfSatisfaction;
 import com.tdjpartner.model.DeleteSalesAppByEntityId;
 import com.tdjpartner.model.DiscountCoupon;
@@ -30,14 +32,12 @@ import com.tdjpartner.model.GoodsInfo;
 import com.tdjpartner.model.HomeData;
 import com.tdjpartner.model.HomeDataDetails;
 import com.tdjpartner.model.HomePageFuncationButton;
+import com.tdjpartner.model.HomeTopData;
 import com.tdjpartner.model.HotelAuditInfo;
 import com.tdjpartner.model.HotelAuditPageList;
+import com.tdjpartner.model.IntegralItem;
 import com.tdjpartner.model.IntegralShop;
 import com.tdjpartner.model.InvitationHistory;
-import com.tdjpartner.model.DayAndMonthData;
-import com.tdjpartner.model.HomeTopData;
-import com.tdjpartner.model.CustomerPhone;
-import com.tdjpartner.model.StatisticsDetails;
 import com.tdjpartner.model.MyCountMoney;
 import com.tdjpartner.model.MyTeam;
 import com.tdjpartner.model.NewHomeData;
@@ -54,6 +54,7 @@ import com.tdjpartner.model.RefundDetail;
 import com.tdjpartner.model.RentingInfos;
 import com.tdjpartner.model.SelectPerson;
 import com.tdjpartner.model.SettingPerson;
+import com.tdjpartner.model.StatisticsDetails;
 import com.tdjpartner.model.StoreInfo;
 import com.tdjpartner.model.TeamOverView;
 import com.tdjpartner.model.ToMakeMoney;
@@ -342,6 +343,10 @@ public class RequestPresenter {
 
     public static Disposable version_check(Map<String, Object> map, BaseObserver<AppVersion> callback) {
         return getApiService().version_check(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    }
+
+    public static Disposable queryInviteList(Map<String, Object> map, BaseObserver<List<IntegralItem>> callback) {
+        return getApiService().queryInviteList(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
 
     public static Disposable myTeamPartnerSelectList(Map<String, Object> map, BaseObserver<List<String>> callback) {

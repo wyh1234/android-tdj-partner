@@ -25,7 +25,7 @@ import com.tdjpartner.ui.activity.AdministrationPaifangHistoryActivity;
 import com.tdjpartner.ui.activity.AfterSalePageActivity;
 import com.tdjpartner.ui.activity.EarningsActivity;
 import com.tdjpartner.ui.activity.EarningsHistoryActivity;
-import com.tdjpartner.ui.activity.InvitationActivity;
+import com.tdjpartner.ui.activity.InvitationActivityNew;
 import com.tdjpartner.ui.activity.MenberPaifangHistoryActivity;
 import com.tdjpartner.ui.activity.MessageActivity;
 import com.tdjpartner.ui.activity.RealNameAuthenticationActivity;
@@ -241,7 +241,7 @@ public class MyFragment extends Fragment<MyFragmentPresneter> implements SwipeRe
         } else if (i == 2) {
 //            Intent intent = new Intent(getContext(), ToMakeMoneyActivity.class);
 //            startActivity(intent);
-            Intent intent = new Intent(getContext(), InvitationActivity.class);
+            Intent intent = new Intent(getContext(), InvitationActivityNew.class);
             startActivity(intent);
         } else if (i == 3) {
             Intent intent = new Intent(getContext(), AfterSalePageActivity.class);
