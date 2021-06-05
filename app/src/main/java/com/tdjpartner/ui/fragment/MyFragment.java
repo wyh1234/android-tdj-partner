@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.apkfuns.logutils.LogUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -25,7 +24,7 @@ import com.tdjpartner.ui.activity.AdministrationPaifangHistoryActivity;
 import com.tdjpartner.ui.activity.AfterSalePageActivity;
 import com.tdjpartner.ui.activity.EarningsActivity;
 import com.tdjpartner.ui.activity.EarningsHistoryActivity;
-import com.tdjpartner.ui.activity.InvitationActivity;
+import com.tdjpartner.ui.activity.InvitationActivityNew;
 import com.tdjpartner.ui.activity.MenberPaifangHistoryActivity;
 import com.tdjpartner.ui.activity.MessageActivity;
 import com.tdjpartner.ui.activity.RealNameAuthenticationActivity;
@@ -111,7 +110,6 @@ public class MyFragment extends Fragment<MyFragmentPresneter> implements SwipeRe
         list.add(new MyFragmentBottom("去邀请", false));
         list.add(new MyFragmentBottom("售后商品须知", false));
         list.add(new MyFragmentBottom("设置", false));
-        list.add(new MyFragmentBottom("当前版本号", false));
         rv_recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         myFragmentAdapter = new MyFragmentAdapter(R.layout.my_fragment_item, list);
         myFragmentAdapter.setOnItemClickListener(this);
@@ -241,13 +239,11 @@ public class MyFragment extends Fragment<MyFragmentPresneter> implements SwipeRe
         } else if (i == 2) {
 //            Intent intent = new Intent(getContext(), ToMakeMoneyActivity.class);
 //            startActivity(intent);
-            Intent intent = new Intent(getContext(), InvitationActivity.class);
+            Intent intent = new Intent(getContext(), InvitationActivityNew.class);
             startActivity(intent);
         } else if (i == 3) {
             Intent intent = new Intent(getContext(), AfterSalePageActivity.class);
             startActivity(intent);
-        } else if (i == 5){
-            Toast.makeText(mActivity,"当前版本号: "+GeneralUtils.getVersionName()+GeneralUtils.getVersionCode(),Toast.LENGTH_SHORT).show();
         }
         else {
             Intent intent = new Intent(getContext(), RealNameAuthenticationActivity.class);

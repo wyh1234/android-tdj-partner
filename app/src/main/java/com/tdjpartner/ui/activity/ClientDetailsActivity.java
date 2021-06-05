@@ -1,17 +1,19 @@
 package com.tdjpartner.ui.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.tdjpartner.adapter.HistoryInfoAdapter;
 import com.tdjpartner.R;
+import com.tdjpartner.adapter.HistoryInfoAdapter;
 import com.tdjpartner.adapter.StoreInfoAdapter;
 import com.tdjpartner.base.BaseActivity;
 import com.tdjpartner.model.ClientDetails;
@@ -20,6 +22,7 @@ import com.tdjpartner.model.HistoryInfo;
 import com.tdjpartner.mvp.presenter.ClientDetailsPresenter;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.GridSpacingItemDecoration;
+import com.tdjpartner.utils.appupdate.ApkUtil;
 import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.glide.ImageLoad;
 import com.tdjpartner.utils.popuwindow.CheckHeadImagePopuWindow;
@@ -27,6 +30,7 @@ import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.widget.MyRecyclerView;
 import com.tdjpartner.widget.ScrollLinearLayoutManager;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -83,7 +87,8 @@ public class ClientDetailsActivity extends BaseActivity<ClientDetailsPresenter> 
         this.clientDetails = clientDetails;
     }
 
-    @OnClick({R.id.btn_back,R.id.btn,R.id.ll_call, R.id.iv_heard})
+    @OnClick({R.id.btn_back,R.id.btn,R.id.ll_call, R.id.iv_heard,
+            R.id.rl_daoHang})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.btn_back:
@@ -121,6 +126,45 @@ public class ClientDetailsActivity extends BaseActivity<ClientDetailsPresenter> 
                     GeneralUtils.action_call(rxPermissions,getClientDetails().getReceiveMobile(),getContext());
                 }
                 break;*/
+            case R.id.rl_daoHang:
+                if (getClientDetails() != null){
+                    ClientDetails clientDetails = getClientDetails();
+                    String address = clientDetails.getAddress();
+                    String lat = clientDetails.getLat();
+                    String lon = clientDetails.getLon();
+                    if (lat == null || lat.isEmpty() || lon == null || lon.isEmpty()) {
+                        Toast.makeText(this,"无法开启导航",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (address != null && !address.isEmpty()){
+                        Intent intent2 = new Intent();
+                        intent2.setAction(Intent.ACTION_VIEW);
+                        intent2.addCategory(Intent.CATEGORY_DEFAULT);
+                        //将功能Scheme以URI的方式传入data
+                        Uri uri2 = Uri.parse("qqmap://map/routeplan?type=drive&to=tvShopName&tocoord=" + lat + "," + lon);
+                        intent2.setData(uri2);
+                        if (ApkUtil.isAvilible(this, "com.autonavi.minimap")) {
+                            try {
+                                Intent intent1 = Intent.getIntent("androidamap://navi?sourceApplication=appname&poiname=" + address + "&lat="
+                                        + lat
+                                        + "&lon="
+                                        + lon + "&dev=0");
+                                startActivity(intent1);
+                            } catch (URISyntaxException e) {
+                                e.printStackTrace();
+                            }
+                        }else {
+
+                            Toast.makeText(this,"您尚未安装地图",Toast.LENGTH_SHORT).show();
+                            //跳转到应用商店去下载高德地图app
+                            Uri uri = Uri.parse("market://details?id=com.autonavi.minimap");
+                            Intent intent3 = new Intent(Intent.ACTION_VIEW, uri);
+                            intent3.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent3);
+                        }
+                    }
+                }
+                break;
         }
     }
     @Override
@@ -160,6 +204,7 @@ public class ClientDetailsActivity extends BaseActivity<ClientDetailsPresenter> 
         }else {
             ll.setVisibility(View.GONE);
         }
+
     }
 
     @Override

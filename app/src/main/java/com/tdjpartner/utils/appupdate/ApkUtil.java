@@ -4,13 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
 
 import com.apkfuns.logutils.LogUtils;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * 文件名:    ApkUtil
@@ -108,4 +115,44 @@ public final class ApkUtil {
         PackageInfo packageInfo = packageManager.getPackageArchiveInfo(path, PackageManager.GET_ACTIVITIES);
         return packageInfo.versionCode;
     }
+
+    //判断手机上是否安装了指定的百度地图，高德地图等软件
+    public static boolean isAvilible(Context context, String packageName) {
+        // 获取packagemanager
+        final PackageManager packageManager = context.getPackageManager();
+        // 获取所有已安装程序的包信息
+        List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);
+        // 用于存储所有已安装程序的包名
+        List<String> packageNames = new ArrayList<String>();
+        // 从pinfo中将包名字逐一取出，压入pName list中
+        if (packageInfos != null) {
+            for (int i = 0; i < packageInfos.size(); i++) {
+                String packName = packageInfos.get(i).packageName;
+                packageNames.add(packName);
+            }
+        }
+        // 判断packageNames中是否有目标程序的包名，有TRUE，没有FALSE
+        return packageNames.contains(packageName);
+    }
+
+    public static Address getGeoPointBystr(Context context, String str) {
+        Address address_temp = null;
+        if (str != null) {
+            Geocoder gc = new Geocoder(context, Locale.CHINA);
+            List<Address> addressList = null;
+            try {
+                addressList = gc.getFromLocationName(str, 1);
+                if (!addressList.isEmpty()) {
+                    address_temp = addressList.get(0);
+                    double Latitude = address_temp.getLatitude();
+                    double Longitude = address_temp.getLongitude();
+                    Log.d("zxc003",str+" Latitude = "+Latitude+" Longitude = "+Longitude);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return address_temp;
+    }
+
 }

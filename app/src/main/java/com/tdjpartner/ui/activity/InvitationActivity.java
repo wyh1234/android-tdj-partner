@@ -97,8 +97,5 @@ public class InvitationActivity extends BaseActivity<InvitationPresenter>  {
 
     public void version_check_success(AppVersion appVersion) {
         shareURL=appVersion.getQrcodeImage();
-
-
-
     }
 }
