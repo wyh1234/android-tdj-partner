@@ -46,6 +46,8 @@ public class HotelAuditPageList {
         public String enterprise_msg; //"华发南路南园街道上步中学对面邮政报亭",
         public String enterprise_code; //"测试门店152",
         public String remarks; //""
+        public int img_check_status; //门店形象照审核状态 0-待审核，1-审核成功，2-审核失败
+        public int licence_url_check_status; //营业执照审核状态 0-待审核，1-审核成功，2-审核失败
     }
 
 }

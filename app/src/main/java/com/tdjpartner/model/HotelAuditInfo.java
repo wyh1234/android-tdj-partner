@@ -32,4 +32,7 @@ public class HotelAuditInfo {
     public String enterprise_code; //代金分离",
     public String remarks; //",
     public String region_manager_name; //刘万梅"
+    public int img_check_status; //门店形象照审核状态 0-待审核，1-审核成功，2-审核失败
+    public int licence_url_check_status; //营业执照审核状态 0-待审核，1-审核成功，2-审核失败
+
 }

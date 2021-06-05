@@ -185,8 +185,8 @@ public class StatisticsDetails {
         private Object userType;
         private double monthAmount;
         private int afterSaleTimes;
-        private int afterSaleAmount;
-        private int monthAfterSaleAmount;
+        private float afterSaleAmount;
+        private float monthAfterSaleAmount;
         private Object noCallDay;
         private Object receiveName;
         private Object receiveMobile;
@@ -287,7 +287,7 @@ public class StatisticsDetails {
                     '}';
         }
 
-        public int getAfterSaleAmount() {
+        public float getAfterSaleAmount() {
             return afterSaleAmount;
         }
 
@@ -295,7 +295,7 @@ public class StatisticsDetails {
             this.afterSaleAmount = afterSaleAmount;
         }
 
-        public int getMonthAfterSaleAmount() {
+        public float getMonthAfterSaleAmount() {
             return monthAfterSaleAmount;
         }
 

@@ -59,6 +59,7 @@ public class StatisticsActivity extends NetworkActivity {
     TextView tv_list_type;
 
     boolean isDay;//时间类型标记
+    int userId = UserUtils.getInstance().getLoginBean().getLoginUserId();//用户ID
     int userType = UserUtils.getInstance().getLoginBean().getType();//用户类型
 
     private Calendar selectedDate, endDate, startDate;
@@ -194,7 +195,7 @@ public class StatisticsActivity extends NetworkActivity {
 
     private Map<String, Object> getArges(Date date, int i) {
         Map<String, Object> map = new HashMap<>();
-        map.put("userId", UserUtils.getInstance().getLoginBean().getLoginUserId());
+        map.put("userId", getIntent().getIntExtra("userId", userId));//如果没有传递UserId就使用当前用户的UserId
         if (isDay) {
             map.put("dayDate", GeneralUtils.getTimeFilter(date));
         } else {

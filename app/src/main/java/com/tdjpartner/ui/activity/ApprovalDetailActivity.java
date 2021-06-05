@@ -1,6 +1,7 @@
 package com.tdjpartner.ui.activity;
 
 import android.text.Html;
+import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.view.View;
 import android.widget.ImageView;
@@ -97,8 +98,10 @@ public class ApprovalDetailActivity extends NetworkActivity {
                     enterprise_msg.setText("地址：" + hotelAuditInfo.enterprise_msg);
                     delivered_time_info.setText("收货时间：" + hotelAuditInfo.delivered_time_info);
 
-                    ImageLoad.loadImageViewLoding(hotelAuditInfo.image_url, image_url, R.mipmap.yingyezhao_bg);
-                    ImageLoad.loadImageViewLoding(hotelAuditInfo.bzlicence_url, bzlicence_url, R.mipmap.yingyezhao_bg);
+                    if (!TextUtils.isEmpty(hotelAuditInfo.image_url) && hotelAuditInfo.img_check_status == 1)
+                        ImageLoad.loadImageViewLoding(hotelAuditInfo.image_url, image_url);
+                    if (!TextUtils.isEmpty(hotelAuditInfo.bzlicence_url) && hotelAuditInfo.licence_url_check_status == 1)
+                        ImageLoad.loadImageViewLoding(hotelAuditInfo.bzlicence_url, bzlicence_url);
 
                     created_at.setText("提交时间：" + hotelAuditInfo.created_at);
 

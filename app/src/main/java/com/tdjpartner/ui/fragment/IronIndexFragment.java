@@ -220,30 +220,28 @@ public class IronIndexFragment extends NetworkFragment
             startActivity(intent);
         }
 
-        if (grade == 3) {
-            switch (view.getId()) {
-                case R.id.ll_day_register:
-                    startStatisticsActivity(true, 0);
-                    break;
-                case R.id.ll_day_open:
-                    startStatisticsActivity(true, 1);
-                    break;
-                case R.id.ll_day_vegetables:
-                    startStatisticsActivity(true, 2);
-                    break;
-            }
+        switch (view.getId()) {
+            case R.id.ll_day_register:
+                startStatisticsActivity(true, 0);
+                break;
+            case R.id.ll_day_open:
+                startStatisticsActivity(true, 1);
+                break;
+            case R.id.ll_day_vegetables:
+                startStatisticsActivity(true, 2);
+                break;
+        }
 
-            switch (view.getId()) {
-                case R.id.ll_month_register:
-                    startStatisticsActivity(false, 0);
-                    break;
-                case R.id.ll_month_open:
-                    startStatisticsActivity(false, 1);
-                    break;
-                case R.id.ll_month_vegetables:
-                    startStatisticsActivity(false, 2);
-                    break;
-            }
+        switch (view.getId()) {
+            case R.id.ll_month_register:
+                startStatisticsActivity(false, 0);
+                break;
+            case R.id.ll_month_open:
+                startStatisticsActivity(false, 1);
+                break;
+            case R.id.ll_month_vegetables:
+                startStatisticsActivity(false, 2);
+                break;
         }
     }
 
@@ -271,7 +269,7 @@ public class IronIndexFragment extends NetworkFragment
 
         //初始日月统计
         ironDayAdapter = new ListViewAdapter.Builder<V3HomeData>()
-                .setOnClickListener(this)
+                .setOnClickListener(grade == 3 ? this : null)
                 .setResource(R.layout.iron_day_preview_item)
                 .addChildId(R.id.ll_day_register, R.id.ll_day_open, R.id.ll_day_vegetables, R.id.ll_day_gmv, R.id.ll_day_price)
                 .setInitView((data, convertView) -> {
@@ -296,7 +294,7 @@ public class IronIndexFragment extends NetworkFragment
         day_listView.setNestedScrollingEnabled(true);
 
         ironMonthAdapter = new ListViewAdapter.Builder<V3HomeData>()
-                .setOnClickListener(this)
+                .setOnClickListener(grade == 3 ? this : null)
                 .setResource(R.layout.iron_month_preview_item)
                 .addChildId(R.id.ll_month_register, R.id.ll_month_open, R.id.ll_month_vegetables, R.id.ll_month_gmv)
                 .setInitView((data, convertView) -> {

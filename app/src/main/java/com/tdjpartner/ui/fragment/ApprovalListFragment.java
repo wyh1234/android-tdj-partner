@@ -26,8 +26,11 @@ import com.tdjpartner.utils.glide.ImageLoad;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import butterknife.BindView;
+
+import static android.icu.text.DateTimePatternGenerator.PatternInfo.OK;
 
 /**
  * Created by LFM on 2021/3/15.
@@ -38,6 +41,7 @@ public class ApprovalListFragment extends NetworkFragment {
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.listView)
     ListView listView;
+    final int requestCode = new Random().nextInt(1000);
 
     private ListViewAdapter<HotelAuditPageList.HotelAuditPage> adapter;
 
@@ -92,8 +96,8 @@ public class ApprovalListFragment extends NetworkFragment {
                     ((TextView) convertView.findViewById(R.id.created_at)).setText("" + item.created_at);
                     ((TextView) convertView.findViewById(R.id.enterprise_msg)).setText("" + item.enterprise_msg);
 
-                    if(!TextUtils.isEmpty(item.image_url))ImageLoad.loadImageViewLoding(item.image_url, convertView.findViewById(R.id.image_url), R.mipmap.yingyezhao_bg);
-                    if(!TextUtils.isEmpty(item.bzlicence_url))ImageLoad.loadImageViewLoding(item.bzlicence_url, convertView.findViewById(R.id.bzlicence_url), R.mipmap.yingyezhao_bg);
+                    if(!TextUtils.isEmpty(item.image_url) && item.img_check_status == 1)ImageLoad.loadImageViewLoding(item.image_url, convertView.findViewById(R.id.image_url), R.mipmap.yingyezhao_bg);
+                    if(!TextUtils.isEmpty(item.bzlicence_url) && item.licence_url_check_status == 1)ImageLoad.loadImageViewLoding(item.bzlicence_url, convertView.findViewById(R.id.bzlicence_url), R.mipmap.yingyezhao_bg);
 
                 })
                 .build(getContext());
@@ -108,9 +112,19 @@ public class ApprovalListFragment extends NetworkFragment {
 
                 Intent intent = new Intent(getContext(), ((HotelAuditPageList.HotelAuditPage) parent.getAdapter().getItem(position)).authStatus == 0 ? ApprovalHandleActivity.class : ApprovalDetailActivity.class);
                 intent.putExtra("customerId", ((HotelAuditPageList.HotelAuditPage) parent.getAdapter().getItem(position)).entity_id);
-                startActivity(intent);
+                startActivityForResult(intent, requestCode);
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(this.requestCode != requestCode)return;
+
+        if (resultCode == OK) {
+            onRefresh();
+        }
     }
 
     @Override

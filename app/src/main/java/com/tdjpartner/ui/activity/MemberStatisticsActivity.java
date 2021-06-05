@@ -1,5 +1,7 @@
 package com.tdjpartner.ui.activity;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
 import android.text.TextUtils;
@@ -18,6 +20,7 @@ import com.tdjpartner.utils.ListUtils;
 import com.tdjpartner.utils.cache.UserUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +50,8 @@ public class MemberStatisticsActivity extends NetworkActivity {
     private List<NewHomeData.RegisterTimesTopListBean> registerlist = new ArrayList<>();
     private List<NewHomeData.OrdersTimesTopList> orderList = new ArrayList<>();
 
-    int grade = -1;
+    int userId = UserUtils.getInstance().getLoginBean().getType();//用户类型;
+    int grade = UserUtils.getInstance().getLoginBean().getGrade();
     int type = UserUtils.getInstance().getLoginBean().getType();//用户类型;
 
     @OnClick({R.id.btn_back})
@@ -59,6 +63,65 @@ public class MemberStatisticsActivity extends NetworkActivity {
         }
     }
 
+    public void onNetClick(View view) {
+
+        switch (view.getId()) {
+            case R.id.ll_day_register:
+                startStatisticsActivity(true, 0);
+                break;
+            case R.id.ll_day_open:
+                startStatisticsActivity(true, 1);
+                break;
+            case R.id.ll_day_active:
+                startStatisticsActivity(true, 2);
+                break;
+            case R.id.ll_day_call:
+                startStatisticsActivity(true, 3);
+                break;
+        }
+
+        switch (view.getId()) {
+            case R.id.ll_month_register:
+                startStatisticsActivity(false, 0);
+                break;
+            case R.id.ll_month_open:
+                startStatisticsActivity(false, 1);
+                break;
+            case R.id.ll_month_active:
+                startStatisticsActivity(false, 2);
+                break;
+            case R.id.ll_month_call:
+                startStatisticsActivity(false, 3);
+                break;
+        }
+    }
+
+    public void onIronClick(View view) {
+
+        switch (view.getId()) {
+            case R.id.ll_day_register:
+                startStatisticsActivity(true, 0);
+                break;
+            case R.id.ll_day_open:
+                startStatisticsActivity(true, 1);
+                break;
+            case R.id.ll_day_vegetables:
+                startStatisticsActivity(true, 2);
+                break;
+        }
+
+        switch (view.getId()) {
+            case R.id.ll_month_register:
+                startStatisticsActivity(false, 0);
+                break;
+            case R.id.ll_month_open:
+                startStatisticsActivity(false, 1);
+                break;
+            case R.id.ll_month_vegetables:
+                startStatisticsActivity(false, 2);
+                break;
+        }
+    }
 
     @Override
     protected void initView() {
@@ -76,57 +139,9 @@ public class MemberStatisticsActivity extends NetworkActivity {
         }
     }
 
-    private void ironInit() {
-        dayAdapter = new ListViewAdapter.Builder<V3HomeData>()
-                .setResource(R.layout.iron_day_preview_item)
-                .addChildId(R.id.ll_day_register, R.id.ll_day_open, R.id.ll_day_vegetables, R.id.ll_day_gmv, R.id.ll_day_price)
-                .setInitView((data, convertView) -> {
-                    ((TextView) convertView.findViewById(R.id.registerNum)).setText(data.getTodayData().dayRegisterTimes + "");
-                    ((TextView) convertView.findViewById(R.id.openNum)).setText(data.getTodayData().firstOrderNum + "");
-                    ((TextView) convertView.findViewById(R.id.vegetablesNum)).setText(data.getTodayData().categoryNum + "");
-                    ((TextView) convertView.findViewById(R.id.gmvNum)).setText(data.getTodayData().todayAmount + "");
-                    ((TextView) convertView.findViewById(R.id.priceNum)).setText(data.getTodayData().averageAmount + "" + "");
-
-                    if (grade == 3) {
-                        TextView textView;
-                        textView = convertView.findViewById(R.id.register);
-                        textView.setText(textView.getText() + " >");
-                        textView = convertView.findViewById(R.id.open);
-                        textView.setText(textView.getText() + " >");
-                        textView = convertView.findViewById(R.id.vegetables);
-                        textView.setText(textView.getText() + " >");
-                    }
-                })
-                .build(this);
-        day_listView.setAdapter(dayAdapter);
-
-        monthAdapter = new ListViewAdapter.Builder<V3HomeData>()
-                .setResource(R.layout.iron_month_preview_item)
-                .addChildId(R.id.ll_month_register, R.id.ll_month_open, R.id.ll_month_vegetables, R.id.ll_month_gmv)
-                .setInitView((data, convertView) -> {
-                    ((TextView) convertView.findViewById(R.id.registerNum)).setText(data.getMonthData().monthRegisterNum + "");
-                    ((TextView) convertView.findViewById(R.id.openNum)).setText(data.getMonthData().monthFirstOrderNum + "");
-                    ((TextView) convertView.findViewById(R.id.vegetablesNum)).setText(data.getMonthData().categoryNum + "");
-                    ((TextView) convertView.findViewById(R.id.gmvNum)).setText(data.getMonthData().monthAmount + "");
-
-
-                    if (grade == 3) {
-                        TextView textView;
-                        textView = convertView.findViewById(R.id.register);
-                        textView.setText(textView.getText() + " >");
-                        textView = convertView.findViewById(R.id.open);
-                        textView.setText(textView.getText() + " >");
-                        textView = convertView.findViewById(R.id.vegetables);
-                        textView.setText(textView.getText() + " >");
-                    }
-                })
-                .build(this);
-        month_listView.setAdapter(monthAdapter);
-    }
-
     private void netInit() {
         dayAdapter = new ListViewAdapter.Builder<V3HomeData>()
-//                .setOnClickListener(grade == 3 ? this : null)
+                .setOnClickListener(grade == 3 ? this::onNetClick : null)
                 .setResource(grade == 3 ? R.layout.net_day_preview_db_item : R.layout.net_day_preview_item)
                 .addChildId(R.id.ll_day_register, R.id.ll_day_open, R.id.ll_day_active, R.id.ll_day_call)
                 .setInitView((data, convertView) -> {
@@ -150,7 +165,7 @@ public class MemberStatisticsActivity extends NetworkActivity {
                         textView = convertView.findViewById(R.id.call);
                         textView.setText(textView.getText() + ">");
 
-                        ((TextView) convertView.findViewById(R.id.yesterdayActiveNum)).setText(Html.fromHtml(n == 0 ? n + "" : n > 0 ? "+" + n + "<font color='green'>↑</font>" : n + "<font color='red'>↓</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+                        ((TextView) convertView.findViewById(R.id.yesterdayActiveNum)).setText(Html.fromHtml(n == 0 ? n + "" : n > 0 ? "+" + n + "<font color='red'>↑</font>" : n + "<font color='green'>↓</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
 
                     } else {
                         ((TextView) convertView.findViewById(R.id.yesterdayActiveNum)).setText(Html.fromHtml(n == 0 ? n + "" : n < 0 ? n + "<font color='green'>↓</font>" : "+" + n + "<font color='red'>↑</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
@@ -163,7 +178,7 @@ public class MemberStatisticsActivity extends NetworkActivity {
 
 
         monthAdapter = new ListViewAdapter.Builder<V3HomeData>()
-//                .setOnClickListener(grade == 3 ? this : null)
+                .setOnClickListener(grade == 3 ? this::onNetClick : null)
                 .setResource(grade == 3 ? R.layout.net_month_preview_db_item : R.layout.net_month_preview_item)
                 .addChildId(R.id.ll_month_register, R.id.ll_month_open, R.id.ll_month_active, R.id.ll_month_call)
                 .setInitView((data, convertView) -> {
@@ -193,6 +208,56 @@ public class MemberStatisticsActivity extends NetworkActivity {
                         ((TextView) convertView.findViewById(R.id.monthAfterSaleTimes)).setText("" + data.getMonthData().monthAfterSaleTimes);
                     }
 
+                })
+                .build(this);
+        month_listView.setAdapter(monthAdapter);
+    }
+
+    private void ironInit() {
+        dayAdapter = new ListViewAdapter.Builder<V3HomeData>()
+                .setResource(R.layout.iron_day_preview_item)
+                .setOnClickListener(grade == 3 ? this::onIronClick : null)
+                .addChildId(R.id.ll_day_register, R.id.ll_day_open, R.id.ll_day_vegetables, R.id.ll_day_gmv, R.id.ll_day_price)
+                .setInitView((data, convertView) -> {
+                    ((TextView) convertView.findViewById(R.id.registerNum)).setText(data.getTodayData().dayRegisterTimes + "");
+                    ((TextView) convertView.findViewById(R.id.openNum)).setText(data.getTodayData().firstOrderNum + "");
+                    ((TextView) convertView.findViewById(R.id.vegetablesNum)).setText(data.getTodayData().categoryNum + "");
+                    ((TextView) convertView.findViewById(R.id.gmvNum)).setText(data.getTodayData().todayAmount + "");
+                    ((TextView) convertView.findViewById(R.id.priceNum)).setText(data.getTodayData().averageAmount + "" + "");
+
+                    if (grade == 3) {
+                        TextView textView;
+                        textView = convertView.findViewById(R.id.register);
+                        textView.setText(textView.getText() + " >");
+                        textView = convertView.findViewById(R.id.open);
+                        textView.setText(textView.getText() + " >");
+                        textView = convertView.findViewById(R.id.vegetables);
+                        textView.setText(textView.getText() + " >");
+                    }
+                })
+                .build(this);
+        day_listView.setAdapter(dayAdapter);
+
+        monthAdapter = new ListViewAdapter.Builder<V3HomeData>()
+                .setResource(R.layout.iron_month_preview_item)
+                .setOnClickListener(grade == 3 ? this::onIronClick : null)
+                .addChildId(R.id.ll_month_register, R.id.ll_month_open, R.id.ll_month_vegetables, R.id.ll_month_gmv)
+                .setInitView((data, convertView) -> {
+                    ((TextView) convertView.findViewById(R.id.registerNum)).setText(data.getMonthData().monthRegisterNum + "");
+                    ((TextView) convertView.findViewById(R.id.openNum)).setText(data.getMonthData().monthFirstOrderNum + "");
+                    ((TextView) convertView.findViewById(R.id.vegetablesNum)).setText(data.getMonthData().categoryNum + "");
+                    ((TextView) convertView.findViewById(R.id.gmvNum)).setText(data.getMonthData().monthAmount + "");
+
+
+                    if (grade == 3) {
+                        TextView textView;
+                        textView = convertView.findViewById(R.id.register);
+                        textView.setText(textView.getText() + " >");
+                        textView = convertView.findViewById(R.id.open);
+                        textView.setText(textView.getText() + " >");
+                        textView = convertView.findViewById(R.id.vegetables);
+                        textView.setText(textView.getText() + " >");
+                    }
                 })
                 .build(this);
         month_listView.setAdapter(monthAdapter);
@@ -255,6 +320,15 @@ public class MemberStatisticsActivity extends NetworkActivity {
     @Override
     protected int getLayoutId() {
         grade = getIntent().getIntExtra("grade", grade);
+        userId = getIntent().getIntExtra("userId", userId);
         return R.layout.team_statistics_layout;
+    }
+
+    private void startStatisticsActivity(boolean isDay, int position) {
+        Intent intent = new Intent(this, StatisticsActivity.class);
+        intent.putExtra("isDay", isDay);
+        intent.putExtra("position", position);
+        intent.putExtra("userId", userId);
+        startActivity(intent);
     }
 }

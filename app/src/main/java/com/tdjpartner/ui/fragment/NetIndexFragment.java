@@ -229,7 +229,7 @@ public class NetIndexFragment extends NetworkFragment
                         textView = convertView.findViewById(R.id.call);
                         textView.setText(textView.getText() + ">");
 
-                        ((TextView) convertView.findViewById(R.id.yesterdayActiveNum)).setText(Html.fromHtml(n == 0 ? n + "" : n > 0 ? "+" + n + "<font color='green'>↑</font>" : n + "<font color='red'>↓</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+                        ((TextView) convertView.findViewById(R.id.yesterdayActiveNum)).setText(Html.fromHtml(n == 0 ? n + "" : n > 0 ? "+" + n + "<font color='red'>↑</font>" : n + "<font color='green'>↓</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
 
                     } else {
                         ((TextView) convertView.findViewById(R.id.yesterdayActiveNum)).setText(Html.fromHtml(n == 0 ? n + "" : n < 0 ? n + "<font color='green'>↓</font>" : "+" + n + "<font color='red'>↑</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
