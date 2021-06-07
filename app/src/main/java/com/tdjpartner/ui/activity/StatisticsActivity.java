@@ -14,11 +14,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bigkoo.pickerview.TimePickerView;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.tdjpartner.R;
 import com.tdjpartner.base.NetworkActivity;
-import com.tdjpartner.model.StatisticsDetails;
 import com.tdjpartner.model.SeachTag;
+import com.tdjpartner.model.StatisticsDetails;
 import com.tdjpartner.ui.fragment.StatisticsListFragment;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
@@ -104,7 +106,7 @@ public class StatisticsActivity extends NetworkActivity {
         startDate.set(startDate.get(Calendar.YEAR), (startDate.get(Calendar.MONTH) - 6), startDate.get(Calendar.DAY_OF_MONTH));
         endDate = Calendar.getInstance();
         endDate.set(endDate.get(Calendar.YEAR), (endDate.get(Calendar.MONTH)), endDate.get(Calendar.DAY_OF_MONTH));
-        pvTime = new TimePickerView.Builder(this, new TimePickerView.OnTimeSelectListener() {
+        pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
                 StatisticsActivity.this.date = date;
@@ -116,7 +118,7 @@ public class StatisticsActivity extends NetworkActivity {
                 .setLabel("年", "月", isDay ? "日" : "", "", "", "")
                 .isCenterLabel(true)
                 .setDividerColor(Color.DKGRAY)
-                .setContentSize(16)
+                .setContentTextSize(16)
                 .setDate(selectedDate)
                 .setRangDate(startDate, endDate)
                 .setDecorView(null)

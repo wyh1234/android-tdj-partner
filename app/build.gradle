@@ -135,13 +135,12 @@ dependencies {
 
     implementation 'com.makeramen:roundedimageview:2.2.1'
 
-    implementation 'com.contrarywind:Android-PickerView:3.2.7'
-
     implementation 'com.zyinux:specialstring:1.0.3'
 
     implementation 'com.google.zxing:core:3.3.0'
 
 
+    implementation 'com.contrarywind:Android-PickerView:4.1.8'
     implementation files('libs/umeng-share-core-6.9.6.jar')
     implementation files('libs/umeng-common-2.1.0.jar')
     implementation files('libs/umeng-share-QQ-simplify-6.9.6.jar')

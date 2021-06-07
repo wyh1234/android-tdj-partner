@@ -4,7 +4,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.support.annotation.DimenRes;
+import android.support.annotation.ColorRes;
+import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -131,4 +132,11 @@ public class DensityUtil {
         view.setLayoutParams(laParams);
     }
 
+    /**
+     * 获取颜色
+     */
+
+    public static int getColor(Context context,@ColorRes int resId) {
+        return ContextCompat.getColor(context, resId);
+    }
 }

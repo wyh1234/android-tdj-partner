@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -72,7 +73,7 @@ public class InvitationActivityNew extends BaseActivity<InvitationPresenter>  {
                 finish();
                 break;
             case R.id.tv_right:
-
+                startActivity(new Intent(this,ShareShopListActivity.class));
                 break;
         }
     }
@@ -84,8 +85,10 @@ public class InvitationActivityNew extends BaseActivity<InvitationPresenter>  {
     @Override
     protected void initData() {
         mPresenter.version_check();
-        String path = "http://finance.51taodj.com/fund/static/images/qrcode/"
-                +UserUtils.getInstance().getLoginBean().getVerifyCode()+ ".png";
+//        String path = "http://finance.51taodj.com/fund/static/images/qrcode/"
+//                +UserUtils.getInstance().getLoginBean().getVerifyCode()+ ".png";
+        String path = "http://tdjtest.51taodj.com:8080/fund/qrcode/create?verifyCode"
+                +UserUtils.getInstance().getLoginBean().getVerifyCode();
     ImageLoad.loadImageViewLoding(path,img_share);
         mPresenter.initRecordList();
     }
@@ -96,6 +99,7 @@ public class InvitationActivityNew extends BaseActivity<InvitationPresenter>  {
         tv_right.setText("分享列表");
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new ShareAcAdapter();
+        mAdapter.setEmptyView(getEmptyView());
         recyclerView.setAdapter(mAdapter);
         tv_title.setText("邀请有礼");
         toolbar.setBackgroundResource(R.mipmap.home_bg);
@@ -140,5 +144,9 @@ public class InvitationActivityNew extends BaseActivity<InvitationPresenter>  {
     public void queryInviteListSuccess(List<IntegralItem> integralItem) {
         mAdapter.setNewData(integralItem);
         mAdapter.notifyDataSetChanged();
+    }
+
+    private View getEmptyView(){
+        return LayoutInflater.from(this).inflate(R.layout.page_empty,null);
     }
 }

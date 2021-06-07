@@ -52,6 +52,7 @@ import com.tdjpartner.model.RefundDetail;
 import com.tdjpartner.model.RentingInfos;
 import com.tdjpartner.model.SelectPerson;
 import com.tdjpartner.model.SettingPerson;
+import com.tdjpartner.model.ShareShopListBean;
 import com.tdjpartner.model.StatisticsDetails;
 import com.tdjpartner.model.StoreInfo;
 import com.tdjpartner.model.TeamOverView;
@@ -716,4 +717,13 @@ public interface ApiService {
     @Headers({"url_type:xuming"})
     @POST("tdj-user/user/integral/queryInviteList")
     Observable<BaseResponse<List<IntegralItem>>> queryInviteList(@Body RequestBody body);
+
+    @Headers({"url_type:weather"})
+    @GET("customer/findApplyHotelList")
+    Observable<BaseResponse<ShareShopListBean>> getShareShopList(@Query("applyCode") String applyCode,
+                                                                 @Query("site") int site,
+                                                                 @Query("queryDate") String queryDate,
+                                                                 @Query("type")int type,
+                                                                 @Query("pn") int pn,
+                                                                 @Query("ps") int ps);
 }

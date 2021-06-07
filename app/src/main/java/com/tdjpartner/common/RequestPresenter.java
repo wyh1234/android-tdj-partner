@@ -54,6 +54,7 @@ import com.tdjpartner.model.RefundDetail;
 import com.tdjpartner.model.RentingInfos;
 import com.tdjpartner.model.SelectPerson;
 import com.tdjpartner.model.SettingPerson;
+import com.tdjpartner.model.ShareShopListBean;
 import com.tdjpartner.model.StatisticsDetails;
 import com.tdjpartner.model.StoreInfo;
 import com.tdjpartner.model.TeamOverView;
@@ -63,6 +64,8 @@ import com.tdjpartner.model.V3HomeData;
 import com.tdjpartner.model.WithdrawDetalis;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
+
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
@@ -365,6 +368,11 @@ public class RequestPresenter {
         // 创建 RequestBody，用于封装构建RequestBody
         RequestBody requestFile = RequestBody.create(FORM, content);
         return MultipartBody.Part.createFormData("image", fileName, requestFile);
+    }
+
+    @Nullable
+    public static Disposable getShareShopList(String code,int site,String date,int type,int pn,int ps,BaseObserver<ShareShopListBean> callback) {
+        return getApiService().getShareShopList(code,site,date,type,pn,ps).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
 
 //    public static RequestBody  jsonData(Map<String ,Object> map){//

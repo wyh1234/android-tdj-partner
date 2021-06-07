@@ -10,7 +10,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bigkoo.pickerview.TimePickerView;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
@@ -128,7 +130,7 @@ public class MenberPaifangHistoryActivity extends BaseActivity<MenberPaifangHist
         tv_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pvTime=new TimePickerView.Builder(MenberPaifangHistoryActivity.this, new TimePickerView.OnTimeSelectListener() {
+                pvTime=new TimePickerBuilder(MenberPaifangHistoryActivity.this, new OnTimeSelectListener() {
                     @Override
                     public void onTimeSelect(Date date, View v) {
                         tv_date.setText(sdf.format(date));
@@ -139,7 +141,7 @@ public class MenberPaifangHistoryActivity extends BaseActivity<MenberPaifangHist
                         .setLabel("年", "月", "日", "", "", "")
                         .isCenterLabel(true)
                         .setDividerColor(Color.DKGRAY)
-                        .setContentSize(16)
+                        .setContentTextSize(16)
                         .setRangDate(null , endDate)
                         .setDecorView(null)
                         .build();
