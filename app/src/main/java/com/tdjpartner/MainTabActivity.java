@@ -1,8 +1,13 @@
 package com.tdjpartner;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -24,6 +29,7 @@ import com.tdjpartner.utils.appupdate.DownloadManager;
 import com.tdjpartner.utils.appupdate.OnDownloadListener;
 import com.tdjpartner.utils.appupdate.UpdateConfiguration;
 import com.tdjpartner.utils.cache.UserUtils;
+import com.tdjpartner.utils.glide.BlurBitmapUtils;
 import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.widget.bottombar.BottomBarItem;
 import com.tdjpartner.widget.bottombar.BottomBarLayout;
@@ -33,7 +39,15 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -134,10 +148,35 @@ public class MainTabActivity extends BaseActivity<MainTabPresenter> implements O
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GeneralUtils.REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {//storage/emulated/0/Pictures/JPEG_20181011_155709.jpg
-            LogUtils.i(Matisse.obtainPathResult(data).get(0));
-            EventBus.getDefault().post(new ImageUploadOk(Matisse.obtainPathResult(data).get(0)));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                if (data == null || data.getData() == null) return;
+                try {
+                    File file = File.createTempFile("Avatar_", GeneralUtils.getSuffix(data.getType()), getFilesDir());
+                    try (InputStream inputStream = getContentResolver().openInputStream(data.getData());
+                         OutputStream outputStream = new FileOutputStream(file)) {
+                        if (inputStream.available() > 2 * 1024 * 1024) {
+                            GeneralUtils.showToastshort("文件尺寸不能超过2M");
+                            return;
+                        } else {
+                            byte[] bytes = new byte[1024];
+                            int n;
+                            while ((n = inputStream.read(bytes)) != -1) {
+                                outputStream.write(bytes, 0, n);
+                            }
+                            EventBus.getDefault().post(new ImageUploadOk(file.toString()));
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        if(file.exists())file.delete();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                LogUtils.i(Matisse.obtainPathResult(data).get(0));
+                EventBus.getDefault().post(new ImageUploadOk(Matisse.obtainPathResult(data).get(0)));
+            }
         }
-
     }
 
 

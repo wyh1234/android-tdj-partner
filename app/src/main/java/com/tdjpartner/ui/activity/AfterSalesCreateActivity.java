@@ -1,7 +1,12 @@
 package com.tdjpartner.ui.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Build;
+import android.os.ParcelFileDescriptor;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -15,6 +20,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.apkfuns.logutils.LogUtils;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
 import com.tdjpartner.base.BaseActivity;
@@ -29,6 +38,7 @@ import com.tdjpartner.utils.DensityUtil;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.MySpecialStyle;
 import com.tdjpartner.utils.cache.UserUtils;
+import com.tdjpartner.utils.glide.BlurBitmapUtils;
 import com.tdjpartner.utils.glide.ImageLoad;
 import com.tdjpartner.utils.popuwindow.AfterSalesTypePopuWindow;
 import com.tdjpartner.utils.popuwindow.ProblemTypePopuWindow;
@@ -39,6 +49,8 @@ import com.zyinux.specialstring.relase.SpecialStringBuilder;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,6 +59,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
 
 public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePresenter> implements AfterSalesTypePopuWindow.AfterSalesTypePopuWindowListener, ProblemTypePopuWindow.ProblemTypePopuWindowListener {
     @BindView(R.id.btn_back)
@@ -122,21 +135,24 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
     private OrderDetail.ItemsBean orderBean;
     private AfterSalesTypePopuWindow afterSalesTypePopuWindow;
     private ProblemTypePopuWindow problemTypePopuWindow;
-    private List<String> strings=new ArrayList<>();
+    private List<String> strings = new ArrayList<>();
     private int index;
-    @OnClick({R.id.btn_back,R.id.after_sales_type,R.id.image,R.id.image1,R.id.image2,R.id.delete_image,R.id.delete_image1,R.id.delete_image2,R.id.btn,R.id.problem_type})
-        public void onClick(View view){
-            switch (view.getId()){
-                case R.id.btn_back:
-                    finish();
-                    break;
+    File captureFile;
+    RxPermissions rxPermissions;
+
+    @OnClick({R.id.btn_back, R.id.after_sales_type, R.id.image, R.id.image1, R.id.image2, R.id.delete_image, R.id.delete_image1, R.id.delete_image2, R.id.btn, R.id.problem_type})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_back:
+                finish();
+                break;
             case R.id.after_sales_type:
-                if (afterSalesTypePopuWindow!=null){
-                    if (afterSalesTypePopuWindow.isShowing()){
+                if (afterSalesTypePopuWindow != null) {
+                    if (afterSalesTypePopuWindow.isShowing()) {
                         return;
                     }
                     afterSalesTypePopuWindow.showPopupWindow();
-                }else {
+                } else {
 
                     afterSalesTypePopuWindow = new AfterSalesTypePopuWindow(this);
                     afterSalesTypePopuWindow.setDismissWhenTouchOutside(false);
@@ -147,12 +163,12 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
                 }
                 break;
             case R.id.problem_type:
-                if (problemTypePopuWindow!=null){
-                    if (problemTypePopuWindow.isShowing()){
+                if (problemTypePopuWindow != null) {
+                    if (problemTypePopuWindow.isShowing()) {
                         return;
                     }
                     problemTypePopuWindow.showPopupWindow();
-                }else {
+                } else {
 
                     problemTypePopuWindow = new ProblemTypePopuWindow(this);
                     problemTypePopuWindow.setDismissWhenTouchOutside(false);
@@ -164,16 +180,16 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
 
                 break;
             case R.id.image:
-                index=1;
-                GeneralUtils.getImage(new RxPermissions(this),this);
+                index = 1;
+                updateFile();
                 break;
             case R.id.image1:
-                index=2;
-                GeneralUtils.getImage(new RxPermissions(this),this);
+                index = 2;
+                updateFile();
                 break;
             case R.id.image2:
-                index=3;
-                GeneralUtils.getImage(new RxPermissions(this),this);
+                index = 3;
+                updateFile();
                 break;
             case R.id.delete_image:
                 strings.remove(0);
@@ -216,19 +232,19 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
                     return;
                 }
                 Map<String, Object> map = new HashMap<>();
-                    map.put("customerId", Integer.parseInt(getIntent().getStringExtra("buyId")));
-                    map.put("storeId", orderBean.getStoreId());
-                    map.put("orderId", orderBean.getOrderId());
-                    map.put("orderItemId", orderBean.getItemId());
-                    map.put("productImg", orderBean.getImage());
-                    map.put("sku", orderBean.getSku());
-                    map.put("unit", orderBean.getUnit());
-                    map.put("name", orderBean.getName());
-                    map.put("nickName", orderBean.getNickName());
-                    map.put("price", orderBean.getPrice());
-                  map.put("amount", goodscount);
-                  map.put("problemDescription", description.getText().toString());
-                map.put("certificatePhotos",getImageStr());
+                map.put("customerId", Integer.parseInt(getIntent().getStringExtra("buyId")));
+                map.put("storeId", orderBean.getStoreId());
+                map.put("orderId", orderBean.getOrderId());
+                map.put("orderItemId", orderBean.getItemId());
+                map.put("productImg", orderBean.getImage());
+                map.put("sku", orderBean.getSku());
+                map.put("unit", orderBean.getUnit());
+                map.put("name", orderBean.getName());
+                map.put("nickName", orderBean.getNickName());
+                map.put("price", orderBean.getPrice());
+                map.put("amount", goodscount);
+                map.put("problemDescription", description.getText().toString());
+                map.put("certificatePhotos", getImageStr());
                 map.put("status", 1);
                 int applyType = PublicCache.getAfterSaleType().keyOfValue(after_sales_type.getText().toString());
                 int problemType = PublicCache.getAfterSaleProblem().keyOfValue(problem_type.getText().toString());
@@ -238,23 +254,25 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
                 map.put("submitterTel", UserUtils.getInstance().getLoginBean().getPhoneNumber());
 
                 map.put("customerName", UserUtils.getInstance().getLoginBean().getRealname());
-                map.put("site",UserUtils.getInstance().getLoginBean().getSite());
+                map.put("site", UserUtils.getInstance().getLoginBean().getSite());
                 mPresenter.afterSalesApplication(map);
 
                 break;
         }
     }
+
     public String getImageStr() {
-        if (strings.size() <1) return "";
+        if (strings.size() < 1) return "";
         String gallery = "";
         for (int i = 0; i <= strings.size() - 1; i++) {
-            if (strings.get(i)!= null) {
+            if (strings.get(i) != null) {
                 gallery += strings.get(i) + ",";
             }
         }
         if (gallery.length() > 0) gallery = gallery.substring(0, gallery.length() - 1);
         return gallery;
     }
+
     @Override
     protected AfterSalesCreatePresenter loadPresenter() {
         return new AfterSalesCreatePresenter();
@@ -267,7 +285,7 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
 
     @Override
     protected void initView() {
-        Eyes.translucentStatusBar(this,true);
+        Eyes.translucentStatusBar(this, true);
         tv_title.setText("申请售后");
         after_sales_type.setHint("请选择售后类型");
 
@@ -286,69 +304,69 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
         LogUtils.e(orderBean);
 //        EventBus.getDefault().removeStickyEvent(event);
         if (orderBean != null) {
-            ImageLoad.loadImageViewLoding(orderBean.getImage(),goods_image);
-            goods_unit.setText(""+orderBean.getUnit());
-            goods_price.setText(""+orderBean.getPrice());
-            cart_price.setText(""+orderBean.getTotalPrice());
-            level2Value.setText(""+orderBean.getLevel2Value());
-            level2Unit.setText(""+orderBean.getLevel2Unit());
-            level3Unit.setText(""+orderBean.getLevel3Unit());
-            level3Value.setText(""+orderBean.getLevel3Value());
-            tv_isP.setText(""+orderBean.getIsP());
-            goods_count_x.setText( "X" + orderBean.getAmount());
-            goods_unit2.setText(""+orderBean.getAvgUnit());
+            ImageLoad.loadImageViewLoding(orderBean.getImage(), goods_image);
+            goods_unit.setText("" + orderBean.getUnit());
+            goods_price.setText("" + orderBean.getPrice());
+            cart_price.setText("" + orderBean.getTotalPrice());
+            level2Value.setText("" + orderBean.getLevel2Value());
+            level2Unit.setText("" + orderBean.getLevel2Unit());
+            level3Unit.setText("" + orderBean.getLevel3Unit());
+            level3Value.setText("" + orderBean.getLevel3Value());
+            tv_isP.setText("" + orderBean.getIsP());
+            goods_count_x.setText("X" + orderBean.getAmount());
+            goods_unit2.setText("" + orderBean.getAvgUnit());
 
-            if ( orderBean.getLevelType() == 1) {
-                level3Value.setVisibility( View.GONE);
-                specification_split.setVisibility( View.GONE);
-                level3Unit.setVisibility( View.GONE);
+            if (orderBean.getLevelType() == 1) {
+                level3Value.setVisibility(View.GONE);
+                specification_split.setVisibility(View.GONE);
+                level3Unit.setVisibility(View.GONE);
 
                 level2Value.setVisibility(View.GONE);
-                level2Unit.setVisibility( View.GONE);
+                level2Unit.setVisibility(View.GONE);
 
-                textView1.setVisibility( View.GONE);
-                textView2.setVisibility( View.GONE);
+                textView1.setVisibility(View.GONE);
+                textView2.setVisibility(View.GONE);
             } else if (orderBean.getLevelType() == 2) {
-                level3Value.setVisibility( View.GONE);
-                specification_split.setVisibility( View.GONE);
-                level3Unit.setVisibility( View.GONE);
+                level3Value.setVisibility(View.GONE);
+                specification_split.setVisibility(View.GONE);
+                level3Unit.setVisibility(View.GONE);
 
                 level2Value.setVisibility(View.VISIBLE);
-                level2Unit.setVisibility( View.VISIBLE);
+                level2Unit.setVisibility(View.VISIBLE);
 
-                textView1.setVisibility( View.VISIBLE);
-                textView2.setVisibility( View.VISIBLE);
+                textView1.setVisibility(View.VISIBLE);
+                textView2.setVisibility(View.VISIBLE);
             } else {
                 level3Value.setVisibility(View.VISIBLE);
                 specification_split.setVisibility(View.VISIBLE);
-                level3Unit.setVisibility( View.VISIBLE);
+                level3Unit.setVisibility(View.VISIBLE);
 
                 level2Value.setVisibility(View.VISIBLE);
-                level2Unit.setVisibility( View.VISIBLE);
+                level2Unit.setVisibility(View.VISIBLE);
 
-                textView1.setVisibility( View.VISIBLE);
-                textView2.setVisibility( View.VISIBLE);
+                textView1.setVisibility(View.VISIBLE);
+                textView2.setVisibility(View.VISIBLE);
             }
 
 
             //如果均价单位是最小单
             if (PublicCache.specification_unit_base.contains(orderBean.getAvgUnit())) {
                 if (orderBean.getLevelType() == 1) {
-                    goods_count.setText( orderBean.getAmount()+"");
+                    goods_count.setText(orderBean.getAmount() + "");
                 } else if (orderBean.getLevelType() == 2) {
-                    goods_count.setText( orderBean.getLevel2Value().multiply(orderBean.getAmount())+"");
+                    goods_count.setText(orderBean.getLevel2Value().multiply(orderBean.getAmount()) + "");
                 } else if (orderBean.getLevelType() == 3) {
-                    goods_count.setText(orderBean.getLevel3Value().multiply(orderBean.getLevel2Value().multiply(orderBean.getAmount()))+"");
+                    goods_count.setText(orderBean.getLevel3Value().multiply(orderBean.getLevel2Value().multiply(orderBean.getAmount())) + "");
                 }
             } else {
                 if (orderBean.getLevelType() == 2) {
-                    goods_count.setText(orderBean.getAmount()+"");
+                    goods_count.setText(orderBean.getAmount() + "");
                 } else if (orderBean.getLevelType() == 3) {
-                    goods_count.setText(orderBean.getLevel2Value().multiply(orderBean.getAmount())+"");
+                    goods_count.setText(orderBean.getLevel2Value().multiply(orderBean.getAmount()) + "");
                 }
             }
-            SpecialStringBuilder sb=getTitleName(
-                    orderBean.getName(),orderBean.getNickName(),orderBean.getProductType(),orderBean.getProductCriteria(),orderBean.getIsP());
+            SpecialStringBuilder sb = getTitleName(
+                    orderBean.getName(), orderBean.getNickName(), orderBean.getProductType(), orderBean.getProductCriteria(), orderBean.getIsP());
             goods_name.setText(sb.getCharSequence());
             String unit = "";
             cou = orderBean.getAmount();
@@ -398,7 +416,7 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
                         if (goodscount.compareTo(cou) == 0)
                             tv_after_sales.setText(String.valueOf(priceSum));
                         else
-                            tv_after_sales.setText(String.valueOf(priceSum.divide(cou,2, BigDecimal.ROUND_HALF_UP).multiply(goodscount).setScale(2, BigDecimal.ROUND_HALF_UP)));
+                            tv_after_sales.setText(String.valueOf(priceSum.divide(cou, 2, BigDecimal.ROUND_HALF_UP).multiply(goodscount).setScale(2, BigDecimal.ROUND_HALF_UP)));
                     }
                 }
             });
@@ -406,21 +424,20 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
         }
     }
 
-    public  SpecialStringBuilder getTitleName(String name,String nickName,int productType,int productCriteria,int isP){
+    public SpecialStringBuilder getTitleName(String name, String nickName, int productType, int productCriteria, int isP) {
 
-        MySpecialStyle style=new MySpecialStyle();
-        SpecialStringBuilder sb=new SpecialStringBuilder();
+        MySpecialStyle style = new MySpecialStyle();
+        SpecialStringBuilder sb = new SpecialStringBuilder();
 
 
-
-        int size= DensityUtil.sp2px(16f)+4;
+        int size = DensityUtil.sp2px(16f) + 4;
 
         //是否是热销
-        if (productType == 3||productType == 4) {
+        if (productType == 3 || productType == 4) {
             Drawable drawable_rexiao;
-            if (productType == 3){
+            if (productType == 3) {
                 drawable_rexiao = getResources().getDrawable(R.mipmap.rexiao);
-            }else {
+            } else {
                 drawable_rexiao = getResources().getDrawable(R.mipmap.bao);
 
             }
@@ -430,9 +447,9 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
 
 
             style.setImage(imageSpan_rexiao);
-            sb.append("1",style);
+            sb.append("1", style);
         }
-        sb.append(" ",style);
+        sb.append(" ", style);
         //商品标准“1”：通货商品 “2”：精品商品 '
         if (productCriteria == 2) {
             Drawable drawable_jin = getResources().getDrawable(R.mipmap.icon_jin_red);
@@ -440,8 +457,8 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
             ImageSpan imageSpan_jin = new ImageSpan(drawable_jin);
 
             style.setImage(imageSpan_jin);
-            sb.append("2",style);
-            sb.append(" ",style);
+            sb.append("2", style);
+            sb.append(" ", style);
             // spannableString.setSpan(imageSpan_jin, 1, 3, Spanned.SPAN_INCLUSIVE_EXCLUSIVE  );
         } else if (productCriteria == 1) {
             Drawable drawable_tong = getResources().getDrawable(R.mipmap.icon_tong_blue);
@@ -449,23 +466,23 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
             ImageSpan imageSpan_tong = new ImageSpan(drawable_tong);
 
             style.setImage(imageSpan_tong);
-            sb.append("2",style);
-            sb.append(" ",style);
+            sb.append("2", style);
+            sb.append(" ", style);
         }
 
         //零售 0   整件批  1
-        if (isP==1) {
+        if (isP == 1) {
             style.setColor(ColorUtil.getColor(R.color.orange_yellow_ff7d01));
-            sb.append("P",style);
-            sb.append(" ",style);
+            sb.append("P", style);
+            sb.append(" ", style);
         }
         style.setColor(ColorUtil.getColor(R.color.black_4b));
         style.setAbsoluteSizeStyle(DensityUtil.sp2px(16f));
-        sb.append(name,style);
+        sb.append(name, style);
         if (!TextUtils.isEmpty(nickName)) {
             style.setColor(ColorUtil.getColor(R.color.gray_68));
             style.setAbsoluteSizeStyle(DensityUtil.sp2px(14f));
-            sb.append("("+nickName+")",style);
+            sb.append("(" + nickName + ")", style);
         }
 
 
@@ -488,22 +505,48 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GeneralUtils.REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {//storage/emulated/0/Pictures/JPEG_20181011_155709.jpg
-            LogUtils.i(Matisse.obtainPathResult(data).get(0));
-            Log.e("OnActivityResult ", String.valueOf(Matisse.obtainPathResult(data).get(0)));
-            mPresenter.imageUpload(Matisse.obtainPathResult(data).get(0));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                String file;
+                if (data == null) {
+                    file = captureFile.toString().substring(captureFile.toString().lastIndexOf("/") + 1).replace("tmp", "png");
+                    System.out.println("file = " + file);
+                    mPresenter.imageUpload(file, BlurBitmapUtils.bitmapTobyte(BlurBitmapUtils.getSmallBitmap(captureFile.toString()), true));
+
+                } else {
+                    file = Uri.decode(data.getData().getEncodedPath());
+                    System.out.println("file = " + file);
+                    file = file.substring(file.lastIndexOf("/") + 1);
+                    System.out.println("file = " + file);
+                    if (!file.endsWith(".jpg") && !file.endsWith(".gif") && !file.endsWith(".png")) {
+//                    GeneralUtils.showToastshort("文件格式不正确");
+                        if (file.lastIndexOf('.') == -1) file += ".tmp";
+                    }
+
+                    try (ParcelFileDescriptor pfd = getContentResolver().openFileDescriptor(data.getData(), "r")) {
+                        mPresenter.imageUpload(file.substring(0, file.length() - 3) + "png", BlurBitmapUtils.bitmapTobyte(BlurBitmapUtils.getSmallBitmapFromFileDescriptor(pfd.getFileDescriptor()), true));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            } else {
+                LogUtils.i(Matisse.obtainPathResult(data).get(0));
+                Log.e("OnActivityResult ", String.valueOf(Matisse.obtainPathResult(data).get(0)));
+                mPresenter.imageUpload(Matisse.obtainPathResult(data).get(0));
+            }
         }
     }
 
     public void getImage_Success(String data) {
         strings.add(data);
-        if (index==1){
-            ImageLoad.loadImageView(this,data,image);
+        if (index == 1) {
+            ImageLoad.loadImageView(this, data, image);
             delete_image.setVisibility(View.VISIBLE);
-        }else if (index==2){
-            ImageLoad.loadImageView(this,data,image1);
+        } else if (index == 2) {
+            ImageLoad.loadImageView(this, data, image1);
             delete_image1.setVisibility(View.VISIBLE);
-        }else {
-            ImageLoad.loadImageView(this,data,image2);
+        } else {
+            ImageLoad.loadImageView(this, data, image2);
             delete_image2.setVisibility(View.VISIBLE);
         }
     }
@@ -514,6 +557,29 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
         EventBus.getDefault().post(data);
         finish();
 
+
+    }
+
+    private void updateFile() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (rxPermissions == null) rxPermissions = new RxPermissions(this);
+            rxPermissions.request(Manifest.permission.CAMERA)
+                    .subscribe(new Consumer<Boolean>() {
+                        @Override
+                        public void accept(Boolean b) throws Exception {
+                            if (b) {
+                                captureFile = GeneralUtils.startCamera(AfterSalesCreateActivity.this);
+                            } else {
+                                GeneralUtils.showToastshort("摄像头启动失败，请从相册中选择图片！");
+                            }
+
+                        }
+                    });
+
+        } else {
+            GeneralUtils.getImage(new RxPermissions(this), this);
+        }
 
     }
 }

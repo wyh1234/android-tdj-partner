@@ -1,7 +1,10 @@
 package com.tdjpartner.ui.fragment;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.provider.MediaStore;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,14 +41,16 @@ import com.tdjpartner.utils.popuwindow.SetHeadImagePopu;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+import io.reactivex.functions.Consumer;
 
-;
+import static com.tdjpartner.utils.GeneralUtils.REQUEST_CODE_CHOOSE;
 
 public class MyFragment extends Fragment<MyFragmentPresneter> implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.OnItemClickListener, View.OnClickListener
         , SetHeadImagePopu.SetHeadImageListener {
@@ -60,6 +65,7 @@ public class MyFragment extends Fragment<MyFragmentPresneter> implements SwipeRe
     private SetHeadImagePopu setHeadImagePopu;
     private TextView tv_name, tv_phone, tv_money, tv_pmcount;
     private RxPermissions rxPermissions;
+    private File captureFile;
 
     public void onClick(View view) {
         switch (view.getId()) {
@@ -244,8 +250,7 @@ public class MyFragment extends Fragment<MyFragmentPresneter> implements SwipeRe
         } else if (i == 3) {
             Intent intent = new Intent(getContext(), AfterSalePageActivity.class);
             startActivity(intent);
-        }
-        else {
+        } else {
             Intent intent = new Intent(getContext(), RealNameAuthenticationActivity.class);
             startActivity(intent);
         }
@@ -276,8 +281,23 @@ public class MyFragment extends Fragment<MyFragmentPresneter> implements SwipeRe
 
     @Override
     public void onUpload() {
-        GeneralUtils.getImage(rxPermissions, getActivity());
-        setHeadImagePopu.dismiss();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .subscribe(new Consumer<Boolean>() {
+                        @Override
+                        public void accept(Boolean b) throws Exception {
+                            if (b) {
+                                getActivity().startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI), REQUEST_CODE_CHOOSE);
+                            } else {
+                                GeneralUtils.showToastshort("授权失败！");
+                            }
+                            setHeadImagePopu.dismiss();
+                        }
+                    });
+        } else {
+            GeneralUtils.getImage(rxPermissions, getActivity());
+            setHeadImagePopu.dismiss();
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

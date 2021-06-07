@@ -12,43 +12,61 @@ import com.tdjpartner.utils.glide.BlurBitmapUtils;
 import java.util.Map;
 
 public class AfterSalesCreatePresenter extends BasePresenter<Model, AfterSalesCreateActivity> {
-@Override
-public Model loadModel() {
+    @Override
+    public Model loadModel() {
         return null;
-        }
-public void imageUpload(String path){
-                getIView().addSubscribe(RequestPresenter.imageUpload(GeneralUtils.getFileNames(path),
-                        BlurBitmapUtils.bitmapTobyte(BlurBitmapUtils.getSmallBitmap(path), true),
-                        new BaseObserver<String>(getIView().getContext(), true) {
-                                @Override
-                                protected void onSuccess(String data) {
-                                        getIView().getImage_Success(data);
+    }
 
-                                }
+    public void imageUpload(String path) {
+        getIView().addSubscribe(RequestPresenter.imageUpload(GeneralUtils.getFileNames(path),
+                BlurBitmapUtils.bitmapTobyte(BlurBitmapUtils.getSmallBitmap(path), true),
+                new BaseObserver<String>(getIView().getContext(), true) {
+                    @Override
+                    protected void onSuccess(String data) {
+                        getIView().getImage_Success(data);
 
-                                @Override
-                                protected void onFailed(Throwable e) {
+                    }
 
-                                }
-                        }));
+                    @Override
+                    protected void onFailed(Throwable e) {
 
-        }
+                    }
+                }));
 
-        public void afterSalesApplication(Map<String, Object> map){
-                getIView().addSubscribe(RequestPresenter.afterSalesApplication(map,
-                        new BaseObserver<AfterSales>(getIView().getContext(), true) {
-                                @Override
-                                protected void onSuccess(AfterSales data) {
-                                        getIView().getAfterSales_Success(data);
+    }
 
-                                }
+    public void imageUpload(String path, byte[] imageByte) {
+        getIView().addSubscribe(RequestPresenter.imageUpload(path, imageByte,
+                new BaseObserver<String>(getIView().getContext(), true) {
+                    @Override
+                    protected void onSuccess(String data) {
+                        getIView().getImage_Success(data);
 
-                                @Override
-                                protected void onFailed(Throwable e) {
+                    }
 
-                                }
-                        }));
+                    @Override
+                    protected void onFailed(Throwable e) {
 
-        }
+                    }
+                }));
+
+    }
+
+    public void afterSalesApplication(Map<String, Object> map) {
+        getIView().addSubscribe(RequestPresenter.afterSalesApplication(map,
+                new BaseObserver<AfterSales>(getIView().getContext(), true) {
+                    @Override
+                    protected void onSuccess(AfterSales data) {
+                        getIView().getAfterSales_Success(data);
+
+                    }
+
+                    @Override
+                    protected void onFailed(Throwable e) {
+
+                    }
+                }));
+
+    }
 }
 

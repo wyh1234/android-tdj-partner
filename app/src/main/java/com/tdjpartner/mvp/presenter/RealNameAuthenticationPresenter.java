@@ -20,30 +20,47 @@ public class RealNameAuthenticationPresenter extends BasePresenter<Model, RealNa
     public Model loadModel() {
         return null;
     }
-    public void imageUpload(String path){
+
+    public void imageUpload(String path) {
         getIView().addSubscribe(RequestPresenter.imageUpload(GeneralUtils.getFileNames(path),
                 BlurBitmapUtils.bitmapTobyte(BlurBitmapUtils.getSmallBitmap(path), true),
                 new BaseObserver<String>(getIView().getContext(), true) {
-            @Override
-            protected void onSuccess(String data) {
-                getIView().getImage_Success(data);
+                    @Override
+                    protected void onSuccess(String data) {
+                        getIView().getImage_Success(data);
 
-            }
+                    }
 
-            @Override
-            protected void onFailed(Throwable e) {
+                    @Override
+                    protected void onFailed(Throwable e) {
 
-            }
-        }));
-
+                    }
+                }));
     }
-    public void addUserCard(Map<String,Object> map){
+
+    public void imageUpload(String path, byte[] imageByte) {
+        getIView().addSubscribe(RequestPresenter.imageUpload(path, imageByte,
+                new BaseObserver<String>(getIView().getContext(), true) {
+                    @Override
+                    protected void onSuccess(String data) {
+                        getIView().getImage_Success(data);
+
+                    }
+
+                    @Override
+                    protected void onFailed(Throwable e) {
+
+                    }
+                }));
+    }
+
+    public void addUserCard(Map<String, Object> map) {
         getIView().addSubscribe(RequestPresenter.addUserCard(map, new BaseObserver<Integer>(getIView().getContext(), true) {
             @Override
             protected void onSuccess(Integer data) {
                 GeneralUtils.showToastshort("认证成功");
 
-                getIView().addUserCardSuccess( data);
+                getIView().addUserCardSuccess(data);
 
             }
 

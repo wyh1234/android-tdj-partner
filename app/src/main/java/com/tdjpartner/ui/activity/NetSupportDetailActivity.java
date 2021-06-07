@@ -530,10 +530,11 @@ public class NetSupportDetailActivity extends NetworkActivity {
                 System.out.println("file = " + file);
                 file = file.substring(file.lastIndexOf("/") + 1);
                 System.out.println("file = " + file);
-                if (!file.endsWith(".jpg") && !file.endsWith(".gif") && !file.endsWith(".png")) {
-//                    GeneralUtils.showToastshort("文件格式不正确");
-                    if(file.lastIndexOf('.') == -1) file += ".tmp";
+                if (data.getType() == null || TextUtils.isEmpty(GeneralUtils.getSuffix(data.getType()))) {
+                    GeneralUtils.showToastshort("您选择的文件不是图片格式！");
+                    return;
                 }
+                if (file.lastIndexOf('.') == -1) file += ".tmp";
 
                 try (ParcelFileDescriptor pfd = getContentResolver().openFileDescriptor(data.getData(), "r")) {
                     showLoading("图片上传中...");

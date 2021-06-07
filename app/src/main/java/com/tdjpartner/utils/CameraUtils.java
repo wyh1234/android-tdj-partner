@@ -51,7 +51,6 @@ public class CameraUtils {
                     }
                     captureFile = new File(rootFile, "temp.jpg");
                     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
-                        rootFile = context.getCacheDir();
                         try {
                             captureFile = File.createTempFile("JPEG_", null, rootFile);
                         } catch (IOException e) {

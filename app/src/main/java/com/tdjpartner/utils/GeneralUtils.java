@@ -557,6 +557,17 @@ public class GeneralUtils {
         return captureFile;
     }
 
+    public static String getSuffix(String type) {
+        switch (type) {
+            case "image/jpeg":
+                return ".jpg";
+            case "image/png":
+                return ".png";
+            case "image/gif":
+                return ".gif";
+        }
+        return null;
+    }
 
 
 }
