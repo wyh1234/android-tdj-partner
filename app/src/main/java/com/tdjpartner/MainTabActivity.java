@@ -151,7 +151,7 @@ public class MainTabActivity extends BaseActivity<MainTabPresenter> implements O
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 if (data == null || data.getData() == null) return;
                 try {
-                    File file = File.createTempFile("Avatar_", GeneralUtils.getSuffix(data.getType()), getFilesDir());
+                    File file = File.createTempFile("Avatar_", data.getType() == null ? null : GeneralUtils.getSuffix(data.getType()), getFilesDir());
                     try (InputStream inputStream = getContentResolver().openInputStream(data.getData());
                          OutputStream outputStream = new FileOutputStream(file)) {
                         if (inputStream.available() > 2 * 1024 * 1024) {
@@ -167,7 +167,7 @@ public class MainTabActivity extends BaseActivity<MainTabPresenter> implements O
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
-                        if(file.exists())file.delete();
+                        if (file.exists()) file.delete();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

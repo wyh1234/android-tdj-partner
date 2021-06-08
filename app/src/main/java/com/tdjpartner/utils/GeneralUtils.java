@@ -566,7 +566,7 @@ public class GeneralUtils {
             case "image/gif":
                 return ".gif";
         }
-        return null;
+        return ".tmp";
     }
 
 

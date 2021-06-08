@@ -531,8 +531,9 @@ public class NetSupportDetailActivity extends NetworkActivity {
                 file = file.substring(file.lastIndexOf("/") + 1);
                 System.out.println("file = " + file);
                 if (data.getType() == null || TextUtils.isEmpty(GeneralUtils.getSuffix(data.getType()))) {
-                    GeneralUtils.showToastshort("您选择的文件不是图片格式！");
-                    return;
+//                    GeneralUtils.showToastshort("您选择的文件不是图片格式！");
+                    LogUtils.d("无法解析文件格式，data.getType()" + data.getType());
+//                    return;
                 }
                 if (file.lastIndexOf('.') == -1) file += ".tmp";
 
