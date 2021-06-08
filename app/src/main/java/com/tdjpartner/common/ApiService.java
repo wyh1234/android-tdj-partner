@@ -248,7 +248,7 @@ public interface ApiService {
      */
     @Headers({"url_type:weather"})
     @GET("customer/refreshInfo")
-    Observable<BaseResponse<UserInfo>> customer_refreshInfo(@Query("site") int site, @Query("flag") int flag, @Query("entityId") int entityId, @Query("loginUserId") int loginUserId, @Query("uniqueId") String uniqueId);
+    Observable<BaseResponse<UserInfo>> customer_refreshInfo(@Query("site") int site, @Query("flag") int flag, @Query("entityId") int entityId, @Query("loginUserId") int loginUserId, @Query("uniqueId") String uniqueId, @Query("type") String type);
 
     @Headers({"url_type:weather"})
     @GET("customer/refreshInfo")
@@ -700,12 +700,15 @@ public interface ApiService {
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/hotelAudit/pageList")
     Observable<BaseResponse<HotelAuditPageList>> hotelAuditPageList(@Body RequestBody body);
+
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/hotelAudit/info")
     Observable<BaseResponse<HotelAuditInfo>> hotelAuditInfo(@Body RequestBody body);
+
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/hotelAudit/reject")
     Observable<BaseResponse<String>> hotelAuditReject(@Body RequestBody body);
+
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/hotelAudit/pass")
     Observable<BaseResponse<String>> hotelAuditPass(@Body RequestBody body);
@@ -714,12 +717,15 @@ public interface ApiService {
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/afterSalesApplication/getafterSalesTask")
     Observable<BaseResponse<AfterSaleInfoData>> getafterSalesTask(@Body RequestBody body);
+
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/afterSalesApplication/afterDetail")
     Observable<BaseResponse<AfterDetailData>> afterDetail(@Body RequestBody body);
+
     @Headers({"url_type:xuming"})
     @POST("/tdj-partner/partner/afterSalesApplication/modifyAfterSalePhoto")
     Observable<BaseResponse<AfterDetailData>> modifyAfterSalePhoto(@Body RequestBody body);
+
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/afterSalesApplication/difficulty")
     Observable<BaseResponse<AfterDetailData>> difficulty(@Body RequestBody body);
@@ -733,7 +739,7 @@ public interface ApiService {
     Observable<BaseResponse<ShareShopListBean>> getShareShopList(@Query("applyCode") String applyCode,
                                                                  @Query("site") int site,
                                                                  @Query("queryDate") String queryDate,
-                                                                 @Query("type")int type,
+                                                                 @Query("type") int type,
                                                                  @Query("pn") int pn,
                                                                  @Query("ps") int ps);
 }

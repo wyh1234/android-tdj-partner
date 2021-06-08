@@ -4,8 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.tdjpartner.ui.fragment.ClientListSeachFragment;
-import com.tdjpartner.ui.fragment.PartnerCheckFragment;
+import com.tdjpartner.ui.fragment.V3ClientListSeachFragment;
 
 import java.util.List;
 
@@ -19,7 +18,7 @@ public class ClientListSeachFragmentAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return ClientListSeachFragment.newInstance(position);
+        return V3ClientListSeachFragment.newInstance(position);
     }
 
     @Override

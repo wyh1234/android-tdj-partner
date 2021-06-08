@@ -35,23 +35,26 @@ public class ClientListSeachActivity extends BaseActivity {
     EditText search_text;
     @BindView(R.id.tv_list_type)
     TextView tv_list_type;
+    ClientListSeachFragmentAdapter adatper;
 
-    @OnClick({R.id.btn_back,R.id.tv_list_type})
-    public void onClick(View view){
-        switch (view.getId()){
+    @OnClick({R.id.btn_back, R.id.tv_list_type})
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.btn_back:
                 finish();
                 break;
             case R.id.tv_list_type:
-                if (GeneralUtils.isNullOrZeroLenght(search_text.getText().toString())){
+                if (GeneralUtils.isNullOrZeroLenght(search_text.getText().toString())) {
                     GeneralUtils.showToastshort("请输入门店名称或者手机号");
 
-            }else {
+                } else {
+                    System.out.println("hashcode is " + adatper.getItem(viewPager.getCurrentItem()).hashCode());
                     EventBus.getDefault().post(new SeachTag(search_text.getText().toString()));
                 }
                 break;
         }
     }
+
     @Override
     protected IPresenter loadPresenter() {
         return null;
@@ -64,17 +67,18 @@ public class ClientListSeachActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        Eyes.translucentStatusBar(this,true);
+        Eyes.translucentStatusBar(this, true);
         List<String> titles = new ArrayList<>();
         titles.add("我的客户");
         titles.add("公海客户");
         if (UserUtils.getInstance().getLoginBean().getType() == 1) titles.add("他人客户");
-        ClientListSeachFragmentAdapter adatper = new ClientListSeachFragmentAdapter(getSupportFragmentManager(), titles);
+        adatper = new ClientListSeachFragmentAdapter(getSupportFragmentManager(), titles);
         viewPager.setAdapter(adatper);
 //        viewPager.setOffscreenPageLimit(3);
         //将TabLayout和ViewPager关联起来。
         wtab.setupWithViewPager(viewPager);
     }
+
     @Override
     protected int getLayoutId() {
         return R.layout.client_list_seach_layput;

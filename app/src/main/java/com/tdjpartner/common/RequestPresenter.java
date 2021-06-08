@@ -177,7 +177,7 @@ public class RequestPresenter {
     }
 
     public static Disposable customer_refreshInfo(int entityId, int loginUserId, BaseObserver<UserInfo> callback) {
-        return getApiService().customer_refreshInfo(UserUtils.getInstance().getLoginBean().getSite(), 1, entityId, loginUserId, GeneralUtils.getAndroidId()).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+        return getApiService().customer_refreshInfo(UserUtils.getInstance().getLoginBean().getSite(), 1, entityId, loginUserId, GeneralUtils.getAndroidId(), "partner").compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
 
     public static Disposable pushMessageLogout(int userType, String phoneNumber, BaseObserver<Object> callback) {
