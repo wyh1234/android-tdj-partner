@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -166,10 +167,11 @@ public class RealNameAuthenticationActivity extends BaseActivity<RealNameAuthent
                     System.out.println("file = " + file);
                     file = file.substring(file.lastIndexOf("/") + 1);
                     System.out.println("file = " + file);
-                    if (!file.endsWith(".jpg") && !file.endsWith(".gif") && !file.endsWith(".png")) {
+                    if (data.getType() == null || TextUtils.isEmpty(GeneralUtils.getSuffix(data.getType()))) {
 //                    GeneralUtils.showToastshort("文件格式不正确");
-                        if (file.lastIndexOf('.') == -1) file += ".tmp";
+                        LogUtils.d("无法解析文件格式，data.getType()" + data.getType());
                     }
+                    if (file.lastIndexOf('.') == -1) file += ".tmp";
 
                     try (ParcelFileDescriptor pfd = getContentResolver().openFileDescriptor(data.getData(), "r")) {
                         mPresenter.imageUpload(file.substring(0, file.length() - 3) + "png", BlurBitmapUtils.bitmapTobyte(BlurBitmapUtils.getSmallBitmapFromFileDescriptor(pfd.getFileDescriptor()), true));

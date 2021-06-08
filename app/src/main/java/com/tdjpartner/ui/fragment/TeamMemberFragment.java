@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,8 +13,8 @@ import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -36,7 +35,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 import static android.support.v4.app.FragmentManager.POP_BACK_STACK_INCLUSIVE;
 import static android.text.Html.FROM_HTML_MODE_LEGACY;
@@ -53,6 +51,8 @@ public class TeamMemberFragment extends NetworkFragment {
     RecyclerView menu;
     @BindView(R.id.listView)
     ListView listView;
+    @BindView(R.id.iv_empty)
+    ImageView iv_empty;
     String title;
 
     private ListViewAdapter<TeamMemberData.Data> adapter;
@@ -123,6 +123,7 @@ public class TeamMemberFragment extends NetworkFragment {
                     adapter.clear();
                     adapter.addAll(teamMemberData.teamMembers);
                     title = teamMemberData.title;
+                    iv_empty.setVisibility(teamMemberData.teamMembers.size() == 0 ? View.VISIBLE : View.INVISIBLE);
                     dismissLoading();
                     stop();
                 });

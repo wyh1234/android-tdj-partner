@@ -10,7 +10,8 @@ import android.widget.ImageView;
 
 import com.tdjpartner.R;
 import com.tdjpartner.base.NetworkActivity;
-import com.tdjpartner.ui.fragment.ApprovalPendingFragment;
+
+import com.tdjpartner.ui.fragment.ApprovalListFragment;
 import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.widget.tablayout.WTabLayout;
 
@@ -55,7 +56,7 @@ public class ApprovalActivity extends NetworkActivity {
 
             @Override
             public Fragment getItem(int i) {
-                ApprovalPendingFragment fragment = new ApprovalPendingFragment();
+                ApprovalListFragment fragment = new ApprovalListFragment();
                 Bundle bundle = new Bundle();
                 Map<String, Object> map = new HashMap<>();
                 map.put("userId", UserUtils.getInstance().getLoginBean().getLoginUserId());

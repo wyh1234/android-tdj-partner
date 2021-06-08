@@ -13,6 +13,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.ArrayMap;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import com.tdjpartner.R;
 import com.tdjpartner.adapter.ListViewAdapter;
 import com.tdjpartner.base.NetworkFragment;
 import com.tdjpartner.model.NewHomeData;
+import com.tdjpartner.model.UserInfo;
 import com.tdjpartner.model.V3HomeData;
 import com.tdjpartner.ui.activity.ApprovalActivity;
 import com.tdjpartner.ui.activity.CommonFollowUpActivity;
@@ -88,8 +90,6 @@ public class NetIndexFragment extends NetworkFragment
     List<String> titles;
 
     boolean isDay;//时间类型标记
-    int userType = UserUtils.getInstance().getLoginBean().getType();//用户类型
-    int site = UserUtils.getInstance().getLoginBean().getSite();//用户站点
     int grade = UserUtils.getInstance().getLoginBean().getGrade();//用户级别
 
     private ListViewAdapter<V3HomeData> netDayAdapter, netMonthAdapter;
@@ -324,8 +324,8 @@ public class NetIndexFragment extends NetworkFragment
             public android.support.v4.app.Fragment getItem(int i) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("type", i + 1);
-                map.put("websiteId", site);
-                map.put("userType", userType);
+                map.put("websiteId", UserUtils.getInstance().getLoginBean().getSite());
+                map.put("userType", UserUtils.getInstance().getLoginBean().getType());
                 map.put("timeType", isDay ? "day" : "month");
 
                 Bundle bundle = new Bundle();
@@ -389,16 +389,42 @@ public class NetIndexFragment extends NetworkFragment
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        System.out.println("NetIndexFragment.onResume");
+        onRefresh();
+    }
+
+    @Override
     public void onRefresh() {
-        Map<String, Object> map = new HashMap<>();
+        if (!swipeRefreshLayout.isRefreshing()) swipeRefreshLayout.setRefreshing(true);
+        Map<String, Object> map = new ArrayMap<>(5);
+        map.put("api", "customer_refreshInfo");
+        map.put("site", UserUtils.getInstance().getLoginBean().getEntityId());
+        map.put("entityId", UserUtils.getInstance().getLoginBean().getEntityId());
+        map.put("loginUserId", UserUtils.getInstance().getLoginBean().getLoginUserId());
+        map.put("flag", 1);
+        map.put("type", "partner");
 
-        map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
-        map.put("dayDate", GeneralUtils.getTimeFilter(new Date()));
-        map.put("monthTime", GeneralUtils.getMonthFilter(new Date()));
-        map.put("websiteId", UserUtils.getInstance().getLoginBean().getSite());
+        getVMWithFragment().loadingWithNewLiveData(UserInfo.class, map)
+                .observe(this, userInfo -> {
+                    System.out.println("userInfo = " + userInfo);
+                    if (userInfo != null) {
+                        UserUtils.getInstance().update(userInfo);
+                        tv_username.setText("你好，" + UserUtils.getInstance().getLoginBean().getMakerName() + "!");
+                        grade = UserUtils.getInstance().getLoginBean().getGrade();
 
-        getVMWithFragment().loading(V3HomeData.class, map);
-        ranking_vp.getAdapter().notifyDataSetChanged();
+                        //刷新数据
+                        Map<String, Object> hashMap = new HashMap<>();
+                        hashMap.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
+                        hashMap.put("dayDate", GeneralUtils.getTimeFilter(new Date()));
+                        hashMap.put("monthTime", GeneralUtils.getMonthFilter(new Date()));
+                        hashMap.put("websiteId", UserUtils.getInstance().getLoginBean().getSite());
+
+                        getVMWithFragment().loading(V3HomeData.class, hashMap);
+                        ranking_vp.getAdapter().notifyDataSetChanged();
+                    }
+                });
     }
 
     public void stop() {

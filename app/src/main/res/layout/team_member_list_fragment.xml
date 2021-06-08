@@ -18,11 +18,24 @@
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/bg_color"/>
+            android:background="@color/bg_color" />
 
-        <ListView
-            android:id="@+id/listView"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/iv_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@mipmap/layout_empty"
+                android:visibility="gone" />
+        </FrameLayout>
     </LinearLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

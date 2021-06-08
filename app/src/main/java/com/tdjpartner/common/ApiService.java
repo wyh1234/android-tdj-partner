@@ -250,6 +250,10 @@ public interface ApiService {
     @GET("customer/refreshInfo")
     Observable<BaseResponse<UserInfo>> customer_refreshInfo(@Query("site") int site, @Query("flag") int flag, @Query("entityId") int entityId, @Query("loginUserId") int loginUserId, @Query("uniqueId") String uniqueId);
 
+    @Headers({"url_type:weather"})
+    @GET("customer/refreshInfo")
+    Observable<BaseResponse<UserInfo>> customer_refreshInfo(@QueryMap Map<String, Object> map);
+
 
     @Headers({"url_type:weather"})
     @GET("afterSalesApplication/findPageByCSIdList")

@@ -33,7 +33,7 @@ public class PublicCache {
                 ROOT_HTTP_URL.put("model", new ArrayList<String>());
             ROOT_HTTP_URL.get("model").add("http://47.97.250.138:8001/");//http://node2.51taodj.com:8001/       http://121.196.199.8:8001/
             ROOT_HTTP_URL.get("model").add("http://finance.51taodj.com/");
-            ROOT_HTTP_URL.get("model").add("http://gateway.51taodj.com:9000/");
+            ROOT_HTTP_URL.get("model").add("http://121.40.170.150:9000"); //以前废弃的老接口http://gateway.51taodj.com:9000/
 
             //测试
             if (ROOT_HTTP_URL.get("test") == null)
@@ -42,7 +42,6 @@ public class PublicCache {
             ROOT_HTTP_URL.get("test").add("http://test-finance2.51taodj.com:8080/");
             ROOT_HTTP_URL.get("test").add("http://47.111.22.162:9000/");
 //            ROOT_HTTP_URL.get("test").add("http://192.168.10.239:8898/");//徐明52
-
 
         }
 

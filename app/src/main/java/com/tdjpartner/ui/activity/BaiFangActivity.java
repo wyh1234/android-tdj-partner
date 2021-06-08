@@ -268,7 +268,7 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter> {
             switch (requestCode) {
                 case REQUEST_PERMISSION_CAMERA:
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                        mPresenter.imageUpload(CameraUtils.saveImage(captureFile.getPath()));
+                        mPresenter.imageUpload(CameraUtils.saveImage(captureFile.getPath(), 150, 3));
                         break;
                     }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

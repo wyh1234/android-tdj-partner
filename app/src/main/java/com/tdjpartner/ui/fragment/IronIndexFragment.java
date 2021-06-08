@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.ArrayMap;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,8 +96,6 @@ public class IronIndexFragment extends NetworkFragment
     WTabLayout wtab;
 
     boolean isDay;//时间类型标记
-    int userType = UserUtils.getInstance().getLoginBean().getType();//用户类型
-    int site = UserUtils.getInstance().getLoginBean().getSite();//用户类型
     int grade = UserUtils.getInstance().getLoginBean().getGrade();//用户类型
 
     private ListViewAdapter<V3HomeData> ironDayAdapter, ironMonthAdapter;
@@ -141,7 +140,7 @@ public class IronIndexFragment extends NetworkFragment
                             map.put("account", data.phone);
                             map.put("password", data.password);
                             map.put("loginType", 0);//0验证登录/1密码登录
-                            map.put("userRelationsType", userType);
+                            map.put("userRelationsType", UserUtils.getInstance().getLoginBean().getType());
                             map.put("passWordType", 3);
 
                             showLoading();
@@ -150,8 +149,6 @@ public class IronIndexFragment extends NetworkFragment
                                         dismissLoading();
                                         System.out.println("userInfo = " + userInfo);
                                         UserUtils.getInstance().login(userInfo);
-                                        userType = UserUtils.getInstance().getLoginBean().getType();//用户类型
-                                        site = UserUtils.getInstance().getLoginBean().getSite();//用户类型
                                         grade = UserUtils.getInstance().getLoginBean().getGrade();//用户类型
                                         tv_username.setText("你好," + UserUtils.getInstance().getLoginBean().getRealname() + "!");
                                         tv_city.setText("所在城市：" + UserUtils.getInstance().getLoginBean().getSiteName());
@@ -362,8 +359,8 @@ public class IronIndexFragment extends NetworkFragment
             public android.support.v4.app.Fragment getItem(int i) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("type", i + 1);
-                map.put("websiteId", site);
-                map.put("userType", userType);
+                map.put("websiteId", UserUtils.getInstance().getLoginBean().getSite());
+                map.put("userType", UserUtils.getInstance().getLoginBean().getType());
                 map.put("timeType", isDay ? "day" : "month");
 
                 Bundle bundle = new Bundle();
@@ -431,15 +428,40 @@ public class IronIndexFragment extends NetworkFragment
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        onRefresh();
+    }
+
+    @Override
     public void onRefresh() {
-        Map<String, Object> map = new HashMap<>();
+        if (!swipeRefreshLayout.isRefreshing()) swipeRefreshLayout.setRefreshing(true);
+        Map<String, Object> map = new ArrayMap<>(5);
+        map.put("api", "customer_refreshInfo");
+        map.put("site", UserUtils.getInstance().getLoginBean().getEntityId());
+        map.put("entityId", UserUtils.getInstance().getLoginBean().getEntityId());
+        map.put("loginUserId", UserUtils.getInstance().getLoginBean().getLoginUserId());
+        map.put("flag", 1);
+        map.put("type", "partner");
 
-        map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
-        map.put("dayDate", GeneralUtils.getTimeFilter(new Date()));
-        map.put("monthTime", GeneralUtils.getMonthFilter(new Date()));
-        map.put("websiteId", UserUtils.getInstance().getLoginBean().getSite());
+        getVMWithFragment().loadingWithNewLiveData(UserInfo.class, map)
+                .observe(this, userInfo -> {
+                    System.out.println("userInfo = " + userInfo);
+                    if (userInfo != null) {
+                        UserUtils.getInstance().update(userInfo);
+                        tv_username.setText("你好，" + UserUtils.getInstance().getLoginBean().getMakerName() + "!");
+                        grade = UserUtils.getInstance().getLoginBean().getGrade();
 
-        getVMWithFragment().loading(V3HomeData.class, map);
+                        //刷新数据
+                        Map<String, Object> hashMap = new HashMap<>();
+                        hashMap.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
+                        hashMap.put("dayDate", GeneralUtils.getTimeFilter(new Date()));
+                        hashMap.put("monthTime", GeneralUtils.getMonthFilter(new Date()));
+                        hashMap.put("websiteId", UserUtils.getInstance().getLoginBean().getSite());
+                        getVMWithFragment().loading(V3HomeData.class, hashMap);
+                        ranking_vp.getAdapter().notifyDataSetChanged();
+                    }
+                });
     }
 
     public void stop() {
@@ -464,7 +486,7 @@ public class IronIndexFragment extends NetworkFragment
         } else {
             switch (((V3HomeData.PartnerApproachDataBean) baseQuickAdapter.getItem(i)).getSort()) {
                 case 1:
-                    if (grade != 3) GeneralUtils.showToastshort("暂未开发此功能！");
+                    if (grade != 3) GeneralUtils.showToastshort("暂未开放此功能！");
                     break;
             }
             switch (((V3HomeData.PartnerApproachDataBean) baseQuickAdapter.getItem(i)).getSort()) {

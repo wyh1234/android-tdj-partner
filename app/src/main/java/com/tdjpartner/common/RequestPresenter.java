@@ -372,8 +372,8 @@ public class RequestPresenter {
     }
 
     @Nullable
-    public static Disposable getShareShopList(String code,int site,String date,int type,int pn,int ps,BaseObserver<ShareShopListBean> callback) {
-        return getApiService().getShareShopList(code,site,date,type,pn,ps).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
+    public static Disposable getShareShopList(String code, int site, String date, int type, int pn, int ps, BaseObserver<ShareShopListBean> callback) {
+        return getApiService().getShareShopList(code, site, date, type, pn, ps).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult()).subscribeWith(callback);
     }
 
 //    public static RequestBody  jsonData(Map<String ,Object> map){//
@@ -419,14 +419,21 @@ public class RequestPresenter {
         } else if (clazz.isAssignableFrom(DayAndMonthData.class)) {
             observable = (Observable<T>) getApiService().ironDayAndMonthData(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
         } else if (clazz.isAssignableFrom(UserInfo.class)) {
-            observable = (Observable<T>) getApiService().loginData(map).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
+            String api = (String) map.remove("api");
+            if (api.equals("loginData")) {
+                observable = (Observable<T>) getApiService().loginData(map).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
+            } else if (api.equals("customer_refreshInfo")) {
+                observable = (Observable<T>) getApiService().customer_refreshInfo(map).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
+            } else {
+                observable = null;
+            }
         } else if (clazz.isAssignableFrom(StatisticsDetails.class)) {
             observable = (Observable<T>) getApiService().ironStatisticsDetails(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
         } else if (clazz.isAssignableFrom(AfterSaleInfoData.class)) {
             observable = (Observable<T>) getApiService().getafterSalesTask(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
         } else if (clazz.isAssignableFrom(AfterDetailData.class)) {
             observable = (Observable<T>) getApiService().afterDetail(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
-        }else if (clazz.isAssignableFrom(TeamMemberData.class)) {
+        } else if (clazz.isAssignableFrom(TeamMemberData.class)) {
             observable = (Observable<T>) getApiService().teamMember(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
         } else {
             observable = null;

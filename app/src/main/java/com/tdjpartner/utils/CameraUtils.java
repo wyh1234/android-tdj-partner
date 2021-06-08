@@ -35,8 +35,9 @@ public class CameraUtils {
     public static final int REQUEST_PERMISSION_CAMERA = 0x001;
     public static final int CROP_REQUEST_CODE = 0x003;
     public static final String PIC_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/TakePhotoPic";
+
     //拍照
-    public static void getImageCamera(RxPermissions rxPermissions, Activity context){
+    public static void getImageCamera(RxPermissions rxPermissions, Activity context) {
         rxPermissions.request(android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.READ_PHONE_STATE, android.Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean aBoolean) throws Exception {
@@ -45,12 +46,12 @@ public class CameraUtils {
                     if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                         return;
                     }
-                    rootFile = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ? context.getCacheDir() :new File(PIC_PATH);
+                    rootFile = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q ? context.getCacheDir() : new File(PIC_PATH);
                     if (!rootFile.exists()) {
                         rootFile.mkdirs();
                     }
                     captureFile = new File(rootFile, "temp.jpg");
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                         try {
                             captureFile = File.createTempFile("JPEG_", null, rootFile);
                         } catch (IOException e) {
@@ -63,7 +64,7 @@ public class CameraUtils {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         intent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                         LogUtils.e(getPackageName());
-                        Uri contentUri = FileProvider.getUriForFile(context, getPackageName()+".fileProvider", captureFile);
+                        Uri contentUri = FileProvider.getUriForFile(context, getPackageName() + ".fileProvider", captureFile);
                         intent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
                     } else {
                         //否则使用Uri.fromFile(file)方法获取Uri
@@ -74,12 +75,14 @@ public class CameraUtils {
             }
         });
     }
+
     /**
      * 添加时间水印
+     *
      * @param mBitmap
      * @return mNewBitmap
      */
-    public  static  Bitmap AddTimeWatermark(Bitmap mBitmap) {
+    public static Bitmap AddTimeWatermark(Bitmap mBitmap) {
         //获取原始图片与水印图片的宽与高
         int mBitmapWidth = mBitmap.getWidth();
         int mBitmapHeight = mBitmap.getHeight();
@@ -87,7 +90,7 @@ public class CameraUtils {
         Bitmap mNewBitmap = Bitmap.createBitmap(mBitmapWidth, mBitmapHeight, Bitmap.Config.ARGB_8888);
         Canvas mCanvas = new Canvas(mNewBitmap);
         //向位图中开始画入MBitmap原始图片
-        mCanvas.drawBitmap(mBitmap,0,0,null);
+        mCanvas.drawBitmap(mBitmap, 0, 0, null);
         //添加文字
         Paint mPaint = new Paint();
         String mFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss EEEE").format(new Date());
@@ -95,18 +98,42 @@ public class CameraUtils {
         mPaint.setColor(Color.RED);
         mPaint.setTextSize(30);
         //水印的位置坐标
-        mCanvas.drawText(mFormat, (mBitmapWidth * 1) / 10,(mBitmapHeight*14)/15,mPaint);
+        mCanvas.drawText(mFormat, (mBitmapWidth * 1) / 10, (mBitmapHeight * 14) / 15, mPaint);
 //        mCanvas.save(Canvas.ALL_SAVE_FLAG);
         mCanvas.save();
         mCanvas.restore();
         return mNewBitmap;
     }
+
+    public static Bitmap AddTimeWatermark(Bitmap mBitmap, int size, int offset) {
+        //获取原始图片与水印图片的宽与高
+        int mBitmapWidth = mBitmap.getWidth();
+        int mBitmapHeight = mBitmap.getHeight();
+        //定义底片 大小 将mBitmap填充
+        Bitmap mNewBitmap = Bitmap.createBitmap(mBitmapWidth, mBitmapHeight, Bitmap.Config.ARGB_8888);
+        Canvas mCanvas = new Canvas(mNewBitmap);
+        //向位图中开始画入MBitmap原始图片
+        mCanvas.drawBitmap(mBitmap, 0, 0, null);
+        //添加文字
+        Paint mPaint = new Paint();
+        String mFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss EEEE").format(new Date());
+        //String mFormat = TingUtils.getTime()+"\n"+" 纬度:"+GpsService.latitude+"  经度:"+GpsService.longitude;
+        mPaint.setColor(Color.RED);
+        mPaint.setTextSize(size);
+        //水印的位置坐标
+        mCanvas.drawText(mFormat, (mBitmapWidth / 2) - (size * (mFormat.length())) / 2 + (size * offset), (mBitmapHeight * 14) / 15, mPaint);
+//        mCanvas.save(Canvas.ALL_SAVE_FLAG);
+        mCanvas.save();
+        mCanvas.restore();
+        return mNewBitmap;
+    }
+
     /**
      * 裁剪图片
      */
-    public static  void cropPhoto(Uri uri,Activity activity) {
+    public static void cropPhoto(Uri uri, Activity activity) {
         cropFile = new File(rootFile, "temp.jpg");
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             try {
                 cropFile = File.createTempFile("JPEG_", null, activity.getCacheDir());
             } catch (IOException e) {
@@ -129,25 +156,43 @@ public class CameraUtils {
         activity.startActivityForResult(intent, CROP_REQUEST_CODE);
     }
 
-    public static  String saveImage(String path) {
+    public static String saveImage(String path) {
         // ivAvatar.setImageBitmap(BitmapFactory.decodeFile(cropFile.getAbsolutePath()));
         if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             return null;
         }
-       File file = new File(rootFile," time.jpg") ;
+        File file = new File(rootFile, " time.jpg");
         Bitmap bitmap = BitmapFactory.decodeFile(path);
-        Bitmap newbm=AddTimeWatermark(bitmap);
+        Bitmap newbm = AddTimeWatermark(bitmap);
         try {
             FileOutputStream fos = new FileOutputStream(file);
             newbm.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             fos.flush();
             fos.close();
-            return file .getAbsolutePath();
+            return file.getAbsolutePath();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
+    }
 
-
+    public static String saveImage(String path, int markSize, int offset) {
+        // ivAvatar.setImageBitmap(BitmapFactory.decodeFile(cropFile.getAbsolutePath()));
+        if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            return null;
+        }
+        File file = new File(rootFile, " time.jpg");
+        Bitmap bitmap = BitmapFactory.decodeFile(path);
+        Bitmap newbm = AddTimeWatermark(bitmap, markSize, offset);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            newbm.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+            return file.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
