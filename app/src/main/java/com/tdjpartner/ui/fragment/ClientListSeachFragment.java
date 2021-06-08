@@ -153,7 +153,7 @@ public class ClientListSeachFragment extends Fragment<ClientListSeachPresenter> 
             mStateView.showEmpty();//显示重试的布局
             GeneralUtils.showToastshort("请输入门店名称或者手机号");
         }
-
+        stop();
     }
 
     @Override
