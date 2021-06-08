@@ -1,7 +1,5 @@
 package com.tdjpartner.ui.fragment;
 
-;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,7 +10,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.apkfuns.logutils.LogUtils;
-import com.bigkoo.pickerview.TimePickerView;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.TeamPreviewAdapter;
@@ -41,6 +41,8 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+;
 
 public class HomepageFragment extends Fragment<HomepageFragmentPresenter> implements SwipeRefreshLayout.OnRefreshListener
         , View.OnClickListener, BaseQuickAdapter.OnItemChildClickListener {
@@ -305,7 +307,7 @@ public class HomepageFragment extends Fragment<HomepageFragmentPresenter> implem
     }
 
     public void setTime(int type) {
-        pvTime = new TimePickerView.Builder(getContext(), new TimePickerView.OnTimeSelectListener() {
+        pvTime = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
                 if (type == 1) {
@@ -323,7 +325,7 @@ public class HomepageFragment extends Fragment<HomepageFragmentPresenter> implem
                 .isCenterLabel(true)
                 .setLineSpacingMultiplier(1.8f)
                 .setDividerColor(Color.DKGRAY)
-                .setContentSize(16)
+                .setContentTextSize(16)
                 .setDate(selectedDate)
                 .setRangDate(startDate, endDate)
                 .setDecorView(null)

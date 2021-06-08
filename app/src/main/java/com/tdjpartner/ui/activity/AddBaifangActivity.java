@@ -9,7 +9,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.apkfuns.logutils.LogUtils;
-import com.bigkoo.pickerview.TimePickerView;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
 import com.tdjpartner.base.BaseActivity;
@@ -220,7 +222,7 @@ public class AddBaifangActivity extends BaseActivity<AddBaifangPresenter> implem
         startDate.set(startDate.get(Calendar.YEAR),  (startDate.get(Calendar.MONTH))-1,startDate.get(Calendar.DAY_OF_MONTH),startDate.get(Calendar.HOUR_OF_DAY),startDate.get(Calendar.MINUTE));
         endDate.set(endDate.get(Calendar.YEAR),  (endDate.get(Calendar.MONTH)),endDate.get(Calendar.DAY_OF_MONTH),endDate.get(Calendar.HOUR_OF_DAY),endDate.get(Calendar.MINUTE));
 
-        pvTime=new TimePickerView.Builder(this, new TimePickerView.OnTimeSelectListener() {
+        pvTime=new TimePickerBuilder(this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
                 tv_time.setText(getTimes(date));
@@ -231,7 +233,7 @@ public class AddBaifangActivity extends BaseActivity<AddBaifangPresenter> implem
                 .setLabel("年", "月", "日", "时", "分", "")
                 .isCenterLabel(true)
                 .setDividerColor(Color.DKGRAY)
-                .setContentSize(16)
+                .setContentTextSize(16)
                 .setDate(endDate)
                 .setRangDate(startDate, endDate)
                 .setDecorView(null)

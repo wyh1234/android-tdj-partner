@@ -2,13 +2,12 @@ package com.tdjpartner.adapter;
 
 import android.graphics.Color;
 import android.support.annotation.Nullable;
-import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.tdjpartner.R;
+import com.tdjpartner.common.PublicCache;
 import com.tdjpartner.model.OrderDetail;
-import com.tdjpartner.model.OrderList;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.glide.ImageLoad;
 
@@ -29,6 +28,25 @@ public class OrderListDetailsAdapter extends BaseQuickAdapter<OrderDetail.ItemsB
         baseViewHolder.setText(R.id.tv_goods_name,orderList.getName());
         baseViewHolder.setText(R.id.tv_nickname,orderList.getNickName());
         baseViewHolder.setText(R.id.tv_tag,orderList.getStoreName());
+        int type = orderList.getLevelType();
+        if (PublicCache.specification_unit_base.contains(orderList.getAvgUnit())) {
+            if (type == 1) {
+                baseViewHolder.setText(R.id.goods_count, orderList.getAmount().toString());
+            } else if (type == 2) {
+                baseViewHolder.setText(R.id.goods_count, orderList.getLevel2Value().multiply(orderList.getAmount()).toString());
+            } else if (type == 3) {
+                baseViewHolder.setText(R.id.goods_count, orderList.getLevel3Value().multiply(orderList.getLevel2Value().multiply(orderList.getAmount())).toString());
+            }
+        } else {
+            if (type == 2) {
+                baseViewHolder.setText(R.id.goods_count, orderList.getAmount().toString());
+            } else if (type == 3) {
+                baseViewHolder.setText(R.id.goods_count, orderList.getLevel2Value().multiply(orderList.getAmount()).toString());
+            }
+        }
+        baseViewHolder.setText(R.id.goods_unit2,orderList.getAvgUnit());
+        baseViewHolder.setText(R.id.cart_price,orderList.getTotalPrice().toString());
+
         baseViewHolder.setText(R.id.tv_order_no,"商品编号："+orderList.getQrCodeId());
         baseViewHolder.addOnClickListener(R.id.tv_copys);
         baseViewHolder.addOnClickListener(R.id.tv_after);

@@ -13,14 +13,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.apkfuns.logutils.LogUtils;
-import com.bigkoo.pickerview.TimePickerView;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.HomepageAdapter;
 import com.tdjpartner.adapter.home.AllDataAdapter;
-import com.tdjpartner.adapter.home.AttentionDataAdapter;
-import com.tdjpartner.adapter.home.HomeOrderTimesAdapter;
-import com.tdjpartner.adapter.home.HomeRegisterTimesAdapter;
 import com.tdjpartner.adapter.home.MonthDataAdapter;
 import com.tdjpartner.adapter.home.TodyDataAdapter;
 import com.tdjpartner.base.BaseActivity;
@@ -28,7 +27,6 @@ import com.tdjpartner.model.HomeData;
 import com.tdjpartner.model.HomeFilter;
 import com.tdjpartner.model.StatisticalData;
 import com.tdjpartner.mvp.presenter.HomePagePresenter;
-import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.ui.activity.statistics.StatisticsListActivity;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
@@ -156,7 +154,7 @@ public class HomePageActivity extends BaseActivity<HomePagePresenter> implements
         endDate = Calendar.getInstance();
 //        endDate.set(2029, 11, 28);
         endDate.set(endDate.get(Calendar.YEAR),  (endDate.get(Calendar.MONTH)),endDate.get(Calendar.DAY_OF_MONTH));
-        pvTime = new TimePickerView.Builder(getContext(), new TimePickerView.OnTimeSelectListener() {
+        pvTime = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
                 if (f){
@@ -175,7 +173,7 @@ public class HomePageActivity extends BaseActivity<HomePagePresenter> implements
                 .setLabel("年", "月", "日", "", "", "")
                 .isCenterLabel(true)
                 .setDividerColor(Color.DKGRAY)
-                .setContentSize(16)
+                .setContentTextSize(16)
                 .setDate(selectedDate)
                 .setRangDate(startDate, endDate)
                 .setDecorView(null)

@@ -10,20 +10,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apkfuns.logutils.LogUtils;
-import com.bigkoo.pickerview.TimePickerView;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.AdterSalesOrderAdapter;
-import com.tdjpartner.adapter.OrderListAdapter;
 import com.tdjpartner.base.BaseActivity;
-import com.tdjpartner.model.OrderList;
 import com.tdjpartner.model.PageByCSIdList;
 import com.tdjpartner.model.RefundDetail;
 import com.tdjpartner.mvp.presenter.AdterSalesOrderListPresenter;
-import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
-import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.widget.CustomLinearLayout;
 
@@ -157,7 +155,7 @@ public class AdterSalesOrderListActivity extends BaseActivity<AdterSalesOrderLis
 
     }
     public void setTime(TextView tv,int type){
-        pvTime = new TimePickerView.Builder(getContext(), new TimePickerView.OnTimeSelectListener() {
+        pvTime = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
                 try {
@@ -195,7 +193,7 @@ public class AdterSalesOrderListActivity extends BaseActivity<AdterSalesOrderLis
                 .isCenterLabel(true)
                 .setLineSpacingMultiplier(1.8f)
                 .setDividerColor(Color.DKGRAY)
-                .setContentSize(16)
+                .setContentTextSize(16)
                 .setDate(selectedDates)
 //                .setRangDate(startDate, endDate)
                 .setDecorView(null)

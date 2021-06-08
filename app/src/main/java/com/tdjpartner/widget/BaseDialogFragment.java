@@ -23,7 +23,7 @@ import butterknife.Unbinder;
 public abstract class BaseDialogFragment extends DialogFragment {
     protected BaseActivity mActivity;
     protected Unbinder mBinder;
-    private View mRootView;
+    protected View mRootView;
     protected Window mWindow;
 
     @LayoutRes

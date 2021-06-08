@@ -54,7 +54,7 @@ public class TipsDialogFragment extends BaseDialogFragment {
                     "\n" +
                     "红色代表公海客户\n" +
                     "\n" +
-                    "黑色代表注册从未下单的客户（公海中）";
+                    "黑色代表注册从未下单的客户(公海中)";
         }
         mTextView.setText(info);
     }

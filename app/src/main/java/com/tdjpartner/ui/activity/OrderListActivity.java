@@ -2,7 +2,6 @@ package com.tdjpartner.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,15 +10,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apkfuns.logutils.LogUtils;
-import com.bigkoo.pickerview.TimePickerView;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tdjpartner.R;
-import com.tdjpartner.adapter.ClientListAdapter;
 import com.tdjpartner.adapter.OrderListAdapter;
 import com.tdjpartner.base.BaseActivity;
-import com.tdjpartner.model.ClientInfo;
 import com.tdjpartner.model.OrderList;
-import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.mvp.presenter.OrderListPresenter;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
@@ -119,7 +117,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter> implemen
     }
 
     public void setTime(TextView tv,int type){
-        pvTime = new TimePickerView.Builder(getContext(), new TimePickerView.OnTimeSelectListener() {
+        pvTime = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
                 try {
@@ -157,7 +155,7 @@ public class OrderListActivity extends BaseActivity<OrderListPresenter> implemen
                 .isCenterLabel(true)
                 .setLineSpacingMultiplier(1.8f)
                 .setDividerColor(Color.DKGRAY)
-                .setContentSize(16)
+                .setContentTextSize(16)
                 .setDate(selectedDates)
 //                .setRangDate(startDate, endDate)
                 .setDecorView(null)
