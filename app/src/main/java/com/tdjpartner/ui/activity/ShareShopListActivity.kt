@@ -11,6 +11,7 @@ import android.widget.TextView
 import com.bigkoo.pickerview.builder.TimePickerBuilder
 import com.bigkoo.pickerview.view.TimePickerView
 import com.tdjpartner.R
+import com.tdjpartner.R.layout.item_share_shop_list_header
 import com.tdjpartner.R.layout.page_empty
 import com.tdjpartner.adapter.ShareShopListAdapter
 import com.tdjpartner.base.BaseActivity
@@ -59,6 +60,7 @@ class ShareShopListActivity :BaseActivity<ShareShopListPresenter>(), View.OnClic
         recyclerView?.adapter = mAdapter
         txtSelect?.text = inviteStr[0]
         mAdapter.emptyView = getEmptyView()
+        mAdapter.addHeaderView(getHeaderView())
         initTimePickView()
         txtSelect?.setOnClickListener(this)
         txtDate?.setOnClickListener(this)
@@ -171,6 +173,10 @@ class ShareShopListActivity :BaseActivity<ShareShopListPresenter>(), View.OnClic
     }
 
     private fun getEmptyView():View{
-        return layoutInflater.inflate(R.layout.page_empty,null)
+        return layoutInflater.inflate(page_empty,null)
+    }
+
+    private fun getHeaderView():View{
+        return layoutInflater.inflate(item_share_shop_list_header,null)
     }
 }
