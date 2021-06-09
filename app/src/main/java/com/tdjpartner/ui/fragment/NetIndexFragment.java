@@ -451,6 +451,9 @@ public class NetIndexFragment extends NetworkFragment
             }
         } else {
             switch (((V3HomeData.PartnerApproachDataBean) baseQuickAdapter.getItem(i)).getSort()) {
+                case 1:
+                    if (grade != 3) GeneralUtils.showToastshort("暂未开放此功能！");
+                    break;
                 case 2:
                     getActivity().startActivity(new Intent(getContext(), ApprovalActivity.class));
                     break;

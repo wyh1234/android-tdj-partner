@@ -112,16 +112,16 @@ public class MainTabActivity extends BaseActivity<MainTabPresenter> implements O
             public void onItemSelected(final BottomBarItem bottomBarItem, int previousPosition, final int currentPosition) {
                 Log.i("MainActivity", "position: " + currentPosition);
                 if (currentPosition == 0) {
+                    Fragment fragment = mainTabAdapter.getItem(currentPosition);
                     if (UserUtils.getInstance().getLoginBean().getType() == 1) {
-                        ((NetIndexFragment) mainTabAdapter.getItem(currentPosition)).onRefresh();
+                        if (fragment instanceof NetIndexFragment)
+                            ((NetIndexFragment) fragment).onRefresh();
                     } else {
-                        ((IronIndexFragment) mainTabAdapter.getItem(currentPosition)).onRefresh();
+                        if (fragment instanceof IronIndexFragment)
+                            ((IronIndexFragment) fragment).onRefresh();
                     }
                 }
-
                 setStatusBarColor(currentPosition);
-                if (currentPosition == 0) {
-                }
             }
         });
 

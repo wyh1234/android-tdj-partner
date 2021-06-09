@@ -277,8 +277,6 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter> {
                     } else {
                         CameraUtils.cropPhoto(Uri.fromFile(captureFile), this);
                     }
-
-
                     break;
                 case CROP_REQUEST_CODE:
                     mPresenter.imageUpload(CameraUtils.saveImage(cropFile.getPath()));

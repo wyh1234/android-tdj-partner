@@ -1,6 +1,7 @@
 package com.tdjpartner.adapter;
 
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -23,7 +24,8 @@ public class AdterSalesOrderAdapter extends BaseQuickAdapter<RefundDetail, BaseV
         baseViewHolder.addOnClickListener(R.id.order_ok);
         ImageLoad.loadImageViewLoding(refundDetail.getProduct_img(),baseViewHolder.getView(R.id.iv1));
         baseViewHolder.setText(R.id.tv_goods_name,refundDetail.getName());
-        baseViewHolder.setText(R.id.tv_nickname,"("+refundDetail.getNick_name()+")");
+        String nickName = refundDetail.getNick_name();
+        baseViewHolder.setText(R.id.tv_nickname, TextUtils.isEmpty(nickName)? "":"("+(nickName.length() > 11 ? nickName.substring(0, 11) + "..." : nickName) + ")");
         baseViewHolder.setText(R.id.tv_tag,refundDetail.getStore_name());
 
         if (refundDetail.getLevel_type()== 1) {
