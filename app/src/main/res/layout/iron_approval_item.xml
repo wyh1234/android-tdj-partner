@@ -33,7 +33,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:gravity="bottom"
-                    android:text="BD:李四13212346542"
+                    android:text="创客：李四13212346542"
                     android:textSize="12sp" />
             </LinearLayout>
 

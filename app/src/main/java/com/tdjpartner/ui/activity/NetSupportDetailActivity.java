@@ -301,24 +301,24 @@ public class NetSupportDetailActivity extends NetworkActivity {
             }
         });
         et_money.setOnFocusChangeListener(this::onFocusChange);
-//        et_money.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                if(TextUtils.isEmpty(et_num.getText()))return;
-//                if (!TextUtils.isEmpty(s) && s.charAt(s.length() - 1) != '.' && Float.parseFloat(s.toString()) > originalAmountFloatExtra * Float.parseFloat(et_num.getText().toString()) * 3)
-//                    GeneralUtils.showToastshort("实际金额不能超过3倍，请重新输入！");
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        });
+        et_money.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(TextUtils.isEmpty(et_num.getText()))return;
+                if (!TextUtils.isEmpty(s) && s.charAt(s.length() - 1) != '.' && Float.parseFloat(s.toString()) >  afterDetailData.order.price * afterDetailData.order.original_amount * 3)
+                    GeneralUtils.showToastshort("实际金额不能超过3倍，请重新输入！");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         switch (type) {
             case REPLENISH:
@@ -386,7 +386,6 @@ public class NetSupportDetailActivity extends NetworkActivity {
         }
 
         if (title == 1) {
-//            findViewById(R.id.ll_uplaod).setVisibility(View.GONE);
             findViewById(R.id.button).setVisibility(View.GONE);
             difficulty.setVisibility(View.GONE);
             et_num.setEnabled(false);
@@ -662,8 +661,7 @@ public class NetSupportDetailActivity extends NetworkActivity {
                 if (TextUtils.isEmpty(et_money.getText())) return;
                 float price = Float.parseFloat(et_money.getText().toString());
                 System.out.println("price = " + price);
-                if (!TextUtils.isEmpty(et_num.getText().toString()) && price > afterDetailData.order.price * 3) {
-//                if (!TextUtils.isEmpty(et_num.getText().toString()) && price > originalAmountFloatExtra * Float.parseFloat(et_num.getText().toString()) * 3) {
+                if (!TextUtils.isEmpty(et_num.getText().toString()) && price > afterDetailData.order.price * afterDetailData.order.original_amount * 3) {
                     et_money.setText("");
                     GeneralUtils.showToastshort("实际金额不能超过3倍，请重新输入！");
                 }
