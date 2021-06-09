@@ -3,6 +3,7 @@ package com.tdjpartner.ui.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -58,6 +59,10 @@ public class InvitationActivityNew extends BaseActivity<InvitationPresenter>  {
     public void onClick(View view){
         switch (view.getId()){
             case R.id.ok:
+                if(Build.VERSION.SDK_INT>=23){
+                    String[] mPermissionList =new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE};
+                    ActivityCompat.requestPermissions(this,mPermissionList,110);
+                }
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this,"请允许淘创客读取存储卡",Toast.LENGTH_SHORT).show();
                     //申请权限

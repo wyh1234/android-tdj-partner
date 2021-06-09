@@ -248,8 +248,10 @@
         <activity
             android:name=".ui.activity.MemberStatisticsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.InvitationActivityNew"/>
-        <activity android:name=".ui.activity.ShareShopListActivity"/>
+        <activity android:name=".ui.activity.InvitationActivityNew"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.ShareShopListActivity"
+            android:screenOrientation="portrait" />
 
 
 
