@@ -10,6 +10,8 @@ import com.tdjpartner.model.DistinctList;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.glide.ImageLoad;
 
+import java.math.BigDecimal;
+
 public class MenberPaifangHistoryAdapter extends BaseQuickAdapter<DistinctList.ListBean, BaseViewHolder> {
     private String time;
     public MenberPaifangHistoryAdapter(int layoutResId) {
@@ -42,7 +44,7 @@ public class MenberPaifangHistoryAdapter extends BaseQuickAdapter<DistinctList.L
             }
         }else {
             baseViewHolder.getView(R.id.ll).setVisibility(View.VISIBLE);
-            baseViewHolder.setText(R.id.tv_money,"￥"+listBean.getOrder_amount());
+            baseViewHolder.setText(R.id.tv_money,"￥"+GeneralUtils.trimZero((float) (Math.round(listBean.getOrder_amount().floatValue() * 100) / 100.0)));
             baseViewHolder.setText(R.id.tv_is_order,"已下单");
             baseViewHolder.setTextColor(R.id.tv_is_order, Color.parseColor("#ff0000"));
             baseViewHolder.setGone(R.id.tv_notification,false);

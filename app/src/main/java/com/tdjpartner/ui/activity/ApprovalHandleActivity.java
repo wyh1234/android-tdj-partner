@@ -169,7 +169,7 @@ public class ApprovalHandleActivity extends NetworkActivity {
                             authStatus.setText("未知状态");
                     }
 
-                    bd.setText("BD：" + hotelAuditInfo.BD);
+                    bd.setText("创客：" + hotelAuditInfo.BD);
                     nick_name.setText(hotelAuditInfo.nick_name);
                     verify_customer.setText("负责人：" + hotelAuditInfo.nick_name + " " + hotelAuditInfo.phone);
                     region_name.setText("区域：" + hotelAuditInfo.region_name);

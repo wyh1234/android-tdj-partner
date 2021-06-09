@@ -41,7 +41,7 @@ public class V3ClientListSeachFragment extends Fragment<V3ClientListSeachPresent
     RefreshLayout refreshLayout;
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
-    private int index = 0;
+    private int index = 0, pageNo = 1, pageSum = 15;
     private BaseQuickAdapter<ClientInfo, BaseViewHolder> clientListSeachAdapter;
     private List<ClientInfo> data = new ArrayList<>();
     private SeachTag seachTag;
@@ -64,8 +64,9 @@ public class V3ClientListSeachFragment extends Fragment<V3ClientListSeachPresent
     @Override
     protected void initView(View view) {
         refreshLayout.setOnRefreshListener(this);
-        LinearLayoutManager layout = new LinearLayoutManager(getContext(),
-                LinearLayoutManager.VERTICAL, false);
+        refreshLayout.setOnLoadmoreListener(this::onLoadmore);
+        refreshLayout.setEnableLoadmore(true);
+        LinearLayoutManager layout = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView_list.setLayoutManager(layout);
         clientListSeachAdapter = new BaseQuickAdapter<ClientInfo, BaseViewHolder>(R.layout.client_list_seach_item, data) {
             @Override
@@ -110,7 +111,7 @@ public class V3ClientListSeachFragment extends Fragment<V3ClientListSeachPresent
     public void eventCode(LocationBean locationBean) {
         if (!locationBean.getTag().contains("LOCATION")) return;
         this.locationBean = locationBean;
-        doSearch();
+        pull(1);
 
     }
 
@@ -143,10 +144,19 @@ public class V3ClientListSeachFragment extends Fragment<V3ClientListSeachPresent
         return recyclerView_list;
     }
 
+    public void onLoadmore(RefreshLayout refreshlayout) {
+        System.out.println("~~ClientListFragment.onLoadmore~~");
+        pull(++pageNo);
+    }
+
     public void stop() {
         LogUtils.i(refreshLayout.isRefreshing());
         if (refreshLayout.isRefreshing()) {
             refreshLayout.finishRefresh();
+        }
+
+        if (refreshLayout.isEnableLoadmore()) {
+            refreshLayout.finishLoadmore();
         }
     }
 
@@ -163,7 +173,7 @@ public class V3ClientListSeachFragment extends Fragment<V3ClientListSeachPresent
                             }
                         });
             } else {
-                doSearch();
+                pull(1);
             }
 
         } else {
@@ -185,8 +195,10 @@ public class V3ClientListSeachFragment extends Fragment<V3ClientListSeachPresent
         startActivity(intent);
     }
 
-    private void doSearch() {
+    private void pull(int pageNo) {
         Map<String, Object> map = new HashMap<>();
+        map.put("pn", pageNo);
+        map.put("ps", pageSum);
         map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
         map.put("userType", index + 1);
         map.put("longitude", locationBean.getLongitude());
@@ -198,7 +210,7 @@ public class V3ClientListSeachFragment extends Fragment<V3ClientListSeachPresent
     }
 
     public void listData_Success(CustomerInfo clientInfoList) {
-        System.out.println(hashCode() + "|" +(index + 1) + "|" + clientInfoList.count + "|" + "clientInfoList = " + clientInfoList);
+        System.out.println(hashCode() + "|" + (index + 1) + "|" + clientInfoList.total + "|" + "clientInfoList = " + clientInfoList);
 
         if (refreshLayout.isRefreshing()) {
             if (!ListUtils.isEmpty(data)) {
@@ -208,16 +220,20 @@ public class V3ClientListSeachFragment extends Fragment<V3ClientListSeachPresent
         stop();
 
         if (ListUtils.isEmpty(data)) {
-            if (ListUtils.isEmpty(clientInfoList.partnerCustomerList)) {
+            if (ListUtils.isEmpty(clientInfoList.obj.partnerCustomerList)) {
                 //获取不到数据,显示空布局
                 mStateView.showEmpty();
                 return;
             }
             mStateView.showContent();//显示内容
         }
-        data.clear();
-        data.addAll(clientInfoList.partnerCustomerList);
+        data.addAll(clientInfoList.obj.partnerCustomerList);
         clientListSeachAdapter.setNewData(data);
+
+//        data.addAll(customerInfo.obj.partnerCustomerList);
+//        clientListAdapter.setIndex(index);
+//        clientListAdapter.setNewData(data);
+//        clientListAdapter.notifyDataSetChanged();
     }
 
     public void hotelMap_failed() {

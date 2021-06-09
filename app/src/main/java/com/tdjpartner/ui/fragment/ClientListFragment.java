@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -57,15 +58,14 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
     private int index = 0;
     String sort = "order";
     String scope = "500";
-    public int pageNo = 1;//翻页计数器
+    private int customerId, pos, pageNo = 1, pageSum = 5;//翻页计数器
     private ClientListAdapter clientListAdapter;
     private List<ClientInfo> data = new ArrayList<>();
     public RxPermissions rxPermissions;
     private boolean aBoolean;
     private LocationBean locationBean;
     private FollowUpPopuWindow followUpPopuWindow;
-    private int customerId;
-    private int pos;
+
     private SortPopuWindow sortPopuWindow;
 
     public int getPos() {
@@ -104,6 +104,8 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
     @Override
     protected void initView(View view) {
         refreshLayout.setOnRefreshListener(this);
+        refreshLayout.setOnLoadmoreListener(this::onLoadmore);
+        refreshLayout.setEnableLoadmore(true);
         rxPermissions = new RxPermissions(getActivity());
         recyclerView_list.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         clientListAdapter = new ClientListAdapter(R.layout.client_item, data);
@@ -158,15 +160,14 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
                 sortPopuWindow = new SortPopuWindow(getContext(), list);
                 sortPopuWindow.setPopupWindowFullScreen(true);
                 sortPopuWindow.setDayPopuWindowListener(n -> {
-//                    sort = arrayMap.keySet().toArray(new String[0])[n];
                     String s = list.get(n);
-                    if (s.equals("按下单时间最近排序")){
+                    if (s.equals("按下单时间最近排序")) {
                         sort = "order";
-                    }else if (s.equals("按注册时间最近排序")){
+                    } else if (s.equals("按注册时间最近排序")) {
                         sort = "register";
-                    }else if (s.equals("按GMV最大排序")){
+                    } else if (s.equals("按GMV最大排序")) {
                         sort = "gmv";
-                    }else if (s.equals("按首字母排序")){
+                    } else if (s.equals("按首字母排序")) {
                         sort = "letter";
                     }
                     tv_search.setText(arrayMap.get(sort));
@@ -183,8 +184,14 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
     @Subscribe
     public void eventCode(LocationBean locationBean) {
         if (!locationBean.getTag().contains("LOCATION") || PublicCache.flag != hashCode()) return;
+        this.locationBean = locationBean;
+        pull(1);
+    }
 
+    private void pull(int pageNo) {
         Map<String, Object> map = new HashMap<>();
+        map.put("pn", pageNo);
+        map.put("ps", pageSum);
         map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
         map.put("latitude", locationBean.getLatitude());
         map.put("longitude", locationBean.getLongitude());
@@ -206,8 +213,6 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
                 break;
         }
         mPresenter.listData(map);
-
-
     }
 
     @Override
@@ -230,7 +235,7 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
 
-        if(!ListUtils.isEmpty(data)) {
+        if (!ListUtils.isEmpty(data)) {
             data.clear();
             clientListAdapter.notifyDataSetChanged();
         }
@@ -238,8 +243,13 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
         PublicCache.flag = hashCode();
     }
 
+    public void onLoadmore(RefreshLayout refreshlayout) {
+        System.out.println("~~ClientListFragment.onLoadmore~~");
+        pull(++pageNo);
+    }
+
     protected void getData() {
-        rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION)
+        rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
                 .subscribe(new Consumer<Boolean>() {
                     @Override
                     public void accept(Boolean b) throws Exception {
@@ -250,10 +260,8 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
                             GeneralUtils.isNullOrZeroLenght("请开启位置信息");
                         }
                         hotelMap_failed();
-
                     }
                 });
-
     }
 
 
@@ -274,15 +282,19 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
                 clientListAdapter.notifyDataSetChanged();
             }
         }
+
+        if (refreshLayout.isEnableLoadmore()) {
+            refreshLayout.finishLoadmore();
+        }
     }
 
 
     @Override
     public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
 //        if (index == 0 || index == 1 ) {
-            Intent intent = new Intent(getContext(), ClientDetailsActivity.class);
-            intent.putExtra("customerId", data.get(i).getCustomerId() + "");
-            startActivity(intent);
+        Intent intent = new Intent(getContext(), ClientDetailsActivity.class);
+        intent.putExtra("customerId", data.get(i).getCustomerId() + "");
+        startActivity(intent);
 //        }
 
     }
@@ -318,7 +330,7 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
         stop();
 
         if (ListUtils.isEmpty(data)) {
-            if (ListUtils.isEmpty(customerInfo.partnerCustomerList)) {
+            if (ListUtils.isEmpty(customerInfo.obj.partnerCustomerList)) {
                 //获取不到数据,显示空布局
                 mStateView.showEmpty();
                 tv_count.setText("满足该条件的有0家");
@@ -326,11 +338,11 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
             }
             mStateView.showContent();//显示内容
         }
-        data.addAll(customerInfo.partnerCustomerList);
+        data.addAll(customerInfo.obj.partnerCustomerList);
         clientListAdapter.setIndex(index);
         clientListAdapter.setNewData(data);
         clientListAdapter.notifyDataSetChanged();
-        tv_count.setText(index == 0? "满足该条件的有" + customerInfo.count + "家" : "共计有" + customerInfo.count + "家");
+        tv_count.setText(index == 0 ? "满足该条件的有" + customerInfo.total + "家" : "共计有" + customerInfo.total + "家");
     }
 
     @Override
@@ -345,7 +357,6 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
             followUpPopuWindow.setPopupWindowFullScreen(true);//铺满
             followUpPopuWindow.showPopupWindow();
             followUpPopuWindow.setFollowUpListener(this);
-
         }
     }
 
@@ -394,7 +405,7 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
         clientListAdapter.remove(getPos());
         clientListAdapter.notifyDataSetChanged();
         followUpPopuWindow.dismiss();
-        tv_count.setText(index == 0? "满足该条件的有" + clientListAdapter.getData().size() + "家" : "共计有" + clientListAdapter.getData().size() + "家");
+        tv_count.setText(index == 0 ? "满足该条件的有" + clientListAdapter.getData().size() + "家" : "共计有" + clientListAdapter.getData().size() + "家");
     }
 
     public void punchDistance_failed() {
@@ -422,6 +433,6 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
 
     public void internationalWaterFailed() {
         hotelMap_failed();
-        Toast.makeText(mActivity,"跟进失败",Toast.LENGTH_SHORT).show();
+        Toast.makeText(mActivity, "跟进失败", Toast.LENGTH_SHORT).show();
     }
 }

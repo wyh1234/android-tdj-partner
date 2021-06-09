@@ -7,9 +7,11 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.tdjpartner.R;
 import com.tdjpartner.base.NetworkActivity;
+import com.tdjpartner.model.AfterSaleInfoData;
 import com.tdjpartner.model.SeachTag;
 import com.tdjpartner.ui.fragment.NetSupportFragment;
 import com.tdjpartner.utils.cache.UserUtils;

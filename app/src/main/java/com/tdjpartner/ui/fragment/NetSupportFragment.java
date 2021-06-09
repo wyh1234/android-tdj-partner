@@ -159,7 +159,7 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
         title = (int) getArgs().remove("title");
         System.out.println("title = " + title);
         showLoading();
-        getVMWithFragment().loadingWithNewLiveData(AfterSaleInfoData.class, getArgs())
+        getVMWithActivity().loading(AfterSaleInfoData.class, getArgs())
                 .observe(this, afterSaleInfoData -> {
                     dismissLoading();
                     stop();
@@ -211,7 +211,7 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
 
         System.out.println("getArgs() = " + getArgs());
         showLoading();
-        getVMWithFragment().loading(AfterSaleInfoData.class, getArgs());
+        getVMWithActivity().loading(AfterSaleInfoData.class, getArgs());
     }
 
     @OnClick({R.id.ll_refund, R.id.ll_replace, R.id.ll_replenish})
@@ -294,7 +294,7 @@ public class NetSupportFragment extends NetworkFragment implements AdapterView.O
     }
 
     public void onRefresh() {
-        getVMWithFragment().loading(AfterSaleInfoData.class, getArgs());
+        getVMWithActivity().loading(AfterSaleInfoData.class, getArgs());
     }
 
     public void stop() {

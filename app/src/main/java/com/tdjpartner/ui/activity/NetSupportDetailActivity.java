@@ -659,13 +659,14 @@ public class NetSupportDetailActivity extends NetworkActivity {
                 break;
 
             case R.id.et_money:
-//                if (TextUtils.isEmpty(et_money.getText())) return;
-//                float price = Float.parseFloat(et_money.getText().toString());
-//                System.out.println("price = " + price);
+                if (TextUtils.isEmpty(et_money.getText())) return;
+                float price = Float.parseFloat(et_money.getText().toString());
+                System.out.println("price = " + price);
+                if (!TextUtils.isEmpty(et_num.getText().toString()) && price > afterDetailData.order.price * 3) {
 //                if (!TextUtils.isEmpty(et_num.getText().toString()) && price > originalAmountFloatExtra * Float.parseFloat(et_num.getText().toString()) * 3) {
-//                    et_money.setText("");
-//                    GeneralUtils.showToastshort("实际金额不能超过3倍，请重新输入！");
-//                }
+                    et_money.setText("");
+                    GeneralUtils.showToastshort("实际金额不能超过3倍，请重新输入！");
+                }
                 break;
         }
 

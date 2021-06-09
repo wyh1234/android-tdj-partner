@@ -3,10 +3,15 @@ package com.tdjpartner.model;
 import java.util.List;
 
 public class CustomerInfo {
-    public int count;
-    public List<ClientInfo> partnerCustomerList;
-//    public List<Customer> partnerCustomerList;
 
+    public int total;
+    public Data obj;
+
+    //    public List<Customer> partnerCustomerList;
+    static public class Data {
+        public List<ClientInfo> partnerCustomerList;
+        public int count;
+    }
 
 
     /**
