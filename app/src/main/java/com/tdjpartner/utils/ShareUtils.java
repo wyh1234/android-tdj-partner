@@ -1,10 +1,8 @@
 package com.tdjpartner.utils;
 
 import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
 
-import com.tdjpartner.R;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -47,7 +45,7 @@ public class ShareUtils {
         web.setDescription(description);
         web.setTitle(title);
 
-        new ShareAction(mContext).withMedia(web).setDisplayList(/*SHARE_MEDIA.SINA, *//*SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE,*/ SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE).setCallback(umShareListener).open();
+        new ShareAction(mContext).withMedia(web).setDisplayList(/*SHARE_MEDIA.SINA, */SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE,SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE).setCallback(umShareListener).open();
     }
 
     public ShareUtils setUmShareListener(UMShareListener umShareListener) {
