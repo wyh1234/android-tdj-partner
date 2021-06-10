@@ -118,6 +118,7 @@ android:background="@drawable/client_item_sahp"
                 android:layout_marginTop="4dp"
                 android:textColor="@color/gray_69"
                 android:textSize="12sp"
+                android:gravity="center"
                 android:text="0" />
 
             <TextView
@@ -179,6 +180,7 @@ android:background="@drawable/client_item_sahp"
                 android:layout_marginTop="4dp"
                 android:textColor="@color/gray_69"
                 android:textSize="12sp"
+                android:gravity="center"
                 android:text="0" />
 
             <TextView
@@ -213,6 +215,7 @@ android:background="@drawable/client_item_sahp"
                 android:layout_marginTop="4dp"
                 android:textColor="@color/gray_69"
                 android:textSize="12sp"
+                android:gravity="center"
                 android:text="0" />
 
             <TextView
@@ -246,6 +249,7 @@ android:background="@drawable/client_item_sahp"
                 android:layout_marginTop="4dp"
                 android:textColor="@color/gray_69"
                 android:textSize="12sp"
+                android:gravity="center"
                 android:text="0" />
 
             <TextView

@@ -43,6 +43,7 @@ import com.tdjpartner.utils.glide.ImageLoad;
 import com.tdjpartner.widget.tablayout.WTabLayout;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -213,9 +214,9 @@ public class NetIndexFragment extends NetworkFragment
                     ((TextView) convertView.findViewById(R.id.firstOrderNum)).setText("" + data.getTodayData().firstOrderNum);
                     ((TextView) convertView.findViewById(R.id.activeNum)).setText("" + data.getTodayData().activeNum);
                     ((TextView) convertView.findViewById(R.id.callNum)).setText("" + data.getTodayData().callNum);
-                    ((TextView) convertView.findViewById(R.id.todayAmount)).setText("" + data.getTodayData().todayAmount);
-                    ((TextView) convertView.findViewById(R.id.averageAmount)).setText("" + data.getTodayData().averageAmount);
-                    ((TextView) convertView.findViewById(R.id.afterSaleAmount)).setText("" + data.getTodayData().afterSaleAmount);
+                    ((TextView) convertView.findViewById(R.id.todayAmount)).setText("" + GeneralUtils.round2(data.getTodayData().todayAmount));
+                    ((TextView) convertView.findViewById(R.id.averageAmount)).setText("" + GeneralUtils.round2(data.getTodayData().averageAmount));
+                    ((TextView) convertView.findViewById(R.id.afterSaleAmount)).setText("" + GeneralUtils.round2(data.getTodayData().afterSaleAmount));
 
                     int n = data.getTodayData().yesterdayActiveNum;
                     TextView textView;
@@ -254,10 +255,10 @@ public class NetIndexFragment extends NetworkFragment
                     ((TextView) convertView.findViewById(R.id.monthActiveNum)).setText("" + data.getMonthData().monthActiveNum);
                     ((TextView) convertView.findViewById(R.id.monthAvgActiveNum)).setText("" + data.getMonthData().monthAvgActiveNum);
                     ((TextView) convertView.findViewById(R.id.monthCallNum)).setText("" + data.getMonthData().monthCallNum);
-                    ((TextView) convertView.findViewById(R.id.monthAmount)).setText("" + data.getMonthData().monthAmount);
-                    ((TextView) convertView.findViewById(R.id.monthAverageAmount)).setText("" + data.getMonthData().monthAverageAmount);
-                    ((TextView) convertView.findViewById(R.id.monthAfterSaleAmount)).setText("" + data.getMonthData().monthAfterSaleAmount);
-                    float n = data.getMonthData().addMonthAmount;
+                    ((TextView) convertView.findViewById(R.id.monthAmount)).setText("" + GeneralUtils.round2(data.getMonthData().monthAmount));
+                    ((TextView) convertView.findViewById(R.id.monthAverageAmount)).setText("" + GeneralUtils.round2(data.getMonthData().monthAverageAmount));
+                    ((TextView) convertView.findViewById(R.id.monthAfterSaleAmount)).setText("" + GeneralUtils.round2(data.getMonthData().monthAfterSaleAmount));
+                    String  n = GeneralUtils.round2(data.getMonthData().addMonthAmount);
                     ((TextView) convertView.findViewById(R.id.addMonthAmount)).setText(Html.fromHtml("<font color='red'>" + n + "</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
 
                     if (grade == 3) {

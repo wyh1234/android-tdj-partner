@@ -38,6 +38,8 @@ import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -522,6 +524,14 @@ public class GeneralUtils {
         } else {
             GeneralUtils.showToastshort(error);
         }
+    }
+
+    public static String round2(BigDecimal bigDecimal) {
+        String n = bigDecimal.setScale(2, RoundingMode.HALF_UP).toString();
+        if(n.charAt(n.length()-1) == '0')n = n.substring(0, n.length()-1);
+        if(n.charAt(n.length()-1) == '0')n = n.substring(0, n.length()-2);
+        System.out.println("n = " + n);
+        return n;
     }
 
     public static String trimZero(float v) {

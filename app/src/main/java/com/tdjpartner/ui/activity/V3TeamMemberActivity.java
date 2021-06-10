@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Network;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -59,9 +60,8 @@ public class V3TeamMemberActivity extends NetworkActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_back:
-                if (searchNum-- > 0) {
-                    getSupportFragmentManager().popBackStack();
-                    if (searchNum == 0) tv_title.setText("我的团队");
+                if (searchNum > 0) {
+                    back();
                 } else {
                     finish();
                 }
@@ -122,7 +122,21 @@ public class V3TeamMemberActivity extends NetworkActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        //TODO bug
-//        if(--searchNum == 0) tv_title.setText("我的团队");
+        if (searchNum-- > 0) {
+            if (searchNum == 0) tv_title.setText("我的团队");
+        }else {
+            finish();
+        }
+    }
+
+    private void back() {
+        while (searchNum > 0) {
+            getSupportFragmentManager().popBackStack();
+            searchNum--;
+        }
+        if (searchNum == 0) tv_title.setText("我的团队");
+//        getSupportFragmentManager().popBackStack("SEARCH0", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//        searchNum = 0;
+//        getSupportFragmentManager().popBackStack();
     }
 }

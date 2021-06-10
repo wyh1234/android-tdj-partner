@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.ShareAcAdapter;
 import com.tdjpartner.base.BaseActivity;
@@ -24,6 +25,7 @@ import com.tdjpartner.common.PublicCache;
 import com.tdjpartner.model.AppVersion;
 import com.tdjpartner.model.IntegralItem;
 import com.tdjpartner.mvp.presenter.InvitationPresenter;
+import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ShareUtils;
 import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.glide.ImageLoad;
@@ -34,6 +36,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
 
 
 public class InvitationActivityNew extends BaseActivity<InvitationPresenter>  {
@@ -54,20 +57,35 @@ public class InvitationActivityNew extends BaseActivity<InvitationPresenter>  {
     TextView tv_right;
     private String shareURL;
     private ShareAcAdapter mAdapter;
+    RxPermissions rxPermissions;
 
     @OnClick({R.id.ok,R.id.btn_back,R.id.tv_right})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.ok:
-                if(Build.VERSION.SDK_INT>=23){
-                    String[] mPermissionList =new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE};
-                    ActivityCompat.requestPermissions(this,mPermissionList,110);
-                }
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this,"请允许淘创客读取存储卡",Toast.LENGTH_SHORT).show();
-                    //申请权限
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 110);
-                } else shareWeb();
+                if(rxPermissions == null) rxPermissions = new RxPermissions(this);
+                rxPermissions.request(Manifest.permission.CAMERA)
+                        .subscribe(new Consumer<Boolean>() {
+                            @Override
+                            public void accept(Boolean b) throws Exception {
+                                if (b) {
+                                    shareWeb();
+                                } else {
+                                    GeneralUtils.showToastshort("请允许淘创客读取存储卡！");
+                                }
+
+                            }
+                        });
+
+//                if(Build.VERSION.SDK_INT>=23){
+//                    String[] mPermissionList =new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE};
+//                    ActivityCompat.requestPermissions(this,mPermissionList,110);
+//                }
+//                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//                    Toast.makeText(this,"请允许淘创客读取存储卡",Toast.LENGTH_SHORT).show();
+//                    //申请权限
+//                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 110);
+//                } else shareWeb();
                 break;
             case R.id.tv_share_reward_record:
                 Intent intent1 = new Intent(this, WebViewActivity.class);

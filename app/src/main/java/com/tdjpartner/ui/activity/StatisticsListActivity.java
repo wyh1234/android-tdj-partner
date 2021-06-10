@@ -34,7 +34,7 @@ public class StatisticsListActivity extends NetworkActivity {
         fragment.setArguments(bundle);
 
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.fl, fragment, "one")
+                .add(R.id.fl, fragment)
                 .commit();
     }
 

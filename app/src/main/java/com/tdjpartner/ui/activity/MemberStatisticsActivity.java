@@ -19,6 +19,7 @@ import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
 import com.tdjpartner.utils.cache.UserUtils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -190,7 +191,7 @@ public class MemberStatisticsActivity extends NetworkActivity {
                     ((TextView) convertView.findViewById(R.id.monthAmount)).setText("" + data.getMonthData().monthAmount);
                     ((TextView) convertView.findViewById(R.id.monthAverageAmount)).setText("" + data.getMonthData().monthAverageAmount);
                     ((TextView) convertView.findViewById(R.id.monthAfterSaleAmount)).setText("" + data.getMonthData().monthAfterSaleAmount);
-                    float n = data.getMonthData().addMonthAmount;
+                    BigDecimal n = data.getMonthData().addMonthAmount;
                     ((TextView) convertView.findViewById(R.id.addMonthAmount)).setText(Html.fromHtml("<font color='red'>" + n + "</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
 
                     if (grade == 3) {

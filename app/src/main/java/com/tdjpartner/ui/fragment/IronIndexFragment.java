@@ -273,8 +273,8 @@ public class IronIndexFragment extends NetworkFragment
                     ((TextView) convertView.findViewById(R.id.registerNum)).setText(data.getTodayData().dayRegisterTimes + "");
                     ((TextView) convertView.findViewById(R.id.openNum)).setText(data.getTodayData().firstOrderNum + "");
                     ((TextView) convertView.findViewById(R.id.vegetablesNum)).setText(data.getTodayData().categoryNum + "");
-                    ((TextView) convertView.findViewById(R.id.gmvNum)).setText(data.getTodayData().todayAmount + "");
-                    ((TextView) convertView.findViewById(R.id.priceNum)).setText(data.getTodayData().averageAmount + "" + "");
+                    ((TextView) convertView.findViewById(R.id.gmvNum)).setText(GeneralUtils.round2(data.getTodayData().todayAmount));
+                    ((TextView) convertView.findViewById(R.id.priceNum)).setText(GeneralUtils.round2(data.getTodayData().averageAmount));
 
                     if (grade == 3) {
                         TextView textView;
@@ -298,7 +298,7 @@ public class IronIndexFragment extends NetworkFragment
                     ((TextView) convertView.findViewById(R.id.registerNum)).setText(data.getMonthData().monthRegisterNum + "");
                     ((TextView) convertView.findViewById(R.id.openNum)).setText(data.getMonthData().monthFirstOrderNum + "");
                     ((TextView) convertView.findViewById(R.id.vegetablesNum)).setText(data.getMonthData().categoryNum + "");
-                    ((TextView) convertView.findViewById(R.id.gmvNum)).setText(data.getMonthData().monthAmount + "");
+                    ((TextView) convertView.findViewById(R.id.gmvNum)).setText(GeneralUtils.round2(data.getMonthData().monthAmount));
 
 
                     if (grade == 3) {

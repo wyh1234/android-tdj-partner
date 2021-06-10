@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.tdjpartner.ui.activity.LoginActivity;
 import com.tdjpartner.ui.activity.V3LoginActivity;
 import com.tdjpartner.utils.cache.DataUtils;
 import com.tdjpartner.utils.cache.UserUtils;

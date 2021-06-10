@@ -1,5 +1,6 @@
 package com.tdjpartner.model;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class V3HomeData {
@@ -179,14 +180,14 @@ public class V3HomeData {
         public String driverName; //null,
         public String driverTel; //null
 
-        public float todayAmount; //null,
-        public float averageAmount; //null,
-        public float monthAmount; //111095.02,
-        public float monthAverageAmount; //3471.72,
-        public float addMonthAmount; //0.00,
-        public float monthAfterSaleAmount; //11.000000,
-        public float afterSaleAmount; //null,
-        public float categoryAmount; //null,
+        public BigDecimal todayAmount; //null,
+        public BigDecimal averageAmount; //null,
+        public BigDecimal monthAmount; //111095.02,
+        public BigDecimal monthAverageAmount; //3471.72,
+        public BigDecimal addMonthAmount; //0.00,
+        public BigDecimal monthAfterSaleAmount; //11.000000,
+        public BigDecimal afterSaleAmount; //null,
+        public BigDecimal categoryAmount; //null,
 
         @Override
         public String toString() {
@@ -395,15 +396,15 @@ public class V3HomeData {
         public int monthAfterSaleTimes; //20,
         public int userType; //null,
 
-        public float monthAvgActiveNum; //0.0,
-        public float todayAmount; //null,
-        public float averageAmount; //null,
-        public float monthAmount; //111095.02,
-        public float monthAverageAmount; //3471.72,
-        public float addMonthAmount; //0.00,
-        public float monthAfterSaleAmount; //11.000000,
-        public float afterSaleAmount; //null,
-        public float categoryAmount; //null,
+        public BigDecimal monthAvgActiveNum; //0.0,
+        public BigDecimal todayAmount; //null,
+        public BigDecimal averageAmount; //null,
+        public BigDecimal monthAmount; //111095.02,
+        public BigDecimal monthAverageAmount; //3471.72,
+        public BigDecimal addMonthAmount; //0.00,
+        public BigDecimal monthAfterSaleAmount; //11.000000,
+        public BigDecimal afterSaleAmount; //null,
+        public BigDecimal categoryAmount; //null,
 
         public String auth; //null,
         public String name; //null,

@@ -25,6 +25,7 @@ import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -133,7 +134,7 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
                         ((TextView) getView().findViewById(R.id.monthAverageAmount)).setText("" + dayAndMonthData.teamView.averageAmount);
                         ((TextView) getView().findViewById(R.id.monthAfterSaleTimes)).setText("" + dayAndMonthData.teamView.afterSaleTimes);
                         ((TextView) getView().findViewById(R.id.monthAfterSaleAmount)).setText("" + dayAndMonthData.teamView.afterSaleAmount);
-                        float n = dayAndMonthData.teamView.addMonthAmount;
+                        BigDecimal n = dayAndMonthData.teamView.addMonthAmount;
                         ((TextView) getView().findViewById(R.id.addMonthAmount)).setText(Html.fromHtml("<font color='red'>" + n + "</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
 
                     }
@@ -229,7 +230,7 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
                             .setText(R.id.tv_name, TextUtils.isEmpty(teamView.gradeChineseName) ? "其他" : ("" + teamView.gradeChineseName + "：" + teamView.nickName))
                             .setText(R.id.tv_month_sink, TextUtils.isEmpty(teamView.gradeName) ? "" : teamView.gradeName + (teamView.gradeName.equals("BD") ? "" : " >"));
 
-                    float n = teamView.addMonthAmount;
+                    BigDecimal n = teamView.addMonthAmount;
                     ((TextView) baseViewHolder.getView(R.id.addMonthAmount)).setText(Html.fromHtml("<font color='red'>" + n + "</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
 
                 }

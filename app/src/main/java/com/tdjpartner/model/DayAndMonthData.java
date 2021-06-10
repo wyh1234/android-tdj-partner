@@ -1,5 +1,6 @@
 package com.tdjpartner.model;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class DayAndMonthData {
@@ -102,13 +103,13 @@ public class DayAndMonthData {
         public int parentId; //null,
         public int times; //0,
         public float monthAvgActiveNum; //0.0,
-        public float averageAmount; //0.00,
-        public float amount; //0.000000,
-        public float afterSaleAmount; //0.000000,
-        public float addAmount; //0,
         public float afterSaleTimes; //0,
+        public BigDecimal averageAmount; //0.00,
+        public BigDecimal amount; //0.000000,
+        public BigDecimal afterSaleAmount; //0.000000,
+        public BigDecimal addAmount; //0,
+        public BigDecimal addMonthAmount; //0,
         public float amountCommission; //0,
-        public float addMonthAmount; //0,
         public String nickName; //null,
         public String gradeName; //null,
         public String gradeChineseName; //null,
