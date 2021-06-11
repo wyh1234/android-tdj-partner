@@ -25,6 +25,7 @@ import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -122,8 +123,18 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
                         ((TextView) getView().findViewById(R.id.priceNum)).setText("" + dayAndMonthData.teamView.averageAmount);
 
                     List<DayAndMonthData.TeamView> list = new ArrayList<>();
-                    if (dayAndMonthData.teamViewList != null) list.addAll(dayAndMonthData.teamViewList);
-                    if (dayAndMonthData.othersTeamView != null) list.add(dayAndMonthData.othersTeamView);
+                    if (dayAndMonthData.teamViewList != null) {
+                        for (DayAndMonthData.TeamView teamView : dayAndMonthData.teamViewList) {
+                            if (teamView.amount.equals(BigDecimal.ZERO) && TextUtils.isEmpty(teamView.gradeChineseName))
+                                continue;
+                            list.add(teamView);
+                        }
+                    }
+                    if (dayAndMonthData.othersTeamView != null) {
+                        DayAndMonthData.TeamView teamView = dayAndMonthData.othersTeamView;
+                        if (!teamView.amount.equals(BigDecimal.ZERO))
+                            list.add(dayAndMonthData.othersTeamView);
+                    }
                     adapter.setNewData(list);
                     dismissLoading();
                 });
@@ -137,7 +148,8 @@ public class IronListFragment extends NetworkFragment implements View.OnClickLis
         viewStub.setLayoutResource(isDay ? R.layout.iron_day_preview_item : R.layout.iron_month_preview_item);
         viewStub.inflate();
 
-        tv_time.setText(isDay ? GeneralUtils.getTimes(new Date()) : GeneralUtils.getTime(new Date()));
+        date = GeneralUtils.praseDay(isDay, getArgs().get("startTime").toString());
+        tv_time.setText(isDay ? GeneralUtils.getTimes(date) : GeneralUtils.getTime(date));
 
         selectedDate = Calendar.getInstance();
         startDate = Calendar.getInstance();

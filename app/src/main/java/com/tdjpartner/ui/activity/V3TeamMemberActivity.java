@@ -135,8 +135,5 @@ public class V3TeamMemberActivity extends NetworkActivity {
             searchNum--;
         }
         if (searchNum == 0) tv_title.setText("我的团队");
-//        getSupportFragmentManager().popBackStack("SEARCH0", FragmentManager.POP_BACK_STACK_INCLUSIVE);
-//        searchNum = 0;
-//        getSupportFragmentManager().popBackStack();
     }
 }

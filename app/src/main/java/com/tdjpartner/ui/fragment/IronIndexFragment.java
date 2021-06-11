@@ -108,6 +108,10 @@ public class IronIndexFragment extends NetworkFragment
 
     @OnClick({R.id.tv_city, R.id.tv_team, R.id.tv_day, R.id.tv_month, R.id.tv_sink, R.id.tv_month_sink})
     public void onClick(View view) {
+        if (swipeRefreshLayout.isRefreshing()) {
+            GeneralUtils.showToastshort("请稍等，正在查询...");
+            return;
+        }
         switch (view.getId()) {
             case R.id.tv_team:
                 Intent intent = new Intent(getContext(), V3TeamMemberActivity.class);
@@ -430,7 +434,7 @@ public class IronIndexFragment extends NetworkFragment
     @Override
     public void onResume() {
         super.onResume();
-        onRefresh();
+//        onRefresh();
     }
 
     @Override

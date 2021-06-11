@@ -74,7 +74,7 @@ public class ClientListSeachActivity extends BaseActivity {
         if (UserUtils.getInstance().getLoginBean().getType() == 1) titles.add("他人客户");
         adatper = new ClientListSeachFragmentAdapter(getSupportFragmentManager(), titles);
         viewPager.setAdapter(adatper);
-//        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(3);
         //将TabLayout和ViewPager关联起来。
         wtab.setupWithViewPager(viewPager);
     }

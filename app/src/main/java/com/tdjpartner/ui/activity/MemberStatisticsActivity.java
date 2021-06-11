@@ -150,9 +150,9 @@ public class MemberStatisticsActivity extends NetworkActivity {
                     ((TextView) convertView.findViewById(R.id.firstOrderNum)).setText("" + data.getTodayData().firstOrderNum);
                     ((TextView) convertView.findViewById(R.id.activeNum)).setText("" + data.getTodayData().activeNum);
                     ((TextView) convertView.findViewById(R.id.callNum)).setText("" + data.getTodayData().callNum);
-                    ((TextView) convertView.findViewById(R.id.todayAmount)).setText("" + data.getTodayData().todayAmount);
-                    ((TextView) convertView.findViewById(R.id.averageAmount)).setText("" + data.getTodayData().averageAmount);
-                    ((TextView) convertView.findViewById(R.id.afterSaleAmount)).setText("" + data.getTodayData().afterSaleAmount);
+                    ((TextView) convertView.findViewById(R.id.todayAmount)).setText("" + GeneralUtils.round2(data.getTodayData().todayAmount));
+                    ((TextView) convertView.findViewById(R.id.averageAmount)).setText("" + GeneralUtils.round2(data.getTodayData().averageAmount));
+                    ((TextView) convertView.findViewById(R.id.afterSaleAmount)).setText("" + GeneralUtils.round2(data.getTodayData().afterSaleAmount));
 
                     int n = data.getTodayData().yesterdayActiveNum;
                     TextView textView;
@@ -188,9 +188,9 @@ public class MemberStatisticsActivity extends NetworkActivity {
                     ((TextView) convertView.findViewById(R.id.monthActiveNum)).setText("" + data.getMonthData().monthActiveNum);
                     ((TextView) convertView.findViewById(R.id.monthAvgActiveNum)).setText("" + data.getMonthData().monthAvgActiveNum);
                     ((TextView) convertView.findViewById(R.id.monthCallNum)).setText("" + data.getMonthData().monthCallNum);
-                    ((TextView) convertView.findViewById(R.id.monthAmount)).setText("" + data.getMonthData().monthAmount);
-                    ((TextView) convertView.findViewById(R.id.monthAverageAmount)).setText("" + data.getMonthData().monthAverageAmount);
-                    ((TextView) convertView.findViewById(R.id.monthAfterSaleAmount)).setText("" + data.getMonthData().monthAfterSaleAmount);
+                    ((TextView) convertView.findViewById(R.id.monthAmount)).setText(GeneralUtils.round2(data.getMonthData().monthAmount));
+                    ((TextView) convertView.findViewById(R.id.monthAverageAmount)).setText(GeneralUtils.round2(data.getMonthData().monthAverageAmount));
+                    ((TextView) convertView.findViewById(R.id.monthAfterSaleAmount)).setText(GeneralUtils.round2(data.getMonthData().monthAfterSaleAmount));
                     BigDecimal n = data.getMonthData().addMonthAmount;
                     ((TextView) convertView.findViewById(R.id.addMonthAmount)).setText(Html.fromHtml("<font color='red'>" + n + "</font>", FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
 
@@ -223,8 +223,8 @@ public class MemberStatisticsActivity extends NetworkActivity {
                     ((TextView) convertView.findViewById(R.id.registerNum)).setText(data.getTodayData().dayRegisterTimes + "");
                     ((TextView) convertView.findViewById(R.id.openNum)).setText(data.getTodayData().firstOrderNum + "");
                     ((TextView) convertView.findViewById(R.id.vegetablesNum)).setText(data.getTodayData().categoryNum + "");
-                    ((TextView) convertView.findViewById(R.id.gmvNum)).setText(data.getTodayData().todayAmount + "");
-                    ((TextView) convertView.findViewById(R.id.priceNum)).setText(data.getTodayData().averageAmount + "" + "");
+                    ((TextView) convertView.findViewById(R.id.gmvNum)).setText(GeneralUtils.round2(data.getTodayData().todayAmount));
+                    ((TextView) convertView.findViewById(R.id.priceNum)).setText(GeneralUtils.round2(data.getTodayData().averageAmount));
 
                     if (grade == 3) {
                         TextView textView;
@@ -247,7 +247,7 @@ public class MemberStatisticsActivity extends NetworkActivity {
                     ((TextView) convertView.findViewById(R.id.registerNum)).setText(data.getMonthData().monthRegisterNum + "");
                     ((TextView) convertView.findViewById(R.id.openNum)).setText(data.getMonthData().monthFirstOrderNum + "");
                     ((TextView) convertView.findViewById(R.id.vegetablesNum)).setText(data.getMonthData().categoryNum + "");
-                    ((TextView) convertView.findViewById(R.id.gmvNum)).setText(data.getMonthData().monthAmount + "");
+                    ((TextView) convertView.findViewById(R.id.gmvNum)).setText(GeneralUtils.round2(data.getMonthData().monthAmount));
 
 
                     if (grade == 3) {

@@ -157,8 +157,8 @@ public class InvitationActivityNew extends BaseActivity<InvitationPresenter>  {
 
 
     public void version_check_success(AppVersion appVersion) {
-        shareURL=appVersion.getQrcodeImage();
-
+//        shareURL=appVersion.getQrcodeImage();
+        shareURL = "https://m.51taodj.com/tdjh5/new/newRegister/newRegisterPage?flag=business&verifyCode=" + UserUtils.getInstance().getLoginBean().getVerifyCode();
     }
     private void shareWeb() {
         new ShareUtils(this).shareWeb(shareURL, "淘大集-专业酒店食材供应链平台", "淘大集食材覆盖：新鲜蔬菜、禽肉蛋类、米面粮油、调料、水果等。食材相对市场价低20%~50%，更省钱省心省力。专业配送和服务团队。");

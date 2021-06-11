@@ -139,9 +139,19 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
 
                     }
                     List<DayAndMonthData.TeamView> list = new ArrayList<>();
-                    if (dayAndMonthData.teamViewList != null) list.addAll(dayAndMonthData.teamViewList);
-                    if (dayAndMonthData.othersTeamView != null)
-                        list.add(dayAndMonthData.othersTeamView);
+
+                    if (dayAndMonthData.teamViewList != null) {
+                        for (DayAndMonthData.TeamView teamView : dayAndMonthData.teamViewList) {
+                            if (teamView.amount.equals(BigDecimal.ZERO) && TextUtils.isEmpty(teamView.gradeChineseName))
+                                continue;
+                            list.add(teamView);
+                        }
+                    }
+                    if (dayAndMonthData.othersTeamView != null) {
+                        DayAndMonthData.TeamView teamView = dayAndMonthData.othersTeamView;
+                        if (!teamView.amount.equals(BigDecimal.ZERO))
+                            list.add(dayAndMonthData.othersTeamView);
+                    }
                     adapter.setNewData(list);
                     dismissLoading();
                 });
@@ -155,7 +165,8 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
         viewStub.setLayoutResource(isDay ? grade == 3 ? R.layout.net_day_preview_db_item : R.layout.net_day_preview_item : grade == 3 ? R.layout.net_month_preview_db_item : R.layout.net_month_preview_item);
         viewStub.inflate();
 
-        tv_time.setText(isDay ? GeneralUtils.getTimes(new Date()) : GeneralUtils.getTime(new Date()));
+        date = GeneralUtils.praseDay(isDay, getArgs().get("startTime").toString());
+        tv_time.setText(isDay ? GeneralUtils.getTimes(date) : GeneralUtils.getTime(date));
 
         selectedDate = Calendar.getInstance();
         startDate = Calendar.getInstance();
@@ -278,7 +289,7 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
 
     private void leak(int userId, int grade, boolean isNext) {
         Bundle bundle = new Bundle();
-        Map<String, Object> map = makeArges(userId, grade, new Date(), isDay, isNext);
+        Map<String, Object> map = makeArges(userId, grade, date, isDay, isNext);
         bundle.putSerializable("args", (Serializable) map);
         bundle.putBoolean("isDay", isDay);
         NetListFragment fragment = new NetListFragment();

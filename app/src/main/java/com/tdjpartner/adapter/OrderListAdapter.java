@@ -21,7 +21,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderList.ItemsBean, Base
 
     @Override
     protected void convert(BaseViewHolder baseViewHolder, OrderList.ItemsBean orderList) {
-        baseViewHolder.setText(R.id.iv_store_name,orderList.getLastName());
+        baseViewHolder.setText(R.id.iv_store_name,orderList.getLastName().length() >9 ? orderList.getLastName().substring(0, 9) + "..." : orderList.getLastName());
         baseViewHolder.setText(R.id.tv_time,"下单时间："+orderList.getCreateTime());
         baseViewHolder.setText(R.id.tv_count_image,orderList.getItemCount()+"");
         baseViewHolder.setText(R.id.cart_price_sum,"总计："+orderList.getActualTotalCost()+"元");

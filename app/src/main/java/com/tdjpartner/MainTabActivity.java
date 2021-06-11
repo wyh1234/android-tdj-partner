@@ -113,13 +113,13 @@ public class MainTabActivity extends BaseActivity<MainTabPresenter> implements O
                 Log.i("MainActivity", "position: " + currentPosition);
                 if (currentPosition == 0) {
                     Fragment fragment = mainTabAdapter.getItem(currentPosition);
-                    if (UserUtils.getInstance().getLoginBean().getType() == 1) {
-                        if (fragment instanceof NetIndexFragment)
-                            ((NetIndexFragment) fragment).onRefresh();
-                    } else {
-                        if (fragment instanceof IronIndexFragment)
-                            ((IronIndexFragment) fragment).onRefresh();
-                    }
+//                    if (UserUtils.getInstance().getLoginBean().getType() == 1) {
+//                        if (fragment instanceof NetIndexFragment)
+//                            ((NetIndexFragment) fragment).onRefresh();
+//                    } else {
+//                        if (fragment instanceof IronIndexFragment)
+//                            ((IronIndexFragment) fragment).onRefresh();
+//                    }
                 }
                 setStatusBarColor(currentPosition);
             }

@@ -100,6 +100,10 @@ public class NetIndexFragment extends NetworkFragment
 
     @OnClick({R.id.tv_day, R.id.tv_month, R.id.tv_sink, R.id.tv_month_sink, R.id.tv_team})
     public void onClick(View view) {
+        if (swipeRefreshLayout.isRefreshing()) {
+            GeneralUtils.showToastshort("请稍等，正在查询...");
+            return;
+        }
         switch (view.getId()) {
             case R.id.tv_team:
                 Intent intent = new Intent(getContext(), V3TeamMemberActivity.class);
@@ -155,16 +159,16 @@ public class NetIndexFragment extends NetworkFragment
 
         switch (view.getId()) {
             case R.id.ll_month_register:
-                startStatisticsActivity(false, 0);
+                if(!swipeRefreshLayout.isRefreshing())startStatisticsActivity(false, 0);
                 break;
             case R.id.ll_month_open:
-                startStatisticsActivity(false, 1);
+                if(!swipeRefreshLayout.isRefreshing())startStatisticsActivity(false, 1);
                 break;
             case R.id.ll_month_active:
-                startStatisticsActivity(false, 2);
+                if(!swipeRefreshLayout.isRefreshing())startStatisticsActivity(false, 2);
                 break;
             case R.id.ll_month_call:
-                startStatisticsActivity(false, 3);
+                if(!swipeRefreshLayout.isRefreshing())startStatisticsActivity(false, 3);
                 break;
         }
     }
@@ -393,7 +397,7 @@ public class NetIndexFragment extends NetworkFragment
     public void onResume() {
         super.onResume();
         System.out.println("NetIndexFragment.onResume");
-        onRefresh();
+//        onRefresh();
     }
 
     @Override

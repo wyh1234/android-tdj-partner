@@ -31,6 +31,7 @@ import com.tdjpartner.AppAplication;
 import com.tdjpartner.R;
 import com.tdjpartner.utils.glide.GifSizeFilter;
 import com.tdjpartner.utils.glide.MyGlideEngine;
+import com.umeng.commonsdk.debug.D;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.filter.Filter;
@@ -284,6 +285,15 @@ public class GeneralUtils {
             return false;
         }
 
+    }
+
+    public static Date praseDay(boolean isDay, String date){
+        try {
+            return isDay? new SimpleDateFormat("yyyy-MM-dd").parse(date) : new SimpleDateFormat("yyyy-MM").parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return new Date();
     }
 
     public static boolean dateRange(String date,String date1) throws ParseException {//可根据需要自行截取数据显示

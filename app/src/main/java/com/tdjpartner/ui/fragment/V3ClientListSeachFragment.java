@@ -223,6 +223,7 @@ public class V3ClientListSeachFragment extends Fragment<V3ClientListSeachPresent
             if (ListUtils.isEmpty(clientInfoList.obj.partnerCustomerList)) {
                 //获取不到数据,显示空布局
                 mStateView.showEmpty();
+                clientListSeachAdapter.setNewData(data);
                 return;
             }
             mStateView.showContent();//显示内容
