@@ -64,7 +64,7 @@ public class InvitationActivityNew extends BaseActivity<InvitationPresenter>  {
         switch (view.getId()){
             case R.id.ok:
                 if(rxPermissions == null) rxPermissions = new RxPermissions(this);
-                rxPermissions.request(Manifest.permission.CAMERA)
+                rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
                         .subscribe(new Consumer<Boolean>() {
                             @Override
                             public void accept(Boolean b) throws Exception {

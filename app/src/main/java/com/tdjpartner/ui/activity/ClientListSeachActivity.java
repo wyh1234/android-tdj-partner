@@ -48,7 +48,6 @@ public class ClientListSeachActivity extends BaseActivity {
                     GeneralUtils.showToastshort("请输入门店名称或者手机号");
 
                 } else {
-                    System.out.println("hashcode is " + adatper.getItem(viewPager.getCurrentItem()).hashCode());
                     EventBus.getDefault().post(new SeachTag(search_text.getText().toString()));
                 }
                 break;

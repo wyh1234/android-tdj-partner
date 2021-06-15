@@ -216,7 +216,7 @@ public class MainTabActivity extends BaseActivity<MainTabPresenter> implements O
                         .setSmallIcon(R.mipmap.icon)
                         .setShowNewerToast(true)
                         .setConfiguration(configuration)
-                        .setDownloadPath(Environment.getExternalStorageDirectory() + "/AppUpdate")
+                        .setDownloadPath(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q ? Environment.getExternalStorageDirectory() + "/AppUpdate" : getCacheDir().toString())
                         .setApkVersionCode(2)
                         .setApkVersionName(appVersion.getVersion())
                         .setApkSize("" + appVersion.getSize())

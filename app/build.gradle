@@ -7,8 +7,8 @@ android {
         applicationId "com.tdjpartner"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 20210603
-        versionName '2.1'
+        versionCode 20210615
+        versionName '3.0'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters "armeabi", "armeabi-v7a", "x86", "mips", "x86_64", "mips64", "arm64-v8a"
@@ -68,6 +68,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'org.jetbrains:annotations:15.0'
+    implementation 'org.apache.maven:maven-artifact:3.8.1'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

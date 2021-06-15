@@ -183,7 +183,7 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
 
     @Subscribe
     public void eventCode(LocationBean locationBean) {
-        if (!locationBean.getTag().contains("LOCATION") || PublicCache.flag != hashCode()) return;
+        if (!locationBean.getTag().equals("LOCATION") || PublicCache.flag != hashCode()) return;
         this.locationBean = locationBean;
         pull(1);
     }
@@ -231,6 +231,15 @@ public class ClientListFragment extends Fragment<ClientListPresenter> implements
         return R.layout.client_list_fragment;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("requestCode = " + requestCode + ", resultCode = " + resultCode + ", data = " + data);
+        if (!ListUtils.isEmpty(this.data)) {
+            this.data.clear();
+            clientListAdapter.notifyDataSetChanged();
+        }
+    }
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {

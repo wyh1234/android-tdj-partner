@@ -16,6 +16,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
 import com.tdjpartner.base.Fragment;
+import com.tdjpartner.common.PublicCache;
 import com.tdjpartner.model.ClientInfo;
 import com.tdjpartner.model.CustomerInfo;
 import com.tdjpartner.model.LocationBean;
@@ -109,7 +110,7 @@ public class V3ClientListSeachFragment extends Fragment<V3ClientListSeachPresent
 
     @Subscribe
     public void eventCode(LocationBean locationBean) {
-        if (!locationBean.getTag().contains("LOCATION")) return;
+        if (!locationBean.getTag().contains("V3LOCATION" + hashCode())) return;
         this.locationBean = locationBean;
         pull(1);
 
@@ -168,7 +169,7 @@ public class V3ClientListSeachFragment extends Fragment<V3ClientListSeachPresent
                         .subscribe(b -> {
                             if (b) {
                                 if (locationBean == null) {
-                                    LocationUtils.getInstance().startLocalService("LOCATION");
+                                    LocationUtils.getInstance().startLocalService("V3LOCATION" + V3ClientListSeachFragment.this.hashCode());
                                 }
                             }
                         });
@@ -185,6 +186,7 @@ public class V3ClientListSeachFragment extends Fragment<V3ClientListSeachPresent
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
+        System.out.println("V3ClientListSeachFragment.this.hashCode() = " + V3ClientListSeachFragment.this.hashCode());
         getData();
     }
 
