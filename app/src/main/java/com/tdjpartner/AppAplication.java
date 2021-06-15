@@ -26,10 +26,9 @@ public class AppAplication extends Application {
         mHandler = new Handler();
         mMainThreadId = android.os.Process.myTid();
 
-        UMConfigure.init(this,"5db927390cafb2661b00069b"
-                ,"umeng",UMConfigure.DEVICE_TYPE_PHONE,"");
+        UMConfigure.init(this, "5db927390cafb2661b00069b", "umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
         UMConfigure.setLogEnabled(true);
-        PlatformConfig.setWeixin("wxf2a72e872e154fd3", "d4d60cdb8106906a4572c30f55e5c186");
+        PlatformConfig.setWeixin("wxf2a72e872e154fd3", "8314212866f9a32b4b803cb542c1fd0f");
         PlatformConfig.setQQZone("1109665317", "KkdvL0CH53fsPSLb");
 
     }

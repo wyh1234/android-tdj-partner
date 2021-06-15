@@ -109,7 +109,7 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getVMWithActivity().loadingWithNewLiveData(DayAndMonthData.class, getArgs())
+        getVMWithFragment().loadingWithNewLiveData(DayAndMonthData.class, getArgs())
                 .observe(this, dayAndMonthData -> {
                     tv_title.setText(dayAndMonthData.headGrade);
                     //头部统计
@@ -267,7 +267,7 @@ public class NetListFragment extends NetworkFragment implements View.OnClickList
             map.put("timeType", "month");
         }
 
-        getVMWithActivity().loading(DayAndMonthData.class, getArgs());
+        getVMWithFragment().loading(DayAndMonthData.class, getArgs());
     }
 
     private Map<String, Object> makeArges(int userId, int grade, Date date, boolean isDay, boolean isNext) {
