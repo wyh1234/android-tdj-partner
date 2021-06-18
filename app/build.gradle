@@ -7,8 +7,8 @@ android {
         applicationId "com.tdjpartner"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 20210615
-        versionName '3.0'
+        versionCode 20210618
+        versionName '3.0.1'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters "armeabi", "armeabi-v7a", "x86", "mips", "x86_64", "mips64", "arm64-v8a"

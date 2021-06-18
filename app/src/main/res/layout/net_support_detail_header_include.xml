@@ -112,11 +112,12 @@
 
         <TextView
             android:id="@+id/order_no"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:paddingStart="4dp"
             android:text="商品单号：921012200067"
+            android:drawableEnd="@drawable/ic_baseline_content_copy_24"
             android:textSize="12sp" />
 
         <TextView

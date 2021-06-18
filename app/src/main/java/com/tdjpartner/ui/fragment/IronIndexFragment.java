@@ -35,7 +35,6 @@ import com.tdjpartner.ui.activity.CommonFollowUpActivity;
 import com.tdjpartner.ui.activity.DropOutingActivity;
 import com.tdjpartner.ui.activity.StatisticsActivity;
 import com.tdjpartner.ui.activity.StatisticsListActivity;
-import com.tdjpartner.ui.activity.TeamMemberActivity;
 import com.tdjpartner.ui.activity.V3TeamMemberActivity;
 import com.tdjpartner.utils.DialogUtils;
 import com.tdjpartner.utils.GeneralUtils;

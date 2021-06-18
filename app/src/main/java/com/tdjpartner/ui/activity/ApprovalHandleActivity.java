@@ -176,9 +176,9 @@ public class ApprovalHandleActivity extends NetworkActivity {
                     enterprise_msg.setText("地址：" + hotelAuditInfo.enterprise_msg);
                     delivered_time_info.setText("收货时间：" + hotelAuditInfo.delivered_time_info);
 
-                    if (!TextUtils.isEmpty(hotelAuditInfo.image_url) && hotelAuditInfo.img_check_status == 1)
+                    if (!TextUtils.isEmpty(hotelAuditInfo.image_url))
                         ImageLoad.loadImageViewLoding(hotelAuditInfo.image_url, image_url);
-                    if (!TextUtils.isEmpty(hotelAuditInfo.bzlicence_url) && hotelAuditInfo.licence_url_check_status == 1)
+                    if (!TextUtils.isEmpty(hotelAuditInfo.bzlicence_url))
                         ImageLoad.loadImageViewLoding(hotelAuditInfo.bzlicence_url, bzlicence_url);
 
                 });

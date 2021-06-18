@@ -1,6 +1,5 @@
 package com.tdjpartner.ui.fragment;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.content.Intent;
 import android.graphics.Color;
@@ -34,7 +33,6 @@ import com.tdjpartner.ui.activity.DropOutingActivity;
 import com.tdjpartner.ui.activity.NetSupportActivity;
 import com.tdjpartner.ui.activity.StatisticsActivity;
 import com.tdjpartner.ui.activity.StatisticsListActivity;
-import com.tdjpartner.ui.activity.TeamMemberActivity;
 import com.tdjpartner.ui.activity.V3TeamMemberActivity;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
@@ -43,7 +41,6 @@ import com.tdjpartner.utils.glide.ImageLoad;
 import com.tdjpartner.widget.tablayout.WTabLayout;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;

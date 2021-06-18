@@ -96,14 +96,15 @@ public class ApprovalListFragment extends NetworkFragment {
                     ((TextView) convertView.findViewById(R.id.created_at)).setText("" + item.created_at);
                     ((TextView) convertView.findViewById(R.id.enterprise_msg)).setText("" + item.enterprise_msg);
 
-                    if(!TextUtils.isEmpty(item.image_url) && item.img_check_status == 1)ImageLoad.loadImageViewLoding(item.image_url, convertView.findViewById(R.id.image_url), R.mipmap.yingyezhao_bg);
-                    if(!TextUtils.isEmpty(item.bzlicence_url) && item.licence_url_check_status == 1)ImageLoad.loadImageViewLoding(item.bzlicence_url, convertView.findViewById(R.id.bzlicence_url), R.mipmap.yingyezhao_bg);
+                    if(!TextUtils.isEmpty(item.image_url))ImageLoad.loadImageViewLoding(item.image_url, convertView.findViewById(R.id.image_url), R.mipmap.yingyezhao_bg);
+                    if(!TextUtils.isEmpty(item.bzlicence_url))ImageLoad.loadImageViewLoding(item.bzlicence_url, convertView.findViewById(R.id.bzlicence_url), R.mipmap.yingyezhao_bg);
 
                 })
                 .build(getContext());
 
 
         listView.setAdapter(adapter);
+        listView.setDivider(null);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

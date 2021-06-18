@@ -2,6 +2,8 @@ package com.tdjpartner.ui.activity;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
@@ -135,11 +137,15 @@ public class NetSupportDetailActivity extends NetworkActivity {
     int title;
     AfterDetailData afterDetailData;
 
-    @OnClick({R.id.tv_title, R.id.receive_user_name, R.id.customer_address, R.id.supplier_tel, R.id.button, R.id.upload_1, R.id.upload_2, R.id.upload_3, R.id.tv_remove, R.id.difficulty})
+    @OnClick({R.id.tv_title, R.id.order_no, R.id.receive_user_name, R.id.customer_address, R.id.supplier_tel, R.id.button, R.id.upload_1, R.id.upload_2, R.id.upload_3, R.id.tv_remove, R.id.difficulty})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_title:
                 finish();
+                break;
+            case R.id.order_no:
+                getSystemService(ClipboardManager.class).setPrimaryClip(ClipData.newPlainText("商品单号", ((TextView) view).getText()));
+                GeneralUtils.showToastshort("商品单号复制成功！");
                 break;
             case R.id.receive_user_name:
                 GeneralUtils.action_call(getRxPermissions(), receiveUserTel, this);
@@ -309,8 +315,8 @@ public class NetSupportDetailActivity extends NetworkActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(TextUtils.isEmpty(et_num.getText()))return;
-                if (!TextUtils.isEmpty(s) && s.charAt(s.length() - 1) != '.' && Float.parseFloat(s.toString()) >  afterDetailData.order.price * afterDetailData.order.original_amount * 3)
+                if (TextUtils.isEmpty(et_num.getText())) return;
+                if (!TextUtils.isEmpty(s) && s.charAt(s.length() - 1) != '.' && Float.parseFloat(s.toString()) > afterDetailData.order.price * afterDetailData.order.original_amount * 3)
                     GeneralUtils.showToastshort("实际金额不能超过3倍，请重新输入！");
             }
 

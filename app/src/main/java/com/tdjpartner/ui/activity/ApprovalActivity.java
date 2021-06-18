@@ -60,7 +60,6 @@ public class ApprovalActivity extends NetworkActivity {
                 Bundle bundle = new Bundle();
                 Map<String, Object> map = new HashMap<>();
                 map.put("userId", UserUtils.getInstance().getLoginBean().getLoginUserId());
-//                map.put("userId", 2023814);
                 map.put("authStatus", i);
                 map.put("ps", 999);
                 map.put("pn", 1);
