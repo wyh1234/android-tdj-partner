@@ -67,7 +67,6 @@ public class ApprovalDetailActivity extends NetworkActivity {
 
         Map<String, Object> map = new ArrayMap<>();
         map.put("customerId", getIntent().getIntExtra("customerId", -1));
-//        map.put("customerId", 258693);
 
         getVM().loadingWithNewLiveData(HotelAuditInfo.class, map)
                 .observe(this, hotelAuditInfo -> {
@@ -98,9 +97,9 @@ public class ApprovalDetailActivity extends NetworkActivity {
                     enterprise_msg.setText("地址：" + hotelAuditInfo.enterprise_msg);
                     delivered_time_info.setText("收货时间：" + hotelAuditInfo.delivered_time_info);
 
-                    if (!TextUtils.isEmpty(hotelAuditInfo.image_url) && hotelAuditInfo.img_check_status == 1)
+                    if (!TextUtils.isEmpty(hotelAuditInfo.image_url))
                         ImageLoad.loadImageViewLoding(hotelAuditInfo.image_url, image_url);
-                    if (!TextUtils.isEmpty(hotelAuditInfo.bzlicence_url) && hotelAuditInfo.licence_url_check_status == 1)
+                    if (!TextUtils.isEmpty(hotelAuditInfo.bzlicence_url))
                         ImageLoad.loadImageViewLoding(hotelAuditInfo.bzlicence_url, bzlicence_url);
 
                     created_at.setText("提交时间：" + hotelAuditInfo.created_at);
