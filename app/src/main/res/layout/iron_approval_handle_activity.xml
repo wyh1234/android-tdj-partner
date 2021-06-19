@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <include layout="@layout/iron_header_include" />
+    <include layout="@layout/iron_approval_detail_include" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:padding="8dp">
+
+        <Button
+            android:id="@+id/btn_no"
+            android:layout_width="128dp"
+            android:layout_height="36dp"
+            android:layout_gravity="left"
+            android:layout_weight="1"
+            android:background="@drawable/bg_grey_12"
+            android:gravity="center"
+            android:layout_marginStart="16dp"
+            android:text="驳回"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/btn_yes"
+            android:layout_width="128dp"
+            android:layout_height="36dp"
+            android:layout_gravity="right"
+            android:layout_weight="1"
+            android:background="@drawable/bg_orange_12"
+            android:gravity="center"
+            android:layout_marginEnd="16dp"
+            android:text="通过"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+    </FrameLayout>
+
+
+</LinearLayout>

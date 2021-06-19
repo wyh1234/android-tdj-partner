@@ -28,7 +28,7 @@ public class ProgressDialog extends Dialog {
 
         progressDialog = new ProgressDialog(context,R.style.iphone_progress_dialog);
         progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setContentView(R.layout.progressdialog);
+        progressDialog.setContentView(R.layout.progress_dialog);
 //        progressDialog.getWindow().getAttributes().gravity = Gravity.CENTER;
         return progressDialog ;
     }

@@ -2,9 +2,14 @@ package com.tdjpartner.ui.activity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +26,7 @@ import com.tdjpartner.base.BaseActivity;
 import com.tdjpartner.model.ClientDetails;
 import com.tdjpartner.model.LocationBean;
 import com.tdjpartner.mvp.presenter.BaiFangPresenter;
+import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.utils.CameraUtils;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.LocationUtils;
@@ -28,9 +34,12 @@ import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.glide.ImageLoad;
 import com.tdjpartner.utils.popuwindow.FollowUpPopuWindow;
 import com.tdjpartner.utils.statusbar.Eyes;
+import com.zhihu.matisse.Matisse;
 
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -146,13 +155,20 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter> {
                 map.put("results", ed_results.getText().toString());//拜访结果
                 map.put("callPic", getPath());//拜访图片
                 map.put("buyPic", clientDetails.getHeadUrl() == null ? "" : clientDetails.getHeadUrl());//门店门头照,从客户详情带入，可不传
+
                 mPresenter.call_insert(map);
+
+
                 break;
             case R.id.btn_back:
                 finish();
+
                 break;
             case R.id.iv_upload:
+
                 CameraUtils.getImageCamera(rxPermissions, this);
+//                GeneralUtils.getImage(rxPermissions,this);
+
                 break;
         }
     }
@@ -180,22 +196,24 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter> {
     }
 
     public void location() {
-        rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION).subscribe(new Consumer<Boolean>() {
-            @Override
-            public void accept(Boolean b) throws Exception {
-                f = b;
-                if (b) {
-                    LocationUtils.getInstance().startLocalService("");
-                } else {
-                    rl_dk.setBackgroundResource(R.mipmap.dakashibai);
-                    tv_state.setText("无法打卡");
-                    tv_state.setText(GeneralUtils.getColor(BaiFangActivity.this, R.color.gray_69));
-                    tv_laction_name.setText("请开启定位相关权限");
-                    iv.setImageResource(R.mipmap.gantanhao);
+        rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean b) throws Exception {
+                        f = b;
+                        if (b) {
+                            LocationUtils.getInstance().startLocalService("");
+                        } else {
+                            rl_dk.setBackgroundResource(R.mipmap.dakashibai);
+                            tv_state.setText("无法打卡");
+                            tv_state.setText(GeneralUtils.getColor(BaiFangActivity.this, R.color.gray_69));
+                            tv_laction_name.setText("请开启定位相关权限");
+                            iv.setImageResource(R.mipmap.gantanhao);
 
-                }
-            }
-        });
+                        }
+
+                    }
+                });
     }
 
     @Subscribe
@@ -232,19 +250,33 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter> {
         finish();
     }
 
+/*
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GeneralUtils.REQUEST_CODE_CHOOSE_GRIDE && resultCode == RESULT_OK) {//storage/emulated/0/Pictures/JPEG_20181011_155709.jpg
+            LogUtils.i(Matisse.obtainPathResult(data).get(0));
+            Log.e("OnActivityResult ", String.valueOf(Matisse.obtainPathResult(data).get(0)));
+            mPresenter.imageUpload(Matisse.obtainPathResult(data).get(0));
+        }
+    }
+*/
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_PERMISSION_CAMERA:
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        mPresenter.imageUpload(CameraUtils.saveImage(captureFile.getPath(), 150, 3));
+                        break;
+                    }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         Uri contentUri = FileProvider.getUriForFile(this, getPackageName() + ".fileProvider", captureFile);
                         CameraUtils.cropPhoto(contentUri, this);
                     } else {
                         CameraUtils.cropPhoto(Uri.fromFile(captureFile), this);
                     }
-
-
                     break;
                 case CROP_REQUEST_CODE:
                     mPresenter.imageUpload(CameraUtils.saveImage(cropFile.getPath()));

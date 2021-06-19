@@ -39,4 +39,6 @@ public class DataUtils {
     public String getBg() {
         return mSPUtils.get(KEY_BG, "");
     }
+
+
 }

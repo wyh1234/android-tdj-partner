@@ -89,6 +89,8 @@
                         android:layout_toRightOf="@+id/tv_goods_name"
                         android:layout_width="wrap_content"
                         android:textSize="12sp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
                         android:textColor="@color/gray_69"
                         android:layout_height="wrap_content" />
                 </RelativeLayout>

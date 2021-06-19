@@ -11,7 +11,7 @@
         android:paddingTop="20dp"
         android:layout_height="150dp">
         <RelativeLayout
-            android:id="@+id/rl"
+            android:id="@+id/fl"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:paddingRight="15dp"
@@ -38,7 +38,7 @@
             </RelativeLayout>
         </RelativeLayout>
         <RelativeLayout
-            android:layout_below="@+id/rl"
+            android:layout_below="@+id/fl"
             android:layout_width="match_parent"
             android:layout_marginLeft="11dp"
             android:layout_height="50dp">
@@ -81,6 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="137dp">
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/rl_sy"
             android:layout_marginTop="13dp"
             android:layout_width="match_parent"
@@ -106,6 +107,7 @@
                 android:layout_height="match_parent" />
         </RelativeLayout>
         <TextView
+            android:visibility="gone"
             android:textSize="12sp"
             android:layout_marginTop="14dp"
             android:layout_toLeftOf="@+id/tv_money"
@@ -116,6 +118,7 @@
             android:layout_marginBottom="5dp"
             android:layout_height="wrap_content" />
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/rl_more"
             android:layout_width="100dp"
             android:layout_gravity="right"
@@ -141,6 +144,22 @@
                 android:layout_height="wrap_content" />
 
         </RelativeLayout>
+
+        <ImageView
+            android:padding="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/nanguo"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_marginTop="2dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="暂未开发此服务"/>
+
+
     </LinearLayout>
     <TextView
         android:layout_width="match_parent"

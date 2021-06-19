@@ -20,19 +20,19 @@ public class LoginActivityPresnter extends BasePresenter<Model, LoginActivity> {
         return null;
     }
 
-    public void login(String username, String password, String type) {
+    public void login(String username, String password, String type, int userType) {
         Map<String, Object> map_login = new HashMap<>();
         map_login.put("sourceType", "android");
         map_login.put("account", username);
+        map_login.put("userRelationsType", userType);
         map_login.put("type", "partner");
         map_login.put("loginType", type);//PASSWORD_LOGIN密码登录；VER_CODE_LOGIN验证码登录
-         map_login.put("password", MD5AndSHA.md5Encode(password));
+        map_login.put("password", MD5AndSHA.md5Encode(password));
         getIView().addSubscribe(RequestPresenter.loginData(map_login, new BaseObserver<UserInfo>(getIView().getContext(), true) {
             @Override
             protected void onSuccess(UserInfo userInfo) {
                 LogUtils.e(userInfo);
                 getIView().getlogin(userInfo);
-
             }
 
             @Override
@@ -44,7 +44,7 @@ public class LoginActivityPresnter extends BasePresenter<Model, LoginActivity> {
 
     }
 
-    public void pushMessage(Map<String,Object> map){
+    public void pushMessage(Map<String, Object> map) {
         getIView().addSubscribe(RequestPresenter.commodity_queryList(map, new BaseObserver<IntegralShop>(getIView().getContext(), true) {
             @Override
             protected void onSuccess(IntegralShop integralShop) {

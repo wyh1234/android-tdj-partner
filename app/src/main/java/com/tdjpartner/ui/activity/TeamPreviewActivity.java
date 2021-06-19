@@ -2,20 +2,17 @@ package com.tdjpartner.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.apkfuns.logutils.LogUtils;
-import com.bigkoo.pickerview.TimePickerView;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.TeamPreviewAdapter;
@@ -27,14 +24,10 @@ import com.tdjpartner.model.TeamOverView;
 import com.tdjpartner.mvp.presenter.TeamPreviewPresenter;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
-import com.tdjpartner.utils.cache.UserUtils;
-import com.tdjpartner.utils.popuwindow.TeamMemberPopuWindow;
 import com.tdjpartner.utils.popuwindow.TeamPreviewPopuWindow;
 import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.widget.CustomLinearLayout;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -273,7 +266,7 @@ public class TeamPreviewActivity extends BaseActivity<TeamPreviewPresenter> impl
 
 
     public void setTime(int type){
-        pvTime = new TimePickerView.Builder(getContext(), new TimePickerView.OnTimeSelectListener() {
+        pvTime = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
                 startTime=GeneralUtils.getTimeFilter(date);
@@ -291,7 +284,7 @@ public class TeamPreviewActivity extends BaseActivity<TeamPreviewPresenter> impl
                 .isCenterLabel(true)
                 .setLineSpacingMultiplier(1.8f)
                 .setDividerColor(Color.DKGRAY)
-                .setContentSize(16)
+                .setContentTextSize(16)
                 .setDate(selectedDate)
                 .setRangDate(startDate, endDate)
                 .setDecorView(null)

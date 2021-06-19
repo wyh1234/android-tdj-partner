@@ -4,7 +4,7 @@
     android:background="@color/white"
     android:layout_height="match_parent">
     <RelativeLayout
-        android:id="@+id/rl"
+        android:id="@+id/fl"
         android:layout_width="match_parent"
         android:layout_height="43dp">
         <ImageView
@@ -28,7 +28,7 @@
     </RelativeLayout>
     <com.amap.api.maps.MapView
         android:id="@+id/map"
-        android:layout_below="@+id/rl"
+        android:layout_below="@+id/fl"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

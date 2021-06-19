@@ -14,13 +14,10 @@ import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.ClientListSeachAdapter;
-import com.tdjpartner.base.BaseFrgment;
-import com.tdjpartner.model.ClientInfo;
+import com.tdjpartner.base.Fragment;
 import com.tdjpartner.model.ClientSeachInfo;
-import com.tdjpartner.model.LocationBean;
 import com.tdjpartner.model.SeachTag;
 import com.tdjpartner.mvp.presenter.ClientListSeachPresenter;
-import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.ui.activity.ClientDetailsActivity;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
@@ -35,7 +32,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 
-public class ClientListSeachFragment extends BaseFrgment<ClientListSeachPresenter> implements OnRefreshListener, OnLoadmoreListener, BaseQuickAdapter.OnItemClickListener {
+public class ClientListSeachFragment extends Fragment<ClientListSeachPresenter> implements OnRefreshListener, OnLoadmoreListener, BaseQuickAdapter.OnItemClickListener {
     @BindView(R.id.refreshLayout)
     RefreshLayout refreshLayout;
     @BindView(R.id.recyclerView_list)
@@ -156,7 +153,7 @@ public class ClientListSeachFragment extends BaseFrgment<ClientListSeachPresente
             mStateView.showEmpty();//显示重试的布局
             GeneralUtils.showToastshort("请输入门店名称或者手机号");
         }
-
+        stop();
     }
 
     @Override

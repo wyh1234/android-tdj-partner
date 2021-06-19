@@ -15,5 +15,6 @@ public class SimpleAfterSalesImageAdapter extends BaseQuickAdapter<RefundDetail.
         baseViewHolder.setText(R.id.handle_info,itemsBean.getHandle_info()+"");
         baseViewHolder.setText(R.id.create_time,itemsBean.getCreate_time()+"");
         baseViewHolder.setText(R.id.handle_operator,itemsBean.getHandle_operator()+"");
+        baseViewHolder.setText(R.id.tv_remark,itemsBean.getRemarks() == null || itemsBean.getRemarks().isEmpty()? "无":itemsBean.getRemarks()+"");
     }
 }

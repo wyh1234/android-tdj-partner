@@ -301,7 +301,7 @@
         android:paddingStart="10dp">
 
         <TextView
-            android:id="@+id/type_name"
+            android:id="@+id/type"
             android:textSize="12sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

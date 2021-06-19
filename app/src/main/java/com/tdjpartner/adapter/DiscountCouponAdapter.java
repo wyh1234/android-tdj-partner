@@ -35,7 +35,7 @@ public class DiscountCouponAdapter extends BaseQuickAdapter<DiscountCoupon.Items
 
         baseViewHolder.setText(R.id.tv_cash_coupon_money,discountCoupon.getAmount()+"");
 
-        baseViewHolder.setText(R.id.tv_cash_coupon_use_condition,discountCoupon.getPurchaseAmount()+"");
+        baseViewHolder.setText(R.id.tv_cash_coupon_use_condition,"满 "+discountCoupon.getPurchaseAmount()+" 可用");
         baseViewHolder.setText(R.id.tv_time,discountCoupon.getStartTime().substring(0,10)+"—"+discountCoupon.getEndTime().substring(0,10));
         baseViewHolder.setText(R.id.tv_cash_coupon_use_range,discountCoupon.getCouponDesc());
 

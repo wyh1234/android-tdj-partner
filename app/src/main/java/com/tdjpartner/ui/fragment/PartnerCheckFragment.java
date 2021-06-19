@@ -14,11 +14,9 @@ import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.tdjpartner.PartnerCheckAdapter;
 import com.tdjpartner.R;
-import com.tdjpartner.base.BaseFrgment;
-import com.tdjpartner.model.ClientInfo;
+import com.tdjpartner.base.Fragment;
 import com.tdjpartner.model.PartnerCheck;
 import com.tdjpartner.model.SeachTag;
-import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.mvp.presenter.PartnerCheckPresenter;
 import com.tdjpartner.ui.activity.PartnerCheckDetailsActivity;
 import com.tdjpartner.utils.GeneralUtils;
@@ -34,7 +32,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 
-public class PartnerCheckFragment extends BaseFrgment<PartnerCheckPresenter>  implements OnRefreshListener,OnLoadmoreListener, BaseQuickAdapter.OnItemClickListener{
+public class PartnerCheckFragment extends Fragment<PartnerCheckPresenter> implements OnRefreshListener,OnLoadmoreListener, BaseQuickAdapter.OnItemClickListener{
     @BindView(R.id.refreshLayout)
     RefreshLayout refreshLayout;
     @BindView(R.id.recyclerView_list)

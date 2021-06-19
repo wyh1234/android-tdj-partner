@@ -1,7 +1,6 @@
 package com.tdjpartner.ui.activity;
 
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +10,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bigkoo.pickerview.TimePickerView;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
@@ -24,6 +25,7 @@ import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.popuwindow.CheckHeadImagePopuWindow;
 import com.tdjpartner.utils.statusbar.Eyes;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -48,7 +50,7 @@ public class MenberPaifangHistoryActivity extends BaseActivity<MenberPaifangHist
     TextView tv_date;
     @BindView(R.id.tv_title)
     TextView tv_title;
-    @BindView(R.id.rl)
+    @BindView(R.id.fl)
     RelativeLayout rl;
     @BindView(R.id.btn_back)
     ImageView btn_back;
@@ -128,7 +130,7 @@ public class MenberPaifangHistoryActivity extends BaseActivity<MenberPaifangHist
         tv_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pvTime=new TimePickerView.Builder(MenberPaifangHistoryActivity.this, new TimePickerView.OnTimeSelectListener() {
+                pvTime=new TimePickerBuilder(MenberPaifangHistoryActivity.this, new OnTimeSelectListener() {
                     @Override
                     public void onTimeSelect(Date date, View v) {
                         tv_date.setText(sdf.format(date));
@@ -139,7 +141,7 @@ public class MenberPaifangHistoryActivity extends BaseActivity<MenberPaifangHist
                         .setLabel("年", "月", "日", "", "", "")
                         .isCenterLabel(true)
                         .setDividerColor(Color.DKGRAY)
-                        .setContentSize(16)
+                        .setContentTextSize(16)
                         .setRangDate(null , endDate)
                         .setDecorView(null)
                         .build();
@@ -157,7 +159,7 @@ public class MenberPaifangHistoryActivity extends BaseActivity<MenberPaifangHist
     public void getDistinctList(DistinctList distinctList){
         tv_num.setText(distinctList.getCall_num()+"");
         tv_num1.setText(distinctList.getConversion_num()+"");
-        tv_num2.setText(distinctList.getOrder_total_money().toString());
+        tv_num2.setText(distinctList.getOrder_total_money().setScale(2, BigDecimal.ROUND_HALF_UP).toString());
         if (distinctList.getList().size()>0){
             rl.setVisibility(View.GONE);
         }else {

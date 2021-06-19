@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_white_12"
+    android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="8dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:text="驳回原因" />
+            <EditText
+                android:id="@+id/et_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:layout_margin="8dp"
+                android:hint="请输入驳回原因，限制30字以内"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/dialog_btn_no"
+                    android:layout_width="80dp"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="@drawable/bg_grey_12"
+                    android:textColor="@color/white"
+                    android:layout_gravity="start"
+                    android:text="取消"/>
+
+                <Button
+                    android:id="@+id/dialog_btn_yes"
+                    android:layout_width="80dp"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_gravity="end"
+                    android:background="@drawable/bg_orange_12"
+                    android:textColor="@color/white"
+                    android:text="确定"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+</FrameLayout>

@@ -1,16 +1,17 @@
 package com.tdjpartner.ui.activity;
 
+import android.Manifest;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
-import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
+import android.os.ParcelFileDescriptor;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ImageSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +20,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.apkfuns.logutils.LogUtils;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
 import com.tdjpartner.base.BaseActivity;
@@ -28,33 +33,33 @@ import com.tdjpartner.model.AfterSalesType;
 import com.tdjpartner.model.OrderDetail;
 import com.tdjpartner.model.ProblemType;
 import com.tdjpartner.mvp.presenter.AfterSalesCreatePresenter;
-import com.tdjpartner.utils.CameraUtils;
 import com.tdjpartner.utils.ColorUtil;
 import com.tdjpartner.utils.DensityUtil;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.MySpecialStyle;
 import com.tdjpartner.utils.cache.UserUtils;
+import com.tdjpartner.utils.glide.BlurBitmapUtils;
 import com.tdjpartner.utils.glide.ImageLoad;
 import com.tdjpartner.utils.popuwindow.AfterSalesTypePopuWindow;
 import com.tdjpartner.utils.popuwindow.ProblemTypePopuWindow;
 import com.tdjpartner.utils.statusbar.Eyes;
+import com.zhihu.matisse.Matisse;
 import com.zyinux.specialstring.relase.SpecialStringBuilder;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import static com.tdjpartner.utils.CameraUtils.CHOOSER;
-import static com.tdjpartner.utils.CameraUtils.CROP_REQUEST_CODE;
-import static com.tdjpartner.utils.CameraUtils.REQUEST_PERMISSION_CAMERA;
-import static com.tdjpartner.utils.CameraUtils.captureFile;
-import static com.tdjpartner.utils.CameraUtils.cropFile;
+import io.reactivex.functions.Consumer;
 
 public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePresenter> implements AfterSalesTypePopuWindow.AfterSalesTypePopuWindowListener, ProblemTypePopuWindow.ProblemTypePopuWindowListener {
     @BindView(R.id.btn_back)
@@ -124,25 +129,24 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
     Button btn;
     @BindView(R.id.description)
     EditText description;
-    private RxPermissions rxPermissions;
     private BigDecimal cou = BigDecimal.ZERO;//可以退换的总数
     private BigDecimal priceSum = BigDecimal.ZERO; //可以退款总数
     private BigDecimal goodscount = BigDecimal.ZERO;
     private OrderDetail.ItemsBean orderBean;
     private AfterSalesTypePopuWindow afterSalesTypePopuWindow;
     private ProblemTypePopuWindow problemTypePopuWindow;
-    private Map<Integer, String> map = new HashMap<>();
+    private List<String> strings = new ArrayList<>();
     private int index;
+    File captureFile;
+    RxPermissions rxPermissions;
 
     @OnClick({R.id.btn_back, R.id.after_sales_type, R.id.image, R.id.image1, R.id.image2, R.id.delete_image, R.id.delete_image1, R.id.delete_image2, R.id.btn, R.id.problem_type})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_back:
-                System.out.println("case R.id.btn_back:");
                 finish();
                 break;
             case R.id.after_sales_type:
-                System.out.println("case R.id.after_sales_type:");
                 if (afterSalesTypePopuWindow != null) {
                     if (afterSalesTypePopuWindow.isShowing()) {
                         return;
@@ -159,7 +163,6 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
                 }
                 break;
             case R.id.problem_type:
-                System.out.println("case R.id.problem_type:");
                 if (problemTypePopuWindow != null) {
                     if (problemTypePopuWindow.isShowing()) {
                         return;
@@ -177,43 +180,33 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
 
                 break;
             case R.id.image:
-                System.out.println("case R.id.image:");
                 index = 1;
-                map.put(index, "loading");
-                CameraUtils.chooser(rxPermissions, this);
+                updateFile();
                 break;
             case R.id.image1:
-                System.out.println("case R.id.image1:");
                 index = 2;
-                map.put(index, "loading");
-                CameraUtils.chooser(rxPermissions, this);
+                updateFile();
                 break;
             case R.id.image2:
-                System.out.println("case R.id.image2:");
                 index = 3;
-                map.put(index, "loading");
-                CameraUtils.chooser(rxPermissions, this);
+                updateFile();
                 break;
             case R.id.delete_image:
-                System.out.println("case R.id.delete_image:");
-                map.remove(1);
+                strings.remove(0);
                 delete_image.setVisibility(View.GONE);
                 image.setImageResource(R.mipmap.sahngchuantupian);
                 break;
             case R.id.delete_image1:
-                System.out.println("case R.id.delete_image1:");
-                map.remove(2);
+                strings.remove(1);
                 delete_image1.setVisibility(View.GONE);
                 image1.setImageResource(R.mipmap.sahngchuantupian);
                 break;
             case R.id.delete_image2:
-                System.out.println("case R.id.delete_image2:");
-                map.remove(3);
+                strings.remove(2);
                 delete_image2.setVisibility(View.GONE);
                 image2.setImageResource(R.mipmap.sahngchuantupian);
                 break;
             case R.id.btn:
-                System.out.println("case R.id.btn:");
                 int applyIndex = PublicCache.getAfterSaleType().idOfValue(after_sales_type.getText().toString());
                 if (goodscount.compareTo(BigDecimal.ZERO) == 0) {
                     GeneralUtils.showToastshort("请输入需要退换的数量");
@@ -269,14 +262,15 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
     }
 
     public String getImageStr() {
-        if (map.isEmpty()) return "";
-
-        StringBuffer stringBuffer = new StringBuffer();
-        for (String url : map.values()) {
-            stringBuffer.append(",");
-            stringBuffer.append(url);
+        if (strings.size() < 1) return "";
+        String gallery = "";
+        for (int i = 0; i <= strings.size() - 1; i++) {
+            if (strings.get(i) != null) {
+                gallery += strings.get(i) + ",";
+            }
         }
-        return stringBuffer.toString().substring(1);
+        if (gallery.length() > 0) gallery = gallery.substring(0, gallery.length() - 1);
+        return gallery;
     }
 
     @Override
@@ -295,7 +289,7 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
         tv_title.setText("申请售后");
         after_sales_type.setHint("请选择售后类型");
 
-        rxPermissions = new RxPermissions(this);
+
     }
 
     @Override
@@ -509,58 +503,43 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        System.out.println("~~" + getClass().getSimpleName() + ".onActivityResult~~");
-        System.out.println("requestCode = " + requestCode + ", resultCode = " + resultCode + ", data = " + data);
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GeneralUtils.REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {//storage/emulated/0/Pictures/JPEG_20181011_155709.jpg
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                String file;
+                if (data == null) {
+                    file = captureFile.toString().substring(captureFile.toString().lastIndexOf("/") + 1).replace("tmp", "png");
+                    System.out.println("file = " + file);
+                    mPresenter.imageUpload(file, BlurBitmapUtils.bitmapTobyte(BlurBitmapUtils.getSmallBitmap(captureFile.toString()), true));
 
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case REQUEST_PERMISSION_CAMERA:
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        Uri contentUri = FileProvider.getUriForFile(this, getPackageName() + ".fileProvider", captureFile);
-                        CameraUtils.cropPhoto(contentUri, this);
-                    } else {
-                        CameraUtils.cropPhoto(Uri.fromFile(captureFile), this);
+                } else {
+                    file = Uri.decode(data.getData().getEncodedPath());
+                    System.out.println("file = " + file);
+                    file = file.substring(file.lastIndexOf("/") + 1);
+                    System.out.println("file = " + file);
+                    if (data.getType() == null || TextUtils.isEmpty(GeneralUtils.getSuffix(data.getType()))) {
+//                    GeneralUtils.showToastshort("文件格式不正确");
+                        LogUtils.d("无法解析文件格式，data.getType()" + data.getType());
                     }
-                    break;
-                case CROP_REQUEST_CODE:
-                    mPresenter.imageUpload(CameraUtils.saveImage(cropFile.getPath()));
-                    break;
+                    if (file.lastIndexOf('.') == -1) file += ".tmp";
 
-                case CHOOSER:
-                    String filePath = null;
-
-                    if (data != null && data.getData() != null) {
-                        System.out.println(data.getData());
-                        //获取相册文件路径
-                        String[] projection = {MediaStore.Images.Media.DATA};
-                        Cursor cursor = getContentResolver().query(data.getData(), projection, null, null, null);
-                        if (cursor != null) {
-                            cursor.moveToFirst();
-                            filePath = cursor.getString(cursor.getColumnIndex(projection[0]));
-                            cursor.close();
-                        }
-                    } else if (captureFile != null) {
-                        //获取探头拍摄文件路径
-                        filePath = captureFile.getAbsolutePath();
-                    } else {
-                        GeneralUtils.showToastshort("操作失败");
-                        return;
+                    try (ParcelFileDescriptor pfd = getContentResolver().openFileDescriptor(data.getData(), "r")) {
+                        mPresenter.imageUpload(file.substring(0, file.length() - 3) + "png", BlurBitmapUtils.bitmapTobyte(BlurBitmapUtils.getSmallBitmapFromFileDescriptor(pfd.getFileDescriptor()), true));
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
+                }
 
-                    //上传服务端
-                    mPresenter.imageUpload(CameraUtils.saveImage(filePath));
-                    break;
-                default:
-                    break;
+            } else {
+                LogUtils.i(Matisse.obtainPathResult(data).get(0));
+                Log.e("OnActivityResult ", String.valueOf(Matisse.obtainPathResult(data).get(0)));
+                mPresenter.imageUpload(Matisse.obtainPathResult(data).get(0));
             }
         }
-        super.onActivityResult(requestCode, resultCode, data);
-
     }
 
     public void getImage_Success(String data) {
-        map.replace(index, data);
+        strings.add(data);
         if (index == 1) {
             ImageLoad.loadImageView(this, data, image);
             delete_image.setVisibility(View.VISIBLE);
@@ -579,6 +558,29 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
         EventBus.getDefault().post(data);
         finish();
 
+
+    }
+
+    private void updateFile() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (rxPermissions == null) rxPermissions = new RxPermissions(this);
+            rxPermissions.request(Manifest.permission.CAMERA)
+                    .subscribe(new Consumer<Boolean>() {
+                        @Override
+                        public void accept(Boolean b) throws Exception {
+                            if (b) {
+                                captureFile = GeneralUtils.startCamera(AfterSalesCreateActivity.this);
+                            } else {
+                                GeneralUtils.showToastshort("摄像头启动失败，请从相册中选择图片！");
+                            }
+
+                        }
+                    });
+
+        } else {
+            GeneralUtils.getImage(new RxPermissions(this), this);
+        }
 
     }
 }

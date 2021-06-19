@@ -6,14 +6,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tdjpartner.AppAplication;
-import com.tdjpartner.MainTabActivity;
 import com.tdjpartner.R;
 import com.tdjpartner.base.BaseActivity;
 import com.tdjpartner.model.AppVersion;
 import com.tdjpartner.model.Bank;
-import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.mvp.presenter.SettingPresenter;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.appupdate.DownloadManager;
@@ -38,9 +38,11 @@ public class SettingActivity extends BaseActivity<SettingPresenter> {
     Button btn_out_login;
     @BindView(R.id.rl_check_version)
     RelativeLayout rl_check_version;
+    @BindView(R.id.tv_version)
+    TextView tv_version;
     @BindView(R.id.rl_bottom)
     RelativeLayout rl_bottom;
-    @OnClick({R.id.btn_back,R.id.rl_bank,R.id.rl_modification,R.id.btn_out_login,R.id.rl_bottom,R.id.rl_check_version})
+    @OnClick({R.id.btn_back,R.id.rl_bank,R.id.rl_modification,R.id.btn_out_login,R.id.rl_bottom,R.id.rl_check_version,R.id.rl_version})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.btn_back:
@@ -76,6 +78,9 @@ public class SettingActivity extends BaseActivity<SettingPresenter> {
                 mPresenter.version_check();
                 
                 break;
+            case R.id.rl_version:
+                Toast.makeText(this,"当前版本号: "+GeneralUtils.getVersionName()+GeneralUtils.getVersionCode(),Toast.LENGTH_SHORT).show();
+                break;
         }
     }
     @Override
@@ -85,7 +90,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> {
 
     @Override
     protected void initData() {
-
+        tv_version.setText("V"+GeneralUtils.getVersionName()+GeneralUtils.getVersionCode());
     }
 
     @Override

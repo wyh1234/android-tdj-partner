@@ -10,7 +10,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.apkfuns.logutils.LogUtils;
-import com.bigkoo.pickerview.TimePickerView;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.HomepageAdapter;
@@ -20,7 +22,7 @@ import com.tdjpartner.adapter.home.HomeOrderTimesAdapter;
 import com.tdjpartner.adapter.home.HomeRegisterTimesAdapter;
 import com.tdjpartner.adapter.home.MonthDataAdapter;
 import com.tdjpartner.adapter.home.TodyDataAdapter;
-import com.tdjpartner.base.BaseFrgment;
+import com.tdjpartner.base.Fragment;
 import com.tdjpartner.model.HomeData;
 import com.tdjpartner.model.HomeFilter;
 import com.tdjpartner.model.StatisticalData;
@@ -48,16 +50,16 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 
-public class MenberHomepageFragment extends BaseFrgment<MenberHomepageFragmentPresenter> implements SwipeRefreshLayout.OnRefreshListener,BaseQuickAdapter.OnItemClickListener, View.OnClickListener {
+public class MenberHomepageFragment extends Fragment<MenberHomepageFragmentPresenter> implements SwipeRefreshLayout.OnRefreshListener,BaseQuickAdapter.OnItemClickListener, View.OnClickListener {
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.rv_recyclerView)
     RecyclerView rv_recyclerView;
-    @BindView(R.id.rl_team)
+    @BindView(R.id.ll_team)
     RelativeLayout rl_team;
     @BindView(R.id.tv_username)
     TextView tv_username;
-    @BindView(R.id.tv_heard)
+    @BindView(R.id.tv_team)
     TextView tv_heard;
     @BindView(R.id.tv_time)
     TextView tv_time;
@@ -83,10 +85,10 @@ public class MenberHomepageFragment extends BaseFrgment<MenberHomepageFragmentPr
     private boolean f;
     private HomeFilter homeFilter = new HomeFilter();
 
-    @OnClick({R.id.rl_team})
+    @OnClick({R.id.ll_team})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.rl_team:
+            case R.id.ll_team:
                 Intent intent = new Intent(getContext(), TeamPreviewActivity.class);
                 intent.putExtra("userId", UserUtils.getInstance().getLoginBean().getEntityId() + "");
                 startActivity(intent);
@@ -122,7 +124,7 @@ public class MenberHomepageFragment extends BaseFrgment<MenberHomepageFragmentPr
     }
 
     public void setTime(boolean type) {
-        pvTime = new TimePickerView.Builder(getContext(), new TimePickerView.OnTimeSelectListener() {
+        pvTime = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
                 if (f) {
@@ -142,7 +144,7 @@ public class MenberHomepageFragment extends BaseFrgment<MenberHomepageFragmentPr
                 .isCenterLabel(true)
                 .setLineSpacingMultiplier(1.8f)
                 .setDividerColor(Color.DKGRAY)
-                .setContentSize(16)
+                .setContentTextSize(16)
                 .setDate(selectedDate)
                 .setRangDate(startDate, endDate)
                 .setDecorView(null)

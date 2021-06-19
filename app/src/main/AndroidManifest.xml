@@ -45,6 +45,7 @@
         android:requestLegacyExternalStorage="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme">
+
         <activity android:name=".SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Launcher">
@@ -59,6 +60,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.ForgetPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.V3LoginActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.LoginActivity"
@@ -107,6 +111,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.MenberPaifangHistoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.AfterSalePageActivity"
             android:screenOrientation="portrait" />
 
         <activity
@@ -208,21 +215,56 @@
             android:name=".utils.appupdate.PermissionActivity"
             android:label=""
             android:theme="@style/DialogActivity" />
+
+
+        <!--  创客3.0 -->
+        <activity
+            android:name=".ui.activity.StatisticsListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.StatisticsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ApprovalActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ApprovalDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.ApprovalHandleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.NetSupportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.NetSupportDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.V3TeamMemberActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.MemberStatisticsActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.InvitationActivityNew"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.ShareShopListActivity"
+            android:screenOrientation="portrait" />
+
+
+
+
         <!-- 腾讯X5内核初始化 -->
         <service android:name="com.tencent.smtt.export.external.DexClassLoaderProviderService"
             android:label="dexopt"
             android:process=":dexopt" />
-
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
             android:noHistory="true" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data android:scheme="tencent1109665317" />
             </intent-filter>
         </activity>
@@ -230,7 +272,6 @@
             android:name="com.tencent.connect.common.AssistActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="orientation|keyboardHidden|screenSize"/>
-
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"

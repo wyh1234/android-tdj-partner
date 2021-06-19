@@ -1,7 +1,5 @@
 package com.tdjpartner.ui.fragment;
 
-;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,31 +10,28 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.apkfuns.logutils.LogUtils;
-import com.bigkoo.pickerview.TimePickerView;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.TeamPreviewAdapter;
 import com.tdjpartner.adapter.TeamPreviewAllAdapter;
 import com.tdjpartner.adapter.TeamPreviewMothAdapter;
-import com.tdjpartner.adapter.home.HomeOrderTimesAdapter;
-import com.tdjpartner.adapter.home.HomeRegisterTimesAdapter;
 import com.tdjpartner.adapter.home.NewHomeOrderTimesAdapter;
 import com.tdjpartner.adapter.home.NewHomeRegisterTimesAdapter;
-import com.tdjpartner.base.BaseFrgment;
-import com.tdjpartner.model.HomeData;
+import com.tdjpartner.base.Fragment;
 import com.tdjpartner.model.HomeFilter;
 import com.tdjpartner.model.NewHomeData;
 import com.tdjpartner.model.TeamOverView;
 import com.tdjpartner.mvp.presenter.HomepageFragmentPresenter;
 import com.tdjpartner.ui.activity.TeamMemberActivity;
-import com.tdjpartner.ui.activity.TeamPreviewActivity;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
 import com.tdjpartner.utils.ViewUrils;
 import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.widget.CustomLinearLayout;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,19 +42,21 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> implements SwipeRefreshLayout.OnRefreshListener
+;
+
+public class HomepageFragment extends Fragment<HomepageFragmentPresenter> implements SwipeRefreshLayout.OnRefreshListener
         , View.OnClickListener, BaseQuickAdapter.OnItemChildClickListener {
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.rv_recyclerView)
     RecyclerView rv_recyclerView;
-    @BindView(R.id.rl_team)
+    @BindView(R.id.ll_team)
     RelativeLayout rl_team;
     @BindView(R.id.tv_username)
     TextView tv_username;
     @BindView(R.id.tv_time)
     TextView tv_time;
-    @BindView(R.id.tv_heard)
+    @BindView(R.id.tv_team)
     TextView tv_heard;
     private RecyclerView month_recyclerView, all_recyclerView, register_recyclerView, order_recyclerView;
     private TeamPreviewAdapter teamPreviewAdapter;
@@ -78,10 +75,10 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
 
     private Calendar selectedDate, endDate, startDate;
 
-    @OnClick({R.id.rl_team})
+    @OnClick({R.id.ll_team})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.rl_team:
+            case R.id.ll_team:
                 Intent intent = new Intent(getContext(), TeamMemberActivity.class);
                 intent.putExtra("userId", UserUtils.getInstance().getLoginBean().getEntityId() + "");
                 startActivity(intent);
@@ -310,7 +307,7 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
     }
 
     public void setTime(int type) {
-        pvTime = new TimePickerView.Builder(getContext(), new TimePickerView.OnTimeSelectListener() {
+        pvTime = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
                 if (type == 1) {
@@ -328,7 +325,7 @@ public class HomepageFragment extends BaseFrgment<HomepageFragmentPresenter> imp
                 .isCenterLabel(true)
                 .setLineSpacingMultiplier(1.8f)
                 .setDividerColor(Color.DKGRAY)
-                .setContentSize(16)
+                .setContentTextSize(16)
                 .setDate(selectedDate)
                 .setRangDate(startDate, endDate)
                 .setDecorView(null)

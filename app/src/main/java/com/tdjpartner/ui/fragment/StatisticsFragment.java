@@ -13,7 +13,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.HomeDataDetailsAdapter;
-import com.tdjpartner.base.BaseFrgment;
+import com.tdjpartner.base.Fragment;
 import com.tdjpartner.model.HomeDataDetails;
 import com.tdjpartner.model.SeachTag;
 import com.tdjpartner.mvp.presenter.StatisticsFragmentPresenter;
@@ -32,7 +32,7 @@ import java.util.Map;
 import butterknife.BindView;
 
 
-public class StatisticsFragment extends BaseFrgment<StatisticsFragmentPresenter>  implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener
+public class StatisticsFragment extends Fragment<StatisticsFragmentPresenter> implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener
 ,BaseQuickAdapter.OnItemClickListener,BaseQuickAdapter.OnItemChildClickListener{
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout refreshLayout;

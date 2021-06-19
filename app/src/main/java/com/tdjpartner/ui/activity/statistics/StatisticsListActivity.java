@@ -8,10 +8,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.apkfuns.logutils.LogUtils;
-import com.bigkoo.pickerview.TimePickerView;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.tdjpartner.R;
-import com.tdjpartner.adapter.FragmentAdapter;
 import com.tdjpartner.adapter.FragmentStatisticsAdapter;
 import com.tdjpartner.base.BaseActivity;
 import com.tdjpartner.model.SeachTag;
@@ -93,7 +93,7 @@ public class StatisticsListActivity extends BaseActivity {
         startDate.set(startDate.get(Calendar.YEAR),  (startDate.get(Calendar.MONTH)-6),startDate.get(Calendar.DAY_OF_MONTH));
         endDate = Calendar.getInstance();
         endDate.set(endDate.get(Calendar.YEAR),  (endDate.get(Calendar.MONTH)),endDate.get(Calendar.DAY_OF_MONTH));
-        pvTime = new TimePickerView.Builder(getContext(), new TimePickerView.OnTimeSelectListener() {
+        pvTime = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
                 if (getIntent().getStringExtra("title").equals("今日统计")) {
@@ -113,7 +113,7 @@ public class StatisticsListActivity extends BaseActivity {
                 .setLabel("年", "月", "日", "", "", "")
                 .isCenterLabel(true)
                 .setDividerColor(Color.DKGRAY)
-                .setContentSize(16)
+                .setContentTextSize(16)
                 .setDate(selectedDate)
                 .setRangDate(startDate, endDate)
                 .setDecorView(null)

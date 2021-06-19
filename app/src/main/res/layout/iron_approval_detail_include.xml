@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/bd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:text="创客：李四13212346542"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/authStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_margin="4dp"
+            android:background="@drawable/bg_orange_12"
+            android:paddingStart="8dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="4dp"
+            android:text="审核驳回"
+            android:textColor="@color/white"
+            android:textSize="10sp" />
+
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="center_vertical"
+        android:background="@color/gray_f2" />
+
+    <TextView
+        android:id="@+id/nick_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="希尔顿酒店"
+        android:textStyle="bold"
+        android:textSize="12sp" />
+    <TextView
+        android:id="@+id/verify_customer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="负责人：周伟1868122231"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/region_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="区域：东西湖永旺梦乐城"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/enterprise_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="地址：武昌徐东大街100号"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/delivered_time_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="收货时间：9:00-10:00"
+        android:textSize="12sp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/image_url"
+            android:layout_width="100dp"
+            android:layout_height="120dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:src="@mipmap/yingyezhao_bg" />
+
+        <ImageView
+            android:id="@+id/bzlicence_url"
+            android:layout_width="100dp"
+            android:layout_height="120dp"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:src="@mipmap/yingyezhao_bg" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="形象照"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="营业照"
+            android:textSize="12sp" />
+    </LinearLayout>
+</LinearLayout>

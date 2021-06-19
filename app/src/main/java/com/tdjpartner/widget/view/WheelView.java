@@ -330,6 +330,7 @@ public class WheelView extends View {
     }
 
     public final void setItems(List<String> items, int initPosition) {
+        System.out.println("items = " + items + ", initPosition = " + initPosition);
         setInitPosition(initPosition);
         setItems(items);
     }

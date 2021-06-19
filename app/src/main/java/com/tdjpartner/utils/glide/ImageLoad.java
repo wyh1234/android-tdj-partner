@@ -2,23 +2,30 @@ package com.tdjpartner.utils.glide;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 
+import com.apkfuns.logutils.LogUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.cache.ExternalCacheDiskCacheFactory;
 import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.tdjpartner.R;
+import com.tdjpartner.utils.GeneralUtils;
 
 import java.io.File;
 import java.math.BigDecimal;
-
 
 
 /**
@@ -49,14 +56,20 @@ public class ImageLoad {
     public static void loadImageViewSize(Context mContext, String path, int width, int height, ImageView mImageView) {
         GlideApp.with(mContext).load(path).override(width, height).into(mImageView);
     }
+
     //设置加载中以及加载失败图片,加载图片
-    public static void loadImageViewLoding( String path, ImageView mImageView,int res) {
+    public static void loadImageViewLoding(String path, ImageView mImageView, int res) {
         GlideApp.with(mImageView.getContext()).load(path).placeholder(res).error(res).into(mImageView);
     }
 
     //设置加载中以及加载失败图片,加载图片
-    public static void loadImageViewLoding( String path, ImageView mImageView) {
+    public static void loadImageViewLoding(String path, ImageView mImageView) {
         GlideApp.with(mImageView.getContext()).load(path).placeholder(R.mipmap.head_portrait).error(R.mipmap.head_portrait).into(mImageView);
+    }
+
+    //设置加载中以及加载失败图片,加载图片
+    public static void loadImageViewLodingWithOption(String path, ImageView mImageView, RequestOptions requestOptions) {
+        GlideApp.with(mImageView.getContext()).load(path).error(R.mipmap.head_portrait).apply(requestOptions).into(mImageView);
     }
 
     public static void loadImageViewLodingCache(String path, ImageView mImageView) {
@@ -68,10 +81,7 @@ public class ImageLoad {
     //设置加载中以及加载失败图片
     public static void loadImageViewLodingError(ImageView mImageView) {
         GlideApp.with(mImageView.getContext()).load(R.mipmap.head_portrait).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(mImageView);
-
-
     }
-
 
 
     //设置加载中以及加载失败图片并且指定大小
@@ -157,15 +167,16 @@ public class ImageLoad {
             }
         });
     }
-/*    //通过url获取Bitmap
-    public static void getBitmap(Context mContext, final ShareParams shareParams) {
-        GlideApp.with(mContext).asBitmap().load("http://static.zukehouse.com/Logo/logo_fangxing.png_fx").into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                shareParams.setImageData(resource);
-            }
-        });
-    }*/
+
+    /*    //通过url获取Bitmap
+        public static void getBitmap(Context mContext, final ShareParams shareParams) {
+            GlideApp.with(mContext).asBitmap().load("http://static.zukehouse.com/Logo/logo_fangxing.png_fx").into(new SimpleTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                    shareParams.setImageData(resource);
+                }
+            });
+        }*/
     //通过url获取Bitmap
     public static void getBitmap2(Context mContext, final ImageView imageView) {
         GlideApp.with(mContext).asBitmap().load("http://static.zukehouse.com/Logo/logo_fangxing.png_fx").into(new SimpleTarget<Bitmap>() {
@@ -176,10 +187,29 @@ public class ImageLoad {
             }
         });
     }
+
     //设置静态GIF加载方式
     public static void loadImageViewStaticGif(Context mContext, String path, ImageView mImageView) {
         Glide.with(mContext).asBitmap().load(path).into(mImageView);
     }
+
+    public static void loadRoundImage(String path, int roundRadius, ImageView mImageView, int resourceId) {
+        Glide.with(mImageView.getContext())
+                .load(path)
+                .apply(RequestOptions.placeholderOf(resourceId)
+                        .transforms(new CenterCrop(), new RoundedCorners(roundRadius)))
+                .into(mImageView);
+    }
+
+    public static void loadRoundImageWithListen(Context mContext, String path, int roundRadius, ImageView mImageView, RequestListener<Drawable> listener) {
+        Glide.with(mContext)
+                .load(path)
+                .apply(RequestOptions.errorOf(R.mipmap.head_portrait)
+                        .transforms(new CenterCrop(), new RoundedCorners(roundRadius)))
+                .listener((RequestListener<Drawable>) listener)
+                .into(mImageView);
+    }
+
 
     //设置监听的用处 可以用于监控请求发生错误来源，以及图片来源 是内存还是磁盘
 
@@ -201,6 +231,7 @@ public class ImageLoad {
                 error(R.mipmap.head_portrait);
         return options;
     }
+
     public static void loadRound(Context context, String url, ImageView iv) {
         RequestOptions options = new RequestOptions();
         options.placeholder(R.mipmap.head_portrait)

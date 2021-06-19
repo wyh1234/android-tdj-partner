@@ -2,6 +2,8 @@ package com.tdjpartner.common;
 
 
 import com.tdjpartner.http.BaseResponse;
+import com.tdjpartner.model.AfterDetailData;
+import com.tdjpartner.model.AfterSaleInfoData;
 import com.tdjpartner.model.AfterSales;
 import com.tdjpartner.model.AppVersion;
 import com.tdjpartner.model.BaiFangHistory;
@@ -12,9 +14,13 @@ import com.tdjpartner.model.ClientDetails;
 import com.tdjpartner.model.ClientInfo;
 import com.tdjpartner.model.ClientSeachInfo;
 import com.tdjpartner.model.CouponsStatistics;
+import com.tdjpartner.model.CustomerInfo;
+import com.tdjpartner.model.CustomerPhone;
+import com.tdjpartner.model.DayAndMonthData;
 import com.tdjpartner.model.DegreeOfSatisfaction;
 import com.tdjpartner.model.DeleteSalesAppByEntityId;
 import com.tdjpartner.model.DiscountCoupon;
+import com.tdjpartner.model.DistanceInfo;
 import com.tdjpartner.model.DistinctList;
 import com.tdjpartner.model.DriverLocation;
 import com.tdjpartner.model.DropOuting;
@@ -23,8 +29,13 @@ import com.tdjpartner.model.GoodsInfo;
 import com.tdjpartner.model.HomeData;
 import com.tdjpartner.model.HomeDataDetails;
 import com.tdjpartner.model.HomePageFuncationButton;
+import com.tdjpartner.model.HomeTopData;
+import com.tdjpartner.model.HotelAuditInfo;
+import com.tdjpartner.model.HotelAuditPageList;
+import com.tdjpartner.model.IntegralItem;
 import com.tdjpartner.model.IntegralShop;
 import com.tdjpartner.model.InvitationHistory;
+import com.tdjpartner.model.IronHomeData;
 import com.tdjpartner.model.MyCountMoney;
 import com.tdjpartner.model.MyTeam;
 import com.tdjpartner.model.NewHomeData;
@@ -41,21 +52,23 @@ import com.tdjpartner.model.RefundDetail;
 import com.tdjpartner.model.RentingInfos;
 import com.tdjpartner.model.SelectPerson;
 import com.tdjpartner.model.SettingPerson;
+import com.tdjpartner.model.ShareShopListBean;
+import com.tdjpartner.model.StatisticsDetails;
 import com.tdjpartner.model.StoreInfo;
+import com.tdjpartner.model.TeamMemberData;
 import com.tdjpartner.model.TeamOverView;
 import com.tdjpartner.model.ToMakeMoney;
 import com.tdjpartner.model.UserInfo;
+import com.tdjpartner.model.V3HomeData;
 import com.tdjpartner.model.WithdrawDetalis;
 
 import java.util.List;
 import java.util.Map;
 
-import io.reactivex.Completable;
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
-import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
@@ -77,9 +90,6 @@ import retrofit2.http.Url;
  */
 
 public interface ApiService {
-
-
-
 
     //缓存一个小时
     @Headers("Cache-Control: public, max-age=3600")
@@ -104,20 +114,18 @@ public interface ApiService {
     Observable<BaseResponse<RentingInfos>> get_rentinglist(@FieldMap Map<String, Object> map);
 
 
-
     @GET("tdj-store/store/commodity/queryList")
     Observable<String> get(@QueryMap Map<String, String> maps);
 
 
     /*
-    * json请求
-    *
-    *
-    * */
+     * json请求
+     *
+     *
+     * */
 
     @POST("tdj-store/store/commodity/queryList")
     Observable<BaseResponse<IntegralShop>> commodity_queryList(@Body RequestBody body);
-
 
 
     //采购商登录
@@ -138,7 +146,7 @@ public interface ApiService {
     @Headers({"url_type:weather"})
     @FormUrlEncoded
     @PUT("customer/password/forget")
-    Observable<BaseResponse<Object>> forget_pwd( @FieldMap Map<String, Object> params);
+    Observable<BaseResponse<Object>> forget_pwd(@FieldMap Map<String, Object> params);
 
 
     /*
@@ -163,7 +171,7 @@ public interface ApiService {
     @Headers({"url_type:weather"})
     @Multipart
     @POST("image/uploadImgUrl")
-    Observable<BaseResponse<String>>  imageUpload(@Part MultipartBody.Part part);
+    Observable<BaseResponse<String>> imageUpload(@Part MultipartBody.Part part);
 
 
     //发送短信
@@ -207,6 +215,7 @@ public interface ApiService {
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/bankAccount/addBankAccount")
     Observable<BaseResponse<Bank>> addBankAccount(@Body RequestBody body);
+
     /*
      *提现
      *
@@ -235,26 +244,29 @@ public interface ApiService {
      * 参数名	类型	必须(1是/0否)	说明
      * entityId	int	1	主账号身份时取登录信息的entityId，子账户时取subUserId
      * uniqueId	String	1	登录时uniqueId设备号
-     *  flag //0-刷新门店信息 1-获取当前登陆用户信息
+     * flag //0-刷新门店信息 1-获取当前登陆用户信息
      */
     @Headers({"url_type:weather"})
     @GET("customer/refreshInfo")
-    Observable<BaseResponse<UserInfo>>  customer_refreshInfo(@Query("site") int site, @Query("flag") int flag, @Query("entityId") int entityId, @Query("loginUserId") int loginUserId, @Query("uniqueId") String uniqueId);
+    Observable<BaseResponse<UserInfo>> customer_refreshInfo(@Query("site") int site, @Query("flag") int flag, @Query("entityId") int entityId, @Query("loginUserId") int loginUserId, @Query("uniqueId") String uniqueId, @Query("type") String type);
 
+    @Headers({"url_type:weather"})
+    @GET("customer/refreshInfo")
+    Observable<BaseResponse<UserInfo>> customer_refreshInfo(@QueryMap Map<String, Object> map);
 
 
     @Headers({"url_type:weather"})
     @GET("afterSalesApplication/findPageByCSIdList")
-    Observable<BaseResponse<PageByCSIdList>>  findPageByCSIdList(@Query("site") int site, @Query("type") int type,
-                                                                 @Query("id") int id,
-                                                                 @Query("pn") int pn,
-                                                                 @Query("ps") int ps,@Query("startTime") String startTime,
-                                                                 @Query("endTime") String endTime);
+    Observable<BaseResponse<PageByCSIdList>> findPageByCSIdList(@Query("site") int site, @Query("type") int type,
+                                                                @Query("id") int id,
+                                                                @Query("pn") int pn,
+                                                                @Query("ps") int ps, @Query("startTime") String startTime,
+                                                                @Query("endTime") String endTime);
 
 
     @Headers({"url_type:weather"})
     @GET("order/getDriverLocation")
-    Observable<BaseResponse<DriverLocation>>  getDriverLocation(@Query("site") int site,@Query("orderNo") String orderNo,@Query("driverTel") String driverTel,@Query("customerAddrId") int customerAddrId);
+    Observable<BaseResponse<DriverLocation>> getDriverLocation(@Query("site") int site, @Query("orderNo") String orderNo, @Query("driverTel") String driverTel, @Query("customerAddrId") int customerAddrId);
 
     @Headers({"url_type:weather"})
     @FormUrlEncoded
@@ -266,8 +278,7 @@ public interface ApiService {
     @Headers({"url_type:weather"})
     @FormUrlEncoded
     @POST("fund/shippingEvaluation/getDegreeOfSatisfaction")
-    Observable<BaseResponse<DegreeOfSatisfaction>> getDegreeOfSatisfaction(@Query("site") int site,@Query("driverId") int driverId,@Query("extOrderId") String extOrderId);
-
+    Observable<BaseResponse<DegreeOfSatisfaction>> getDegreeOfSatisfaction(@Query("site") int site, @Query("driverId") int driverId, @Query("extOrderId") String extOrderId);
 
 
     @Headers({"url_type:weather"})
@@ -339,6 +350,7 @@ public interface ApiService {
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/order/findOne")
     Observable<BaseResponse<OrderDetail>> findOne(@Body RequestBody body);
+
     /*
      *是否售后
      *
@@ -366,6 +378,7 @@ public interface ApiService {
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/call/list")
     Observable<BaseResponse<BaiFangHistory>> call_list(@Body RequestBody body);
+
     /*
      *.我要拜访
      *
@@ -392,6 +405,7 @@ public interface ApiService {
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/amountAnalysisRecords/toMakeMoney")
     Observable<BaseResponse<ToMakeMoney>> amountAnalysisRecords(@Body RequestBody body);
+
     /*
      *.邀请记录
      *
@@ -400,6 +414,7 @@ public interface ApiService {
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/amountAnalysisRecords/myCustomerList")
     Observable<BaseResponse<InvitationHistory>> myCustomerList(@Body RequestBody body);
+
     /*
      *.收益记录
      *
@@ -416,8 +431,19 @@ public interface ApiService {
      * */
     @Headers({"url_type:xuming"})
     @POST("tdj-report/report/customer/hotelMap")
-    Observable<BaseResponse<List<ClientInfo> >> hotelMap(@Body RequestBody body);
+    Observable<BaseResponse<List<ClientInfo>>> hotelMap(@Body RequestBody body);
 
+    @Headers({"url_type:xuming"})
+    @POST("tdj-report/report/customer/mapData")
+    Observable<BaseResponse<List<ClientInfo>>> mapData(@Body RequestBody body);
+
+    @Headers({"url_type:xuming"})
+    @POST("tdj-report/report/customer/listData")
+    Observable<BaseResponse<CustomerInfo>> listData(@Body RequestBody body);
+
+    @Headers({"url_type:xuming"})
+    @POST("tdj-report/report/customer/punchDistance")
+    Observable<BaseResponse<DistanceInfo>> punchDistance(@Body RequestBody body);
 
     /*
      *.地图搜索
@@ -435,7 +461,7 @@ public interface ApiService {
      * */
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/userApply/verifyList")
-    Observable<BaseResponse<PartnerCheck>> verifyList(@Body  RequestBody body);
+    Observable<BaseResponse<PartnerCheck>> verifyList(@Body RequestBody body);
 
 
     /*
@@ -445,7 +471,7 @@ public interface ApiService {
      * */
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/amountAnalysisRecords/myCountMoney")
-    Observable<BaseResponse<MyCountMoney>> myCountMoney(@Body  RequestBody body);
+    Observable<BaseResponse<MyCountMoney>> myCountMoney(@Body RequestBody body);
 
     /*
      *.审核明细
@@ -454,7 +480,7 @@ public interface ApiService {
      * */
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/userApply/verifyDetail")
-    Observable<BaseResponse<PartnerCheckDetails>> verifyDetail(@Body  RequestBody body);
+    Observable<BaseResponse<PartnerCheckDetails>> verifyDetail(@Body RequestBody body);
 
     /*
      *.审核明细
@@ -463,7 +489,7 @@ public interface ApiService {
      * */
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/userApply/clickVerify")
-    Observable<BaseResponse<Integer>> clickVerify(@Body  RequestBody body);
+    Observable<BaseResponse<Integer>> clickVerify(@Body RequestBody body);
 
 
     /*
@@ -473,7 +499,7 @@ public interface ApiService {
      * */
     @Headers({"url_type:xuming"})
     @POST("tdj-report/report/customer/setManagerList")
-    Observable<BaseResponse<SettingPerson>> managerList(@Body  RequestBody body);
+    Observable<BaseResponse<SettingPerson>> managerList(@Body RequestBody body);
 
     /*
      *.客户详情
@@ -482,7 +508,7 @@ public interface ApiService {
      * */
     @Headers({"url_type:xuming"})
     @POST("tdj-report/report/customer/customerInfo")
-    Observable<BaseResponse<ClientDetails>> client_details(@Body  RequestBody body);
+    Observable<BaseResponse<ClientDetails>> client_details(@Body RequestBody body);
 
     /*
      *.选择专员列表
@@ -491,7 +517,7 @@ public interface ApiService {
      * */
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/userRelations/managerList")
-    Observable<BaseResponse<SelectPerson>> userRelations_managerList(@Body  RequestBody body);
+    Observable<BaseResponse<SelectPerson>> userRelations_managerList(@Body RequestBody body);
 
 
     /*
@@ -501,7 +527,7 @@ public interface ApiService {
      * */
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/userRelations/setManager")
-    Observable<BaseResponse<Integer>> userRelations_setManager(@Body  RequestBody body);
+    Observable<BaseResponse<Integer>> userRelations_setManager(@Body RequestBody body);
 
     /*
      *.选择专员列表
@@ -510,7 +536,7 @@ public interface ApiService {
      * */
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/userRelations/modifyAvatarUrl")
-    Observable<BaseResponse<Integer>> modifyAvatarUrl(@Body  RequestBody body);
+    Observable<BaseResponse<Integer>> modifyAvatarUrl(@Body RequestBody body);
 
     /*
      *.选择专员列表
@@ -519,7 +545,8 @@ public interface ApiService {
      * */
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/worship/insert")
-    Observable<BaseResponse<Integer>> worship(@Body  RequestBody body);
+    Observable<BaseResponse<Integer>> worship(@Body RequestBody body);
+
     /*
      *.
      *
@@ -527,7 +554,8 @@ public interface ApiService {
      * */
     @Headers({"url_type:xuming"})
     @POST("tdj-report/report/teamOverView/day")
-    Observable<BaseResponse<TeamOverView>> teamOverView_day(@Body  RequestBody body);
+    Observable<BaseResponse<TeamOverView>> teamOverView_day(@Body RequestBody body);
+
     /*
      *.
      *
@@ -535,7 +563,7 @@ public interface ApiService {
      * */
     @Headers({"url_type:xuming"})
     @POST("tdj-report/report/teamOverView/month")
-    Observable<BaseResponse<TeamOverView>> teamOverView_month(@Body  RequestBody body);
+    Observable<BaseResponse<TeamOverView>> teamOverView_month(@Body RequestBody body);
 
     /*
      *.
@@ -544,7 +572,7 @@ public interface ApiService {
      * */
     @Headers({"url_type:xuming"})
     @POST("tdj-report/report/teamOverView/all")
-    Observable<BaseResponse<TeamOverView>> teamOverView_all(@Body  RequestBody body);
+    Observable<BaseResponse<TeamOverView>> teamOverView_all(@Body RequestBody body);
 
     /*
      *.
@@ -553,12 +581,16 @@ public interface ApiService {
      * */
     @Headers({"url_type:xuming"})
     @POST("tdj-report/report/customer/homeData")
-    Observable<BaseResponse<HomeData>> homeData(@Body  RequestBody body);
+    Observable<BaseResponse<IronHomeData>> ironHomeData(@Body RequestBody body);
 
+    @Headers({"url_type:xuming"})
+    @POST("tdj-report/report/customer/homeData")
+    Observable<BaseResponse<HomeData>> homeData(@Body RequestBody body);
 
     @Headers({"url_type:xuming"})
     @POST("tdj-report/report/teamOverView/homePageTop")
-    Observable<BaseResponse<NewHomeData>> newhomeData(@Body  RequestBody body);
+    Observable<BaseResponse<NewHomeData>> newhomeData(@Body RequestBody body);
+
 
     /*
      *.
@@ -567,7 +599,7 @@ public interface ApiService {
      * */
     @Headers({"url_type:xuming"})
     @POST("tdj-report/report/customer/homeDataDetails")
-    Observable<BaseResponse<HomeDataDetails>> homeDataDetails(@Body  RequestBody body);
+    Observable<BaseResponse<HomeDataDetails>> homeDataDetails(@Body RequestBody body);
 
     /*
      *.
@@ -576,17 +608,17 @@ public interface ApiService {
      * */
     @Headers({"url_type:xuming"})
     @POST("tdj-report/report/teamOverView/myTeamHistoryPartnerList")
-    Observable<BaseResponse<MyTeam>> myTeamPartnerList(@Body  RequestBody body);
+    Observable<BaseResponse<MyTeam>> myTeamPartnerList(@Body RequestBody body);
 
 
     @Headers({"url_type:xuming"})
     @POST("tdj-report/report/teamOverView/memberList")
-    Observable<BaseResponse<List<NewMyTeam>>> memberList(@Body  RequestBody body);
+    Observable<BaseResponse<List<NewMyTeam>>> memberList(@Body RequestBody body);
 
 
     @Headers({"url_type:xuming"})
     @POST("tdj-report/report/teamOverView/teamCity")
-    Observable<BaseResponse<List<NewMyTeam>>> teamCity(@Body  RequestBody body);
+    Observable<BaseResponse<List<NewMyTeam>>> teamCity(@Body RequestBody body);
 
 
     /*
@@ -596,7 +628,7 @@ public interface ApiService {
      * */
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/version/check")
-    Observable<BaseResponse<AppVersion>> version_check(@Body  RequestBody body);
+    Observable<BaseResponse<AppVersion>> version_check(@Body RequestBody body);
 
 
     /*
@@ -606,7 +638,7 @@ public interface ApiService {
      * */
     @Headers({"url_type:xuming"})
     @POST("tdj-report/report/teamOverView/myTeamPartnerSelectList")
-    Observable<BaseResponse<List<String>>> myTeamPartnerSelectList(@Body  RequestBody body);
+    Observable<BaseResponse<List<String>>> myTeamPartnerSelectList(@Body RequestBody body);
 
 
     /*
@@ -616,7 +648,7 @@ public interface ApiService {
      * */
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/call/distinctList")
-    Observable<BaseResponse<DistinctList>> distinctList(@Body  RequestBody body);
+    Observable<BaseResponse<DistinctList>> distinctList(@Body RequestBody body);
 
     /*
      *.
@@ -625,10 +657,89 @@ public interface ApiService {
      * */
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/call/parentList")
-    Observable<BaseResponse<ParentList>> parentList(@Body  RequestBody body);
+    Observable<BaseResponse<ParentList>> parentList(@Body RequestBody body);
 
 
     @Headers({"url_type:weather"})
     @GET("afterSalesApplication/findAfterSalesAppyDetailByItemId/{orderItemId}")
-    Observable<BaseResponse<RefundDetail> >after_details_order(@Path("orderItemId") int orderItemId, @Query("site") int site);
+    Observable<BaseResponse<RefundDetail>> after_details_order(@Path("orderItemId") int orderItemId, @Query("site") int site);
+
+
+    /****************创客3.0********************/
+    //首页日月统计
+    @Headers({"url_type:xuming"})
+    @POST("tdj-report/report/customer/homeData")
+    Observable<BaseResponse<V3HomeData>> v3HomeData(@Body RequestBody body);
+
+    //首页排行榜
+    @Headers({"url_type:xuming"})
+    @POST("tdj-report/report/teamOverView/homePageTop")
+    Observable<BaseResponse<HomeTopData>> ironHomeTopData(@Body RequestBody body);
+
+    //铁军统计
+    @Headers({"url_type:xuming"})
+    @POST("tdj-report/report/customer/homeDataDetails")
+    Observable<BaseResponse<StatisticsDetails>> ironStatisticsDetails(@Body RequestBody body);
+
+    //铁军DB切换城市
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/userRelations/listByCustomerPhone")
+    Observable<BaseResponse<List<CustomerPhone>>> listByCustomerPhone(@Body RequestBody body);
+
+    //铁军当前成员
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/userRelations/teamMember")
+    Observable<BaseResponse<TeamMemberData>> teamMember(@Body RequestBody body);
+
+    //日月统计
+    @Headers({"url_type:xuming"})
+    @POST("/tdj-report/report/teamOverView/dayAndMonthData")
+    Observable<BaseResponse<DayAndMonthData>> ironDayAndMonthData(@Body RequestBody body);
+
+    //酒店审核
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/hotelAudit/pageList")
+    Observable<BaseResponse<HotelAuditPageList>> hotelAuditPageList(@Body RequestBody body);
+
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/hotelAudit/info")
+    Observable<BaseResponse<HotelAuditInfo>> hotelAuditInfo(@Body RequestBody body);
+
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/hotelAudit/reject")
+    Observable<BaseResponse<String>> hotelAuditReject(@Body RequestBody body);
+
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/hotelAudit/pass")
+    Observable<BaseResponse<String>> hotelAuditPass(@Body RequestBody body);
+
+    //网军DB售后
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/afterSalesApplication/getafterSalesTask")
+    Observable<BaseResponse<AfterSaleInfoData>> getafterSalesTask(@Body RequestBody body);
+
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/afterSalesApplication/afterDetail")
+    Observable<BaseResponse<AfterDetailData>> afterDetail(@Body RequestBody body);
+
+    @Headers({"url_type:xuming"})
+    @POST("/tdj-partner/partner/afterSalesApplication/modifyAfterSalePhoto")
+    Observable<BaseResponse<AfterDetailData>> modifyAfterSalePhoto(@Body RequestBody body);
+
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/afterSalesApplication/difficulty")
+    Observable<BaseResponse<AfterDetailData>> difficulty(@Body RequestBody body);
+
+    @Headers({"url_type:xuming"})
+    @POST("tdj-user/user/integral/queryInviteList")
+    Observable<BaseResponse<List<IntegralItem>>> queryInviteList(@Body RequestBody body);
+
+    @Headers({"url_type:weather"})
+    @GET("customer/findApplyHotelList")
+    Observable<BaseResponse<ShareShopListBean>> getShareShopList(@Query("applyCode") String applyCode,
+                                                                 @Query("site") int site,
+                                                                 @Query("queryDate") String queryDate,
+                                                                 @Query("type") int type,
+                                                                 @Query("pn") int pn,
+                                                                 @Query("ps") int ps);
 }

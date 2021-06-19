@@ -16,6 +16,7 @@ import io.reactivex.schedulers.Schedulers;
 public class RxUtils {
     /**
      * 统一线程处理
+     *
      * @param <T> 指定的泛型类型
      * @return FlowableTransformer
      */
@@ -26,6 +27,7 @@ public class RxUtils {
 
     /**
      * 统一线程处理
+     *
      * @param <T> 指定的泛型类型
      * @return ObservableTransformer
      */
@@ -36,32 +38,36 @@ public class RxUtils {
 
     /**
      * 统一返回结果处理
+     *
      * @param <T> 指定的泛型类型
      * @return ObservableTransformer
      */
     public static <T> ObservableTransformer<BaseResponse<T>, T> handleResult() {
         return httpResponseObservable ->
                 httpResponseObservable.flatMap((Function<BaseResponse<T>, Observable<T>>) baseResponse -> {
-                    if(baseResponse.getCode() == 0
-                            && baseResponse.getData() != null)
-                   /* if(baseResponse.getCode() == 0)*/ {
+                    if (baseResponse.isSuccess()) {
                         return createData(baseResponse);
                     } else {
                         //请求失败；
-                        return Observable.error(new ApiException(baseResponse.getCode(),baseResponse.getMsg()));
+                        return Observable.error(new ApiException(baseResponse.getCode(), baseResponse.getMsg()));
                     }
                 });
     }
 
     /**
      * 得到 Observable
+     *
      * @param <T> 指定的泛型类型
      * @return Observable
      */
     private static <T> Observable<T> createData(final BaseResponse<T> baseResponse) {
         return Observable.create(emitter -> {
             try {
-                emitter.onNext(baseResponse.getData());
+                if (baseResponse.getData() == null) {
+                    emitter.onNext((T) baseResponse.getMsg());
+                } else {
+                    emitter.onNext(baseResponse.getData());
+                }
                 emitter.onComplete();
             } catch (Exception e) {
                 LogUtils.e(baseResponse.getData());
@@ -74,7 +80,7 @@ public class RxUtils {
      * 泛型转换工具方法 eg:object ==> map<String, String>
      *
      * @param object Object
-     * @param <T> 转换得到的泛型对象
+     * @param <T>    转换得到的泛型对象
      * @return T
      */
     @SuppressWarnings("unchecked")
@@ -86,12 +92,13 @@ public class RxUtils {
     /**
      * 统一返回结果处理
      * BaseResponse
+     *
      * @return ObservableTransformer
      */
-    public static  ObservableTransformer<BaseResponse, BaseResponse> handleResults() {
+    public static ObservableTransformer<BaseResponse, BaseResponse> handleResults() {
         return httpResponseObservable ->
                 httpResponseObservable.flatMap((Function<BaseResponse, Observable<BaseResponse>>) baseResponse -> {
-                    if(baseResponse.getCode() == 0
+                    if (baseResponse.getCode() == 0
                             && baseResponse.getData() != null) {
                         return createDatas(baseResponse);
                     } else {
@@ -104,12 +111,13 @@ public class RxUtils {
     /**
      * 得到 Observable
      * BaseResponse
+     *
      * @return Observable
      */
-    private static  Observable<BaseResponse> createDatas(final BaseResponse baseResponse) {
+    private static Observable<BaseResponse> createDatas(final BaseResponse baseResponse) {
         return Observable.create(emitter -> {
             try {
-                emitter.onNext( baseResponse);
+                emitter.onNext(baseResponse);
                 emitter.onComplete();
             } catch (Exception e) {
                 emitter.onError(e);

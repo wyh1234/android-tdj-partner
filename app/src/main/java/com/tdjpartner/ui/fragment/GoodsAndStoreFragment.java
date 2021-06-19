@@ -12,14 +12,11 @@ import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.MessageListAdapter;
-import com.tdjpartner.base.BaseFrgment;
-import com.tdjpartner.model.ClientInfo;
-import com.tdjpartner.model.GoodsAndStore;
+import com.tdjpartner.base.Fragment;
 import com.tdjpartner.model.GoodsInfo;
 import com.tdjpartner.model.Message;
 import com.tdjpartner.model.StoreInfo;
 import com.tdjpartner.mvp.presenter.GoodsAndStorePresenter;
-import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.ui.activity.GoodsAndStoreActivity;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ListUtils;
@@ -32,7 +29,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 
-public class GoodsAndStoreFragment extends BaseFrgment<GoodsAndStorePresenter> implements OnRefreshListener, OnLoadmoreListener {
+public class GoodsAndStoreFragment extends Fragment<GoodsAndStorePresenter> implements OnRefreshListener, OnLoadmoreListener {
     @BindView(R.id.refreshLayout)
     RefreshLayout refreshLayout;
     @BindView(R.id.recyclerView_list)

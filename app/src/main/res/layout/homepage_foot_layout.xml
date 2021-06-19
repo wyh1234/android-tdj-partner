@@ -42,7 +42,6 @@
                 android:layout_centerVertical="true"
                 android:layout_height="match_parent">
                 <TextView
-
                     android:layout_toLeftOf="@+id/iv_xiala"
                     android:layout_marginRight="5dp"
                     android:id="@+id/tv_today"
@@ -129,7 +128,7 @@
         android:layout_height="wrap_content">
 
         <RelativeLayout
-            android:id="@+id/rl"
+            android:id="@+id/fl"
             android:layout_width="wrap_content"
             android:layout_height="27dp">
         <View

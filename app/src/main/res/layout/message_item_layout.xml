@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <RelativeLayout
-            android:id="@+id/rl"
+            android:id="@+id/fl"
             android:layout_centerVertical="true"
             android:layout_width="31dp"
             android:layout_marginLeft="13dp"
@@ -41,7 +41,7 @@
             android:layout_marginLeft="13dp"
             android:layout_centerVertical="true"
             android:text="收入通知"
-            android:layout_toRightOf="@+id/rl"
+            android:layout_toRightOf="@+id/fl"
             android:textSize="14sp"
             android:textColor="@color/black_63"
             android:layout_height="wrap_content" />

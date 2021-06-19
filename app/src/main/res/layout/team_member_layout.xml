@@ -6,7 +6,7 @@
     android:background="@color/gray_f2"
     android:layout_height="match_parent">
     <RelativeLayout
-        android:id="@+id/rl"
+        android:id="@+id/fl"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:background="@mipmap/home_bg"

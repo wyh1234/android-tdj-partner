@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.tdjpartner.ui.activity.LoginActivity;
+import com.tdjpartner.ui.activity.V3LoginActivity;
 import com.tdjpartner.utils.cache.DataUtils;
 import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.statusbar.Eyes;
@@ -38,7 +38,7 @@ public class SplashActivity extends AppCompatActivity {
                         finish();
 
                     } else {//登录
-                        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                        Intent intent = new Intent(SplashActivity.this, V3LoginActivity.class);
                         startActivity(intent);
                         finish();
 
@@ -52,7 +52,8 @@ public class SplashActivity extends AppCompatActivity {
 
             }
         };
-        timer.schedule(task, 3 * 1000 + 200);
+//        timer.schedule(task, 3 * 1000 + 200);
+        timer.schedule(task, 0 * 1000 + 200);
     }
 
 

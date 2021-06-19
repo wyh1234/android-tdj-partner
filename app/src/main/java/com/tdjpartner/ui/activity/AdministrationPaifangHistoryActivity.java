@@ -5,26 +5,22 @@ import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apkfuns.logutils.LogUtils;
-import com.bigkoo.pickerview.TimePickerView;
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.util.MultiTypeDelegate;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
 import com.tdjpartner.adapter.AdministrationAdapter;
 import com.tdjpartner.adapter.BaifangStoreAdapter;
-import com.tdjpartner.adapter.MessageListAdapter;
-import com.tdjpartner.adapter.provider.AdministrationItemAdapter;
 import com.tdjpartner.base.BaseActivity;
-import com.tdjpartner.model.DistinctList;
 import com.tdjpartner.model.Message;
 import com.tdjpartner.model.ParentList;
 import com.tdjpartner.mvp.presenter.AdministrationPaifangPresneter;
-import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.ViewUrils;
 import com.tdjpartner.utils.cache.UserUtils;
@@ -129,7 +125,7 @@ public class AdministrationPaifangHistoryActivity extends BaseActivity<Administr
         tv_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pvTime=new TimePickerView.Builder(AdministrationPaifangHistoryActivity.this, new TimePickerView.OnTimeSelectListener() {
+                pvTime=new TimePickerBuilder(AdministrationPaifangHistoryActivity.this, new OnTimeSelectListener() {
                     @Override
                     public void onTimeSelect(Date date, View v) {
                         tv_date.setText(sdf.format(date));
@@ -142,7 +138,7 @@ public class AdministrationPaifangHistoryActivity extends BaseActivity<Administr
                         .setLabel("年", "月", "日", "", "", "")
                         .isCenterLabel(true)
                         .setDividerColor(Color.DKGRAY)
-                        .setContentSize(16)
+                        .setContentTextSize(16)
                         .setRangDate(null , endDate)
                         .setDecorView(null)
                         .build();
