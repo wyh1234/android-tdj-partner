@@ -1,9 +1,15 @@
 package com.tdjpartner.ui.activity;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.text.Html;
 import android.text.TextUtils;
+import android.transition.ChangeBounds;
+import android.transition.Fade;
 import android.util.ArrayMap;
+import android.util.Pair;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,9 +58,24 @@ public class ApprovalDetailActivity extends NetworkActivity {
     @BindView(R.id.verify)
     TextView verify;
 
-    @OnClick({R.id.btn_back})
+    HotelAuditInfo hotelAuditInfo;
+
+    @OnClick({R.id.btn_back, R.id.image_url, R.id.bzlicence_url})
     public void onClick(View view) {
-        finish();
+        switch (view.getId()) {
+            case R.id.btn_back:
+                finish();
+                break;
+            case R.id.image_url:
+                if (!TextUtils.isEmpty(hotelAuditInfo.image_url))
+                    startActivity(hotelAuditInfo.image_url, view);
+                break;
+            case R.id.bzlicence_url:
+                if (!TextUtils.isEmpty(hotelAuditInfo.bzlicence_url))
+                    startActivity(hotelAuditInfo.bzlicence_url, view);
+                break;
+        }
+
     }
 
     @Override
@@ -71,6 +92,8 @@ public class ApprovalDetailActivity extends NetworkActivity {
         getVM().loadingWithNewLiveData(HotelAuditInfo.class, map)
                 .observe(this, hotelAuditInfo -> {
                     System.out.println("hotelAuditInfo = " + hotelAuditInfo);
+                    this.hotelAuditInfo = hotelAuditInfo;
+
                     String status = "";
                     switch (hotelAuditInfo.authStatus) {
                         case 0:
@@ -99,8 +122,7 @@ public class ApprovalDetailActivity extends NetworkActivity {
 
                     if (!TextUtils.isEmpty(hotelAuditInfo.image_url))
                         ImageLoad.loadImageViewLoding(hotelAuditInfo.image_url, image_url);
-                    if (!TextUtils.isEmpty(hotelAuditInfo.bzlicence_url))
-                        ImageLoad.loadImageViewLoding(hotelAuditInfo.bzlicence_url, bzlicence_url);
+                    if (!TextUtils.isEmpty(hotelAuditInfo.bzlicence_url)) ImageLoad.loadImageViewLoding(hotelAuditInfo.bzlicence_url, bzlicence_url);
 
                     created_at.setText("提交时间：" + hotelAuditInfo.created_at);
 
@@ -114,5 +136,12 @@ public class ApprovalDetailActivity extends NetworkActivity {
     @Override
     protected int getLayoutId() {
         return R.layout.iron_approval_detail_activity;
+    }
+
+    private void startActivity(String path, View view) {
+        Intent intent = new Intent(this, FullPictureActivity.class);
+        intent.putExtra("url", path);
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, view, "share");//单共享对象
+        startActivity(intent, options.toBundle());
     }
 }

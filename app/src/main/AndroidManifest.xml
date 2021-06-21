@@ -234,6 +234,9 @@
             android:name=".ui.activity.ApprovalHandleActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.activity.FullPictureActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.activity.NetSupportActivity"
             android:screenOrientation="portrait" />
         <activity

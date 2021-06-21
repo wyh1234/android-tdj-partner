@@ -1,7 +1,9 @@
 package com.tdjpartner.ui.activity;
 
+import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -58,12 +60,20 @@ public class ApprovalHandleActivity extends NetworkActivity {
     HotelAuditInfo hotelAuditInfo;
     Map<String, Object> map = new ArrayMap<>();
 
-    @OnClick({R.id.btn_yes, R.id.btn_no, R.id.btn_back})
+    @OnClick({R.id.btn_yes, R.id.btn_no, R.id.btn_back, R.id.image_url, R.id.bzlicence_url})
     public void onClick(View view) {
         System.out.println("~~" + getClass().getSimpleName() + ".onClick~~");
         System.out.println("view = " + view);
 
         switch (view.getId()) {
+            case R.id.image_url:
+                if (!TextUtils.isEmpty(hotelAuditInfo.image_url))
+                    startActivity(hotelAuditInfo.image_url, view);
+                break;
+            case R.id.bzlicence_url:
+                if (!TextUtils.isEmpty(hotelAuditInfo.bzlicence_url))
+                    startActivity(hotelAuditInfo.bzlicence_url, view);
+                break;
             case R.id.btn_yes:
                 map.clear();
                 map.put("api", "hotelAuditPass");
@@ -187,5 +197,12 @@ public class ApprovalHandleActivity extends NetworkActivity {
     @Override
     protected int getLayoutId() {
         return R.layout.iron_approval_handle_activity;
+    }
+
+    private void startActivity(String path, View view) {
+        Intent intent = new Intent(this, FullPictureActivity.class);
+        intent.putExtra("url", path);
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, view, "share");//单共享对象
+        startActivity(intent, options.toBundle());
     }
 }

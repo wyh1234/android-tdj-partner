@@ -713,6 +713,10 @@ public interface ApiService {
     @POST("tdj-partner/partner/hotelAudit/pass")
     Observable<BaseResponse<String>> hotelAuditPass(@Body RequestBody body);
 
+    @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/hotelAudit/licenceUrlCheck")
+    Observable<BaseResponse<String>> licenceUrlCheck(@Body RequestBody body);
+
     //网军DB售后
     @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/afterSalesApplication/getafterSalesTask")
