@@ -82,28 +82,32 @@
         android:text="收货时间：9:00-10:00"
         android:textSize="12sp" />
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
+                android:layout_weight="1"
                 android:text="形象照"/>
             <Switch
                 android:id="@+id/switch_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="不采用"
-                android:textOff="不采用"
-                android:textOn="采用" />
-        </FrameLayout>
+                android:thumbTint="@color/switch_gray_orage"
+                android:trackTint="@color/switch_gray_orage"
+                android:checked="false" />
+            <TextView
+                android:id="@+id/tv_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="不采用"/>
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/image_url"
@@ -118,23 +122,28 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="16dp">
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
+                android:layout_weight="1"
                 android:text="营业照"/>
             <Switch
                 android:id="@+id/switch_bzlicence"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="不采用"
-                android:textOff="不采用"
-                android:textOn="采用" />
-        </FrameLayout>
+                android:thumbTint="@color/switch_gray_orage"
+                android:trackTint="@color/switch_gray_orage"
+                android:checked="false" />
+            <TextView
+                android:id="@+id/tv_bzlicence"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="不采用"/>
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/bzlicence_url"

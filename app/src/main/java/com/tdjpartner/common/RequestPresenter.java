@@ -10,6 +10,7 @@ import com.tdjpartner.model.AfterDetailData;
 import com.tdjpartner.model.AfterSaleInfoData;
 import com.tdjpartner.model.AfterSales;
 import com.tdjpartner.model.AppVersion;
+import com.tdjpartner.model.ApprovalInfo;
 import com.tdjpartner.model.BaiFangHistory;
 import com.tdjpartner.model.Bank;
 import com.tdjpartner.model.BankList;
@@ -433,7 +434,11 @@ public class RequestPresenter {
             observable = (Observable<T>) getApiService().getafterSalesTask(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
         } else if (clazz.isAssignableFrom(AfterDetailData.class)) {
             observable = (Observable<T>) getApiService().afterDetail(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
-        } else if (clazz.isAssignableFrom(TeamMemberData.class)) {
+        } else if (clazz.isAssignableFrom(ApprovalInfo.Licence.class)) {
+            observable = (Observable<T>) getApiService().licenceUrlCheck(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
+        }  else if (clazz.isAssignableFrom(ApprovalInfo.Image.class)) {
+            observable = (Observable<T>) getApiService().imgCheck(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
+        }  else if (clazz.isAssignableFrom(TeamMemberData.class)) {
             observable = (Observable<T>) getApiService().teamMember(jsonData(map)).compose(RxUtils.rxSchedulerHelper()).compose(RxUtils.handleResult());
         } else {
             observable = null;

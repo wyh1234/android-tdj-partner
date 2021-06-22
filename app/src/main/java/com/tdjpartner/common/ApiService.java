@@ -6,6 +6,7 @@ import com.tdjpartner.model.AfterDetailData;
 import com.tdjpartner.model.AfterSaleInfoData;
 import com.tdjpartner.model.AfterSales;
 import com.tdjpartner.model.AppVersion;
+import com.tdjpartner.model.ApprovalInfo;
 import com.tdjpartner.model.BaiFangHistory;
 import com.tdjpartner.model.Bank;
 import com.tdjpartner.model.BankList;
@@ -714,8 +715,11 @@ public interface ApiService {
     Observable<BaseResponse<String>> hotelAuditPass(@Body RequestBody body);
 
     @Headers({"url_type:xuming"})
+    @POST("tdj-partner/partner/hotelAudit/imgCheck")
+    Observable<BaseResponse<ApprovalInfo.Image>> imgCheck(@Body RequestBody body);
+    @Headers({"url_type:xuming"})
     @POST("tdj-partner/partner/hotelAudit/licenceUrlCheck")
-    Observable<BaseResponse<String>> licenceUrlCheck(@Body RequestBody body);
+    Observable<BaseResponse<ApprovalInfo.Licence>> licenceUrlCheck(@Body RequestBody body);
 
     //网军DB售后
     @Headers({"url_type:xuming"})

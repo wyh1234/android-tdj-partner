@@ -4,6 +4,7 @@ package com.tdjpartner.utils;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
@@ -36,8 +37,19 @@ public class DialogUtils {
         if (!TextUtils.isEmpty(hint))
             ((TextView) dialog.findViewById(R.id.et_content)).setHint(hint);
 
-        if (ok != null) dialog.findViewById(R.id.dialog_btn_yes).setOnClickListener(ok);
-        if (ok != null) dialog.findViewById(R.id.dialog_btn_no).setOnClickListener(deny);
+        View view;
+        if (ok != null) {
+            view = dialog.findViewById(R.id.dialog_btn_yes);
+            if (view != null) view.setOnClickListener(ok);
+            view = dialog.findViewById(R.id.dialog_tv_yes);
+            if (view != null) view.setOnClickListener(ok);
+        }
+        if (deny != null) {
+            view = dialog.findViewById(R.id.dialog_btn_no);
+            if (view != null) view.setOnClickListener(deny);
+            view = dialog.findViewById(R.id.dialog_tv_no);
+            if (view != null) view.setOnClickListener(deny);
+        }
 
         Point point = new Point();
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -45,6 +57,7 @@ public class DialogUtils {
         WindowManager.LayoutParams layoutParams = dialog.getWindow().getAttributes();
         layoutParams.width = (int) (point.x);
         dialog.getWindow().setAttributes(layoutParams);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         return dialog;
     }
 }
