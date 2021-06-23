@@ -220,7 +220,7 @@ public class NetSupportDetailActivity extends NetworkActivity {
                 break;
             case R.id.difficulty:
                 if (dialog == null)
-                    dialog = DialogUtils.getResourceDialog(this, R.layout.common_dialog, REPLACE + "问题反映", "请输入遇到的问题", this::onClick, this::onClick);
+                    dialog = DialogUtils.getResourceDialog(this, R.layout.common_dialog, REPLACE + "问题反映", "请输入遇到的问题", this::onClick, this::onClick, null);
                 if (!dialog.isShowing()) dialog.show();
                 break;
             case R.id.dialog_btn_yes:

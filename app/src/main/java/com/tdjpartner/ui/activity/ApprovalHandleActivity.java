@@ -4,7 +4,6 @@ import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -71,8 +70,7 @@ public class ApprovalHandleActivity extends NetworkActivity {
     boolean isbzlicence;
     HotelAuditInfo hotelAuditInfo;
     Map<String, Object> map = new ArrayMap<>();
-
-    int userId;
+    int userId, img_check_status, licence_url_check_status;
 
     @OnClick({R.id.btn_yes, R.id.btn_no, R.id.btn_back, R.id.image_url, R.id.bzlicence_url})
     public void onClick(View view) {
@@ -108,7 +106,6 @@ public class ApprovalHandleActivity extends NetworkActivity {
                     editText.addTextChangedListener(new TextWatcher() {
                         @Override
                         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
                         }
 
                         @Override
@@ -123,7 +120,6 @@ public class ApprovalHandleActivity extends NetworkActivity {
 
                         @Override
                         public void afterTextChanged(Editable s) {
-
                         }
                     });
                 }
@@ -155,13 +151,19 @@ public class ApprovalHandleActivity extends NetworkActivity {
                 break;
             case R.id.dialog_tv_yes:
                 switch_image.setChecked(true);
-                if(hotelAuditInfo.img_check_status == 2)approvalPic(1);
-                if (dialogImage.isShowing()) dialogImage.dismiss();
+                approvalPic(1);
                 break;
             case R.id.dialog_tv_no:
                 switch_image.setChecked(false);
-                if(hotelAuditInfo.img_check_status == 1)approvalPic(2);
-                if (dialogImage.isShowing()) dialogImage.dismiss();
+                approvalPic(2);
+                break;
+            case R.id.tv_close:
+                if (isbzlicence) {
+                    switch_bzlicence.toggle();
+                } else {
+                    switch_image.toggle();
+                }
+                DialogUtils.dismissDelay(dialogImage, 200L);
                 break;
 
             case R.id.btn_back:
@@ -214,7 +216,7 @@ public class ApprovalHandleActivity extends NetworkActivity {
 
                     if (!TextUtils.isEmpty(hotelAuditInfo.image_url)) {
                         ImageLoad.loadImageViewLoding(hotelAuditInfo.image_url, image_url);
-                        if (hotelAuditInfo.img_check_status == 1) {
+                        if ((img_check_status = hotelAuditInfo.img_check_status) == 1) {
                             switch_image.setChecked(true);
                             tv_image.setText("采用");
 
@@ -226,7 +228,7 @@ public class ApprovalHandleActivity extends NetworkActivity {
                     }
                     if (!TextUtils.isEmpty(hotelAuditInfo.bzlicence_url)) {
                         ImageLoad.loadImageViewLoding(hotelAuditInfo.bzlicence_url, bzlicence_url);
-                        if (hotelAuditInfo.licence_url_check_status == 1) {
+                        if ((licence_url_check_status = hotelAuditInfo.licence_url_check_status) == 1) {
                             switch_bzlicence.setChecked(true);
                             tv_bzlicence.setText("采用");
                         }
@@ -257,7 +259,7 @@ public class ApprovalHandleActivity extends NetworkActivity {
 
         isbzlicence = buttonView.getId() == R.id.switch_bzlicence;
         if (dialogImage == null) {
-            dialogImage = DialogUtils.getResourceDialog(this, R.layout.pic_approval_dialog, this::onClick, this::onClick);
+            dialogImage = DialogUtils.getResourceDialog(this, R.layout.pic_approval_dialog, isbzlicence ? "是否采用“营业照”" : null, null, this::onClick, this::onClick, this::onClick);
         }
         dialogImage.show();
     }
@@ -270,21 +272,31 @@ public class ApprovalHandleActivity extends NetworkActivity {
         map.put("authStatus", authStatus);
 
         if (isbzlicence) {
+            if (licence_url_check_status == authStatus) {
+                DialogUtils.dismissDelay(dialogImage, 200L);
+                return;
+            }
             ViewModelProviders.of(this)
                     .get(NetworkViewModel.class)
                     .loadingWithNewLiveData(ApprovalInfo.Licence.class, map)
-                    .observe(this, s -> {
-                        GeneralUtils.showToastshort("操作成功！");
+                    .observe(this, licence -> {
+                        licence_url_check_status = licence.licenceUrlCheckStatus;
+                        tv_bzlicence.setText(licence_url_check_status == 1 ? "采用" : "不采用");
+                        if (dialogImage.isShowing()) dialogImage.dismiss();
                     });
         } else {
+            if (img_check_status == authStatus) {
+                DialogUtils.dismissDelay(dialogImage, 200L);
+                return;
+            }
             ViewModelProviders.of(this)
                     .get(NetworkViewModel.class)
                     .loadingWithNewLiveData(ApprovalInfo.Image.class, map)
-                    .observe(this, s -> {
-                        GeneralUtils.showToastshort("操作成功！");
+                    .observe(this, image -> {
+                        img_check_status = image.imgCheckStatus;
+                        tv_image.setText(img_check_status == 1 ? "采用" : "不采用");
+                        if (dialogImage.isShowing()) dialogImage.dismiss();
                     });
         }
-
-
     }
 }

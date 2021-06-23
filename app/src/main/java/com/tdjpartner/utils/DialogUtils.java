@@ -20,14 +20,18 @@ import com.tdjpartner.R;
 public class DialogUtils {
 
     public static Dialog getResourceDialog(Context context, int resourceId) {
-        return getResourceDialog(context, resourceId, null, null, null, null);
+        return getResourceDialog(context, resourceId, null, null, null, null, null);
     }
 
     public static Dialog getResourceDialog(Context context, int resourceId, @Nullable View.OnClickListener ok, @Nullable View.OnClickListener deny) {
-        return getResourceDialog(context, resourceId, null, null, ok, deny);
+        return getResourceDialog(context, resourceId, null, null, ok, deny, null);
     }
 
-    public static Dialog getResourceDialog(Context context, int resourceId, String title, String hint, @Nullable View.OnClickListener ok, @Nullable View.OnClickListener deny) {
+    public static Dialog getResourceDialog(Context context, int resourceId, @Nullable View.OnClickListener ok, @Nullable View.OnClickListener deny, @Nullable View.OnClickListener close) {
+        return getResourceDialog(context, resourceId, null, null, ok, deny, close);
+    }
+
+    public static Dialog getResourceDialog(Context context, int resourceId, String title, String hint, @Nullable View.OnClickListener ok, @Nullable View.OnClickListener deny, @Nullable View.OnClickListener close) {
         Dialog dialog = new Dialog(context);
         dialog.setContentView(resourceId);
         dialog.setCanceledOnTouchOutside(false);
@@ -50,6 +54,10 @@ public class DialogUtils {
             view = dialog.findViewById(R.id.dialog_tv_no);
             if (view != null) view.setOnClickListener(deny);
         }
+        if (close != null) {
+            view = dialog.findViewById(R.id.tv_close);
+            if (view != null) view.setOnClickListener(close);
+        }
 
         Point point = new Point();
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -59,5 +67,18 @@ public class DialogUtils {
         dialog.getWindow().setAttributes(layoutParams);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         return dialog;
+    }
+
+    public static void dismissDelay(Dialog dialog, long time) {
+        if (!dialog.isShowing()) return;
+        new Thread(() -> {
+            try {
+                Thread.sleep(time);
+                dialog.dismiss();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
+
     }
 }
