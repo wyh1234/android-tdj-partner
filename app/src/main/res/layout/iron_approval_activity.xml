@@ -40,11 +40,51 @@
                 android:textSize="17sp" />
         </FrameLayout>
 
+        <LinearLayout
+            android:id="@+id/rl_seach"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/title"
+            android:layout_marginTop="3dp">
+
+            <EditText
+                android:id="@+id/search_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/search_text"
+                android:drawableStart="@mipmap/sousuo_bg"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:hint="请输入采购商名称或手机号"
+                android:padding="4dp"
+                android:textColor="@color/gray_69"
+                android:textColorHint="@color/gray_6c"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_list_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:padding="4dp"
+                android:paddingRight="@dimen/dp_10"
+                android:text="搜索"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
+
         <com.tdjpartner.widget.tablayout.WTabLayout
             android:id="@+id/wtab"
             android:layout_width="match_parent"
             android:layout_height="28dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
             app:xTabIndicatorColor="@color/white"
             app:xTabIndicatorHeight="2dp"
             app:xTabIndicatorWidth="40dp"
@@ -57,7 +97,6 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-32dp"/>
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

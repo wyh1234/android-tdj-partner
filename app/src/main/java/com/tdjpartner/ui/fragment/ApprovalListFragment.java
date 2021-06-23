@@ -1,5 +1,7 @@
 package com.tdjpartner.ui.fragment;
 
+import android.arch.lifecycle.MediatorLiveData;
+import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -25,6 +27,7 @@ import com.tdjpartner.utils.glide.ImageLoad;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -35,15 +38,26 @@ import static android.icu.text.DateTimePatternGenerator.PatternInfo.OK;
 /**
  * Created by LFM on 2021/3/15.
  */
-public class ApprovalListFragment extends NetworkFragment {
+public class ApprovalListFragment extends NetworkFragment implements Observer<List> {
 
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.listView)
     ListView listView;
     final int requestCode = new Random().nextInt(1000);
+    String keyword = "";
 
     private ListViewAdapter<HotelAuditPageList.HotelAuditPage> adapter;
+    private MediatorLiveData<List> liveData;
+    private int id;
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setLiveData(MediatorLiveData<List> liveData) {
+        this.liveData = liveData;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,8 +110,10 @@ public class ApprovalListFragment extends NetworkFragment {
                     ((TextView) convertView.findViewById(R.id.created_at)).setText("" + item.created_at);
                     ((TextView) convertView.findViewById(R.id.enterprise_msg)).setText("" + item.enterprise_msg);
 
-                    if(!TextUtils.isEmpty(item.image_url))ImageLoad.loadImageViewLoding(item.image_url, convertView.findViewById(R.id.image_url), R.mipmap.yingyezhao_bg);
-                    if(!TextUtils.isEmpty(item.bzlicence_url))ImageLoad.loadImageViewLoding(item.bzlicence_url, convertView.findViewById(R.id.bzlicence_url), R.mipmap.yingyezhao_bg);
+                    if (!TextUtils.isEmpty(item.image_url))
+                        ImageLoad.loadImageViewLoding(item.image_url, convertView.findViewById(R.id.image_url), R.mipmap.yingyezhao_bg);
+                    if (!TextUtils.isEmpty(item.bzlicence_url))
+                        ImageLoad.loadImageViewLoding(item.bzlicence_url, convertView.findViewById(R.id.bzlicence_url), R.mipmap.yingyezhao_bg);
 
                 })
                 .build(getContext());
@@ -116,12 +132,13 @@ public class ApprovalListFragment extends NetworkFragment {
                 startActivityForResult(intent, requestCode);
             }
         });
+        liveData.observe(getActivity(), this);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(this.requestCode != requestCode)return;
+        if (this.requestCode != requestCode) return;
 
         if (resultCode == OK) {
             onRefresh();
@@ -133,14 +150,16 @@ public class ApprovalListFragment extends NetworkFragment {
         return R.layout.iron_approval_list_fragment;
     }
 
+    @Override
+    public void onDestroy() {
+        System.out.println("~~ApprovalListFragment.onDestroy~~");
+        liveData.removeObserver(this);
+        super.onDestroy();
+    }
+
     public void onRefresh() {
-        Map<String, Object> map = new HashMap<>();
-
-        map.put("userId", UserUtils.getInstance().getLoginBean().getEntityId());
-        map.put("dayDate", GeneralUtils.getTimeFilter(new Date()));
-        map.put("monthTime", GeneralUtils.getMonthFilter(new Date()));
-        map.put("websiteId", UserUtils.getInstance().getLoginBean().getSite());
-
+        getArgs().put("keyword", keyword);
+        System.out.println("map = " + getArgs());
         getVMWithFragment().loading(HotelAuditPageList.class, getArgs());
     }
 
@@ -148,5 +167,11 @@ public class ApprovalListFragment extends NetworkFragment {
         if (swipeRefreshLayout != null && swipeRefreshLayout.isRefreshing()) {
             swipeRefreshLayout.setRefreshing(false);
         }
+    }
+
+    @Override
+    public void onChanged(@Nullable @org.jetbrains.annotations.Nullable List list) {
+        keyword = list.get(1).toString();
+        onRefresh();
     }
 }

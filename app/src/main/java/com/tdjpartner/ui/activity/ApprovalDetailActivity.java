@@ -4,8 +4,10 @@ import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.transition.ChangeBounds;
 import android.transition.Fade;
 import android.util.ArrayMap;
@@ -13,6 +15,7 @@ import android.util.Pair;
 import android.view.View;
 import android.view.Window;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -22,6 +25,7 @@ import com.tdjpartner.base.NetworkActivity;
 import com.tdjpartner.model.ApprovalInfo;
 import com.tdjpartner.model.HotelAuditInfo;
 import com.tdjpartner.utils.DialogUtils;
+import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.glide.ImageLoad;
 import com.tdjpartner.viewmodel.NetworkViewModel;
@@ -69,8 +73,8 @@ public class ApprovalDetailActivity extends NetworkActivity {
     @BindView(R.id.switch_bzlicence)
     Switch switch_bzlicence;
 
-    Dialog dialog;
-    boolean isbzlicence;
+    Dialog dialog, dialogImage;
+    boolean isbzlicence, isDialog;
 
     @BindView(R.id.created_at)
     TextView created_at;
@@ -82,7 +86,7 @@ public class ApprovalDetailActivity extends NetworkActivity {
     Map<String, Object> map = new ArrayMap<>();
 
 
-    @OnClick({R.id.btn_back, R.id.image_url, R.id.bzlicence_url})
+    @OnClick({R.id.btn_yes, R.id.btn_no, R.id.btn_back, R.id.image_url, R.id.bzlicence_url})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_back:
@@ -96,6 +100,69 @@ public class ApprovalDetailActivity extends NetworkActivity {
                 if (!TextUtils.isEmpty(hotelAuditInfo.bzlicence_url))
                     startActivity(hotelAuditInfo.bzlicence_url, view);
                 break;
+            case R.id.btn_yes:
+                map.clear();
+                map.put("api", "hotelAuditPass");
+                map.put("markCode", hotelAuditInfo.mark_code);
+                map.put("userId", userId);
+                ViewModelProviders.of(this)
+                        .get(NetworkViewModel.class)
+                        .loadingWithNewLiveData(String.class, map)
+                        .observe(this, s -> {
+                            GeneralUtils.showToastshort("操作成功！");
+                            finish();
+                        });
+                break;
+            case R.id.btn_no:
+                if (dialog == null) {
+                    dialog = DialogUtils.getResourceDialog(this, R.layout.comment_dialog, this::onClick, this::onClick, this::onClick);
+                    EditText editText = dialog.findViewById(R.id.et_content);
+                    editText.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                            int n = 30;
+                            if (s.length() > n) {
+                                editText.setText(s.subSequence(0, n));
+                                editText.setSelection(editText.getText().length());
+                                GeneralUtils.showToastshort("字数不能超过30！");
+                            }
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+                        }
+                    });
+                }
+                dialog.show();
+                isDialog = true;
+                break;
+            case R.id.dialog_btn_yes:
+                String refuse = ((EditText) dialog.findViewById(R.id.et_content)).getText().toString();
+                if (dialog.isShowing() && !refuse.isEmpty()) {
+                    dialog.dismiss();
+
+                    map.clear();
+                    map.put("api", "hotelAuditReject");
+                    map.put("markCode", hotelAuditInfo.mark_code);
+                    map.put("userId", userId);
+                    map.put("verifyInfo", refuse);
+                    ViewModelProviders.of(this)
+                            .get(NetworkViewModel.class)
+                            .loadingWithNewLiveData(String.class, map)
+                            .observe(this, s -> {
+                                GeneralUtils.showToastshort("操作成功！");
+                                finish();
+                            });
+                }
+                break;
+            case R.id.dialog_btn_no:
+                if (dialog.isShowing()) dialog.dismiss();
+                switch_image.setChecked(false);
+                break;
             case R.id.dialog_tv_yes:
                 switch_image.setChecked(true);
                 approvalPic(1);
@@ -105,12 +172,16 @@ public class ApprovalDetailActivity extends NetworkActivity {
                 approvalPic(2);
                 break;
             case R.id.tv_close:
-                if (isbzlicence) {
-                    switch_bzlicence.toggle();
+                if (isDialog) {
+                    if (dialog.isShowing()) dialog.dismiss();
                 } else {
-                    switch_image.toggle();
+                    if (isbzlicence) {
+                        switch_bzlicence.toggle();
+                    } else {
+                        switch_image.toggle();
+                    }
+                    DialogUtils.dismissDelay(dialogImage, 200L);
                 }
-                DialogUtils.dismissDelay(dialog, 200L);
                 break;
         }
 
@@ -208,10 +279,11 @@ public class ApprovalDetailActivity extends NetworkActivity {
         System.out.println("buttonView = " + buttonView + ", isChecked = " + isChecked);
 
         isbzlicence = buttonView.getId() == R.id.switch_bzlicence;
-        if (dialog == null) {
-            dialog = DialogUtils.getResourceDialog(this, R.layout.pic_approval_dialog, isbzlicence ? "是否采用“营业照”" : null, null, this::onClick, this::onClick, this::onClick);
+        if (dialogImage == null) {
+            dialogImage = DialogUtils.getResourceDialog(this, R.layout.pic_approval_dialog, isbzlicence ? "是否采用“营业照”" : null, null, this::onClick, this::onClick, this::onClick);
         }
-        dialog.show();
+        dialogImage.show();
+        isDialog = false;
     }
 
     private void approvalPic(int authStatus) {
@@ -223,7 +295,7 @@ public class ApprovalDetailActivity extends NetworkActivity {
 
         if (isbzlicence) {
             if (licence_url_check_status == authStatus) {
-                DialogUtils.dismissDelay(dialog, 200L);
+                DialogUtils.dismissDelay(dialogImage, 200L);
                 return;
             }
             ViewModelProviders.of(this)
@@ -232,11 +304,11 @@ public class ApprovalDetailActivity extends NetworkActivity {
                     .observe(this, licence -> {
                         licence_url_check_status = licence.licenceUrlCheckStatus;
                         tv_bzlicence.setText(licence_url_check_status == 1 ? "采用" : "不采用");
-                        if (dialog.isShowing()) dialog.dismiss();
+                        if (dialogImage.isShowing()) dialogImage.dismiss();
                     });
         } else {
             if (img_check_status == authStatus) {
-                DialogUtils.dismissDelay(dialog, 200L);
+                DialogUtils.dismissDelay(dialogImage, 200L);
                 return;
             }
             ViewModelProviders.of(this)
@@ -245,7 +317,7 @@ public class ApprovalDetailActivity extends NetworkActivity {
                     .observe(this, image -> {
                         img_check_status = image.imgCheckStatus;
                         tv_image.setText(img_check_status == 1 ? "采用" : "不采用");
-                        if (dialog.isShowing()) dialog.dismiss();
+                        if (dialogImage.isShowing()) dialogImage.dismiss();
                     });
         }
     }

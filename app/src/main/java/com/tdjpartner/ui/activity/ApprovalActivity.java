@@ -1,12 +1,16 @@
 package com.tdjpartner.ui.activity;
 
+import android.arch.lifecycle.MediatorLiveData;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.ArrayMap;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.tdjpartner.R;
 import com.tdjpartner.base.NetworkActivity;
@@ -35,15 +39,22 @@ public class ApprovalActivity extends NetworkActivity {
     ViewPager viewPager;
     @BindView(R.id.btn_back)
     ImageView btn_back;
+    @BindView(R.id.search_text)
+    EditText search_text;
 
     public String title;
     public List<String> titles = new ArrayList<>();
+    MediatorLiveData<List> liveData;
 
-    @OnClick({R.id.btn_back})
+    @OnClick({R.id.btn_back, R.id.tv_list_type})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_back:
                 finish();
+                break;
+            case R.id.tv_list_type:
+                System.out.println("viewPager.getCurrentItem() is " + viewPager.getCurrentItem());
+                liveData.setValue(Arrays.asList(viewPager.getCurrentItem(), search_text.getText().toString()));
                 break;
         }
     }
@@ -61,10 +72,13 @@ public class ApprovalActivity extends NetworkActivity {
                 Map<String, Object> map = new HashMap<>();
                 map.put("userId", UserUtils.getInstance().getLoginBean().getLoginUserId());
                 map.put("authStatus", i);
+                map.put("keyword", search_text.getText().toString());
                 map.put("ps", 999);
                 map.put("pn", 1);
                 bundle.putSerializable("args", (Serializable) map);
                 fragment.setArguments(bundle);
+                fragment.setLiveData(liveData);
+                fragment.setId(i);
                 return fragment;
             }
 
@@ -85,7 +99,7 @@ public class ApprovalActivity extends NetworkActivity {
 
     @Override
     protected void initData() {
-
+        liveData = new MediatorLiveData<>();
     }
 
     @Override

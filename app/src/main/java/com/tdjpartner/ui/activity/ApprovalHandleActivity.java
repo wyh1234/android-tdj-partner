@@ -67,7 +67,7 @@ public class ApprovalHandleActivity extends NetworkActivity {
     ImageView bzlicence_url;
 
     Dialog dialog, dialogImage;
-    boolean isbzlicence;
+    boolean isbzlicence, isDialog;
     HotelAuditInfo hotelAuditInfo;
     Map<String, Object> map = new ArrayMap<>();
     int userId, img_check_status, licence_url_check_status;
@@ -101,7 +101,7 @@ public class ApprovalHandleActivity extends NetworkActivity {
                 break;
             case R.id.btn_no:
                 if (dialog == null) {
-                    dialog = DialogUtils.getResourceDialog(this, R.layout.common_dialog, this::onClick, this::onClick);
+                    dialog = DialogUtils.getResourceDialog(this, R.layout.comment_dialog, this::onClick, this::onClick, this::onClick);
                     EditText editText = dialog.findViewById(R.id.et_content);
                     editText.addTextChangedListener(new TextWatcher() {
                         @Override
@@ -123,8 +123,8 @@ public class ApprovalHandleActivity extends NetworkActivity {
                         }
                     });
                 }
-
                 dialog.show();
+                isDialog = true;
                 break;
             case R.id.dialog_btn_yes:
                 String refuse = ((EditText) dialog.findViewById(R.id.et_content)).getText().toString();
@@ -158,12 +158,16 @@ public class ApprovalHandleActivity extends NetworkActivity {
                 approvalPic(2);
                 break;
             case R.id.tv_close:
-                if (isbzlicence) {
-                    switch_bzlicence.toggle();
+                if (isDialog) {
+                    if (dialog.isShowing()) dialog.dismiss();
                 } else {
-                    switch_image.toggle();
+                    if (isbzlicence) {
+                        switch_bzlicence.toggle();
+                    } else {
+                        switch_image.toggle();
+                    }
+                    DialogUtils.dismissDelay(dialogImage, 200L);
                 }
-                DialogUtils.dismissDelay(dialogImage, 200L);
                 break;
 
             case R.id.btn_back:
@@ -262,6 +266,7 @@ public class ApprovalHandleActivity extends NetworkActivity {
             dialogImage = DialogUtils.getResourceDialog(this, R.layout.pic_approval_dialog, isbzlicence ? "是否采用“营业照”" : null, null, this::onClick, this::onClick, this::onClick);
         }
         dialogImage.show();
+        isDialog = false;
     }
 
     private void approvalPic(int authStatus) {
