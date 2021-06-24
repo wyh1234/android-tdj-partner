@@ -36,10 +36,8 @@ public class DialogUtils {
         dialog.setContentView(resourceId);
         dialog.setCanceledOnTouchOutside(false);
 
-        if (!TextUtils.isEmpty(title))
-            ((TextView) dialog.findViewById(R.id.tv_title)).setText(title);
-        if (!TextUtils.isEmpty(hint))
-            ((TextView) dialog.findViewById(R.id.et_content)).setHint(hint);
+        setTitle(title, dialog);
+        setHint(hint, dialog);
 
         View view;
         if (ok != null) {
@@ -67,6 +65,16 @@ public class DialogUtils {
         dialog.getWindow().setAttributes(layoutParams);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         return dialog;
+    }
+
+    public static void setHint(String hint, Dialog dialog) {
+        if (!TextUtils.isEmpty(hint))
+            ((TextView) dialog.findViewById(R.id.et_content)).setHint(hint);
+    }
+
+    public static void setTitle(String title, Dialog dialog) {
+        if (!TextUtils.isEmpty(title))
+            ((TextView) dialog.findViewById(R.id.tv_title)).setText(title);
     }
 
     public static void dismissDelay(Dialog dialog, long time) {

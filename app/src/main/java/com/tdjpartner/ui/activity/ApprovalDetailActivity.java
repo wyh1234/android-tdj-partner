@@ -164,11 +164,11 @@ public class ApprovalDetailActivity extends NetworkActivity {
                 switch_image.setChecked(false);
                 break;
             case R.id.dialog_tv_yes:
-                switch_image.setChecked(true);
+                (isbzlicence? switch_bzlicence : switch_image).setChecked(true);
                 approvalPic(1);
                 break;
             case R.id.dialog_tv_no:
-                switch_image.setChecked(false);
+                (isbzlicence? switch_bzlicence : switch_image).setChecked(false);
                 approvalPic(2);
                 break;
             case R.id.tv_close:
@@ -280,8 +280,9 @@ public class ApprovalDetailActivity extends NetworkActivity {
 
         isbzlicence = buttonView.getId() == R.id.switch_bzlicence;
         if (dialogImage == null) {
-            dialogImage = DialogUtils.getResourceDialog(this, R.layout.pic_approval_dialog, isbzlicence ? "是否采用“营业照”" : null, null, this::onClick, this::onClick, this::onClick);
+            dialogImage = DialogUtils.getResourceDialog(this, R.layout.pic_approval_dialog, isbzlicence ? "是否采用“营业照”" : "是否采用“形象照”", null, this::onClick, this::onClick, this::onClick);
         }
+        DialogUtils.setTitle(isbzlicence ? "是否采用“营业照”" : "是否采用“形象照”", dialogImage);
         dialogImage.show();
         isDialog = false;
     }
