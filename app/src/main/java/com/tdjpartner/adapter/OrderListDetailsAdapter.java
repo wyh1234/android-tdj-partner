@@ -45,7 +45,7 @@ public class OrderListDetailsAdapter extends BaseQuickAdapter<OrderDetail.ItemsB
             }
         }
         baseViewHolder.setText(R.id.goods_unit2,orderList.getAvgUnit());
-        baseViewHolder.setText(R.id.cart_price,orderList.getTotalPrice().toString());
+        baseViewHolder.setText(R.id.cart_price, orderList.getIsC()!=0 ? orderList.getFloatPrice().toString() : orderList.getTotalPrice().toString());
 
         baseViewHolder.setText(R.id.tv_order_no,"商品编号："+orderList.getQrCodeId());
         baseViewHolder.addOnClickListener(R.id.tv_copys);

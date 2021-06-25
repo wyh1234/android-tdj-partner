@@ -47,9 +47,11 @@ public class OrderDetail  implements Serializable {
     private PaymentMethodBean paymentMethod;
     private ReceiveAddrBean receiveAddr;
     private int shipCost;
+    private int isC;
     private String statusCode;
     private StoreinfoBean storeinfo;
     private BigDecimal subtotalCost = BigDecimal.ZERO;
+    private BigDecimal floatCost = BigDecimal.ZERO;
     private BigDecimal totalCost = BigDecimal.ZERO;
     private String updateTime;
     private String outTradeNo;
@@ -77,6 +79,21 @@ public class OrderDetail  implements Serializable {
         this.originalorCustomerId = originalorCustomerId;
     }
 
+    public BigDecimal getFloatCost() {
+        return floatCost;
+    }
+
+    public void setFloatCost(BigDecimal floatCost) {
+        this.floatCost = floatCost;
+    }
+
+    public int getIsC() {
+        return isC;
+    }
+
+    public void setIsC(int isC) {
+        this.isC = isC;
+    }
 
     public int getCustomerAddrId() {
         return customerAddrId;
@@ -529,6 +546,7 @@ public class OrderDetail  implements Serializable {
         private String sku;
         private int status;
         private BigDecimal totalPrice;
+        private BigDecimal floatPrice;
         private String unit;
         private String storeName;
         private ReceiveAddrBean receiveAddr;
@@ -539,6 +557,7 @@ public class OrderDetail  implements Serializable {
         private int printState;//0 未打印，1正在打印，2已打印，3打印错误
 
         private int isP;
+        private int isC;
 
         private int categoryId;
         private int commodityId;
@@ -552,6 +571,13 @@ public class OrderDetail  implements Serializable {
         private int driverId;
         private String customerMobile;
 
+        public BigDecimal getFloatPrice() {
+            return floatPrice;
+        }
+
+        public void setFloatPrice(BigDecimal floatPrice) {
+            this.floatPrice = floatPrice;
+        }
 
         public int getDriverId() {
             return driverId;
@@ -583,6 +609,14 @@ public class OrderDetail  implements Serializable {
 
         public void setCustomerMobile(String customerMobile) {
             this.customerMobile = customerMobile;
+        }
+
+        public int getIsC() {
+            return isC;
+        }
+
+        public void setIsC(int isC) {
+            this.isC = isC;
         }
 
         public String getRemark() {

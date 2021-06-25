@@ -157,7 +157,7 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailsPresenter> im
             tv_cash_coupon_used_money.setText("-￥" + String.valueOf(orderList.getCouponAmount()) + "元");
             tv_goods_money.setText("￥"+orderList.getSubtotalCost().toString() + "元");
             tv_count_image.setText(orderList.getItemCount()+"");
-            cart_price.setText("总计："+orderList.getSubtotalCost().toString());
+            cart_price.setText("总计："+ (orderList.getIsC() !=0 ? orderList.getFloatCost():orderList.getSubtotalCost()));
 
             baseQuickAdapter.setNewData(orderList.getItems());
             baseQuickAdapter.setExpectDeliveredDate(orderList.getExpectDeliveredDate());
