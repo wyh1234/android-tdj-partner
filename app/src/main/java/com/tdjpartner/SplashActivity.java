@@ -5,9 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.tdjpartner.ui.activity.V3LoginActivity;
+import com.tdjpartner.ui.activity.HomeNewActivity;
 import com.tdjpartner.utils.cache.DataUtils;
-import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.statusbar.Eyes;
 
 import java.util.Timer;
@@ -32,23 +31,25 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (DataUtils.getInstance().getFirstStartup()) {//后续登录
-                    if (UserUtils.getInstance().getLoginBean() != null) {//首页
-                        Intent intent = new Intent(SplashActivity.this, MainTabActivity.class);
+//                    if (UserUtils.getInstance().getLoginBean() != null) {//首页
+//                        Intent intent = new Intent(SplashActivity.this, MainTabActivity.class);
+//                        startActivity(intent);
+//                        finish();
+//
+//                    } else {//登录
+//                        Intent intent = new Intent(SplashActivity.this, V3LoginActivity.class);
+//                        startActivity(intent);
+//                        finish();
+//
+//                    }
+                    Intent intent = new Intent(SplashActivity.this, HomeNewActivity.class);
                         startActivity(intent);
                         finish();
-
-                    } else {//登录
-                        Intent intent = new Intent(SplashActivity.this, V3LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-
-                    }
                 } else {//首次登陆显示广告屏
                     Intent intent = new Intent(SplashActivity.this, PageGuideActivity.class);
                     startActivity(intent);
                     finish();
                 }
-
 
             }
         };

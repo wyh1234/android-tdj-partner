@@ -3,10 +3,9 @@ package com.tdjpartner.base;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.tdjpartner.R;
+import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.utils.statusbar.Eyes;
 import com.tdjpartner.viewmodel.NetworkViewModel;
 import com.tdjpartner.widget.ProgressDialog;
@@ -16,13 +15,13 @@ import butterknife.ButterKnife;
 /**
  * Created by LFM on 2021/4/26.
  */
-public abstract class NetworkActivity extends AppCompatActivity {
+public abstract class NetworkActivity extends BaseActivity {
 
     private ProgressDialog mProgressDialog;
     private RxPermissions rxPermissions;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
         Eyes.translucentStatusBar(this, true);
@@ -30,6 +29,11 @@ public abstract class NetworkActivity extends AppCompatActivity {
         initView();
         initData();
 
+    }
+
+    @Override
+    protected IPresenter loadPresenter() {
+        return null;
     }
 
     public void showLoading() {

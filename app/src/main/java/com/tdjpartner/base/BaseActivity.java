@@ -10,13 +10,12 @@ import android.view.View;
 
 import com.apkfuns.logutils.LogUtils;
 import com.github.nukc.stateview.StateView;
-import com.tdjpartner.MainTabActivity;
 import com.tdjpartner.R;
 import com.tdjpartner.model.LoginLoseEfficacyEvent;
 import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.mvp.view.IView;
+import com.tdjpartner.ui.activity.HomeNewActivity;
 import com.tdjpartner.ui.activity.LoginActivity;
-import com.tdjpartner.ui.activity.V3LoginActivity;
 import com.tdjpartner.utils.ActivityManager;
 import com.tdjpartner.utils.Density;
 import com.tdjpartner.utils.GeneralUtils;
@@ -24,7 +23,6 @@ import com.tdjpartner.utils.cache.UserUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
 
 import butterknife.ButterKnife;
 import io.reactivex.disposables.CompositeDisposable;
@@ -152,7 +150,7 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
      */
     @Override
     public void onBackPressed() {
-        if (mCurrentActivity instanceof MainTabActivity){
+        if (mCurrentActivity instanceof HomeNewActivity){
             //如果是主页面
             if (System.currentTimeMillis() - mPreTime > 2000) {// 两次点击间隔大于2秒
                 GeneralUtils.showToastshort("再按一次，退出应用");
@@ -219,12 +217,12 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     @Subscribe
     public void onEvent(LoginLoseEfficacyEvent event) {
         UserUtils.getInstance().logout();//先退出
-        if (!ActivityManager.isActivityExist(LoginActivity.class) ) {
+        if (!ActivityManager.isActivityExist(LoginActivity.class)) {
             BaseActivity baseActivity = ActivityManager.getTopActivity();
             if (baseActivity == null) return;
             ActivityManager.removeAllActivity();//删除所有activity
             Intent intent = new Intent();
-            intent.setClass(this, V3LoginActivity.class);
+            intent.setClass(this, HomeNewActivity.class);
             startActivity(intent);//这里的Activity是弹出登录的
         }else {
             ActivityManager.setTopActivity(LoginActivity.class);//设置置顶

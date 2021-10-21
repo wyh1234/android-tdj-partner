@@ -50,6 +50,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -105,7 +106,7 @@ public class IronIndexFragment extends NetworkFragment
     Dialog dialog;
     long timestamp = 0L;
 
-    @OnClick({R.id.tv_city, R.id.tv_team, R.id.tv_day, R.id.tv_month, R.id.tv_sink, R.id.tv_month_sink})
+    @OnClick({R.id.tv_city, R.id.tv_team, R.id.tv_day, R.id.tv_month, R.id.tv_sink, R.id.tv_month_sink,R.id.iv_back})
     public void onClick(View view) {
         if (swipeRefreshLayout.isRefreshing()) {
             GeneralUtils.showToastshort("请稍等，正在查询...");
@@ -115,6 +116,9 @@ public class IronIndexFragment extends NetworkFragment
             case R.id.tv_team:
                 Intent intent = new Intent(getContext(), V3TeamMemberActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.iv_back:
+                Objects.requireNonNull(getActivity()).finish();
                 break;
             case R.id.tv_city:
                 if (timestamp != 0 && System.currentTimeMillis() - timestamp < 3500L) return;

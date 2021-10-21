@@ -13,11 +13,14 @@ import android.widget.TextView;
 import com.tdjpartner.MainTabActivity;
 import com.tdjpartner.R;
 import com.tdjpartner.base.BaseActivity;
+import com.tdjpartner.model.LoginSucc;
 import com.tdjpartner.model.UserInfo;
 import com.tdjpartner.mvp.presenter.LoginActivityPresnter;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.statusbar.Eyes;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -115,6 +118,7 @@ public class LoginActivity extends BaseActivity<LoginActivityPresnter> {
     public void getlogin(UserInfo userInfo) {
         if (userInfo != null) {
             UserUtils.getInstance().login(userInfo);
+            EventBus.getDefault().post(new LoginSucc(true));
             Intent intent = new Intent(this, MainTabActivity.class);
             startActivity(intent);
             finish();

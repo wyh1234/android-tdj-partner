@@ -2,19 +2,19 @@ package com.tdjpartner.ui.activity;
 
 import android.content.Intent;
 import android.view.View;
-import android.widget.TextView;
 
 import com.tdjpartner.R;
 import com.tdjpartner.base.NetworkActivity;
-import com.tdjpartner.utils.GeneralUtils;
-import com.tdjpartner.utils.statusbar.Eyes;
+import com.tdjpartner.model.LoginSucc;
 
-import butterknife.BindView;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import butterknife.OnClick;
 
 public class V3LoginActivity extends NetworkActivity {
 
-    @OnClick({R.id.tv_iron, R.id.tv_net})
+    @OnClick({R.id.tv_iron, R.id.tv_net,R.id.iv_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_net:
@@ -22,6 +22,9 @@ public class V3LoginActivity extends NetworkActivity {
                 break;
             case R.id.tv_iron:
                 login(2);
+                break;
+            case R.id.iv_back:
+                finish();
                 break;
         }
     }
@@ -48,4 +51,10 @@ public class V3LoginActivity extends NetworkActivity {
     }
 
 
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void event(LoginSucc event){
+        if (event.isLogin())
+            this.finish();
+    }
 }

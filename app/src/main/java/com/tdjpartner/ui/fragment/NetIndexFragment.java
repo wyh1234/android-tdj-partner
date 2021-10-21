@@ -47,6 +47,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -95,7 +96,7 @@ public class NetIndexFragment extends NetworkFragment
     private List<NewHomeData.RegisterTimesTopListBean> registerlist = new ArrayList<>();
     private List<NewHomeData.OrdersTimesTopList> orderList = new ArrayList<>();
 
-    @OnClick({R.id.tv_day, R.id.tv_month, R.id.tv_sink, R.id.tv_month_sink, R.id.tv_team})
+    @OnClick({R.id.tv_day, R.id.tv_month, R.id.tv_sink, R.id.tv_month_sink, R.id.tv_team,R.id.iv_back})
     public void onClick(View view) {
         if (swipeRefreshLayout.isRefreshing()) {
             GeneralUtils.showToastshort("请稍等，正在查询...");
@@ -125,6 +126,9 @@ public class NetIndexFragment extends NetworkFragment
                 isDay = true;
                 titles = Arrays.asList("GMV", "注册数", "新开");
                 ranking_vp.getAdapter().notifyDataSetChanged();
+                break;
+            case R.id.iv_back:
+                Objects.requireNonNull(getActivity()).finish();
                 break;
         }
 

@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
-import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -20,10 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.apkfuns.logutils.LogUtils;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tdjpartner.R;
 import com.tdjpartner.base.BaseActivity;
@@ -207,6 +202,10 @@ public class AfterSalesCreateActivity extends BaseActivity<AfterSalesCreatePrese
                 image2.setImageResource(R.mipmap.sahngchuantupian);
                 break;
             case R.id.btn:
+                if (strings == null || strings.size() <= 0){
+                    GeneralUtils.showToastshort("请上传凭证照片");
+                    return;
+                }
                 int applyIndex = PublicCache.getAfterSaleType().idOfValue(after_sales_type.getText().toString());
                 if (goodscount.compareTo(BigDecimal.ZERO) == 0) {
                     GeneralUtils.showToastshort("请输入需要退换的数量");

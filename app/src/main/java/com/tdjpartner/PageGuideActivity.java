@@ -9,8 +9,7 @@ import android.widget.ImageView;
 import com.tdjpartner.adapter.GuidePageAdapter;
 import com.tdjpartner.base.BaseActivity;
 import com.tdjpartner.mvp.presenter.IPresenter;
-import com.tdjpartner.ui.activity.LoginActivity;
-import com.tdjpartner.ui.activity.V3LoginActivity;
+import com.tdjpartner.ui.activity.HomeNewActivity;
 import com.tdjpartner.utils.cache.DataUtils;
 import com.tdjpartner.utils.statusbar.Eyes;
 
@@ -18,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2018/5/4.
@@ -54,7 +52,7 @@ public class PageGuideActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 DataUtils.getInstance().setFirstStartup(true);
-                Intent intent = new Intent(PageGuideActivity.this, V3LoginActivity.class);
+                Intent intent = new Intent(PageGuideActivity.this, HomeNewActivity.class);
                 startActivity(intent);
                 finish();
             }

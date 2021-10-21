@@ -90,6 +90,9 @@
         <activity
             android:name=".ui.activity.AfterSalesDetailActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.WebViewToActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.activity.TeamPreviewActivity"
@@ -194,6 +197,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.BindingBankActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.HomeNewActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.BankListActivity"
