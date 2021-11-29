@@ -1,15 +1,20 @@
 package com.tdjpartner.ui.activity;
 
+import static com.tdjpartner.utils.CameraUtils.CROP_REQUEST_CODE;
+import static com.tdjpartner.utils.CameraUtils.REQUEST_PERMISSION_CAMERA;
+import static com.tdjpartner.utils.CameraUtils.captureFile;
+import static com.tdjpartner.utils.CameraUtils.cropFile;
+
 import android.Manifest;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
-import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.util.Log;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,7 +31,6 @@ import com.tdjpartner.base.BaseActivity;
 import com.tdjpartner.model.ClientDetails;
 import com.tdjpartner.model.LocationBean;
 import com.tdjpartner.mvp.presenter.BaiFangPresenter;
-import com.tdjpartner.mvp.presenter.IPresenter;
 import com.tdjpartner.utils.CameraUtils;
 import com.tdjpartner.utils.GeneralUtils;
 import com.tdjpartner.utils.LocationUtils;
@@ -34,23 +38,15 @@ import com.tdjpartner.utils.cache.UserUtils;
 import com.tdjpartner.utils.glide.ImageLoad;
 import com.tdjpartner.utils.popuwindow.FollowUpPopuWindow;
 import com.tdjpartner.utils.statusbar.Eyes;
-import com.zhihu.matisse.Matisse;
 
 import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.functions.Consumer;
-
-import static com.tdjpartner.utils.CameraUtils.CROP_REQUEST_CODE;
-import static com.tdjpartner.utils.CameraUtils.REQUEST_PERMISSION_CAMERA;
-import static com.tdjpartner.utils.CameraUtils.captureFile;
-import static com.tdjpartner.utils.CameraUtils.cropFile;
 
 public class BaiFangActivity extends BaseActivity<BaiFangPresenter> {
     @BindView(R.id.rl_dk)
@@ -85,6 +81,7 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter> {
     private float distance;
     private String path;
     private ClientDetails clientDetails;
+    private boolean complianceRange;
 
     public String getPath() {
         return path;
@@ -117,10 +114,16 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter> {
                     location();
                     return;
                 }
-                if (tv_state.getText().toString().equals("超区打卡")) {
+//                if (tv_state.getText().toString().equals("超区打卡")) {
+//                    GeneralUtils.showToastshort("您不在打卡范围");
+//                    return;
+//                }
+
+                if (!complianceRange) {
                     GeneralUtils.showToastshort("您不在打卡范围");
                     return;
                 }
+
                 if (GeneralUtils.isNullOrZeroLenght(ed_callName.getText().toString())) {
                     GeneralUtils.showToastshort("请输入拜访人姓名");
                     return;
@@ -229,15 +232,30 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter> {
             tv_state.setTextColor(GeneralUtils.getColor(this, R.color.white));
             tv_laction_name.setText("您不在打卡范围，" + locationBean.getAddress());
             iv.setImageResource(R.mipmap.gantanhao);
+            complianceRange = false;
         } else {
             rl_dk.setBackgroundResource(R.mipmap.daka_one);
             tv_state.setText("正常打卡");
             tv_state.setTextColor(GeneralUtils.getColor(getContext(), R.color.white));
             tv_laction_name.setText("已进入考勤范围" + locationBean.getAddress());
             iv.setImageResource(R.mipmap.dakazc);
+            complianceRange = true;
         }
 
+        if (complianceRange) {
+            btn.setBackground(ContextCompat.getDrawable(this, R.mipmap.login_btn));
+        } else {
+            btn.setBackground(ContextCompat.getDrawable(this, R.mipmap.login_btn));
+            btn.setBackground(tintDrawable(btn.getBackground(), ColorStateList.valueOf(Color.GRAY)));
+        }
 
+    }
+
+    //提交按钮背景置灰
+    public Drawable tintDrawable(Drawable drawable, ColorStateList colors) {
+        Drawable wrappedDrawable = DrawableCompat.wrap(drawable);
+        DrawableCompat.setTintList(wrappedDrawable, colors);
+        return wrappedDrawable;
     }
 
     @Override
