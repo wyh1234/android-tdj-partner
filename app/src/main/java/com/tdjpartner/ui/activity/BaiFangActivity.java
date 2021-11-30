@@ -213,19 +213,17 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter> {
         rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
                 .subscribe(new Consumer<Boolean>() {
                     @Override
-                    public void accept(Boolean b) throws Exception {
+                    public void accept(Boolean b) {
                         f = b;
                         if (b) {
                             LocationUtils.getInstance().startLocalService("");
                         } else {
                             rl_dk.setBackgroundResource(R.mipmap.dakashibai);
                             tv_state.setText("无法打卡");
-                            tv_state.setText(GeneralUtils.getColor(BaiFangActivity.this, R.color.gray_69));
+                            tv_state.setTextColor(GeneralUtils.getColor(BaiFangActivity.this, R.color.gray_69));
                             tv_laction_name.setText("请开启定位相关权限");
                             iv.setImageResource(R.mipmap.gantanhao);
-
                         }
-
                     }
                 });
     }
