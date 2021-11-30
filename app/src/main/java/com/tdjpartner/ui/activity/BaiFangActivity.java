@@ -15,6 +15,7 @@ import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -91,6 +92,15 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter> {
         this.path = path;
     }
 
+    /**
+     * 当前位置经度
+     **/
+    private double lon;
+    /**
+     * 当前位置纬度
+     **/
+    private double lat;
+
     @OnClick({R.id.rl_dk, R.id.rl_location, R.id.btn, R.id.btn_back, R.id.iv_upload})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -158,9 +168,10 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter> {
                 map.put("results", ed_results.getText().toString());//拜访结果
                 map.put("callPic", getPath());//拜访图片
                 map.put("buyPic", clientDetails.getHeadUrl() == null ? "" : clientDetails.getHeadUrl());//门店门头照,从客户详情带入，可不传
+                map.put("lon", lon);
+                map.put("lat", lat);
 
                 mPresenter.call_insert(map);
-
 
                 break;
             case R.id.btn_back:
@@ -222,6 +233,8 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter> {
     @Subscribe
     public void eventCode(LocationBean locationBean) {
         LogUtils.e(locationBean);//根据酒店的经纬度计算距离
+        lon = locationBean.getLongitude();
+        lat = locationBean.getLatitude();
         distance = AMapUtils.calculateLineDistance(
                 new LatLng(locationBean.getLatitude(), locationBean.getLongitude()),
                 new LatLng(Double.parseDouble(clientDetails.getLat()), Double.parseDouble(clientDetails.getLon())));
@@ -245,8 +258,7 @@ public class BaiFangActivity extends BaseActivity<BaiFangPresenter> {
         if (complianceRange) {
             btn.setBackground(ContextCompat.getDrawable(this, R.mipmap.login_btn));
         } else {
-            btn.setBackground(ContextCompat.getDrawable(this, R.mipmap.login_btn));
-            btn.setBackground(tintDrawable(btn.getBackground(), ColorStateList.valueOf(Color.GRAY)));
+            btn.setBackground(tintDrawable(ContextCompat.getDrawable(this, R.mipmap.login_btn).mutate(), ColorStateList.valueOf(Color.GRAY)));
         }
 
     }
